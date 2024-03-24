@@ -2,7 +2,6 @@
 layout: about
 title: about
 permalink: /
-subtitle: Head of Space Environment and Radio Engineering (SERENE)
 
 profile:
   align: right
