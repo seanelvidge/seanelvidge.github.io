@@ -2,24 +2,24 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Moto. Etc.
+subtitle: Head of [Space Environment and Radio Engineering (SERENE)](https://spaceweather.bham.ac.uk)
 
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
-  more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
 
 news: true # includes a list of news items
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+I am Associate Professor of Space Environment at the [University of Birmingham](https://birmingham.ac.uk) and am Head of the [Space Environment and Radio Engineering (SERENE)](https://spaceweather.bham.ac.uk) research group.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+I am interested in mitigating the impacts of space weather on technology and society through novel mathematical modelling, exploring fundamental new physics and understanding the engineering solutions. I also have a plethora of media and policy experience, including improving estimates of extreme space weather events.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+I am passionate about communicating science with the general public and give talks to over 1,500 people a year. From primary school age students to subject experts. For more details please visit my [Outreach & Talks](outreach.md) page.
+
+This is my personal website, if you want more information about my research or the University of Birmingham’s SERENE Research Group please visit our dedicated website:  [spaceweather.bham.ac.uk](https://spaceweather.bham.ac.uk)
+
+Whilst there may be bits of Space Weather discussion on this site, you’re much more likely to find posts about the velocity required to complete a loop the loop, the number of unique song choices on Desert Island Discs or the most expensive Premier League transfer of all time.
