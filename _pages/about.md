@@ -19,6 +19,6 @@ I am interested in mitigating the impacts of space weather on technology and soc
 
 I am passionate about communicating science with the general public and give talks to over 1,500 people a year. From primary school age students to subject experts. For more details please visit my [Outreach & Talks](outreach.md) page.
 
-This is my personal website, if you want more information about my research or the University of Birmingham’s SERENE Research Group please visit our dedicated website:  [spaceweather.bham.ac.uk](https://spaceweather.bham.ac.uk)
+This is my personal website, if you want more information about my research or the University of Birmingham’s SERENE Research Group please visit our dedicated website: [spaceweather.bham.ac.uk](https://spaceweather.bham.ac.uk)
 
 Whilst there may be bits of Space Weather discussion on this site, you’re much more likely to find posts about the velocity required to complete a loop the loop, the number of unique song choices on Desert Island Discs or the most expensive Premier League transfer of all time.
