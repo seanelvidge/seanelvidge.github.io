@@ -42,10 +42,6 @@ The configuration file [\_config.yml](_config.yml) contains the main configurati
 
 All changes made to this file are only visible after you rebuild the website. That means that you need to run `bundle exec jekyll serve --lsi` again if you are running the website locally or push your changes to GitHub if you are using GitHub Pages. All other changes are visible immediately, you only need to refresh the page.
 
-## Modifying the user and repository information
-
-The user and repository information is defined in [\_data/repositories.yml](_data/repositories.yml). You can add as many users and repositories as you want. Both informations are used in the `repositories` section.
-
 ## Creating new pages
 
 You can create new pages by adding new Markdown files in the [\_pages](_pages/) directory. The easiest way to do this is to copy an existing page and modify it. You can choose the layout of the page in the [frontmatter](https://jekyllrb.com/docs/front-matter/) of the Markdown file. You can also add new layouts in the [\_layouts](_layouts/) directory if you feel the need for it.
