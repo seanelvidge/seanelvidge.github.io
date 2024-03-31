@@ -4,6 +4,7 @@ title: Batch Process in Bash
 date: 2011-03-18 02:30:00
 description: How to do the same process on a large number of files in Bash
 tags: code bash
+related_posts: true
 ---
 
 I am writing this at 0230 because Joe just asked me how to do it, hence someone else in the world might also want to do it. The task is to do something (the same something) to a large group of files in linux. For example convert a folder of wma files to mp3's (for this example you will need to have ffmpeg installed). We add the condition that we want to keep the file names as they are, and just convert them.
