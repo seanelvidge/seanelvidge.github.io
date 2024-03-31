@@ -38,11 +38,9 @@ $$
 \cos(c)=\cos(a)\cos(b)+\sin(a)\sin(b)\cos(C).
 $$
 
-The proof is relatively straight forward, so have a go before looking below.
+The proof is relatively straight forward, try having a go before looking below:
 
-<details>
-  <summary>Proof</summary>
-  Let $$\textbf{u}$$, $$\textbf{v}$$ and $$\textbf{w}$$ be unit vectors from the middle of the sphere to the points $$u$$, $$v$$ and $$w$$ of our triangle. The lengths of the sides are then give by the dot product:
+Let $$\textbf{u}$$, $$\textbf{v}$$ and $$\textbf{w}$$ be unit vectors from the middle of the sphere to the points $$u$$, $$v$$ and $$w$$ of our triangle. The lengths of the sides are then give by the dot product:
 
 $$
 \begin{eqnarray*}
@@ -90,5 +88,3 @@ Which when rearranged gives the required cosine rule:
 $$
 \cos(c)=\cos(a)\cos(b)+\sin(a)\sin(b)\cos(C).
 $$
-
-</details>
