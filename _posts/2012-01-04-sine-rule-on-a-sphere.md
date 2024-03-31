@@ -8,7 +8,7 @@ related_posts: true
 thumbnail: assets/img/Law-of-haversines.png
 ---
 
-A couple of days ago I wrote about how to find the [cosine rule on a sphere](_posts/2012-01-02-cosine-rule-on-a-sphere.md). In this post I'll show you the sine rule on a sphere.
+A couple of days ago I wrote about how to find the [cosine rule on a sphere](2012-01-02-cosine-rule-on-a-sphere.md). In this post I'll show you the sine rule on a sphere.
 
 Consider the following triangle on a sphere:
 
@@ -18,13 +18,13 @@ Consider the following triangle on a sphere:
     </div>
 </div>
 
-The cosine rule (on a sphere) is: 
+The cosine rule (on a sphere) is:
 
 $$
 \cos(c)=\cos(a)\cos(b)+\sin(a)\sin(b)\cos(C).
 $$
 
-The sine rule is then, where $$A$$ is the angle at $$\textbf{w}$$ (opposite side $$a$$) and $$B$$ is the angle at $$\textbf{v}$$ (opposite side $$b$$): 
+The sine rule is then, where $$A$$ is the angle at $$\textbf{w}$$ (opposite side $$a$$) and $$B$$ is the angle at $$\textbf{v}$$ (opposite side $$b$$):
 
 $$
 \frac{\sin(A)}{\sin(a)}=\frac{\sin(B)}{\sin(b)}=\frac{\sin(C)}{\sin(c)}.
