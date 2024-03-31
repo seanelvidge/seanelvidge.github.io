@@ -4,7 +4,6 @@ title: Probability of Sharing a Birthday
 date: 2010-08-24 18:47:00-0400
 description: What is the probability of two people sharing a birthday
 tags: mathematics
-categories: mathematics
 related_posts: true
 thumbnail: assets/img/Birthday.png
 ---
