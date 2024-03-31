@@ -13,7 +13,7 @@ Simply, the cosine rule is used to find (for example) the length of side $$c$$ i
 
 IMAGE
 
-You use the following formula: 
+You use the following formula:
 
 $$
 c^2 = a^2 + b^2 - 2ab\cos(\gamma).
@@ -23,7 +23,7 @@ But what happens if we move away from Euclidean Geometry and that our triangle i
 
 IMAGE
 
-Logic tells us that of course the same cosine rule can not be applied to find the side $$c$$. Instead we use an alternative formula, namely: 
+Logic tells us that of course the same cosine rule can not be applied to find the side $$c$$. Instead we use an alternative formula, namely:
 
 $$
 \cos(c)=\cos(a)\cos(b)+\sin(a)\sin(b)\cos(C).
@@ -82,5 +82,5 @@ Which when rearranged gives the required cosine rule:
 $$
 \cos(c)=\cos(a)\cos(b)+\sin(a)\sin(b)\cos(C).
 $$
-  
+
 </details>
