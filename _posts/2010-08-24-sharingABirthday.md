@@ -22,10 +22,9 @@ Obviously if the group is of size 366 you are guranteed that at least 2 people m
     The probability of at least two people in a room sharing a birthday as the number of people in that room grows.
 </div>
 
-
 Let me show you where this comes from. First, to make life a bit easier for ourselves, I am going to define some assumptions: we ignore leap years, the probability of twins and also assume that you are equally likely to be born on any of the 365 days of the year.
 
-Now, define $$P(n)$$ to be the probability of at least two people in a group of $$n$$ sharing a birthday, and $$P^{'}(n)$$ the probability of there not being two people sharing a birthday. Also, since $$P(n)$$ and $$P^{'}(n)$$ are the only two possibilities and are mutually exclusive we have that: 
+Now, define $$P(n)$$ to be the probability of at least two people in a group of $$n$$ sharing a birthday, and $$P^{'}(n)$$ the probability of there not being two people sharing a birthday. Also, since $$P(n)$$ and $$P^{'}(n)$$ are the only two possibilities and are mutually exclusive we have that:
 
 $$
 P(n)=1-P^{'}(n).
