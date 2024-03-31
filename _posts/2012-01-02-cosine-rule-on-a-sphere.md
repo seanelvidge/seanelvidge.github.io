@@ -41,14 +41,13 @@ The proof is relatively straight forward, so have a go before looking below.
 
 <details>
   <summary>Proof</summary>
-  
   Let $$\textbf{u}$$, $$\textbf{v}$$ and $$\textbf{w}$$ be unit vectors from the middle of the sphere to the points $$u$$, $$v$$ and $$w$$ of our triangle. The lengths of the sides are then give by the dot product:
 
 $$
 \begin{eqnarray*}
-\cos(a) $=$ \textbf{u}\cdot\textbf{v},\\
-\cos(b) $=$ \textbf{u}\cdot\textbf{w},\\
-\cos(c) $=$ \textbf{v}\cdot\textbf{w}.
+\cos(a) &=& \textbf{u}\cdot\textbf{v},\\
+\cos(b) &=& \textbf{u}\cdot\textbf{w},\\
+\cos(c) &=& \textbf{v}\cdot\textbf{w}.
 \end{eqnarray*}
 $$
 
