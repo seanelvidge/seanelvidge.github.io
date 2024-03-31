@@ -24,7 +24,7 @@ ffmpeg -i "$filename.wma" "$filename.mp3"
 done
 ```
 
-Then all you need to do is place that file in the folder where you want to run it, then run it, and then you're done! Again this is just an example and you can modify this to anything you want. If you actually want to change wma's to mp3's there are a few more options you may want to use, but I thought this would be a better 'template'. 
+Then all you need to do is place that file in the folder where you want to run it, then run it, and then you're done! Again this is just an example and you can modify this to anything you want. If you actually want to change wma's to mp3's there are a few more options you may want to use, but I thought this would be a better 'template'.
 
 For one more example, say you want to convert all your ps files in a folder to pdf's (here you will need to have ps2pdf installed) we would use:
 
