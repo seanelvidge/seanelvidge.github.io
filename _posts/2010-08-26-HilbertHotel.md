@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Hilbert's Hotel
-date: 2010-08-24 18:47:00-0400
+date: 2010-08-26 18:47:00-0400
 description: Use Hilbert's hotel to rethink about infinity
 tags: mathematics
 categories: mathematics
