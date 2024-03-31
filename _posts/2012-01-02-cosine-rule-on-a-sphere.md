@@ -11,7 +11,11 @@ As all (well, at least those that can remember) 15+ year olds know, to find the 
 
 Simply, the cosine rule is used to find (for example) the length of side $$c$$ in:
 
-IMAGE
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/Triangle_with_notations_2.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
 
 You use the following formula:
 
@@ -21,7 +25,11 @@ $$
 
 But what happens if we move away from Euclidean Geometry and that our triangle is now sitting on a sphere? I.e.
 
-IMAGE
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/Law-of-haversines.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
 
 Logic tells us that of course the same cosine rule can not be applied to find the side $$c$$. Instead we use an alternative formula, namely:
 
