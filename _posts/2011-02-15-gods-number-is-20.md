@@ -11,13 +11,13 @@ The Rubik Cube was invented by one Erno Rubik in 1974 and has gone one to be one
 
 But where does this number come from?
 
-A standard 3x3x3 Rubik's cube has 8 corner pieces, 12 edge pieces and 6 centres. Since the centre pieces are fixed, there is nothing we can do to move them, so they do not enter our calculation to the number of possible positions. As there are 8 corner pieces we have $$8!$$ (that is 8 factorial or $$8!=8 \times 7 \times 6 \times 5 \times 4 \times 3 \times 2 \times 1=40320$$) ways of positioning them, and we are free to place the first 7 where ever we want, however once these 7 are positioned, the 8th is clearly forced to be in a particular place, so we have $$3^7$$ ($$3^7=2187$$) possibile positions for these $$8!$$ options. The 3 arises since each corner piece has 3 colours on it. So far we have counted 
+A standard 3x3x3 Rubik's cube has 8 corner pieces, 12 edge pieces and 6 centres. Since the centre pieces are fixed, there is nothing we can do to move them, so they do not enter our calculation to the number of possible positions. As there are 8 corner pieces we have $$8!$$ (that is 8 factorial or $$8!=8 \times 7 \times 6 \times 5 \times 4 \times 3 \times 2 \times 1=40320$$) ways of positioning them, and we are free to place the first 7 where ever we want, however once these 7 are positioned, the 8th is clearly forced to be in a particular place, so we have $$3^7$$ ($$3^7=2187$$) possibile positions for these $$8!$$ options. The 3 arises since each corner piece has 3 colours on it. So far we have counted
 
 $$
 8! \times 3^7 = 88179840.
 $$
 
-Now, for the 12 edges, you may imagine that we have $$12!$$ options, however we have to note that an odd permutation of corners results in an odd permutation of the edges, thus there are only $$\frac{12!}{2}$$ options. Then in the same ways as the corners we count how many possible positions we can have, this time each piece only has 2 colours on it, but in a similar way once we have chosen where the first 11 go, the 12th piece is fixed, thus giving $$2^{11}$$ options. So in total we have 
+Now, for the 12 edges, you may imagine that we have $$12!$$ options, however we have to note that an odd permutation of corners results in an odd permutation of the edges, thus there are only $$\frac{12!}{2}$$ options. Then in the same ways as the corners we count how many possible positions we can have, this time each piece only has 2 colours on it, but in a similar way once we have chosen where the first 11 go, the 12th piece is fixed, thus giving $$2^{11}$$ options. So in total we have
 
 $$
 8! \times 3^7 \times \frac{12!}{2} \times 2^{11} = 43,252,003,274,489,856,000
