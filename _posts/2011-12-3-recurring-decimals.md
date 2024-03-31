@@ -9,7 +9,7 @@ related_posts: true
 
 Here is an interesting fact I "discovered" today (I know many have before, but it was a personal discovery) a nice little fact about recurring decimals.
 
-By a recurring decimal I mean a decimal which eventually becomes periodic, i.e. $$0.333\cdots$$. However from here on I will use the overbar notation, so the repetend (the bit which is repeated) is overlined giving us: 
+By a recurring decimal I mean a decimal which eventually becomes periodic, i.e. $$0.333\cdots$$. However from here on I will use the overbar notation, so the repetend (the bit which is repeated) is overlined giving us:
 
 $$
 0.333\cdots = 0.\overline{3}.
