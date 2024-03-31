@@ -1,6 +1,6 @@
 ---
 layout: post
-title: God's Numberis 20
+title: God's Number is 20
 date: 2011-02-15 19:25:00-0400
 description: You never need more than 20 moves to solve a Rubik cube
 tags: mathematics
