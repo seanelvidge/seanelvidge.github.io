@@ -5,6 +5,7 @@ date: 2012-01-02 14:43:00
 description: How to use the cosine rule on a sphere
 tags: mathematics
 related_posts: true
+thumbnail: assets/img/Law-of-haversines.png
 ---
 
 As all (well, at least those that can remember) 15+ year olds know, to find the length of a side of a non-right angled triangle you can't use Pythagoras' theorem and instead require the so called 'Cosine Rule'.
