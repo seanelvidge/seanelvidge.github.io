@@ -17,7 +17,7 @@ Okay, assume that the radius of a pea is about $$4$$ millimetres, or $$4 \time
 
 I think the approximate size of a 'dot' is about $$0.5$$ millimetres, so that means the area, in metres, of such a dot is: $$\pi\cdot 0.00025^2=1.963\times 10^{-7}$$. The size of a proton is $$8.77 \times 10^{-16}$$ metres, and so the number of protons that would fit in such a dot is $$223,887,732$$. Or $$2233$$ times less than the Bryson stated number. As for the number of seconds in half a million years: $$1 \mbox{ year } = 31556926 \mbox{ seconds}$$ and $$500,000 \mbox{ years } = 15,800,000,000,000 \mbox{ seconds}$$. Quite a lot more than what was stated, in fact, $$500,000,000,000$$ seconds is only 15844 years.
 
-> Even so, it \[the Voyager spacecraft\] took them nine years to reach Uranus and a dozen to cross the orbit of Pluto.
+> Even so, it \[the Voyager spacecraft\] took them nine years to reach Uranus and a dozen to cross the orbit of Pluto.
 
 Actually, Voyager 1 never got to Uranus nor cross the orbit of Pluto, only Voyager 2 did.
 
@@ -41,5 +41,5 @@ The amount of _energy released_ increases by a factor of 31.6 $$\left(10^{1.5}\r
 
 > It has been calculated that if you sunk a well to the center \[of the Earth\] and dropped a brick into it, it would take only 45 minutes for it to hit the bottom.
 
-The terminal velocity of an object falling through the air is the maximum speed that the object will reach when the resistance of the medium through which it falls (in this case, air) prevents further acceleration. This velocity depends on various factors, including the mass and aerodynamic properties of the object (such as its shape and surface area), as well as the density of the air. For a brick, calculating its terminal velocity involves considering its drag coefficient, cross-sectional area perpendicular to the direction of motion, and mass. Using sensible estimates for this value we could calculate the terminal velocity of a house brick to be approximately 45 meters per second. 
+The terminal velocity of an object falling through the air is the maximum speed that the object will reach when the resistance of the medium through which it falls (in this case, air) prevents further acceleration. This velocity depends on various factors, including the mass and aerodynamic properties of the object (such as its shape and surface area), as well as the density of the air. For a brick, calculating its terminal velocity involves considering its drag coefficient, cross-sectional area perpendicular to the direction of motion, and mass. Using sensible estimates for this value we could calculate the terminal velocity of a house brick to be approximately 45 meters per second.
 Given that the Earth's radius is approximately 6371 km, the brick would take about 39 hours to fall to the centre (given all the other difficulties with this thought experiment!).
