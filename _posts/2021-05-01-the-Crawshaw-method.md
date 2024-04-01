@@ -7,7 +7,7 @@ tags: mathematics
 related_posts: true
 ---
 
-Something all High School students (and above) need to know is how to factorize quadratic equations. However I am amazed how few people know a decent (and easy) way of doing this! 
+Something all High School students (and above) need to know is how to factorize quadratic equations. However I am amazed how few people know a decent (and easy) way of doing this!
 
 I'll keep this as simple as possible, and just show you how to use the method.
 
