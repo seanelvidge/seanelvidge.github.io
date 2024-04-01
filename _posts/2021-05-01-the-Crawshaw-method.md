@@ -91,8 +91,8 @@ Now we draw an imaginary line down the middle and factorize both sides of the eq
 
 $$
 \begin{eqnarray*}
-3x^2-9x &\quad& /\quad 2x-6,
-3x(x-3) &\quad/& \quad +2(x-3).
+3x^2-9x \quad &/& \quad 2x-6,\\
+3x(x-3) \quad &/& \quad +2(x-3).
 \end{eqnarray*}
 $$
 
