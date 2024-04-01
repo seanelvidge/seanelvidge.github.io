@@ -8,7 +8,7 @@ related_posts: true
 thumbnail: assets/img/water_molecule.jpg
 ---
 
-I'm sitting in my office, at home, watching the snow falling outside and it got me thinking.... 
+I'm sitting in my office, at home, watching the snow falling outside and it got me thinking....
 
 As is well known, chemically, water is made from hydrogen and oxygen (H2O), specifically, each water molecule is made from two hydrogen atoms bonded with an oxygen atom. In this bonding there are two left over pairs of electrons, and the whole molecule creates a rough tetrahedron.
 
