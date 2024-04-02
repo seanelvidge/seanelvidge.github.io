@@ -47,7 +47,7 @@ E_t &=& 2mgr+\frac{1}{2}mgr,\\
 \end{eqnarray*}
 $$
 
-We now find the total energy at the bottom, since there is no potential energy, this is simply the kinetic energy, 
+We now find the total energy at the bottom, since there is no potential energy, this is simply the kinetic energy,
 
 $$
 E_b = \frac{1}{2}mv_b^2.
