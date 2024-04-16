@@ -55,7 +55,7 @@ You can see that the peaks do not always match where a season begins (which was 
 It looks like, in this plot, that the noise in viewing figures is decreasing over time. However since we know that there is a decreasing number of viewers we calculate the normalised standard deviation for each season. This is done by finding the standard deviation of a season and dividing it by the range of viewers for that season. This is presented in the table below.
 
 ```markdown
-| Season Number | Standard Deviation (Millions) | Range of Viewers (Million) | (Standard Deviation / Range ) /* 100 (%) |
+| Season Number | Standard Deviation (Millions) | Range of Viewers (Million) | (Standard Deviation / Range ) \* 100 (%) |
 | :-----------: | :---------------------------: | :------------------------: | :--------------------------------------: |
 |       1       |             1.19              |            5.97            |                  19.99                   |
 |       2       |             1.71              |            9.72            |                  17.60                   |
