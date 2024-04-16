@@ -55,17 +55,17 @@ You can see that the peaks do not always match where a season begins (which was 
 It looks like, in this plot, that the noise in viewing figures is decreasing over time. However since we know that there is a decreasing number of viewers we calculate the normalised standard deviation for each season. This is done by finding the standard deviation of a season and dividing it by the range of viewers for that season. This is presented in the table below.
 
 ```markdown
-| Season Number | Standard Deviation (Millions) | Range of Viewers (Million) | (Standard Deviation / Range ) * 100 (%) |
-| :-----------: | :---------------------------: | :------------------------: | :-------------------------------------: |
-|       1       |             1.19              |           5.97             |                  19.99                  |
-|       2       |             1.71              |           9.72             |                  17.60                  |
-|       3       |             1.82              |           8.88             |                  20.45                  |
-|       4       |             1.39              |           6.82             |                  20.31                  |
-|       5       |             1.43              |           5.36             |                  26.76                  |
-|       6       |             1.34              |           7.16             |                  18.70                  |
-|       7       |             1.09              |           5.19             |                  21.10                  |
-|       8       |             0.66              |           3.93             |                  16.88                  |
-|       9       |             0.59              |           3.56             |                  16.67                  |
+| Season Number | Standard Deviation (Millions) | Range of Viewers (Million) | (Standard Deviation / Range ) /* 100 (%) |
+| :-----------: | :---------------------------: | :------------------------: | :--------------------------------------: |
+|       1       |             1.19              |            5.97            |                  19.99                   |
+|       2       |             1.71              |            9.72            |                  17.60                   |
+|       3       |             1.82              |            8.88            |                  20.45                   |
+|       4       |             1.39              |            6.82            |                  20.31                   |
+|       5       |             1.43              |            5.36            |                  26.76                   |
+|       6       |             1.34              |            7.16            |                  18.70                   |
+|       7       |             1.09              |            5.19            |                  21.10                   |
+|       8       |             0.66              |            3.93            |                  16.88                   |
+|       9       |             0.59              |            3.56            |                  16.67                   |
 
 ```
 
