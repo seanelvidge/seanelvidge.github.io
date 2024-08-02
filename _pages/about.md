@@ -15,6 +15,6 @@ social: true # includes social icons at the bottom of the page
 
 I am Professor of Space Environment at the [University of Birmingham](https://birmingham.ac.uk) and am Head of the [Space Environment and Radio Engineering (SERENE)](https://spaceweather.bham.ac.uk) research group.
 
-I am interested in mitigating the impacts of space weather on technology and society through novel mathematical modelling, exploring fundamental new physics and understanding the engineering solutions. This is my personal website, if you want more information about my research or the University of Birmingham’s SERENE Research Group please visit our dedicated website: [spaceweather.bham.ac.uk](https://spaceweather.bham.ac.uk)
+I am interested in mitigating the impacts of space weather on technology and society through novel mathematical modelling, exploring fundamental new physics and understanding the engineering solutions. This is my personal website, if you want more information about my research or the University of Birmingham’s SERENE Research Group please visit our dedicated website: [serene.bham.ac.uk](https://serene.bham.ac.uk)
 
 Whilst there may be bits of Space Weather discussion on this site, you’re much more likely to find posts about the velocity required to complete a loop the loop, the number of unique song choices on Desert Island Discs or the most expensive Premier League transfer of all time.
