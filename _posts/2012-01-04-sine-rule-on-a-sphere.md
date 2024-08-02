@@ -2,7 +2,7 @@
 layout: post
 title: Sine Rule on a Sphere
 date: 2012-01-04 15:35:00
-description: How to use the cosine rule on a sphere
+description: How to use the sine rule on a sphere
 tags: mathematics
 related_posts: true
 thumbnail: assets/img/Law-of-haversines.png
