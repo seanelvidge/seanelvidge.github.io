@@ -41,6 +41,6 @@ This will kill all process except init, sync the mounted file systems, remount t
 | w       | Display list of blocked tasks                                                       |
 | y       | Show global CPU registers (SPARC-64 specific)                                       |
 | z       | Dump the ftrace buffer                                                              |
-| w       | Display list of blocked tasks |
-| y       | Show global CPU registers (SPARC-64 specific) |
-| z       | Dump the ftrace buffer |
+| w       | Display list of blocked tasks                                                       |
+| y       | Show global CPU registers (SPARC-64 specific)                                       |
+| z       | Dump the ftrace buffer                                                              |
