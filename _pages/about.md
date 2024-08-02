@@ -13,7 +13,7 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-I am Associate Professor of Space Environment at the [University of Birmingham](https://birmingham.ac.uk) and am Head of the [Space Environment and Radio Engineering (SERENE)](https://spaceweather.bham.ac.uk) research group.
+I am Professor of Space Environment at the [University of Birmingham](https://birmingham.ac.uk) and am Head of the [Space Environment and Radio Engineering (SERENE)](https://spaceweather.bham.ac.uk) research group.
 
 I am interested in mitigating the impacts of space weather on technology and society through novel mathematical modelling, exploring fundamental new physics and understanding the engineering solutions. This is my personal website, if you want more information about my research or the University of Birmingham’s SERENE Research Group please visit our dedicated website: [spaceweather.bham.ac.uk](https://spaceweather.bham.ac.uk)
 
