@@ -5,7 +5,7 @@ date: 2013-04-16 09:52:00
 description: How many people just turn on How does Grey's Anatomy viewing figures vary over time?
 tags: mathematics
 related_posts: true
-thumbnail: assets/img/loop-the-loop.png
+thumbnail: assets/img/overall2.png
 ---
 
 It is a fairly safe assumption that viewing figures for TV shows typically drop over time. But what I was thinking about this morning is how many people just turn on the TV and watch whatever is on, is that something we can work out from TV videwing figures?
