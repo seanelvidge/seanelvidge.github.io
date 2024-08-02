@@ -66,7 +66,6 @@ It looks like, in this plot, that the noise in viewing figures is decreasing ove
 |       7       |             1.09              |            5.19            |                  21.10                   |
 |       8       |             0.66              |            3.93            |                  16.88                   |
 |       9       |             0.59              |            3.56            |                  16.67                   |
-
 ```
 
 The percentage column has a mean value of 19.83% itself with a standard deviation of 3.06%. So we can conslude that the standard deviation of the noise in viewers is about 20% of the range of viewers. Is this a "standard value"? Or is it somehow tied to Grey's Anatomy?
@@ -118,4 +117,3 @@ Desperate Housewives shows a similar pattern to Grey's Anatomy in terms of the o
 From the above analysis we get a standard deviation (as a percentage of the range of viewers) as 17.17% (with a standard deviation of ~2.82%) for Desperate Housewives and 21.90% (standard deviation of 2.95%) for How I Met Your Mother.
 
 So the three values we've got are 19.83%, 17.17% and 21.90%. Giving an average of 19.63%, well three examples are enough for me! It certainly hints at the fact that the spread of noise in viewing figures is independent of the show, and may be a fact of TV viewing figures.
-		
