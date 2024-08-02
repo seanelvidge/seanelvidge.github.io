@@ -2,7 +2,7 @@
 layout: post
 title: Making Files and Folders Lowercase
 date: 2013-10-21 12:32:00
-description: How to make all files lowercase 
+description: How to make all files lowercase
 tags: linux
 related_posts: true
 ---
