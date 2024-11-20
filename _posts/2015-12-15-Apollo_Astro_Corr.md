@@ -53,5 +53,4 @@ Therefore, it's uncertain whether we've uncovered Deke's method or not.
 
 The key takeaway is the importance of considering confidence intervals in statistical analysis.
 
-For those interested, here's the [code used to create the plot](https://seanelvidge.com/apollonumbers/apollo_correlation_code.py), which can serve as a starting point for experimenting with `plt.xkcd()`.
-
+For those interested, here's the [code used to create the plot](assets/code/apollo_astronaut_az.py), which can serve as a starting point for experimenting with `plt.xkcd()`.
