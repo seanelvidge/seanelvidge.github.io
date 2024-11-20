@@ -18,6 +18,7 @@ $$
 \begin{array}{cccccc}
 & 0 & \frac{\pi}{6} & \frac{\pi}{4} & \frac{\pi}{3} & \frac{\pi}{2} \\
 & 0^\circ & 30^\circ & 45^\circ & 60^\circ & 90^\circ \\
+\hline
 \end{array}
 $$
 
@@ -27,6 +28,7 @@ $$
 \begin{array}{cccccc}
 & 0 & \frac{\pi}{6} & \frac{\pi}{4} & \frac{\pi}{3} & \frac{\pi}{2} \\
 & 0^\circ & 30^\circ & 45^\circ & 60^\circ & 90^\circ \\
+\hline
 \sin & 0 & 1 & 2 & 3 & 4 \\
 \end{array}
 $$
@@ -37,6 +39,7 @@ $$
 \begin{array}{cccccc}
 & 0 & \frac{\pi}{6} & \frac{\pi}{4} & \frac{\pi}{3} & \frac{\pi}{2} \\
 & 0^\circ & 30^\circ & 45^\circ & 60^\circ & 90^\circ \\
+\hline
 \sin & \sqrt{0} & \sqrt{1} & \sqrt{2} & \sqrt{3} & \sqrt{4} \\
 \end{array}
 $$
@@ -47,6 +50,7 @@ $$
 \begin{array}{cccccc}
 & 0 & \frac{\pi}{6} & \frac{\pi}{4} & \frac{\pi}{3} & \frac{\pi}{2} \\
 & 0^\circ & 30^\circ & 45^\circ & 60^\circ & 90^\circ \\
+\hline
 \sin & \frac{\sqrt{0}}{2} & \frac{\sqrt{1}}{2} & \frac{\sqrt{2}}{2} & \frac{\sqrt{3}}{2} & \frac{\sqrt{4}}{2} \\
 \end{array}
 $$
@@ -57,6 +61,7 @@ $$
 \begin{array}{cccccc}
 & 0 & \frac{\pi}{6} & \frac{\pi}{4} & \frac{\pi}{3} & \frac{\pi}{2} \\
 & 0^\circ & 30^\circ & 45^\circ & 60^\circ & 90^\circ \\
+\hline
 \sin & 0 & \frac{1}{2} & \frac{\sqrt{2}}{2} & \frac{\sqrt{3}}{2} & 1 \\
 \end{array}
 $$
@@ -67,6 +72,7 @@ $$
 \begin{array}{cccccc}
 & 0 & \frac{\pi}{6} & \frac{\pi}{4} & \frac{\pi}{3} & \frac{\pi}{2} \\
 & 0^\circ & 30^\circ & 45^\circ & 60^\circ & 90^\circ \\
+\hline
 \sin & 0 & \frac{1}{2} & \frac{\sqrt{2}}{2} & \frac{\sqrt{3}}{2} & 1 \\
 \cos & 1 & \frac{\sqrt{3}}{2} & \frac{\sqrt{2}}{2} & \frac{1}{2} & 0 \\
 \end{array}
