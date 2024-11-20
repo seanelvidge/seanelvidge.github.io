@@ -49,18 +49,25 @@ By experimenting with different $k$ values, we can fine-tune the system to balan
 
 For the rest of this post we use a value of $k=2$.
 
-In that adjusted table we get the following:
+### Results
+When I last wrote a post similar to this, Wayne Rooney had just [broke the England National team goal record with 50 goals](https://seanelvidge.github.io/blog/2015/Rooney-50/). Since then Kane has broke this record again (at the time of writing) with 69 goals. Using the above approach the updated top 10 of England goal scorers are:
 
 | Ranking |      Name      | Adjusted Goals |
 | :-----: | :------------: | :------------: |
-|    1    |  Wayne Rooney  |       49       |
-|    2    |  Gary Lineker  |       46       |
-|    3    | Bobby Charlton |       43       |
-|    4    |  Michael Owen  |       39       |
-|    5    | Jimmy Greaves  |      34.5      |
-|    5    |  Alan Shearer  |     34. 5      |
+|    1    |  Harry Kane    |       45       |
+|    2    |  Gary Lineker  |       37       |
+|    3    | Bobby Charlton |       36       |
+|    4    |  Jimmy Greaves |       35       |
+|    5    |  Wayne Rooney  |       34       |
+|    6    |  Michael Owen  |       30       |
+|    7    |  Alan Shearer  |       23       |
+|    8    |   Tom Finney   |       23       |
+|    9    |  Nat Lofthouse |       22       |
+|   10    |  Frank Lampard |       21       |
 
-You can see that Rooney is still number 1 - despite down weighting the friendly goals.
+You can see that whilst Kane is still number 1 - his number of goals are significantly less.
+
+James Ward Prowse. Biggest change. Biggest gain. Some details
 
 But okay, perhaps you think friendlies shouldn't count at all and only competitive fixtures should be counted (the 'Adjusted Goals' column is if we again weight finals goals more heavily, the first ranking column is for the 'non-adjusted' goals):
 
