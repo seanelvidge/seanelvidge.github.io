@@ -31,7 +31,7 @@ By leveraging historical ELO ratings, we can assess the relative strength of any
 The weighting for each goal is determined using the following formula:
 
 $$
-\text{Weigth} = 1 - k\times\frac{E-O}{E}
+\text{Weight} = 1 - k\times\frac{E-O}{E}
 $$
 
 Where, $E$ is the ELO rating of England before the match, $O$ is the ELO rating of the opposition before the match and $k$ a scaling constant that adjusts the sensitivity of the weighting to the difference in ELO ratings.
