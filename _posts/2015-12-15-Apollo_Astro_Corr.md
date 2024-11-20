@@ -7,6 +7,7 @@ tags: mathematics
 related_posts: true
 thumbnail: assets/img/apollo_az.png
 ---
+
 Python's `matplotlib` includes the impressive `XKCDify` feature, which allows plots to resemble Randall Munroe's style from [xkcd.com](https://xkcd.com).  
 Upon discovering this feature (`matplotlib.pyplot.xkcd()`), I sought a creative application beyond replicating classic XKCD plots like [xkcd.com/653](https://xkcd.com/653) and [xkcd.com/1220](https://xkcd.com/1220).
 
@@ -46,7 +47,7 @@ $$
 
 This results in a 95% confidence interval of approximately $\pm$11%, indicating that the true percentage likely falls between 62% and 84%. This technique is valuable when evaluating data; always consider confidence intervals to determine the reliability of a result.
 
-In our case, the correlation coefficient between alphabetical ordering and Apollo astronauts is 0.45, suggesting a moderate positive correlation. However, it's essential to examine the confidence interval for this correlation. Calculating confidence intervals for correlations is more complex and often asymmetric. Detailed information on this topic is available at [onlinestatbook.com](https://onlinestatbook.com/2/estimation/correlation_ci.html). For our data, the confidence interval ranges from 0.023 to 0.738, spanning from no correlation to a strong one.  
+In our case, the correlation coefficient between alphabetical ordering and Apollo astronauts is 0.45, suggesting a moderate positive correlation. However, it's essential to examine the confidence interval for this correlation. Calculating confidence intervals for correlations is more complex and often asymmetric. Detailed information on this topic is available at [onlinestatbook.com](https://onlinestatbook.com/2/estimation/correlation_ci.html). For our data, the confidence interval ranges from 0.023 to 0.738, spanning from no correlation to a strong one.
 
 Therefore, it's uncertain whether we've uncovered Deke's method or not.
 
