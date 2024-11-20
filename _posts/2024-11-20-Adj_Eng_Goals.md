@@ -62,7 +62,7 @@ When I last wrote a post similar to this, Wayne Rooney had just [broke the Engla
 |    1    |   Harry Kane   |       45       |  69   |
 |    2    |  Gary Lineker  |       37       |  48   |
 |    3    | Bobby Charlton |       36       |  49   |
-|    4    | Jimmy Greaves  |       35       |  44   | 
+|    4    | Jimmy Greaves  |       35       |  44   |
 |    5    |  Wayne Rooney  |       34       |  53   |
 |    6    |  Michael Owen  |       30       |  40   |
 |    7    |  Alan Shearer  |       23       |  30   |
