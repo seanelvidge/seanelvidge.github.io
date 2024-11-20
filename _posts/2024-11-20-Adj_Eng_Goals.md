@@ -65,33 +65,21 @@ When I last wrote a post similar to this, Wayne Rooney had just [broke the Engla
 |    9    |  Nat Lofthouse |       22       |   30  |
 |   10    |  Frank Lampard |       21       |   29  |
 
-You can see that whilst Kane is still number 1 - his number of goals are significantly less.
+You can see that whilst Kane is still number 1 - his number of goals are significantly less. (Note that the adjusted number of goals here have been rounded to the nearest goal for ease of reading).
 
-James Ward Prowse. Biggest change. Biggest gain. Some details
+As may be expected Kane has the biggest change between actual goals scored (69) and the weighted number of goals (45) with a difference of 24, perphaps reaffirming the theory that modern day players are scoring a significant amount of their goals against weaker opposition than in the past. Gary Lineker moves from 4th in the all time list to 2nd.
 
-But okay, perhaps you think friendlies shouldn't count at all and only competitive fixtures should be counted (the 'Adjusted Goals' column is if we again weight finals goals more heavily, the first ranking column is for the 'non-adjusted' goals):
+At the other end of the table we end up with a number of people (41) who (because of the rounding as well) move from having scored at least 1 for England to being on 0 goals, but only four who go from more than 1 to zero:
 
-| Ranking |      Name       | Goals | Adjusted Goals | Adjusted Ranking |
-| :-----: | :-------------: | :---: | :------------: | :--------------: |
-|    1    |  Wayne Rooney   |  36   |       42       |        1         |
-|    2    | Stephen Bloomer |  28   |       28       |        6         |
-|    3    | Bobby Charlton  |  27   |       32       |        3         |
-|    4    |  Michael Owen   |  26   |       32       |        3         |
-|    5    |  Gary Lineker   |  24   |       34       |        2         |
-|    6    |  Jimmy Greaves  |  23   |       24       |        8         |
+|       Name        | Goals | Adjusted Goals |
+| :---------------: | :---: | :------------: |
+| Tammy Abraham     |   3   |       0        |
+| Paul Ince         |   2   |       0        |
+| Tyrone Mings      |   2   |       0        |
+| James Ward-Prowse |   2   |       0        |
 
-Again, Rooney comes top for both the usual and adjusted goal tallies. (One way) to knock Rooney off that top spot (if you particularly want to for some reason) is to look at the 'goals per cap ratio'. To use this stat we have to set a cap limit because of the people who didn't play very much. For example, Albert Allen, Francis Bradshaw, John Veitch, John Yates and Rev. Walter Gilliat who were all capped once by England, and each scored a hattrick on their one, and only, appearance for England. This gives them a rather impressive 3 goals per cap ratio. If we only consider players who have at least 40 caps then:
+Unfortuntaely Tammy Abraham's 3 goals for England were scored against very much weaker opposition in the form of Montenegro (England won 7-0 on 14/11/19), Andorra (England won 0-5 on 09/10/21) and San Marino (England won 0-10 on 15/11/21).
 
-| Ranking |     Name      | Goals per cap |
-| :-----: | :-----------: | :-----------: |
-|    1    | Jimmy Greaves |     0.77      |
-|    2    | Gary Lineker  |      0.6      |
-|    3    | Peter Crouch  |     0.52      |
-|    4    |  Geoff Hurst  |     0.49      |
-|    5    | Alan Shearer  |     0.48      |
-|    6    | Wayne Rooney  |     0.47      |
-
-Finally, if you again weighted the goals (since Crouch scored 12 of his 22 goals in friendlies) you would find the order is Greaves, Lineker, Hurst, Shearer, Rooney (Crouch drops from 3rd to 8th).
-
+If you want to have a look at the data you can access it all [here](https://seanelvidge.github.io/assets/files/england_elo_goal_data.csv)) (which also includes the "Adjusted Total" which weights Friendlies as 0.5 and "finals" as 2x (as per the description [here](https://seanelvidge.github.io/blog/2015/Rooney-50/). 
 I am not going to make any conclusions about if Rooney is England’s greatest attacker or not, that is up to you! All the data I’ve used in this post was collected from [englandstats.com](https://www.englandstats.com/) and is accurate as of today (11th September, 2015). If you want to play around with the data I’ve collated all the stats (player names, caps, minutes played and goals scored (separated into individual competitions)) into an Excel file available [here](https://seanelvidge.github.io/assets/files/england_goal_data_2015_09_11.xlsx).
 
