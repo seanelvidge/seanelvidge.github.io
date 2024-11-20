@@ -25,7 +25,29 @@ The foundation of this approach lies in the ELO rating system, a method original
 By leveraging historical ELO ratings, we can assess the relative strength of any two teams at the time they played. This allows us to calculate a weighting factor for each goal scored, reflecting the challenge posed by the opponent.
 
 ### The Weighting Formula
+The weighting for each goal is determined using the following formula:
 
+$$
+\text{Weigth} = 1 - k\times\frac{E-O}{E}
+$$
+
+Where, $E$ is the ELO rating of England before the match, $O$ is the ELO rating of the opposition before the match and $k$ a scaling constant that adjusts the sensitivity of the weighting to the difference in ELO ratings.
+
+This formula adjusts the weight of a goal based on how much stronger or weaker the opposition is relative to England:
+
+* If England faces a stronger team ($O > E$), the weighting increases above 1, acknowledging the greater difficulty.
+* If England faces a weaker team ($O < E$), the weighting decreases below 1, reflecting the relatively easier challenge.
+* The constant $k$ controls how much the difference in ratings affects the weighting.
+
+### Interpreting the Weighting
+Adjusting the $k$ value alters the impact of the opposition's strength:
+
+* A higher $k$ value (e.g., 2) amplifies the effect, giving more weight to goals against stronger teams and less to those against weaker ones.
+* A lower $k$ value (e.g., 1) minimizes the effect, resulting in a more uniform weighting across different opponents.
+
+By experimenting with different $k$ values, we can fine-tune the system to balance fairness and sensitivity, ensuring that exceptional performances against top-tier teams are appropriately recognized while maintaining a reasonable value for consistent scoring against all opponents.
+
+For the rest of this post we use a value of $k=2$.
 
 In that adjusted table we get the following:
 
