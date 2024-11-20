@@ -52,18 +52,18 @@ For the rest of this post we use a value of $k=2$.
 ### Results
 When I last wrote a post similar to this, Wayne Rooney had just [broke the England National team goal record with 50 goals](https://seanelvidge.github.io/blog/2015/Rooney-50/). Since then Kane has broke this record again (at the time of writing) with 69 goals. Using the above approach the updated top 10 of England goal scorers are:
 
-| Ranking |      Name      | Adjusted Goals |
-| :-----: | :------------: | :------------: |
-|    1    |  Harry Kane    |       45       |
-|    2    |  Gary Lineker  |       37       |
-|    3    | Bobby Charlton |       36       |
-|    4    |  Jimmy Greaves |       35       |
-|    5    |  Wayne Rooney  |       34       |
-|    6    |  Michael Owen  |       30       |
-|    7    |  Alan Shearer  |       23       |
-|    8    |   Tom Finney   |       23       |
-|    9    |  Nat Lofthouse |       22       |
-|   10    |  Frank Lampard |       21       |
+| Ranking |      Name      | Adjusted Goals | Goals |
+| :-----: | :------------: | :------------: | :---: |
+|    1    |  Harry Kane    |       45       |   69  |
+|    2    |  Gary Lineker  |       37       |   48  |
+|    3    | Bobby Charlton |       36       |   49  |
+|    4    |  Jimmy Greaves |       35       |   44  |
+|    5    |  Wayne Rooney  |       34       |   53  |
+|    6    |  Michael Owen  |       30       |   40  |
+|    7    |  Alan Shearer  |       23       |   30  |
+|    8    |   Tom Finney   |       23       |   30  |
+|    9    |  Nat Lofthouse |       22       |   30  |
+|   10    |  Frank Lampard |       21       |   29  |
 
 You can see that whilst Kane is still number 1 - his number of goals are significantly less.
 
