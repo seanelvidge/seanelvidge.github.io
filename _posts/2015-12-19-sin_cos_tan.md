@@ -5,7 +5,6 @@ date: 2015-12-19 13:25:00
 description: One of my tutees showed me an easy way to remember sin and cos values for the “common” angles, and once you’ve got those you’ve also got tan, cosec, sec and cot.
 tags: mathematics
 related_posts: true
-thumbnail: assets/img/apollo_az.png
 ---
 
 One of my tutees showed me an easy way to remember sine and cosine values for the common angles. Once you've got those, you can also determine tangent, cosecant, secant, and cotangent values.
