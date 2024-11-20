@@ -33,14 +33,14 @@ Let's examine a simple example, calculating a 95% confidence interval for a perc
 A TV advertisement claimed that a certain hair conditioner is the nation's favorite, with small print stating, "73% of 64 people asked agreed." This means 47 people concurred (0.73 × 64 ≈ 47). A larger sample size would provide more confidence in this claim. However, we can use the confidence interval to assess the statistical significance of 73% from a sample of 64. The formula for a 95% confidence interval of a percentage is:
 
 $$
-95\% \text{ C.I.} = \pm 1.96 \times \sqrt{\frac{p(1-p)}{n}}
+95\text{%} \text{ C.I.} = \pm 1.96 \times \sqrt{\frac{p(1-p)}{n}}
 $$
 
 where $p$ is the percentage (as a decimal) and $n$ is the sample size. Applying our numbers:
 
 $$
 \begin{align*}
-95\%\text{ C.I.} &= \pm 1.96 \times \sqrt{\frac{0.73 \times 0.27}{64}} \\
+95\text{% C.I.} &= \pm 1.96 \times \sqrt{\frac{0.73 \times 0.27}{64}} \\
 &= \pm 10.9
 \end{align*}
 $$
