@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Leveling the Playing Field: Adjusting Goal Records in International Football
+title: Levelling the Playing Field, Adjusting Goal Records in International Football
 date: 2024-11-20 13:13:00-0400
 description: By weighting international goals by strength of the opposition we can compare goal scoring prowess across the decades. 
 tags: mathematics football
