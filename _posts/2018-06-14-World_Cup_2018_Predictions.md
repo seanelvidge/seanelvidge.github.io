@@ -14,11 +14,11 @@ My model, like a lot of others, is based on the [World Football Elo ratings (WFE
 
 The rating system gives different weightings for the tournaments that games take place in. They rank them in the following order:
 
-1) World Cup finals,
-2) Continental championship finals and major intercontinental tournaments,
-3) World Cup and continental qualifiers and major tournaments,
-4) All other tournaments,
-5) Friendly matches.
+1. World Cup finals,
+2. Continental championship finals and major intercontinental tournaments,
+3. World Cup and continental qualifiers and major tournaments,
+4. All other tournaments,
+5. Friendly matches.
 
 The WFER site takes into account all games that results could be found for (so goes all the way back to the first official International football game, between  Scotland and England on 30 November 1872, 0-0). 
 
@@ -26,9 +26,9 @@ My model uses a combination of ensemble machine learning methods for classificat
 
 The model uses the WFER data for training, where all friendly matches have been removed (because very often sides don’t play a full strength team in those matches). Different combinations of training data results in different resulting models. Specifically, giving the model the rankings between the two teams and the result of the match (win, draw, loss) gives different results than if you just give the two teams rankings, but only results from major tournaments. For the final results the model has been trained using 76 decision trees with three different datasets:
 
-1) All (non-friendly) fixtures,
-2) All (non-friendly) fixtures since 1980,
-3) Fixtures from the World Cup, European Championships, Africa Cup of Nations and Copa America.
+1. All (non-friendly) fixtures,
+2. All (non-friendly) fixtures since 1980,
+3. Fixtures from the World Cup, European Championships, Africa Cup of Nations and Copa America.
 
 The final results are then an average of the output of each of the three trained models.
 
