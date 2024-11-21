@@ -73,7 +73,7 @@ The format for the group stage was decided in September. Each team has been allo
   </tbody>
 </table>
 
-The exact rules for the draw are [described here](http://www.fifa.com/worldcup/news/y=2017/m=11/news=close-up-on-final-draw-procedures-2921440.html?intcmp=fifacom_hp_module_news_top) (with a handy video explanation). Roughly speaking the rules are that, after Russia, who will definitely be assigned to Group A, a random team from each pot will be drawn, and then placed in the next available group (alphabetically) which they are allowed to be put in (subject to constraints such as splitting up the confederation). This process is repeated until all teams have been drawn.
+The rules for the draw are [described here](https://en.wikipedia.org/wiki/2018_FIFA_World_Cup_seeding) (with a handy video explanation). Roughly speaking the rules are that, after Russia, who will definitely be assigned to Group A, a random team from each pot will be drawn, and then placed in the next available group (alphabetically) which they are allowed to be put in (subject to constraints such as splitting up the confederation). This process is repeated until all teams have been drawn.
 
 However, because of the rules of splitting confederations, each permutation of the 4 pots is not actually possible. So if you focus on one team you can look at what the probabilities of drawing other teams are. For example, the different probabilities of the draw for England are:
 
