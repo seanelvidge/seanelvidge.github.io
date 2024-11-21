@@ -20,7 +20,7 @@ The rating system gives different weightings for the tournaments that games take
 4. All other tournaments,
 5. Friendly matches.
 
-The WFER site takes into account all games that results could be found for (so goes all the way back to the first official International football game, between  Scotland and England on 30 November 1872, 0-0). 
+The WFER site takes into account all games that results could be found for (so goes all the way back to the first official International football game, between  Scotland and England on 30 November 1872, 0-0).
 
 My model uses a combination of ensemble machine learning methods for classification problems, [random decision forests](https://en.wikipedia.org/wiki/Random_forest){:target="\_blank"}. Each [decision tree](https://en.wikipedia.org/wiki/Decision_tree){:target="\_blank"} in the ensemble is taken from a bootstrap sample of some training set where observations about an item (represented in the branches) can be used to drawn conclusions about the item’s target value (represented in the leaves). It is a standard technique which has a wide range of uses, including the evaluation of Wikipedia articles [quality and importance](https://link.springer.com/chapter/10.1007%2F978-3-319-46254-7_50){:target="\_blank"}.
 
