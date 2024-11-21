@@ -29,8 +29,8 @@ The first point to settle is that Rose is not floating on a door and is instead 
 
 There are two main issues that need to be resolved:
 
-1) Could they both have fit on the panelling?
-2) Would their combined weight have been greater than the upward force due to buoyancy (i.e. would they have sank)?
+1. Could they both have fit on the panelling?
+2. Would their combined weight have been greater than the upward force due to buoyancy (i.e. would they have sank)?
 
 ## Eureka!
 
@@ -68,11 +68,11 @@ However, both of them fitting on the panel is not where the problem lies.
 
 Before we can dive into the problem of buoyancy we first need to consider a number of variables which will need to be approximated. Namely:
 
-1) What is the size of the panel?
-2) What is the density of the panel (what is it made from)
-3) What is the mass of Rose?
-4) What is the mass of Jack?
-5) What is the density of the water
+1. What is the size of the panel?
+2. What is the density of the panel (what is it made from)
+3. What is the mass of Rose?
+4. What is the mass of Jack?
+5. What is the density of the water
 
 ### Panel Size
 
@@ -262,16 +262,16 @@ So there was room on the door (panelling) for two.
 
 ## References
 
-<a id="1">[1]</a> 
+<a id="1">[1]</a>
 [https://funypicforyou.blogspot.co.uk/2012/05/titanic-floating-door-facts-explained.html](https://funypicforyou.blogspot.co.uk/2012/05/titanic-floating-door-facts-explained.html){:target="\_blank"}
 
-<a id="2">[2]</a> 
+<a id="2">[2]</a>
 [https://www.reddit.com/r/funny/comments/sf1v2/ill_never_let_go_the_titanic_door_experiment/](https://www.reddit.com/r/funny/comments/sf1v2/ill_never_let_go_the_titanic_door_experiment/){:target="\_blank"}
 
-<a id="3">[3]</a> 
+<a id="3">[3]</a>
 [http://www.imdb.com/title/tt0120338/trivia?tab=tr&item=tr1076740](http://www.imdb.com/title/tt0120338/trivia?tab=tr&item=tr1076740){:target="\_blank"}
 
-<a id="4">[4]</a> 
+<a id="4">[4]</a>
 Archimedes of Syracuse (1897) The Works of Archimedes, edited in modern notation, with introductory chapters by T.L. Heath
 
 <a id="5">[5]</a>
