@@ -9,7 +9,7 @@ thumbnail: assets/img/football_HR.jpeg
 
 It is fair to say that during England’s (fantastic) World Cup win over Colombia [last night](https://www.bbc.co.uk/sport/football/44610244){:target="\_blank"} I had my "heart in my mouth". It was rather nerve-racking!
 
-Fortunately I was wearing my Fitbit and was able to download the timestamped data. 
+Fortunately I was wearing my Fitbit and was able to download the timestamped data.
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
