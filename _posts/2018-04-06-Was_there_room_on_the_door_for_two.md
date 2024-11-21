@@ -21,7 +21,7 @@ The first point to settle is that Rose is not floating on a door and is instead 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
         <figure>
-            {% include figure.liquid loading="eager" path="assets/img/door.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+            {% include figure.liquid loading="eager" path="assets/img/titanicSpace/door.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
             <figcaption style="text-align: center; margin-top: 8px;">Figure 1. Screenshot from `Titanic’. Rose is on the panelling, Jack floats nearby. Image from a copyrighted film, the use of this image for critical commentary and/or discussion of the film and its contents qualifies as fair usage under copyright law.</figcaption>
         </figure>
     </div>
