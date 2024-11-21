@@ -287,7 +287,7 @@ Archimedes of Syracuse (1897) The Works of Archimedes, edited in modern notation
 [http://www.bangla2000.com/entertainment/celebrities/kate_winslet.shtm](http://www.bangla2000.com/entertainment/celebrities/kate_winslet.shtm){:target="\_blank"}
 
 <a id="9">[9]</a>
-[https://www.answers.com/Q/What_is_Leonardo_DiCaprio%E2%80%99s_height_and_weight](https://www.answers.com/Q/What_is_Leonardo_DiCaprio%E2%80%99s_height_and_weight){:target="\_blank"}
+[https://starsunfolded.com/leonardo-dicaprio/](https://starsunfolded.com/leonardo-dicaprio/){:target="\_blank"}
 
 <a id="10">[10]</a>
 [https://www.engineeringtoolbox.com/wood-density-d_40.html](https://www.engineeringtoolbox.com/wood-density-d_40.html){:target="\_blank"}
@@ -299,7 +299,7 @@ Haisman D. (2009) Titanic: The Edith Brown Story. AuthorHouse, Bloomington, Indi
 Piantadosi, Claude A. (2003) The Biology of Human Survival: Life and Death in Extreme Environments. Oxford University Press, Oxford, United Kingdom.
 
 <a id="13">[13]</a>
-[https://science.nasa.gov/earth-science/oceanography/physical-ocean/salinity/](https://science.nasa.gov/earth-science/oceanography/physical-ocean/salinity/){:target="\_blank"}
+[https://salinity.oceansciences.org/](https://salinity.oceansciences.org/){:target="\_blank"}
 
 <a id="14">[14]</a>
 [http://www.csgnetwork.com/h2odenscalc.html](http://www.csgnetwork.com/h2odenscalc.html){:target="\_blank"}
