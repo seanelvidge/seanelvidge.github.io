@@ -5,7 +5,7 @@ date: 2018-06-14 15:10:00
 description: The World Cup is almost upon us and so it’s time to make some predictions…
 tags: mathematics football
 related_posts: true
-thumbnail: assets/img/titanicSpace/door.jpg
+thumbnail: assets/img/wc2018/WCicon.png
 ---
 
 The World Cup is almost upon us and so it's time to make some predictions...
