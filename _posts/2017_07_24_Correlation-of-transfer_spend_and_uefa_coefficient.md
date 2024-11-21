@@ -30,7 +30,7 @@ We can then look at the scatter plot between mean transfer values and UEFA coeff
 
 The regression fit has a value of 0.57 (with 95% confidence intervals of [0.4746, 0.8274]). Whilst this seems to suggest that a nations mean transfer spend is somewhat related to its UEFA coefficient, there are some clear outliers. In particular it can be seen from the plot above that the Premier League’s big increase in spend hasn’t resulted in any improvement in its coefficient.
 
-[Joe Walshe](https://twitter.com/joe_walshe){:target="_blank"} on Twitter pointed out that the Italian contribution is rather different to the other nations. So at the expense of some clarity, we can look at the individual regressions of each nation:
+[Joe Walshe](https://twitter.com/joe_walshe){:target="\_blank"} on Twitter pointed out that the Italian contribution is rather different to the other nations. So at the expense of some clarity, we can look at the individual regressions of each nation:
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
