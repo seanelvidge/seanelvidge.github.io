@@ -64,7 +64,7 @@ related_posts: true
         function calculateMilestone() {
             const dob = new Date(document.getElementById('dob').value);
             const startDate = new Date(document.getElementById('startDate').value);
-            
+
             if (isNaN(dob) || isNaN(startDate)) {
                 document.getElementById('result').textContent = "Please enter valid dates.";
                 return;
@@ -72,7 +72,7 @@ related_posts: true
 
             const timeBetween = startDate - dob; // Difference in milliseconds
             const milestoneDate = new Date(startDate.getTime() + timeBetween); // Add the difference to the start date
-            
+
             const milestoneDateFormatted = milestoneDate.toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
@@ -82,5 +82,6 @@ related_posts: true
             document.getElementById('result').textContent = `You will have been with your partner longer than not on: ${milestoneDateFormatted}`;
         }
     </script>
+
 </body>
 </html>
