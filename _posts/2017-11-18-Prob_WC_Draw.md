@@ -77,16 +77,66 @@ The exact rules for the draw are [described here](http://www.fifa.com/worldcup/n
 
 However, because of the rules of splitting confederations, each permutation of the 4 pots is not actually possible. So if you focus on one team you can look at what the probabilities of drawing other teams are. For example, the different probabilities of the draw for England are:
 
-| Pot 1                 | Pot 2       | Pot 3                  | Pot 4                      |
-| --------------------- | ----------- | ---------------------- | -------------------------- |
-| Russia (12.5%)        |             | Denmark (7.1%)         | Serbia (6.5%)              |
-| Germany (9.5%)        |             | Iceland (7.1%)         | Nigeria (12.0%)            |
-| Brazil (20.0%)        |             | Costa Rica (17.0%)     | Australia (13.5%)          |
-| Portugal (9.5%)       | England     | Sweden (7.1%)          | Japan (13.5%)              |
-| Argentina (20.0%)     |             | Tunisia (15.4%)        | Morocco (12.1%)            |
-| Belgium (9.5%)        |             | Egypt (15.4%)          | Panama (15.5%)             |
-| Poland (9.5%)         |             | Senegal (15.4%)        | Korea Republic (13.5%)     |
-| France (9.5%)         |             | Iran (15.4%)           | Saudi Arabia (13.5%)       |
+<table style="border-collapse: collapse; width: 100%;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Pot 1</th>
+      <th style="border: 1px solid black; padding: 8px;">Pot 2</th>
+      <th style="border: 1px solid black; padding: 8px;">Pot 3</th>
+      <th style="border: 1px solid black; padding: 8px;">Pot 4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Russia (12.5%)</td>
+      <td style="border: 1px solid black; padding: 8px;"></td>
+      <td style="border: 1px solid black; padding: 8px;">Denmark (7.1%)</td>
+      <td style="border: 1px solid black; padding: 8px;">Serbia (6.5%)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Germany (9.5%)</td>
+      <td style="border: 1px solid black; padding: 8px;"></td>
+      <td style="border: 1px solid black; padding: 8px;">Iceland (7.1%)</td>
+      <td style="border: 1px solid black; padding: 8px;">Nigeria (12.0%)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Brazil (20.0%)</td>
+      <td style="border: 1px solid black; padding: 8px;"></td>
+      <td style="border: 1px solid black; padding: 8px;">Costa Rica (17.0%)</td>
+      <td style="border: 1px solid black; padding: 8px;">Australia (13.5%)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Portugal (9.5%)</td>
+      <td style="border: 1px solid black; padding: 8px;">England</td>
+      <td style="border: 1px solid black; padding: 8px;">Sweden (7.1%)</td>
+      <td style="border: 1px solid black; padding: 8px;">Japan (13.5%)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Argentina (20.0%)</td>
+      <td style="border: 1px solid black; padding: 8px;"></td>
+      <td style="border: 1px solid black; padding: 8px;">Tunisia (15.4%)</td>
+      <td style="border: 1px solid black; padding: 8px;">Morocco (12.1%)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Belgium (9.5%)</td>
+      <td style="border: 1px solid black; padding: 8px;"></td>
+      <td style="border: 1px solid black; padding: 8px;">Egypt (15.4%)</td>
+      <td style="border: 1px solid black; padding: 8px;">Panama (15.5%)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Poland (9.5%)</td>
+      <td style="border: 1px solid black; padding: 8px;"></td>
+      <td style="border: 1px solid black; padding: 8px;">Senegal (15.4%)</td>
+      <td style="border: 1px solid black; padding: 8px;">Korea Republic (13.5%)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">France (9.5%)</td>
+      <td style="border: 1px solid black; padding: 8px;"></td>
+      <td style="border: 1px solid black; padding: 8px;">Iran (15.4%)</td>
+      <td style="border: 1px solid black; padding: 8px;">Saudi Arabia (13.5%)</td>
+    </tr>
+  </tbody>
+</table>
 
 The above was created using 1,000,000 simulations.
 
@@ -98,7 +148,34 @@ As for England, a South American giant in the form of either Brazil or Argentina
 
 England ended up being drawn in [Group G](https://en.wikipedia.org/wiki/2018_FIFA_World_Cup_Group_G) alongside Belgium, Tunisia and Panama, the probabilities of this were:
 
-| Pot 1     | Belgium     | 9.5%     |
-| Pot 2     | England     | -     |
-| Pot 3     | Tunisia     | 15.4%     |
-| Pot 4     | Panama      | 15.5%     |
+<table style="border-collapse: collapse; width: 50%;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Pot</th>
+      <th style="border: 1px solid black; padding: 8px;">Country</th>
+      <th style="border: 1px solid black; padding: 8px;">Percentage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Pot 1</td>
+      <td style="border: 1px solid black; padding: 8px;">Belgium</td>
+      <td style="border: 1px solid black; padding: 8px;">9.5%</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Pot 2</td>
+      <td style="border: 1px solid black; padding: 8px;">England</td>
+      <td style="border: 1px solid black; padding: 8px;">-</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Pot 3</td>
+      <td style="border: 1px solid black; padding: 8px;">Tunisia</td>
+      <td style="border: 1px solid black; padding: 8px;">15.4%</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Pot 4</td>
+      <td style="border: 1px solid black; padding: 8px;">Panama</td>
+      <td style="border: 1px solid black; padding: 8px;">15.5%</td>
+    </tr>
+  </tbody>
+</table>
