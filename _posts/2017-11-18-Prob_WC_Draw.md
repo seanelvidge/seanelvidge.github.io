@@ -13,7 +13,7 @@ The lineup for the 2018 FIFA World Cup is now complete, and the teams have been 
 The format for the group stage was decided in September. Each team has been allocated a pot (1 to 4) based on “sporting principles”. The FIFA World Rankings (as of October 2017) were used to rank the teams in descending order (after Russia, who, as hosts, are the top seeds). The pots are:
 
 |   Pot 1   |    Pot 2    |   Pot 3    |     Pot 4      |
-| :-------: | :---------: | :--------: | :------------: |
+| --------- | ----------- | ---------- | -------------- |
 |  Russia   |    Spain    |  Denmark   |     Serbia     |
 |  Germany  |    Peru     |  Iceland   |    Nigeria     |
 |  Brazil   | Switzerland | Costa Rica |   Australia    |
@@ -28,7 +28,7 @@ The exact rules for the draw are [described here](http://www.fifa.com/worldcup/n
 However, because of the rules of splitting confederations, each permutation of the 4 pots is not actually possible. So if you focus on one team you can look at what the probabilities of drawing other teams are. For example, the different probabilities of the draw for England are:
 
 |       Pot 1       |  Pot 2  |       Pot 3        |         Pot 4          |
-| :---------------: | :-----: | :----------------: | :--------------------: |
+| ----------------- | ------- | ------------------ | ---------------------- |
 |  Russia (12.5%)   |         |   Denmark (7.1%)   |     Serbia (6.5%)      |
 |  Germany (9.5%)   |         |   Iceland (7.1%)   |    Nigeria (12.0%)     |
 |  Brazil (20.0%)   |         | Costa Rica (17.0%) |   Australia (13.5%)    |
