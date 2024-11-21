@@ -12,67 +12,66 @@ The lineup for the 2018 FIFA World Cup is now complete, and the teams have been 
 
 The format for the group stage was decided in September. Each team has been allocated a pot (1 to 4) based on “sporting principles”. The FIFA World Rankings (as of October 2017) were used to rank the teams in descending order (after Russia, who, as hosts, are the top seeds). The pots are:
 
-<table>
+<table style="border-collapse: collapse; width: 100%;">
   <thead>
     <tr>
-      <th>Pot 1</th>
-      <th>Pot 2</th>
-      <th>Pot 3</th>
-      <th>Pot 4</th>
+      <th style="border: 1px solid black; padding: 8px;">Pot 1</th>
+      <th style="border: 1px solid black; padding: 8px;">Pot 2</th>
+      <th style="border: 1px solid black; padding: 8px;">Pot 3</th>
+      <th style="border: 1px solid black; padding: 8px;">Pot 4</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Russia</td>
-      <td>Spain</td>
-      <td>Denmark</td>
-      <td>Serbia</td>
+      <td style="border: 1px solid black; padding: 8px;">Russia</td>
+      <td style="border: 1px solid black; padding: 8px;">Spain</td>
+      <td style="border: 1px solid black; padding: 8px;">Denmark</td>
+      <td style="border: 1px solid black; padding: 8px;">Serbia</td>
     </tr>
     <tr>
-      <td>Germany</td>
-      <td>Peru</td>
-      <td>Iceland</td>
-      <td>Nigeria</td>
+      <td style="border: 1px solid black; padding: 8px;">Germany</td>
+      <td style="border: 1px solid black; padding: 8px;">Peru</td>
+      <td style="border: 1px solid black; padding: 8px;">Iceland</td>
+      <td style="border: 1px solid black; padding: 8px;">Nigeria</td>
     </tr>
     <tr>
-      <td>Brazil</td>
-      <td>Switzerland</td>
-      <td>Costa Rica</td>
-      <td>Australia</td>
+      <td style="border: 1px solid black; padding: 8px;">Brazil</td>
+      <td style="border: 1px solid black; padding: 8px;">Switzerland</td>
+      <td style="border: 1px solid black; padding: 8px;">Costa Rica</td>
+      <td style="border: 1px solid black; padding: 8px;">Australia</td>
     </tr>
     <tr>
-      <td>Portugal</td>
-      <td>England</td>
-      <td>Sweden</td>
-      <td>Japan</td>
+      <td style="border: 1px solid black; padding: 8px;">Portugal</td>
+      <td style="border: 1px solid black; padding: 8px;">England</td>
+      <td style="border: 1px solid black; padding: 8px;">Sweden</td>
+      <td style="border: 1px solid black; padding: 8px;">Japan</td>
     </tr>
     <tr>
-      <td>Argentina</td>
-      <td>Colombia</td>
-      <td>Tunisia</td>
-      <td>Morocco</td>
+      <td style="border: 1px solid black; padding: 8px;">Argentina</td>
+      <td style="border: 1px solid black; padding: 8px;">Colombia</td>
+      <td style="border: 1px solid black; padding: 8px;">Tunisia</td>
+      <td style="border: 1px solid black; padding: 8px;">Morocco</td>
     </tr>
     <tr>
-      <td>Belgium</td>
-      <td>Mexico</td>
-      <td>Egypt</td>
-      <td>Panama</td>
+      <td style="border: 1px solid black; padding: 8px;">Belgium</td>
+      <td style="border: 1px solid black; padding: 8px;">Mexico</td>
+      <td style="border: 1px solid black; padding: 8px;">Egypt</td>
+      <td style="border: 1px solid black; padding: 8px;">Panama</td>
     </tr>
     <tr>
-      <td>Poland</td>
-      <td>Uruguay</td>
-      <td>Senegal</td>
-      <td>Korea Republic</td>
+      <td style="border: 1px solid black; padding: 8px;">Poland</td>
+      <td style="border: 1px solid black; padding: 8px;">Uruguay</td>
+      <td style="border: 1px solid black; padding: 8px;">Senegal</td>
+      <td style="border: 1px solid black; padding: 8px;">Korea Republic</td>
     </tr>
     <tr>
-      <td>France</td>
-      <td>Croatia</td>
-      <td>Iran</td>
-      <td>Saudi Arabia</td>
+      <td style="border: 1px solid black; padding: 8px;">France</td>
+      <td style="border: 1px solid black; padding: 8px;">Croatia</td>
+      <td style="border: 1px solid black; padding: 8px;">Iran</td>
+      <td style="border: 1px solid black; padding: 8px;">Saudi Arabia</td>
     </tr>
   </tbody>
 </table>
-
 
 The exact rules for the draw are [described here](http://www.fifa.com/worldcup/news/y=2017/m=11/news=close-up-on-final-draw-procedures-2921440.html?intcmp=fifacom_hp_module_news_top) (with a handy video explanation). Roughly speaking the rules are that, after Russia, who will definitely be assigned to Group A, a random team from each pot will be drawn, and then placed in the next available group (alphabetically) which they are allowed to be put in (subject to constraints such as splitting up the confederation). This process is repeated until all teams have been drawn.
 
