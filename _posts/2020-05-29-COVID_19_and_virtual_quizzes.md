@@ -8,7 +8,7 @@ related_posts: true
 thumbnail: assets/img/covid_quiz.jpeg
 ---
 
-It is pretty easy to tell what the UK has been upto during the coronavirus lockdown, virtual pub quizzes! 
+It is pretty easy to tell what the UK has been upto during the coronavirus lockdown, virtual pub quizzes!
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
