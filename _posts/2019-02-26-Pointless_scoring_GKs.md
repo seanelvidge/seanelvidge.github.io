@@ -22,7 +22,7 @@ Obviously I wanted to check the hypothesis.
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
         <figure>
-            {% include figure.liquid loading="eager" path="assets/img/Pointless_titles.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+            {% include figure.liquid loading="eager" path="assets/img/pointless_gk.jpeg" class="img-fluid rounded z-depth-1" zoomable=true %}
         </figure>
     </div>
 </div>
