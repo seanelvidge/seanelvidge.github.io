@@ -59,4 +59,4 @@ The earliest date that Pancake day can fall on is Feb 3rd (the earliest date for
 
 Unfortunately my birthday falls quite far down the tail of the distribution, March 7th, only two days earlier than the latest possible Pancake day. Only 1.67% of Pancake days fall on that date. Which, given that the UK life expectancy for men is 81.5 years, means I should only expect to live to see 1, beautiful, pancake-birthday, which I did, on March 7th 2000. I’ll have to wait (and try and hold out) until 2079 to see another.
 
-[Here is a link](https://seanelvidge.github.io/assets/code/Shrove_Tue_Dist.py), to the code I used to for this post.
+[Here is a link](/assets/code/Shrove_Tue_Dist.py), to the code I used to for this post.
