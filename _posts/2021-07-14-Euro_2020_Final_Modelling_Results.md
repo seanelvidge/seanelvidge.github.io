@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Probability of World Cup Group Draw
+title: Euro 2020 – The Final Modelling Results
 date: 2021-07-14 11:18:00
-description: The lineup for the 2018 FIFA World Cup is now complete, and the teams have been sorted into pots ahead of the group stage draw on December 1st. All draws are not equally likely, so what teams is your team likely to face?
+description: Final analysis of how our Euro 2020 model performed. 
 tags: mathematics football
 related_posts: true
 thumbnail: assets/img/euro2020/final.png
