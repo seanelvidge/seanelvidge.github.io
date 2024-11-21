@@ -8,7 +8,7 @@ related_posts: true
 
 I manage a small cluster at work and occasionally students get their IP address banned by entering the wrong password when logging into the cluster. I don’t fix the problem often enough to remember how to do it, so I thought I’d jot it down here for future reference.
 
-The blocking of IPs is controlled by [Fail2ban](https://www.fail2ban.org/wiki/index.php/Main_Page), which scans log files for IPs which look malicious (e.g. too many password failures, looking for exploits, etc.) and bans them. It does this by updating firewall rules to reject the specific IP.
+The blocking of IPs is controlled by [Fail2ban](https://www.fail2ban.org/wiki/index.php/Main_Page){:target="\_blank"}, which scans log files for IPs which look malicious (e.g. too many password failures, looking for exploits, etc.) and bans them. It does this by updating firewall rules to reject the specific IP.
 
 To see the list of what is being blocked run (in a terminal):
 
