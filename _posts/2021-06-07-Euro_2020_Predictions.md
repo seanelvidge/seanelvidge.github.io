@@ -8,7 +8,7 @@ related_posts: true
 thumbnail: assets/img/wc2018/WCicon.png
 ---
 
-For the 2018 World Cup I created a prediction model for the tournament (you can read the [details here](https://seanelvidge.github.io/blog/2018/World_Cup_2018_Predictions/){:target="\_BLANK"). Overall the model did well and I was pretty happy with it.
+For the 2018 World Cup I created a prediction model for the tournament (you can read the [details here](https://seanelvidge.github.io/blog/2018/World_Cup_2018_Predictions/){:target="\_BLANK"}. Overall the model did well and I was pretty happy with it.
 
 For this tournament, Euro ~~2020~~ ~~2021~~ 2020 (it took me a while to realize that this tournament is called Euro 2020) I have built a new model which is much more simple than my World Cup variant.
 
