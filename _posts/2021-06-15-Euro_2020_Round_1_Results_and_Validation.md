@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Euro 2020 – Round 1 Results & Validation Methodology
-date: 2018-04-06 10:09:00
+date: 2021-06-15 23:14:00
 description: Description of the methodology for validating my Euro 2020 football model
 tags: mathematics football
 related_posts: true
