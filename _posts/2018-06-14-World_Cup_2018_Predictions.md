@@ -44,7 +44,7 @@ The World Cup can then be simulated running the model for each match. The model 
 
 ou can see the model predicts that Brazil have by far the greatest chance of winning the World Cup, over twice as much as the next most likely team, Germany.
 
-As I mentioned earlier in the post, a lot of people are making predictions of the World Cup results. A selection of those by [EightyFivePoints](https://eightyfivepoints.blogspot.com/2018/05/what-can-we-expect-from-21st-fifa-world.html){:target="\_blank"}, [UBS](https://www.ubs.com/content/dam/assets/wm/global/cio/doc/investing-in-emerging-markets-en.pdf){:target="\_blank"}, [Gracenotes](http://www.gracenote.com/sports/fifa-world-cup-predictions-2018/){:target="\_blank"} and Bet365 are compared below:
+As I mentioned earlier in the post, a lot of people are making predictions of the World Cup results. A selection of those by [EightyFivePoints](https://eightyfivepoints.blogspot.com/2018/05/what-can-we-expect-from-21st-fifa-world.html){:target="\_blank"}, [UBS](https://www.ubs.com/content/dam/assets/wm/global/cio/doc/investing-in-emerging-markets-en.pdf){:target="\_blank"}, Gracenotes and Bet365 are compared below:
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
