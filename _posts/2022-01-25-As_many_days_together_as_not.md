@@ -7,7 +7,6 @@ tags: misc
 related_posts: true
 ---
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -47,8 +46,7 @@ related_posts: true
     </style>
 </head>
 <body>
-    <h1>Milestone Date Calculator</h1>
-    <p>Enter your date of birth and the date you started dating your significant other to find out the date when you'll have been with them longer than not.</p>
+    <p>Enter your date of birth and the date you started dating your significant other to find out the date when you'll have been with them longer than not with them.</p>
     <form id="calculatorForm">
         <label for="dob">Date of Birth:</label>
         <input type="date" id="dob" required>
