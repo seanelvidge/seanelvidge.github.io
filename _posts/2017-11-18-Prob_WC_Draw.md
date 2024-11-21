@@ -12,16 +12,67 @@ The lineup for the 2018 FIFA World Cup is now complete, and the teams have been 
 
 The format for the group stage was decided in September. Each team has been allocated a pot (1 to 4) based on “sporting principles”. The FIFA World Rankings (as of October 2017) were used to rank the teams in descending order (after Russia, who, as hosts, are the top seeds). The pots are:
 
-| Pot 1         | Pot 2           | Pot 3          | Pot 4              |
-| ------------- | --------------- | -------------- | ------------------ |
-| Russia        | Spain           | Denmark        | Serbia             |
-| Germany       | Peru            | Iceland        | Nigeria            |
-| Brazil        | Switzerland     | Costa Rica     | Australia          |
-| Portugal      | England         | Sweden         | Japan              |
-| Argentina     | Colombia        | Tunisia        | Morocco            |
-| Belgium       | Mexico          | Egypt          | Panama             |
-| Poland        | Uruguay         | Senegal        | Korea Republic     |
-| France        | Croatia         | Iran           | Saudi Arabia       |
+<table>
+  <thead>
+    <tr>
+      <th>Pot 1</th>
+      <th>Pot 2</th>
+      <th>Pot 3</th>
+      <th>Pot 4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Russia</td>
+      <td>Spain</td>
+      <td>Denmark</td>
+      <td>Serbia</td>
+    </tr>
+    <tr>
+      <td>Germany</td>
+      <td>Peru</td>
+      <td>Iceland</td>
+      <td>Nigeria</td>
+    </tr>
+    <tr>
+      <td>Brazil</td>
+      <td>Switzerland</td>
+      <td>Costa Rica</td>
+      <td>Australia</td>
+    </tr>
+    <tr>
+      <td>Portugal</td>
+      <td>England</td>
+      <td>Sweden</td>
+      <td>Japan</td>
+    </tr>
+    <tr>
+      <td>Argentina</td>
+      <td>Colombia</td>
+      <td>Tunisia</td>
+      <td>Morocco</td>
+    </tr>
+    <tr>
+      <td>Belgium</td>
+      <td>Mexico</td>
+      <td>Egypt</td>
+      <td>Panama</td>
+    </tr>
+    <tr>
+      <td>Poland</td>
+      <td>Uruguay</td>
+      <td>Senegal</td>
+      <td>Korea Republic</td>
+    </tr>
+    <tr>
+      <td>France</td>
+      <td>Croatia</td>
+      <td>Iran</td>
+      <td>Saudi Arabia</td>
+    </tr>
+  </tbody>
+</table>
+
 
 The exact rules for the draw are [described here](http://www.fifa.com/worldcup/news/y=2017/m=11/news=close-up-on-final-draw-procedures-2921440.html?intcmp=fifacom_hp_module_news_top) (with a handy video explanation). Roughly speaking the rules are that, after Russia, who will definitely be assigned to Group A, a random team from each pot will be drawn, and then placed in the next available group (alphabetically) which they are allowed to be put in (subject to constraints such as splitting up the confederation). This process is repeated until all teams have been drawn.
 
