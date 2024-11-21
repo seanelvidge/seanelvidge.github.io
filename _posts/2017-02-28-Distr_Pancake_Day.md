@@ -20,7 +20,7 @@ Fortunately we can use a [computus](https://en.wikipedia.org/wiki/Computus) to d
 
 ```python
 import datetime as dt
- 
+
 def easterDate(year):
     a = year % 19
     b = year//4
@@ -33,7 +33,7 @@ def easterDate(year):
     day = g - h*31
     month = h + 3
     return dt.date(year, month, day)
- 
+
 print(easterDate(2017))
 # 2017-04-16
 ```
