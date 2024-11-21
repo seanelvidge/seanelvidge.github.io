@@ -2,7 +2,7 @@
 layout: post
 title: Euro 2020 – The Final Modelling Results
 date: 2021-07-14 11:18:00
-description: Final analysis of how our Euro 2020 model performed. 
+description: Final analysis of how our Euro 2020 model performed.
 tags: mathematics football
 related_posts: true
 thumbnail: assets/img/euro2020/final.png
