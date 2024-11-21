@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Euro 2020 Predictions
-date: 2018-04-06 10:09:00
+date: 2021-06-07 15:09:00
 description: It’s football tournament time, which means it’s football tournament prediction time.
 tags: mathematics football
 related_posts: true
