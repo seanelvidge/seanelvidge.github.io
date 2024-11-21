@@ -13,14 +13,6 @@ The lineup for the 2018 FIFA World Cup is now complete, and the teams have been 
 The format for the group stage was decided in September. Each team has been allocated a pot (1 to 4) based on “sporting principles”. The FIFA World Rankings (as of October 2017) were used to rank the teams in descending order (after Russia, who, as hosts, are the top seeds). The pots are:
 
 <table style="border-collapse: collapse; width: 100%;">
-  <thead>
-    <tr>
-      <th style="border: 1px solid black; padding: 8px;">Pot 1</th>
-      <th style="border: 1px solid black; padding: 8px;">Pot 2</th>
-      <th style="border: 1px solid black; padding: 8px;">Pot 3</th>
-      <th style="border: 1px solid black; padding: 8px;">Pot 4</th>
-    </tr>
-  </thead>
   <tbody>
     <tr>
       <td style="border: 1px solid black; padding: 8px;">Russia</td>
