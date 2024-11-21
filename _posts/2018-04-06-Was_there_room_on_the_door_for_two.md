@@ -39,7 +39,7 @@ In this section we introduce the basics of buoyancy, which will be crucial in th
 The history of buoyancy is a long one, and has provided one of the most famous stories in science. Archimedes supposedly exclaimed “Eureka!” when he discovered a fundamental principle of buoyancy, which relates buoyancy to displacement. Indeed this principle is still named after him, and first appears as Proposition 5 in [[4]](#4).
 
 > Archimedes Principle:
-> Any solid lighter than a fluid will, if placed in the fluid, be so far immersed that the weight of the solid will be equal to the weight of the fluid displaced. 
+> Any solid lighter than a fluid will, if placed in the fluid, be so far immersed that the weight of the solid will be equal to the weight of the fluid displaced.
 
 This tells us that the buoyancy force, $$F_B$$, is equal to the weight, $$W$$, of the object placed in the fluid, so $$F_B=W$$. Weight is equal to the mass of the object times gravity, $$g$$, and mass is equal to density, $$\rho$$, times volume, $$V$$, giving rise to the more well known equation:
 
