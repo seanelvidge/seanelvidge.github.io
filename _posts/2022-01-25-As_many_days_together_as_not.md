@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "As-many-days-together-as-not" Calculator
+title: As-many-days-together-as-not Calculator
 date: 2022-01-25 10:09:00
 description: Calculate the date when you have been with your significant other longer than you have not!
 tags: misc
