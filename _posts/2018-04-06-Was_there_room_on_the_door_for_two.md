@@ -41,7 +41,7 @@ The history of buoyancy is a long one, and has provided one of the most famous s
 > Archimedes Principle:
 > Any solid lighter than a fluid will, if placed in the fluid, be so far immersed that the weight of the solid will be equal to the weight of the fluid displaced. 
 
-This tells us that the buoyancy force, $F_B$, is equal to the weight, $W$, of the object placed in the fluid, so $F_B=W$. Weight is equal to the mass of the object times gravity, $g$, and mass is equal to density, $\rho$, times volume, $V$, giving rise to the more well known equation:
+This tells us that the buoyancy force, $$F_B$$, is equal to the weight, $$W$$, of the object placed in the fluid, so $$F_B=W$$. Weight is equal to the mass of the object times gravity, $$g$$, and mass is equal to density, $$\rho$$, times volume, $$V$$, giving rise to the more well known equation:
 
 $$
 F_B=\rho Vg.
@@ -100,7 +100,7 @@ It is a pretty safe assumption that Rose’s height is equal to Kate Winslet’s
     </div>
 </div>
 
-Using this scaling factor gives the visible area of the panelling to be $1.91 m^2$.
+Using this scaling factor gives the visible area of the panelling to be $$1.91 m^2$$.
 
 This leaves the question of the depth of the panelling, something which is considerably harder to find. There are very few images that provide a clue of the depth, and they are not conclusive:
 
@@ -170,13 +170,13 @@ For Jack’s mass we use Leonardo DiCaprio's mass, which is between 72.5 and 75k
 
 ### Panel Density
 
-The density of the wood panelling is key in our study as this will determine the mass of the panel, which is an important factor on whether the panelling will sink or float. We can immediately deduce some bounds on the density, thanks again to the Maritime Museum of the Atlantic in Halifax. According to the museum the piece of panelling is made of oak. Then from [[10]](#10) the density of oak varies between 600 and 900 $kg m^{−3}^. Initially a value of 750 $kg m^{−3}$ (the midpoint) is used and then later look at what values of panel density would require which panel depths.
+The density of the wood panelling is key in our study as this will determine the mass of the panel, which is an important factor on whether the panelling will sink or float. We can immediately deduce some bounds on the density, thanks again to the Maritime Museum of the Atlantic in Halifax. According to the museum the piece of panelling is made of oak. Then from [[10]](#10) the density of oak varies between 600 and 900 $$kg m^{−3}$$. Initially a value of 750 $$kg m^{−3}$$ (the midpoint) is used and then later look at what values of panel density would require which panel depths.
 
 ### Panel Mass
 
 Using the panel density the mass of the panel can be calculated.
 
-The volume of the panel in Figure 9 can be found by calculating the volume of the three individual sections which make up the panel. The 'top' section has a volume of $0.013 m^3$. The 'middle' section $0.19 m^3$ and finally the 'bottom' section is $0.011 m^3$. This gives a total volume of $0.214 m^3$. Which, using the density value from the previous section, equates to a mass of $160.5 kg$.
+The volume of the panel in Figure 9 can be found by calculating the volume of the three individual sections which make up the panel. The 'top' section has a volume of $$0.013 m^3$$. The 'middle' section $$0.19 m^3$$ and finally the 'bottom' section is $$0.011 m^3$$. This gives a total volume of $$0.214 m^3$$. Which, using the density value from the previous section, equates to a mass of $$160.5 kg$$.
 
 ### Water Density
 
@@ -190,7 +190,7 @@ The salinity of ocean water varies with location. The Atlantic Ocean, where the 
 
 We now come to the crux of the problem. Could the panelling have supported both Jack and Rose?
 
-First we consider the case which occurred in the film, Rose lying on the panelling. To do this we consider the forces acting upon the panelling, the downward force due to weight, and the upward force due to buoyancy. The only variable we do not know is the displaced volume. Since we know the area of the panel which is in contact with the water we are left to find the height that makes up the submerged portion of the panelling. Thus we actually find the depth to which the panelling sinks, clearly we require this to be greater than the total depth of the panel, in order for some of it to remain above water. We equate the buoyancy force, $F_B$, with the total weight in the system. We use $M_R$, $M_P$ and $M_J$ to represent the mass of Rose, the panel and Jack respectively.
+First we consider the case which occurred in the film, Rose lying on the panelling. To do this we consider the forces acting upon the panelling, the downward force due to weight, and the upward force due to buoyancy. The only variable we do not know is the displaced volume. Since we know the area of the panel which is in contact with the water we are left to find the height that makes up the submerged portion of the panelling. Thus we actually find the depth to which the panelling sinks, clearly we require this to be greater than the total depth of the panel, in order for some of it to remain above water. We equate the buoyancy force, $$F_B$$, with the total weight in the system. We use $$M_R$$, $$M_P$$ and $$M_J$$ to represent the mass of Rose, the panel and Jack respectively.
 
 $$
 \begin{eqnarray*}
