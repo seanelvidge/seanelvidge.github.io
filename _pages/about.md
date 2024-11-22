@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /about/
-
+nav_order: 2
 profile:
   align: right
   image: prof_pic.jpg
