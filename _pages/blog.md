@@ -21,13 +21,13 @@ pagination:
 <!-- {% assign blog_name_size = site.blog_name | size %} -->
 <!-- {% assign blog_description_size = site.blog_description | size %} -->
 
-<!-- SE{% if blog_name_size > 0 or blog_description_size > 0 %} -->
+ {% if blog_name_size > 0 or blog_description_size > 0 %}
 
-<!-- SE  <div class="header-bar"> -->
+<div class="header-bar">
 <!-- SE    <h1>{{ site.blog_name }}</h1> -->
-<!-- SE    <h2>{{ site.blog_description }}</h2> -->
-<!-- SE  </div> -->
-<!-- SE  {% endif %} -->
+  <h3>{{ site.blog_description }}</h3>
+</div>
+ {% endif %}
 
 {% if site.display_tags or site.display_categories %}
 
