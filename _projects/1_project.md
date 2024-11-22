@@ -1,7 +1,7 @@
 ---
 layout: page
-title: project 1
-description: a project with a background image
+title: Upper Atmosphere Modelling
+description: Mine and the group's work on modelling the Earth's upper atmosphere.
 img: assets/img/12.jpg
 importance: 1
 category: work
@@ -79,3 +79,5 @@ Here's the code for the last row of images above:
 ```
 
 {% endraw %}
+
+<iframe src="https://serene.bham.ac.uk/output/aida/" width="100%" height="600" style="border:none;"></iframe>
