@@ -14,9 +14,9 @@ The Sun, a dynamic and ever-changing star at the center of our Solar System, per
 
 The upper atmosphere is modeled using three main approaches:
 
-1) Statistical Models: Based on patterns and historical data.
-2) Physics-Based Models: Using fundamental laws of physics.
-3) Data Assimilation Models: Combining observations with models to improve accuracy.
+1. Statistical Models: Based on patterns and historical data.
+2. Physics-Based Models: Using fundamental laws of physics.
+3. Data Assimilation Models: Combining observations with models to improve accuracy.
 
 SERENE's research covers all three areas, using cutting-edge tools to study the ionosphere and thermosphere.
 
