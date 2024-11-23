@@ -3,7 +3,7 @@ layout: post
 title: Correlation between Astronaut name and Apollo mission
 date: 2015-12-15 18:25:00
 description: Perhaps we’ve finally worked out Deke Slayton's method for choosing the Apollo crews, basing it on alphabetical order…
-tags: mathematics
+tags: mathematics code
 related_posts: true
 thumbnail: assets/img/apollo_az.png
 ---
