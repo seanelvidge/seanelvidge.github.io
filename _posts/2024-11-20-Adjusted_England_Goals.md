@@ -57,78 +57,117 @@ For the rest of this post we use a value of $$k=2$$.
 
 When I last wrote a post similar to this, Wayne Rooney had just [broke the England National team goal record with 50 goals](https://seanelvidge.github.io/blog/2015/Rooney-50/). Since then Kane has broke this record again (at the time of writing) with 69 goals. Using the above approach the updated top 10 of England goal scorers are:
 
-<table style="border-collapse: collapse; width: 50%;">
+<style>
+table {
+    border-collapse: collapse;
+    width: 50%;
+    margin: 20px auto;
+}
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    cursor: pointer;
+    background-color: #f4f4f4;
+}
+</style>
+
+<table id="footballTable">
   <thead>
     <tr>
-      <th style="border: 1px solid black; padding: 8px;">Ranking</th>
-      <th style="border: 1px solid black; padding: 8px;">Name</th>
-      <th style="border: 1px solid black; padding: 8px;">Goals</th>
-      <th style="border: 1px solid black; padding: 8px;">Weighted Goals</th>
+      <th onclick="sortTable(0)">Ranking</th>
+      <th onclick="sortTable(1)">Name</th>
+      <th onclick="sortTable(2)">Goals</th>
+      <th onclick="sortTable(3)">Weighted Goals</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="border: 1px solid black; padding: 8px;">1</td>
-      <td style="border: 1px solid black; padding: 8px;">Harry Kane</td>
-      <td style="border: 1px solid black; padding: 8px;">69</td>
-      <td style="border: 1px solid black; padding: 8px;">45</td>
+      <td>1</td>
+      <td>Harry Kane</td>
+      <td>69</td>
+      <td>45</td>
     </tr>
     <tr>
-      <td style="border: 1px solid black; padding: 8px;">2</td>
-      <td style="border: 1px solid black; padding: 8px;">Gary Lineker</td>
-      <td style="border: 1px solid black; padding: 8px;">48</td>
-      <td style="border: 1px solid black; padding: 8px;">37</td>
+      <td>2</td>
+      <td>Gary Lineker</td>
+      <td>48</td>
+      <td>37</td>
     </tr>
     <tr>
-      <td style="border: 1px solid black; padding: 8px;">3</td>
-      <td style="border: 1px solid black; padding: 8px;">Bobby Charlton</td>
-      <td style="border: 1px solid black; padding: 8px;">49</td>
-      <td style="border: 1px solid black; padding: 8px;">36</td>
+      <td>3</td>
+      <td>Bobby Charlton</td>
+      <td>49</td>
+      <td>36</td>
     </tr>
     <tr>
-      <td style="border: 1px solid black; padding: 8px;">4</td>
-      <td style="border: 1px solid black; padding: 8px;">Jimmy Greaves</td>
-      <td style="border: 1px solid black; padding: 8px;">44</td>
-      <td style="border: 1px solid black; padding: 8px;">35</td>
+      <td>4</td>
+      <td>Jimmy Greaves</td>
+      <td>44</td>
+      <td>35</td>
     </tr>
     <tr>
-      <td style="border: 1px solid black; padding: 8px;">5</td>
-      <td style="border: 1px solid black; padding: 8px;">Wayne Rooney</td>
-      <td style="border: 1px solid black; padding: 8px;">53</td>
-      <td style="border: 1px solid black; padding: 8px;">34</td>
+      <td>5</td>
+      <td>Wayne Rooney</td>
+      <td>53</td>
+      <td>34</td>
     </tr>
     <tr>
-      <td style="border: 1px solid black; padding: 8px;">6</td>
-      <td style="border: 1px solid black; padding: 8px;">Michael Owen</td>
-      <td style="border: 1px solid black; padding: 8px;">40</td>
-      <td style="border: 1px solid black; padding: 8px;">30</td>
+      <td>6</td>
+      <td>Michael Owen</td>
+      <td>40</td>
+      <td>30</td>
     </tr>
     <tr>
-      <td style="border: 1px solid black; padding: 8px;">7</td>
-      <td style="border: 1px solid black; padding: 8px;">Alan Shearer</td>
-      <td style="border: 1px solid black; padding: 8px;">30</td>
-      <td style="border: 1px solid black; padding: 8px;">23</td>
+      <td>7</td>
+      <td>Alan Shearer</td>
+      <td>30</td>
+      <td>23</td>
     </tr>
     <tr>
-      <td style="border: 1px solid black; padding: 8px;">8</td>
-      <td style="border: 1px solid black; padding: 8px;">Tom Finney</td>
-      <td style="border: 1px solid black; padding: 8px;">30</td>
-      <td style="border: 1px solid black; padding: 8px;">23</td>
+      <td>8</td>
+      <td>Tom Finney</td>
+      <td>30</td>
+      <td>23</td>
     </tr>
     <tr>
-      <td style="border: 1px solid black; padding: 8px;">9</td>
-      <td style="border: 1px solid black; padding: 8px;">Nat Lofthouse</td>
-      <td style="border: 1px solid black; padding: 8px;">30</td>
-      <td style="border: 1px solid black; padding: 8px;">22</td>
+      <td>9</td>
+      <td>Nat Lofthouse</td>
+      <td>30</td>
+      <td>22</td>
     </tr>
     <tr>
-      <td style="border: 1px solid black; padding: 8px;">10</td>
-      <td style="border: 1px solid black; padding: 8px;">Frank Lampard</td>
-      <td style="border: 1px solid black; padding: 8px;">29</td>
-      <td style="border: 1px solid black; padding: 8px;">21</td>
+      <td>10</td>
+      <td>Frank Lampard</td>
+      <td>29</td>
+      <td>21</td>
     </tr>
   </tbody>
 </table>
+
+<script>
+function sortTable(columnIndex) {
+    const table = document.getElementById("footballTable");
+    const rows = Array.from(table.rows).slice(1); // Exclude header row
+    const isNumeric = !isNaN(rows[0].cells[columnIndex].innerText);
+
+    let sortedRows = rows.sort((a, b) => {
+        const aVal = isNumeric ? +a.cells[columnIndex].innerText : a.cells[columnIndex].innerText.toLowerCase();
+        const bVal = isNumeric ? +b.cells[columnIndex].innerText : b.cells[columnIndex].innerText.toLowerCase();
+        return aVal > bVal ? 1 : -1;
+    });
+
+    // Check if already sorted in ascending order, then reverse
+    const currentSort = table.dataset.sortOrder === "asc" ? "desc" : "asc";
+    if (currentSort === "desc") sortedRows.reverse();
+    table.dataset.sortOrder = currentSort;
+
+    // Re-append sorted rows to the table body
+    sortedRows.forEach(row => table.tBodies[0].appendChild(row));
+}
+</script>
 
 You can see that whilst Kane is still number 1 - his number of goals are significantly less. (Note that the adjusted number of goals here have been rounded to the nearest goal for ease of reading).
 
