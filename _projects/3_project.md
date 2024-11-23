@@ -1,81 +1,16 @@
 ---
 layout: page
-title: project 3
+title: Ionospheric Science with LOFAR
 description: a project that redirects to another website
-img: assets/img/7.jpg
-redirect: https://unsplash.com
+img: assets/img/lofar.jpg
 importance: 3
 category: work
 ---
 
-Every project has a beautiful feature showcase page.
-It's easy to include images in a flexible 3-column grid format.
-Make your photos 1/3, 2/3, or full width.
+The Low-Frequency Array (LOFAR) is a cutting-edge radio telescope that opens new avenues for exploring fascinating ionospheric science. With its unique capabilities, LOFAR enables researchers in SERENE to investigate and better understand small-scale structures in the ionosphere, develop phase screen modeling, and investigate coupling with the mesosphere.
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
+By leveraging LOFAR's high sensitivity and wide-field imaging, we can identify and classify small-scale structures within the ionosphere. These structures, which were previously difficult to detect, play a crucial role in understanding the complex behavior of the ionosphere and its interactions with both the Earth's atmosphere and space weather. Through the study of these structures, allow us to gain invaluable insights into the underlying processes that govern ionospheric dynamics and variability.
 
-    ---
-    layout: page
-    title: project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
+In addition, using LOFAR data enables us to delve deeper into our phase screen modeling, a technique used to simulate the ionosphere's impact on radio wave propagation. By analyzing the scintillation and refraction of radio waves as they pass through the ionosphere, we develop more accurate models of this complex region, ultimately leading to improved prediction and mitigation of ionospheric effects on communication and navigation systems.
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/3.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    This image can also have a caption. It's like magic.
-</div>
-
-You can also put regular text between your rows of images.
-Say you wanted to write a little bit about your project before you posted the rest of the images.
-You describe how you toiled, sweated, _bled_ for your project, and then... you reveal its glory in the next row of images.
-
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
-</div>
-
-The code is simple.
-Just wrap your images with `<div class="col-sm">` and place them inside `<div class="row">` (read more about the <a href="https://getbootstrap.com/docs/4.4/layout/grid/">Bootstrap Grid</a> system).
-To make images responsive, add `img-fluid` class to each; for rounded corners and shadows use `rounded` and `z-depth-1` classes.
-Here's the code for the last row of images above:
-
-{% raw %}
-
-```html
-<div class="row justify-content-sm-center">
-  <div class="col-sm-8 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm-4 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-</div>
-```
-
-{% endraw %}
+Furthermore, LOFAR provides a unique platform for investigating the coupling between the ionosphere and the mesosphere. This interaction, which occurs at the boundary between the Earth's upper atmosphere and space, plays a significant role in atmospheric dynamics and influences a wide range of phenomena, from auroras to gravity wave propagation. By utilizing LOFAR's advanced capabilities, researchers can shed light on the intricate processes governing mesosphere-ionosphere coupling and further our understanding of this vital interface in Earth's atmospheric system.
