@@ -1,81 +1,21 @@
 ---
 layout: page
-title: project 2
-description: a project with a background image and giscus comments
+title: Extreme Space Weather
+description: Our work in understanding these low-probability, high-impact events and their potential consequences on the global economy and society
 img: assets/img/3.jpg
 importance: 2
 category: work
 giscus_comments: true
 ---
 
-Every project has a beautiful feature showcase page.
-It's easy to include images in a flexible 3-column grid format.
-Make your photos 1/3, 2/3, or full width.
+Rarely occurring solar superstorms generate X-rays and solar radio bursts, accelerate solar particles to relativistic velocities and cause major perturbations to the solar wind. These environmental changes can cause detrimental effects to the electricity grid, satellites, avionics, air passengers, signals from satellite navigation systems, mobile telephones and more. They have consequently been identified as a risk to the world economy and society.
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
+These randomly occurring events are low-probability but high impact. 
 
-    ---
-    layout: page
-    title: project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
+Explosive eruptions of energy from the Sun that cause minor solar storms on Earth are relatively common events. In contrast, extremely large events (superstorms) occur very occasionally – about once every century. Most superstorms miss the Earth, travelling harmlessly into space. Of those that do travel towards the Earth, only half interact with the Earth’s environment and cause damage.
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/3.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    This image can also have a caption. It's like magic.
-</div>
+Since the start of the space age, there has been no true solar superstorm and consequently our understanding is limited. There have, however, been a number of near misses and these have caused major technological damage, for example the 1989 collapse of part of the Canadian electricity grid. A superstorm which occurred in 1859, now referred to as the ‘Carrington event’ is the largest for which we have measurements; and even in this case the measurements are limited to perturbations of the geomagnetic field. An event in 1956 is the highest recorded for atmospheric radiation with August 1972, October 1989 and October 2003 the highest recorded radiation events measured on spacecraft.
 
-You can also put regular text between your rows of images.
-Say you wanted to write a little bit about your project before you posted the rest of the images.
-You describe how you toiled, sweated, _bled_ for your project, and then... you reveal its glory in the next row of images.
+How often extreme space weather events occur is an important area of current research.
 
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
-</div>
-
-The code is simple.
-Just wrap your images with `<div class="col-sm">` and place them inside `<div class="row">` (read more about the <a href="https://getbootstrap.com/docs/4.4/layout/grid/">Bootstrap Grid</a> system).
-To make images responsive, add `img-fluid` class to each; for rounded corners and shadows use `rounded` and `z-depth-1` classes.
-Here's the code for the last row of images above:
-
-{% raw %}
-
-```html
-<div class="row justify-content-sm-center">
-  <div class="col-sm-8 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm-4 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-</div>
-```
-
-{% endraw %}
+Research at SERENE is focused on using rigorous mathematical techniques to estimate the occurence of the most extreme space weather events.
