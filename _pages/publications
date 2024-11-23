@@ -1,6 +1,6 @@
 ---
 layout: page
-permalink: /publications/
+# permalink: /publications/
 title: publications
 description: Details of my scientific publications (if you really want that information)
 nav: true
