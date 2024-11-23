@@ -132,7 +132,7 @@ When I last wrote a post similar to this, Wayne Rooney had just [broke the Engla
 
 You can see that whilst Kane is still number 1 - his number of goals are significantly less. (Note that the adjusted number of goals here have been rounded to the nearest goal for ease of reading).
 
-As may be expected Kane has the biggest change between actual goals scored (69) and the weighted number of goals (45) with a difference of 24, perphaps reaffirming the theory that modern day players are scoring a significant amount of their goals against weaker opposition than in the past. Gary Lineker moves from 4th in the all time list to 2nd. 
+As may be expected Kane has the biggest change between actual goals scored (69) and the weighted number of goals (45) with a difference of 24, perphaps reaffirming the theory that modern day players are scoring a significant amount of their goals against weaker opposition than in the past. Gary Lineker moves from 4th in the all time list to 2nd.
 
 At the other end of the table we end up with a number of people (41) who (because of the rounding as well) move from having scored at least 1 for England to being on 0 goals, but only four who go from more than 1 to zero:
 
