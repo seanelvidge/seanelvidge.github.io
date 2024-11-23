@@ -2,10 +2,9 @@
 layout: page
 title: Extreme Space Weather
 description: Our work in understanding these low-probability, high-impact events and their potential consequences on the global economy and society
-img: assets/img/3.jpg
+img: https://cdn.britannica.com/15/96915-050-787329AB/bubble-plasma-disk-Sun-right-ejection-instrument-Dec-2-2002.jpg
 importance: 2
 category: work
-giscus_comments: true
 ---
 
 Rarely occurring solar superstorms generate X-rays and solar radio bursts, accelerate solar particles to relativistic velocities and cause major perturbations to the solar wind. These environmental changes can cause detrimental effects to the electricity grid, satellites, avionics, air passengers, signals from satellite navigation systems, mobile telephones and more. They have consequently been identified as a risk to the world economy and society.
