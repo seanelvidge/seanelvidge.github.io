@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Ionospheric Science with LOFAR
-description: a project that redirects to another website
 img: assets/img/lofar.jpg
 importance: 3
 category: work
