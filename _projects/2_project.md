@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Extreme Space Weather
-description: Our work in understanding these low-probability, high-impact events and their potential consequences on the global economy and society
 img: https://cdn.britannica.com/15/96915-050-787329AB/bubble-plasma-disk-Sun-right-ejection-instrument-Dec-2-2002.jpg
 importance: 2
 category: work
