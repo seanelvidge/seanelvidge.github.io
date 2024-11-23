@@ -19,6 +19,18 @@ The upper atmosphere is modeled using three main approaches:
 
 SERENE's research covers all three areas, using cutting-edge tools to study the ionosphere and thermosphere.
 
+<div class="row">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="https://chain-new.chain-project.net/images/GNSS_Station_distribution.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="https://www.swsc-journal.org/articles/swsc/full_html/2019/01/swsc180038/swsc180038-fig8.tif" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="https://www.cosmic.ucar.edu/sites/default/files/styles/extra_large/public/2021-09/cosmic-2-spacecraft-small.jpg__1570x1116_q85_crop_subject_location-785%2C557_subsampling-2_upscale.jpg?itok=xrc8vXDr" title="example image" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+
 ## Key Models Developed or Used by SERENE
 
 ### E-CHAIM (Empirical Canadian High Arctic Ionospheric Model)
@@ -40,18 +52,3 @@ AIDA is a data assimilation model that blends observations with the "NeQuick" ba
 ### TIE-GCM (Thermosphere Ionosphere Electrodynamics General Circulation Model)
 
 TIE-GCM, developed in the U.S., is one of the tools SERENE uses to simulate the ionosphere and thermosphere. The team contributes to maintaining and improving this widely used model, including developing a dockerized version for easier access. You can download daily updated TIE-GCM GPI (geophysical index file, with  Kp, F10.7, F10.7A) and IMF (IMF/OMNI data with solar wind density and velocity) [here](https://serene.bham.ac.uk/resources/TIE-GCM/){:target="\_blank"}.
-
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="https://chain-new.chain-project.net/images/GNSS_Station_distribution.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="https://www.swsc-journal.org/articles/swsc/full_html/2019/01/swsc180038/F8.html" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="https://www.cosmic.ucar.edu/sites/default/files/styles/extra_large/public/2021-09/cosmic-2-spacecraft-small.jpg__1570x1116_q85_crop_subject_location-785%2C557_subsampling-2_upscale.jpg?itok=xrc8vXDr" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
