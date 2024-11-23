@@ -10,7 +10,7 @@ giscus_comments: true
 
 Rarely occurring solar superstorms generate X-rays and solar radio bursts, accelerate solar particles to relativistic velocities and cause major perturbations to the solar wind. These environmental changes can cause detrimental effects to the electricity grid, satellites, avionics, air passengers, signals from satellite navigation systems, mobile telephones and more. They have consequently been identified as a risk to the world economy and society.
 
-These randomly occurring events are low-probability but high impact. 
+These randomly occurring events are low-probability but high impact.
 
 Explosive eruptions of energy from the Sun that cause minor solar storms on Earth are relatively common events. In contrast, extremely large events (superstorms) occur very occasionally – about once every century. Most superstorms miss the Earth, travelling harmlessly into space. Of those that do travel towards the Earth, only half interact with the Earth’s environment and cause damage.
 
