@@ -3,7 +3,7 @@ layout: post
 title: Number of Days Between Easter's
 date: 2018-04-17 14:51:00
 description: "How many sleeps is it until next Easter?"
-tags: mathematics python
+tags: mathematics code
 related_posts: true
 thumbnail: assets/img/daysToEaster.png
 ---
