@@ -3,7 +3,7 @@ layout: post
 title: Distribution of Pancake Day
 date: 2017-02-28 14:27:00
 description: Today is pancake day and it got me thinking about the fact that I remember the day falling on my birthday (March 7th) just once in my lifetime. How long will I have to wait until it next falls on my birthday?
-tags: mathematics football
+tags: mathematics football code
 related_posts: true
 thumbnail: assets/img/pancake_day.png
 ---
