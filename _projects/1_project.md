@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Upper Atmosphere Modelling
-description: Mine and the group's work on modelling the Earth's upper atmosphere.
 img: https://serene.bham.ac.uk/output/aida/
 importance: 1
 category: work
