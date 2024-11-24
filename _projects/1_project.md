@@ -62,3 +62,7 @@ AIDA is a data assimilation model that blends observations with the "NeQuick" ba
 ### TIE-GCM (Thermosphere Ionosphere Electrodynamics General Circulation Model)
 
 TIE-GCM, developed in the U.S., is one of the tools SERENE uses to simulate the ionosphere and thermosphere. The team contributes to maintaining and improving this widely used model, including developing a dockerized version for easier access. You can download daily updated TIE-GCM GPI (geophysical index file, with Kp, F10.7, F10.7A) and IMF (IMF/OMNI data with solar wind density and velocity) [here](https://serene.bham.ac.uk/resources/TIE-GCM/){:target="\_blank"}.
+
+# More Details
+
+You can find [more details here](https://serene.bham.ac.uk/group/topic/modelling/){:target="\_blank"}. And get access to our [latest model output here](https://serene.bham.ac.uk/output/){:target="\_blank"}.
