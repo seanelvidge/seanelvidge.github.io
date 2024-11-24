@@ -17,3 +17,7 @@ Since the start of the space age, there has been no true solar superstorm and co
 How often extreme space weather events occur is an important area of current research.
 
 Research at SERENE is focused on using rigorous mathematical techniques to estimate the occurence of the most extreme space weather events.
+
+# More Details
+
+You can find [more details here](https://serene.bham.ac.uk/group/topic/extreme-space-weather/){:target="\_blank"}.
