@@ -1,9 +1,9 @@
 ---
 layout: page
-# permalink: /publications/
+permalink: /publications/
 title: publications
 description: Details of my scientific publications (if you really want that information)
-redurect: https://research.birmingham.ac.uk/en/persons/sean-elvidge
+redirect: https://research.birmingham.ac.uk/en/persons/sean-elvidge
 nav: true
 nav_order: 4
 ---
