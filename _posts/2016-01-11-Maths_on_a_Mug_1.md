@@ -44,7 +44,7 @@ At first glance, $$e^{i\pi} + 1 = 0$$ might look like a random collection of sym
    - Astonishingly, $$e^{i\pi}$$ equals $$-1$$, a completely real number.
 
 5. **Adding 1:**
-   - Adding 1 to $$-1$$ gives us 0, a number symbolizing balance or nothingness.
+   - Adding 1 to -1 gives us 0, a number symbolizing balance or nothingness.
 
 ## Why Is It Beautiful?
 
