@@ -19,3 +19,7 @@ Space weather, including the risks associated with the radiation belts, is recog
         {% include figure.liquid loading="eager" path="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnl1N2x3ZWFwbjNqc2Rpc3g3aWM0dzg5OTU4eHRiZm15bzc3c3o2ciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4ZaWNlzT0m8xCIDnPz/giphy.webp" title="example image" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
+
+# More Details
+
+You can find [more details here.](https://serene.bham.ac.uk/group/topic/radiation-belt-modelling/){:target="\_blank"}
