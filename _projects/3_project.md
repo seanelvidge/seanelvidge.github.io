@@ -13,3 +13,7 @@ By leveraging LOFAR's high sensitivity and wide-field imaging, we can identify a
 In addition, using LOFAR data enables us to delve deeper into our phase screen modeling, a technique used to simulate the ionosphere's impact on radio wave propagation. By analyzing the scintillation and refraction of radio waves as they pass through the ionosphere, we develop more accurate models of this complex region, ultimately leading to improved prediction and mitigation of ionospheric effects on communication and navigation systems.
 
 Furthermore, LOFAR provides a unique platform for investigating the coupling between the ionosphere and the mesosphere. This interaction, which occurs at the boundary between the Earth's upper atmosphere and space, plays a significant role in atmospheric dynamics and influences a wide range of phenomena, from auroras to gravity wave propagation. By utilizing LOFAR's advanced capabilities, researchers can shed light on the intricate processes governing mesosphere-ionosphere coupling and further our understanding of this vital interface in Earth's atmospheric system.
+
+# More Details
+
+You can get [more details here](https://serene.bham.ac.uk/group/topic/ionospheric-science-with-lofar/){:target="\_blank"}.
