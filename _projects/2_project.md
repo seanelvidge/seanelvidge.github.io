@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Extreme Space Weather
-img: https://cdn.britannica.com/15/96915-050-787329AB/bubble-plasma-disk-Sun-right-ejection-instrument-Dec-2-2002.jpg
+img: assets/img/cme.png
 importance: 2
 category: work
 ---
