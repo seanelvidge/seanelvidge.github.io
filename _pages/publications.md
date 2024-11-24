@@ -3,8 +3,9 @@ layout: page
 # permalink: /publications/
 title: publications
 description: Details of my scientific publications (if you really want that information)
+redurect: https://research.birmingham.ac.uk/en/persons/sean-elvidge
 nav: true
 nav_order: 4
 ---
 
-<iframe src="https://orcid.org/0000-0003-2846-0730#:~:text=Works" width="100%" height="600" style="border:none;"></iframe>
+[Up-to-date list here](https://research.birmingham.ac.uk/en/persons/sean-elvidge){:target="\_blank"}
