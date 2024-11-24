@@ -31,6 +31,16 @@ SERENE's research covers all three areas, using cutting-edge tools to study the 
     </div>
 </div>
 
+## Latest Output
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <figure>
+            {% include figure.liquid loading="eager" path="https://serene.bham.ac.uk/output/aida/" class="img-fluid rounded z-depth-1" zoomable=true %}
+        </figure>
+    </div>
+</div>
+
 ## Key Models Developed or Used by SERENE
 
 ### E-CHAIM (Empirical Canadian High Arctic Ionospheric Model)
