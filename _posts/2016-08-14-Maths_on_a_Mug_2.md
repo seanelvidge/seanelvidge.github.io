@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Maths on a Mug #2
+title: Maths on a Mug 2
 date: 2016-08-14 12:00:00
 tags: mathematics MathsOnAMug
 related_posts: true
