@@ -19,15 +19,15 @@ thumbnail: assets/img/mathsonamug/mathsonamug_9.jpeg
 
 > There are no three positive integers $$a,b,c$$ such that $$a^n+b^n=c^n$$ for any value of $$n>2$$.
 
-For the value $$n=2$$ this is the well known Pythagoras theorem. Fermat's Last Theorem is easy to state, but which was fiendishly hard to prove. It was first stated by [Fermat](https://en.wikipedia.org/wiki/Pierre_de_Fermat){:target="\_blank"} in 1637 and took until May of 1995 to be finally [proved](https://en.wikipedia.org/wiki/Wiles%27_proof_of_Fermat%27s_Last_Theorem) by [Sir Andrew Wiles](https://en.wikipedia.org/wiki/Andrew_Wiles). 
+For the value $$n=2$$ this is the well known Pythagoras theorem. Fermat's Last Theorem is easy to state, but which was fiendishly hard to prove. It was first stated by [Fermat](https://en.wikipedia.org/wiki/Pierre_de_Fermat){:target="\_blank"} in 1637 and took until May of 1995 to be finally [proved](https://en.wikipedia.org/wiki/Wiles%27_proof_of_Fermat%27s_Last_Theorem) by [Sir Andrew Wiles](https://en.wikipedia.org/wiki/Andrew_Wiles).
 
-However there is a fun 'near-miss' solution which was shown in the Simpsons, and is on the mug this morning. If you type this solution into your handy pocket calculator you will think you’ve found a counterexample: 
+However there is a fun 'near-miss' solution which was shown in the Simpsons, and is on the mug this morning. If you type this solution into your handy pocket calculator you will think you’ve found a counterexample:
 
 $$
 3987^{12}+4365^{12}=4472^{12}
 $$
 
-However, the numbers are so large (e.g. $$4472^{12}=63976656348486725806862358322168575784124416$$) that your calculator doesn't actually work out the whole values and there is a 'rounding error', which is what gives rise to the apparent counterexample, perfectly highlighted by The Simpsons. 
+However, the numbers are so large (e.g. $$4472^{12}=63976656348486725806862358322168575784124416$$) that your calculator doesn't actually work out the whole values and there is a 'rounding error', which is what gives rise to the apparent counterexample, perfectly highlighted by The Simpsons.
 
 An excellent video briefly explaining this is available here:
 
