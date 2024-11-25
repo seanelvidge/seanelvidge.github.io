@@ -20,3 +20,10 @@ Keeping with my longing running theme of talking about the [pound coin and shape
 Simply, it says that for any curve of constant diameter (width; $$w$$) the perimeter of that shape is $$\pi\times w$$. A nice result. The proof follows from [Crofton’s formula](https://en.wikipedia.org/wiki/Crofton_formula){:target="\_blank"}.
 
 Interestingly though the result doesn't hold for higher dimensional shapes – e.g. the surface area for solids of constant width depends on more than the width alone...
+
+<hr>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2021/Maths_on_a_Mug_13/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/blog/2023/Maths_on_a_Mug_15/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
