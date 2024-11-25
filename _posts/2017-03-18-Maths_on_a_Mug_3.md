@@ -26,3 +26,10 @@ The formation of a rainbow involves specific angles. As light enters and exits t
 The observer's position is crucial in perceiving a rainbow. The Sun must be behind the observer, and the water droplets must be in front. The angle at which the light exits the droplets and reaches the observer's eye determines the specific color seen at each point along the arc. This geometric arrangement explains why rainbows are often seen when the sun is low in the sky, such as during early morning or late afternoon, and why they appear as circular arcs centered opposite the Sun.
 
 A detailed description of the mathematics involved was written up in an excellent article in [Plus Magazine](https://plus.maths.org/content/rainbows){:target="\_blank"}.
+
+<hr>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2016/Maths_on_a_Mug_2/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/blog/2017/Maths_on_a_Mug_4/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
