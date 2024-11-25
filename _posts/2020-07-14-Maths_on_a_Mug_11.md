@@ -26,6 +26,7 @@ c &=& 1 + 2 + 3 + 4 + 5 + 6 + \cdots,\\
 -3c &=& \frac{1}{4},\\
 c &=& \frac{-1}{12}.
 \end{eqnarray*}
+$$
 
 Can you spot the mistake?
 
