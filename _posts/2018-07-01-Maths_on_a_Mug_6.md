@@ -20,3 +20,10 @@ I was out of the office today so didn't have access to my chalkboard mug. Luckil
 This one has the [Curtis MOG](https://en.wikipedia.org/wiki/Miracle_Octad_Generator){:target="\_blank"} on it. Curtis ([1976](https://www.cambridge.org/core/journals/mathematical-proceedings-of-the-cambridge-philosophical-society/article/abs/new-combinatorial-approach-to-m24/1C79CE31BC64790A1C29447BAFB1DACA){:target="\_blank")) came up with the method for playing around with the [Mathieu groups](https://en.wikipedia.org/wiki/Mathieu_group){:target="\_blank"}. It is a fantastic piece of work, fits wonderfully on a mug, and was partially to blame for me starting the 'Maths on a Mug' "thing".
 
 Sadly these mugs are not available to buy online. You need to complete a [Maths degree at the University of Birmingham](https://www.birmingham.ac.uk/schools/mathematics){:target="\_blank"}, and then they’ll give you one on graduation day!
+
+<hr>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2018/Maths_on_a_Mug_5/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/blog/2018/Maths_on_a_Mug_7/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
