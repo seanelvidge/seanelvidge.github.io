@@ -7,6 +7,11 @@ related_posts: true
 thumbnail: assets/img/mathsonamug/mathsonamug_1.jpeg
 ---
 
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <!-- <a href="previous-link.html" style="text-decoration: none;">Previous Maths on a Mug</a> -->
+    <a href="https://seanelvidge.github.io/blog/2016/Maths_on_a_Mug_2/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
+
 For Christmas I got a chalkboard mug. Following the suggestion of someone in the office I wrote a maths equation on it, and tweeted it. Now I can't stop. The only problem is a mug isn't really a lot of space so I’ve been writing very little on the mug. Leaving the interested reader to find out more if they want, this page will explain a bit more about what is on the mug and provide links for more information.
 
 <div class="row mt-3">
