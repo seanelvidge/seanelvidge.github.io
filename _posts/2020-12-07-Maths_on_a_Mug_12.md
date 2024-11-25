@@ -28,8 +28,8 @@ $$
 
 I think this is a lovely little fact. The proof is quite straight forward, using induction on the number of edges:
 
-For $$E=0$$ (i.e. there are no edges) then it is fairly trivial, since there can be only one vertex ($$V=1$$) and one face ($$F=1$$). So clearly $$F+V−E=2$$. 
+For $$E=0$$ (i.e. there are no edges) then it is fairly trivial, since there can be only one vertex ($$V=1$$) and one face ($$F=1$$). So clearly $$F+V−E=2$$.
 
-Now assume it holds for all planar graphs with less than $$E$$ edges (where $$E\ge 1$$). Let $$G$$ be a graph with $$E$$ edges. If $$G$$ is a tree, then $$V=E+1$$ and $$F=1$$, so $$F+V−E=2$$. 
+Now assume it holds for all planar graphs with less than $$E$$ edges (where $$E\ge 1$$). Let $$G$$ be a graph with $$E$$ edges. If $$G$$ is a tree, then $$V=E+1$$ and $$F=1$$, so $$F+V−E=2$$.
 
 The only remaining case is if $$G$$ is not a tree. In which case let $$m$$ be a cycle edge of $$G$$ and let us investigate $$G−m$$. The connected planar graph $$G−m$$ has $$V$$ vertices, $$E−1$$ edges and $$F−1$$ faces so using our inductive hypothesis $$(F−1)+V−(E−1)=2$$, which implies that $$F+V−E=2$$ as required.
