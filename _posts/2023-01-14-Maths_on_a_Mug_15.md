@@ -41,3 +41,10 @@ So House’s insight is sensible, even given a positive result there is only a 7
 How we interpret Bayes’ theorem depends on how we interpret probability, a [Bayesian](https://en.wikipedia.org/wiki/Bayesian_probability){:target="\_blank"} or [Frequentist](https://en.wikipedia.org/wiki/Frequentist_probability){:target="\_blank"} interpretation. This is a long running fight in mathematics, and it is worth reading about it to see where you come down on the argument. I’ll leave you with a quote from Savage ([1954](http://www.isbnsearch.org/isbn/0486623491){:target="\_blank"}).
 
 > It is unanimously agreed that statistics depends somehow on probability. But, as to what probability is and how it is connected with statistics, there has seldom been such complete disagreement and breakdown of communication since the Tower of Babel.
+
+<hr>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2021/Maths_on_a_Mug_14/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    Next Maths on a Mug
+</div>
