@@ -29,4 +29,4 @@ $$
 
 The value on the mug is a solution for the number 169.
 
-You can quite comfortabely get the first 100 numbers, and then things start to ramp up in difficulty. If you are really keen, the answer to the first 40,000 numbers is available [here](../assets/files/fourfours.pdf). Credit to [David A. Wheeler](https://dwheeler.com/){:target="\_blank"}, who compiled the "[The Definitive Four Fours Answer Key](https://dwheeler.com/fourfours/){:target="\_blank}".
+You can quite comfortabely get the first 100 numbers, and then things start to ramp up in difficulty. If you are really keen, the answer to the first 40,000 numbers is available [here](https://github.com/seanelvidge/seanelvidge.github.io/blob/master/assets/files/fourfours.pdf). Credit to [David A. Wheeler](https://dwheeler.com/){:target="\_blank"}, who compiled the "[The Definitive Four Fours Answer Key](https://dwheeler.com/fourfours/){:target="\_blank}".
