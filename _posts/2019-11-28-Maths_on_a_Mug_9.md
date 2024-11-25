@@ -34,3 +34,10 @@ An excellent video briefly explaining this is available here:
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ReOQ300AcSU?si=jougGrKnmIZcdlB-&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 It turns out The Simpsons is riddled with mathematical facts and quirks, and these are brilliant captured in [The Simpsons and Their Mathematical Secrets](https://en.wikipedia.org/wiki/The_Simpsons_and_Their_Mathematical_Secrets){:target="\_blank"} by [Simon Singh](https://en.wikipedia.org/wiki/Simon_Singh){:target="\_blank"}.
+
+<hr>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2019/Maths_on_a_Mug_8/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/blog/2020/Maths_on_a_Mug_10/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
