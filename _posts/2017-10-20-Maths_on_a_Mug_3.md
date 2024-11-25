@@ -1,16 +1,16 @@
 ---
 layout: post
-title: Maths on a Mug 3
-date: 2017-03-18 12:00:00
+title: Maths on a Mug 4
+date: 2017-10-20 12:00:00
 tags: mathematics MathsOnAMug
 related_posts: true
-thumbnail: assets/img/mathsonamug/mathsonamug_3.jpeg
+thumbnail: assets/img/mathsonamug/mathsonamug_4.jpeg
 ---
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
         <figure>
-            {% include figure.liquid loading="eager" path="assets/img/mathsonamug/mathsonamug_3.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+            {% include figure.liquid loading="eager" path="assets/img/mathsonamug/mathsonamug_4.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
         </figure>
     </div>
 </div>
