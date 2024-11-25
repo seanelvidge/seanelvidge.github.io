@@ -42,7 +42,7 @@ In fact, as far as I am aware, the only coin in active circulation with an even 
            path="assets/img/poundCoin/pound_coin3.jpg" 
            class="img-fluid rounded z-depth-1" 
            zoomable=true 
-           style="max-width: 200px; max-height: auto;" %}
+           style="max-width: 50%; max-height: auto;" %}
     </div>
 </div>
 
