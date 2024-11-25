@@ -15,7 +15,7 @@ thumbnail: assets/img/mathsonamug/mathsonamug_6.jpeg
     </div>
 </div>
 
-I was out of the office today so didn't have access to my chalkboard mug. Luckily I’ve got other mugs with maths on! 
+I was out of the office today so didn't have access to my chalkboard mug. Luckily I’ve got other mugs with maths on!
 
 This one has the [Curtis MOG](https://en.wikipedia.org/wiki/Miracle_Octad_Generator){:target="\_blank"} on it. Curtis ([1976](https://www.cambridge.org/core/journals/mathematical-proceedings-of-the-cambridge-philosophical-society/article/abs/new-combinatorial-approach-to-m24/1C79CE31BC64790A1C29447BAFB1DACA){:target="\_blank") came up with the method for playing around with the [Mathieu groups](https://en.wikipedia.org/wiki/Mathieu_group){:target="\_blank"}. It is a fantastic piece of work, fits wonderfully on a mug, and was partially to blame for me starting the 'Maths on a Mug' "thing".
 
