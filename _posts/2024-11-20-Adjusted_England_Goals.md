@@ -216,7 +216,7 @@ If you want to have a look at the data in a little more detail (but without down
 <style>
 table {
     border-collapse: collapse;
-    width: 50%;
+    width: 90%;
     margin: 20px auto;
 }
 th, td {
