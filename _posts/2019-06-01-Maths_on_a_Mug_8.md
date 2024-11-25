@@ -78,3 +78,10 @@ There has been a lot of work on using EVT in space weather, on a wide range of t
 - Elvidge, S., & Angling, M. J. (2018). Using extreme value theory for determining the probability of Carrington-like solar flares. Space Weather, 16, 417–421. [https://doi.org/10.1002/2017SW001727](https://doi.org/10.1002/2017SW001727){:target="\_blank}
 - Elvidge, S. (2020). Estimating the occurrence of geomagnetic activity using the Hilbert-Huang transform and extreme value theory. Space Weather, 17, e2020SW002513. [https://doi.org/10.1029/2020SW002513](https://doi.org/10.1029/2020SW002513){:target="\_blank}
 - Elvidge, S., & Themens, D. R. (2024). The Probability of the May 2024 Geomagnetic Superstorm. Authorea Preprints.
+
+<hr>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2018/Maths_on_a_Mug_7/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/blog/2019/Maths_on_a_Mug_9/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
