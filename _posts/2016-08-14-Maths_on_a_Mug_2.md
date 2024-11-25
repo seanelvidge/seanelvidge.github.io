@@ -7,6 +7,11 @@ related_posts: true
 thumbnail: assets/img/mathsonamug/mathsonamug_2.jpeg
 ---
 
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2016/Maths_on_a_Mug_1/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/blog/2016/Maths_on_a_Mug_3/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
+
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
         <figure>
