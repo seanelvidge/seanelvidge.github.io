@@ -30,3 +30,10 @@ $$
 The value on the mug is a solution for the number 169.
 
 You can quite comfortabely get the first 100 numbers, and then things start to ramp up in difficulty. If you are really keen, the answer to the first 40,000 numbers is available [here](/assets/files/fourfours.pdf). Credit to [David A. Wheeler](https://dwheeler.com/){:target="\_blank"}, who compiled the "[The Definitive Four Fours Answer Key](https://dwheeler.com/fourfours/){:target="\_blank}".
+
+<hr>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2017/Maths_on_a_Mug_3/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/blog/2018/Maths_on_a_Mug_5/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
