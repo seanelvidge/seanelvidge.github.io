@@ -8,7 +8,7 @@ thumbnail: assets/img/mathsonamug/mathsonamug_1.jpeg
 ---
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <!-- <a href="previous-link.html" style="text-decoration: none;">Previous Maths on a Mug</a> -->
+    Previous Maths on a Mug
     <a href="https://seanelvidge.github.io/blog/2016/Maths_on_a_Mug_2/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
 
