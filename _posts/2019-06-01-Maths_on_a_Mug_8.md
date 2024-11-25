@@ -15,9 +15,9 @@ thumbnail: assets/img/mathsonamug/mathsonamug_8.jpeg
     </div>
 </div>
 
-This is the first #MathsOnAMug post related to my day job. 
+This is the first #MathsOnAMug post related to my day job.
 
-I've been using a branch of statistics called '[Extreme Value Theory](https://en.wikipedia.org/wiki/Extreme_value_theory){:target="\_blank}' in order to come up with a statistical analysis of extreme space weather events. 
+I've been using a branch of statistics called '[Extreme Value Theory](https://en.wikipedia.org/wiki/Extreme_value_theory){:target="\_blank}' in order to come up with a statistical analysis of extreme space weather events.
 
 ## What is Extreme Value Theory?
 
@@ -34,15 +34,17 @@ For example:
 EVT works by identifying patterns in the extreme values of data. It primarily uses two key approaches:
 
 1. Block Maxima Method:
-  * Data is divided into fixed blocks (e.g., annual rainfall totals).
-  * The maximum value from each block is extracted.
-  * These maxima are analyzed to fit one of three extreme value distributions:
-    * Gumbel (light tails, for events like temperature extremes),
-    * Fréchet (heavy tails, for events like financial crashes),
-    * Weibull (bounded tails, for events like wave heights).
+- Data is divided into fixed blocks (e.g., annual rainfall totals).
+- The maximum value from each block is extracted.
+- These maxima are analyzed to fit one of three extreme value distributions:
+  - Gumbel (light tails, for events like temperature extremes),
+  - Fréchet (heavy tails, for events like financial crashes),
+  - Weibull (bounded tails, for events like wave heights).
+
 2. Peaks Over Threshold (POT) Method:
-  * Instead of focusing on block maxima, this method examines all data points exceeding a certain threshold.
-  * These exceedances are modeled using the Generalized Pareto Distribution, which provides a flexible way to describe the tail of the distribution.
+
+- Instead of focusing on block maxima, this method examines all data points exceeding a certain threshold.
+- These exceedances are modeled using the Generalized Pareto Distribution, which provides a flexible way to describe the tail of the distribution.
 
 Both methods aim to estimate the probability of extreme events and their expected severity.
 
@@ -72,6 +74,6 @@ Extreme Value Theory gives us a lens to look beyond the ordinary, peering into t
 
 There has been a lot of work on using EVT in space weather, on a wide range of topics. Personally I have used it to estiamte the run times of [solar flares](https://en.wikipedia.org/wiki/Solar_flare){:target="\_blank}, the [aa index](https://geomag.bgs.ac.uk/data_service/data/magnetic_indices/aaindex.html){:target="\_blank} and the probability of the [May 2024 solar storms](https://en.wikipedia.org/wiki/May_2024_solar_storms){:target="\_blank}:
 
-* Elvidge, S., & Angling, M. J. (2018). Using extreme value theory for determining the probability of Carrington-like solar flares. Space Weather, 16, 417–421. [https://doi.org/10.1002/2017SW001727](https://doi.org/10.1002/2017SW001727){:target="\_blank}
-* Elvidge, S. (2020). Estimating the occurrence of geomagnetic activity using the Hilbert-Huang transform and extreme value theory. Space Weather, 17, e2020SW002513. [https://doi.org/10.1029/2020SW002513](https://doi.org/10.1029/2020SW002513){:target="\_blank}
-* Elvidge, S., & Themens, D. R. (2024). The Probability of the May 2024 Geomagnetic Superstorm. Authorea Preprints.
+- Elvidge, S., & Angling, M. J. (2018). Using extreme value theory for determining the probability of Carrington-like solar flares. Space Weather, 16, 417–421. [https://doi.org/10.1002/2017SW001727](https://doi.org/10.1002/2017SW001727){:target="\_blank}
+- Elvidge, S. (2020). Estimating the occurrence of geomagnetic activity using the Hilbert-Huang transform and extreme value theory. Space Weather, 17, e2020SW002513. [https://doi.org/10.1029/2020SW002513](https://doi.org/10.1029/2020SW002513){:target="\_blank}
+- Elvidge, S., & Themens, D. R. (2024). The Probability of the May 2024 Geomagnetic Superstorm. Authorea Preprints.
