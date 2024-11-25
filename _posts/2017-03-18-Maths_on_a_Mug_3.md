@@ -10,12 +10,12 @@ thumbnail: assets/img/mathsonamug/mathsonamug_3.jpeg
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
         <figure>
-            {% include figure.liquid loading="eager" path="assets/img/mathsonamug/mathsonamug_1.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+            {% include figure.liquid loading="eager" path="assets/img/mathsonamug/mathsonamug_3.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
         </figure>
     </div>
 </div>
 
-This is one of my favourite puzzles. It is a simple, life long game: Using exactly four 4s make as many numbers as you can. You can use the operators $$+,−,×,\div,!,\^,.,\sqrt{},\Gamma$$ and concatenation. You must use all four 4s. My advice, start at 0 and just work your way up, I save doing these puzzles in my head for times when I have to physically, but not mentally, present. 
+This is one of my favourite puzzles. It is a simple, life long game: Using exactly four 4s make as many numbers as you can. You can use the operators $$+,−,×,\div,!,\hat{},.,\sqrt{},\Gamma$$ and concatenation. You must use all four 4s. My advice, start at 0 and just work your way up, I save doing these puzzles in my head for times when I have to physically, but not mentally, present. 
 
 Let me start you off with a couple:
 
