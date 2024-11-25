@@ -15,8 +15,8 @@ thumbnail: assets/img/mathsonamug/mathsonamug_14.jpeg
     </div>
 </div>
 
-Keeping with my longing running theme of talking about the [pound coin and shapes of constant diameter](https://seanelvidge.github.io/blog/2013/Pound_Coin/){:target="_blank"} here is a nice little result known as [Barbier's theorem](https://en.wikipedia.org/wiki/Barbier%27s_theorem).
+Keeping with my longing running theme of talking about the [pound coin and shapes of constant diameter](https://seanelvidge.github.io/blog/2013/Pound_Coin/){:target="\_blank"} here is a nice little result known as [Barbier's theorem](https://en.wikipedia.org/wiki/Barbier%27s_theorem){:target="\_blank"}.
 
-Simply, it says that for any curve of constant diameter (width; $$w$$) the perimeter of that shape is $$\pi\times w$$. A nice result. The proof follows from [Crofton’s formula](https://en.wikipedia.org/wiki/Crofton_formula).
+Simply, it says that for any curve of constant diameter (width; $$w$$) the perimeter of that shape is $$\pi\times w$$. A nice result. The proof follows from [Crofton’s formula](https://en.wikipedia.org/wiki/Crofton_formula){:target="\_blank"}.
 
 Interestingly though the result doesn't hold for higher dimensional shapes – e.g. the surface area for solids of constant width depends on more than the width alone...
