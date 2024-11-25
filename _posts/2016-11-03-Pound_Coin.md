@@ -37,7 +37,12 @@ In fact, as far as I am aware, the only coin in active circulation with an even 
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/poundCoin/pound_coin3.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid 
+           loading="eager" 
+           path="assets/img/poundCoin/pound_coin3.jpg" 
+           class="img-fluid rounded z-depth-1" 
+           zoomable=true 
+           style="max-width: 200px; max-height: auto;" %}
     </div>
 </div>
 
