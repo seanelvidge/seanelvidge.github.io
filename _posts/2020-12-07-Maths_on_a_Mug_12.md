@@ -33,3 +33,10 @@ For $$E=0$$ (i.e. there are no edges) then it is fairly trivial, since there can
 Now assume it holds for all planar graphs with less than $$E$$ edges (where $$E\ge 1$$). Let $$G$$ be a graph with $$E$$ edges. If $$G$$ is a tree, then $$V=E+1$$ and $$F=1$$, so $$F+V−E=2$$.
 
 The only remaining case is if $$G$$ is not a tree. In which case let $$m$$ be a cycle edge of $$G$$ and let us investigate $$G−m$$. The connected planar graph $$G−m$$ has $$V$$ vertices, $$E−1$$ edges and $$F−1$$ faces so using our inductive hypothesis $$(F−1)+V−(E−1)=2$$, which implies that $$F+V−E=2$$ as required.
+
+<hr>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2020/Maths_on_a_Mug_11/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/blog/2021/Maths_on_a_Mug_13/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
