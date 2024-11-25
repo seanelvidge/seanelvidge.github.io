@@ -14,7 +14,14 @@ In 2014 the Royal Mint announced a new pound coin. A new all singing, all dancin
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/poundCoin/pound_coin1.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+    <figure>
+        {% include figure.liquid loading="eager" path="assets/img/poundCoin/pound_coin1a.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </figure>
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+    <figure>
+        {% include figure.liquid loading="eager" path="assets/img/poundCoin/pound_coin1b.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </figure>
     </div>
 </div>
 
@@ -52,8 +59,8 @@ Now this is pretty useful. So useful in fact that we decided to make our 50p coi
 
 In particular, let me highlight Section 2.3 on page 7 of the report:
 
-<italic><p style="text-align:center;">"Some concern was expressed in relation to the even-sided shape, namely that its non-constant diameter could impact the rolling behaviour of the coin (and thereby reduce its security through the automatic vending process)"</p></italic>
+> Some concern was expressed in relation to the even-sided shape, namely that its non-constant diameter could impact the rolling behaviour of the coin (and thereby reduce its security through the automatic vending process)
 
 The proposed solution is (Section: 3.6; page 9):
 
-<italic><p style="text-align:center;">"The government acknowledges the concerns over the performance of a coin with a non-constant diameter through the automatic vending process. Testing conducted by The Royal Mint, in partnership with a number of respondents, confirmed that these reservations were well-grounded for a 12-sided coin with flat sides and sharp corners. However, the introduction of rounded edges (‘radial chords’) to the design led to a significant improvement in its rolling behaviour, to a level consistent with that required by existing equipment."</p></italic>
+> The government acknowledges the concerns over the performance of a coin with a non-constant diameter through the automatic vending process. Testing conducted by The Royal Mint, in partnership with a number of respondents, confirmed that these reservations were well-grounded for a 12-sided coin with flat sides and sharp corners. However, the introduction of rounded edges (‘radial chords’) to the design led to a significant improvement in its rolling behaviour, to a level consistent with that required by existing equipment.
