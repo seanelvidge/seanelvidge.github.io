@@ -15,7 +15,7 @@ thumbnail: assets/img/mathsonamug/mathsonamug_4.jpeg
     </div>
 </div>
 
-This is one of my favourite puzzles. It is a simple, life long game: Using exactly four 4s make as many numbers as you can. You can use the operators $$+,−,×,\div,!,\hat{},.,\sqrt{},\Gamma$$ and concatenation. You must use all four 4s. My advice, start at 0 and just work your way up, I save doing these puzzles in my head for times when I have to physically, but not mentally, present. 
+This is one of my favourite puzzles. It is a simple, life long game: Using exactly four 4s make as many numbers as you can. You can use the operators $$+,−,×,\div,!,\hat{},.,\sqrt{},\Gamma$$ and concatenation. You must use all four 4s. My advice, start at 0 and just work your way up, I save doing these puzzles in my head for times when I have to physically, but not mentally, present.
 
 Let me start you off with a couple:
 
