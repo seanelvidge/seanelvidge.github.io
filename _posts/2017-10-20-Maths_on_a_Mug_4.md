@@ -22,7 +22,7 @@ Let me start you off with a couple:
 $$
 \begin{eqnarray*}
 0 &=& 44 - 44, \\
-1 &=& \frac{44}{44],\\
+1 &=& \frac{44}{44},\\
 2 &=& \frac{4}{4} + \frac{4}{4}.
 \end{eqnarray*}
 $$
