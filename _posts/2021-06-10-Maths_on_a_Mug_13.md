@@ -22,3 +22,10 @@ $$
 $$
 
 Now $$2^n$$ must be even for all values of $$n$$, and $$3^m$$ must be odd for all values of $$m$$. Thus $$2^n+3^m$$ is odd for all values of $$n$$ and $$m$$. Similarly, $$5^q$$ is odd for all values of $$q$$, thus $$5^q+1$$ must be even. Therefore the left hand side of the rewritten equation must be odd, whilst the right hand side must be even. Since this is not possible there are no positive integer solutions.
+
+<hr>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2020/Maths_on_a_Mug_12/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/blog/2021/Maths_on_a_Mug_14/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
