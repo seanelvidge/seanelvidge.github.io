@@ -15,6 +15,6 @@ thumbnail: assets/img/mathsonamug/mathsonamug_5.jpeg
     </div>
 </div>
 
-Last nights [Powerball lottery](https://en.wikipedia.org/wiki/Powerball){:target="\_blank"} in the US was an incredible $1.5 bn! But what were the odds of winning? 
+Last nights [Powerball lottery](https://en.wikipedia.org/wiki/Powerball){:target="\_blank"} in the US was an incredible $1.5 bn! But what were the odds of winning?
 
 You need to get 5 numbers from a pot of 69 in the main draw, and then one ‘bonus’ ball, from a pot of 26. So the odds are 69 choose 5 multiplied by 26, which gives you the equation on the mug.
