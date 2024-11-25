@@ -34,6 +34,7 @@ For example:
 EVT works by identifying patterns in the extreme values of data. It primarily uses two key approaches:
 
 1. Block Maxima Method:
+
 - Data is divided into fixed blocks (e.g., annual rainfall totals).
 - The maximum value from each block is extracted.
 - These maxima are analyzed to fit one of three extreme value distributions:
