@@ -67,6 +67,7 @@
                     {% assign has_active_child = true %}
                   {% endif %}
                 {% endfor %}
+                {% comment %}
                 <li class="nav-item dropdown {% if page.title == p.title or has_active_child %}active{% endif %}">
                   <a
                     class="nav-link dropdown-toggle"
@@ -94,6 +95,7 @@
                     {% endfor %}
                   </div>
                 </li>
+              {% endcomment %}
               {% else %}
                 <li class="nav-item {% if page.url contains p.permalink %}active{% endif %}">
                   {% if p.permalink contains '/blog/' %}{% assign url = '/blog/' %} {% else %}{% assign url = p.url %}{% endif %}
