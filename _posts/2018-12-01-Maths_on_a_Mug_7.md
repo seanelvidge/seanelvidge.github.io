@@ -26,3 +26,10 @@ The proof is not for the faint hearted, for a long time it had been conjectured 
 3. **Utilizing Unavoidable Sets and Hitting Set Algorithms**: They employed the concept of unavoidable sets—specific cell groupings that must contain at least one clue to ensure a unique solution. By identifying these sets, they could focus their search more effectively. To manage the computational challenges, they developed a novel algorithm for enumerating hitting sets, which are minimal sets of clues intersecting all unavoidable sets. This approach was crucial, as traditional backtracking algorithms would have been too slow for an exhaustive search.
 
 4. **Conducting the Exhaustive Search**: With their optimized algorithms, they performed a thorough search across all possible Sudoku grids. The absence of any valid 16-clue puzzles in their findings led them to conclude that at least 17 clues are necessary for a Sudoku puzzle to have a unique solution.
+
+<hr>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2018/Maths_on_a_Mug_6/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/blog/2019/Maths_on_a_Mug_8/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
