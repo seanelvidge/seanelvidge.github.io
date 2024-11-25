@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Maths on a Mug 12
-date: 2021-12-07 12:00:00
+date: 2020-12-07 12:00:00
 tags: mathematics MathsOnAMug
 related_posts: true
 thumbnail: assets/img/mathsonamug/mathsonamug_12.jpeg
