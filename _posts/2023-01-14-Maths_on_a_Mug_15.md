@@ -30,8 +30,8 @@ We can check the probability using Bayes’ theorem. Let L represent Lupus, T th
 $$
 \begin{eqnarray*}
 P(L=1|T=1) &=& \frac{P(T=1|L=1)P(L=1)}{P(T=1)},\\
-&=& \frac{(0.98)(0.02)}{0.0196 + 0.2548,\\
-&=& \frac{0.0196}{0.2744),\\
+&=& \frac{(0.98)(0.02)}{0.0196 + 0.2548},\\
+&=& \frac{0.0196}{0.2744},\\
 &=& 0.0715
 \end{eqnarray*}
 $$
