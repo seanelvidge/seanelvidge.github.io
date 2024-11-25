@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The Impact of Form in Fantasy Football
-date: 2018-04-06 10:09:00
+date: 2019-09-25 10:09:00
 description: Does "form" impact player points in fantasy football?
 tags: mathematics football
 related_posts: true
