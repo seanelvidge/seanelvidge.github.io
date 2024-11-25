@@ -42,3 +42,10 @@ $$
 Which give you different answers!
 
 For an excellent description of all the errors with the $$1+2+3+\cdots=\frac{-1}{12}$$ proof see the excellent [Plus magazine article](https://plus.maths.org/content/infinity-or-just-112){:target="\_blank"}.
+
+<hr>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://seanelvidge.github.io/blog/2020/Maths_on_a_Mug_10/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/blog/2020/Maths_on_a_Mug_12/" style="text-decoration: none;">Next Maths on a Mug</a>
+</div>
