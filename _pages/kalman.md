@@ -2,13 +2,19 @@
 layout: page
 permalink: /kalman/
 title: Kalman Filters
-description: Information about Kalman Filters
+description: Some information about Kalman Filters
 nav: false
 ---
 
-(Handwritten) notes from my URSI ECR Tutorial:
+A lot of my work has, historically, been based around [(Ensemble) Kalman filters](https://en.wikipedia.org/wiki/Ensemble_Kalman_filter){:target="\_blank"}. On this page I have some resouces which I hope will help you get more to grips with them.
 
-If you want to have a go at playing with an Ensemble Kalman Filter here is a funlittle problem.
+The underlying mathematics can be a little opaque, so I have tried to visualize the process [here](https://www.ursi.org/Publications/RadioScienceLetters/Volume3/RSL21-0027-final.pdf){:target="\_blank"}.
+
+At the 2021 [International Union of Radio Science (URSI)](https://ursi.org/homepage.php){:target="\_blank"} I gave a tutorial describing the derivation of the Ensemble Kalman Filter directly from [Bayes' Theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem){:target="\_blank"}. Unfortunately the tutorial was not recorded, but my notes are available to anyone who is interested: 
+
+
+
+However, the best way to learn about Kalman filters, is to play with them. Here is a fun little problem to get you thinking about them.
 
 Imagine dropping a bouncy ball (vertically) from some height and watch it as itslowly comes to rest:
 
