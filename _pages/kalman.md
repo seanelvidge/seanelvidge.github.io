@@ -10,7 +10,7 @@ A lot of my work has, historically, been based around [(Ensemble) Kalman filters
 
 The underlying mathematics can be a little opaque, so I have tried to visualize the process [here](https://www.ursi.org/Publications/RadioScienceLetters/Volume3/RSL21-0027-final.pdf){:target="\_blank"}.
 
-At the 2021 [International Union of Radio Science (URSI)](https://ursi.org/homepage.php){:target="\_blank"} I gave a tutorial describing the derivation of the Ensemble Kalman Filter directly from [Bayes' Theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem){:target="\_blank"}. Unfortunately the tutorial was not recorded, but my notes are available to anyone who is interested: 
+At the 2021 [International Union of Radio Science (URSI)](https://ursi.org/homepage.php){:target="\_blank"} I gave a tutorial describing the derivation of the Ensemble Kalman Filter directly from [Bayes' Theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem){:target="\_blank"}. Unfortunately the tutorial was not recorded, but my notes are available to anyone who is interested:
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
