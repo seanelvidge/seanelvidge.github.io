@@ -12,13 +12,25 @@ The underlying mathematics can be a little opaque, so I have tried to visualize 
 
 At the 2021 [International Union of Radio Science (URSI)](https://ursi.org/homepage.php){:target="\_blank"} I gave a tutorial describing the derivation of the Ensemble Kalman Filter directly from [Bayes' Theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem){:target="\_blank"}. Unfortunately the tutorial was not recorded, but my notes are available to anyone who is interested: 
 
-
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <a href="/assets/files/EnKF_Notes.pdf" target="_blank">
+            {% include figure.liquid loading="eager" path="assets/img/EnKF_Notes_img.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+        </a>
+    </div>
+</div>
 
 However, the best way to learn about Kalman filters, is to play with them. Here is a fun little problem to get you thinking about them.
 
-Imagine dropping a bouncy ball (vertically) from some height and watch it as itslowly comes to rest:
+Imagine dropping a bouncy ball (vertically) from some height and watch it as it slowly comes to rest:
 
-There are a whole host of variable parameters which will determine the profile ofthe bouncy ball including (the values in brackets are example values used to generate the above plot):
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/bouncyBall.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+
+There are a whole host of variable parameters which will determine the profile of the bouncy ball including (the values in brackets are example values used to generate the above plot):
 
 - Initial height of ball (10)
 - Mass of ball (2)
@@ -28,13 +40,14 @@ There are a whole host of variable parameters which will determine the profile o
 - Dynamic viscosity (1.7e-5)
 - Drag coefficient (0.3)
 
-Example Python code of this bouncy ball model can be downloaded here.
+Example Python code of this bouncy ball model can be [downloaded here](/assets/files/bouncyBall.py).
 
 It is a simple model but saves you having to code it up.
 
-Now, given that I dropped a bouncy ball from 20 metres (initial height) and usedan imperfect sensor which recorded a series of observations, use the Ensemble Kalman Filter to estimate the values of the other 6 parameters above (mass, radius,coefficient of restitution, air density, dynamic viscosity and the drag coefficient).
+Now, given that I dropped a bouncy ball from 20 metres (initial height) and used an imperfect sensor which recorded a series of [observations](/assets/files/bouncyBallObs.csv), use the Ensemble Kalman Filter to estimate the values of the other 6 parameters above (mass, radius, coefficient of restitution, air density, dynamic viscosity and the drag coefficient).
 
 Notes:
-- use an internal model timestep of 0.01s (the default in the provided Python code)
-- to create the ensemble, generate a wide range of possible (but realistic) bouncy ball states (e.g. use dynamic viscosities between 1.5e-5 and 2e-5)
+
+- use an internal model timestep of 0.01s (the default in the [provided Python code](/assets/files/bouncyBall.py))
+- to create the ensemble, generate a wide range of possible (but realistic) bouncy ball states (e.g. use dynamic viscosities between $$1.5\times 10^{-5}$$ and $$2\times 10^{-5}$$)
 - Use the provided Python code to both define the Ball and propagate it forward
