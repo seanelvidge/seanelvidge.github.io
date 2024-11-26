@@ -20,11 +20,11 @@ So, how can we level the playing field and make fair comparisons across differen
 
 To address this disparity, I embarked on a project to adjust goal records by accounting for the relative strength of the opposition. The idea is to assign a weighting to each goal based on the difficulty of scoring against a particular team at the time of the match. This method aims to provide a more nuanced evaluation of a player's goal-scoring achievements.
 
-### Utilizing ELO Ratings
+### Utilizing Elo Ratings
 
-The foundation of this approach lies in the ELO rating system, a method originally devised for ranking chess players but now widely adopted across various sports, including football. ELO ratings provide a dynamic measure of a team's strength, updating after each match based on the result and the quality of the opposition.
+The foundation of this approach lies in the Elo rating system, a method originally devised for ranking chess players but now widely adopted across various sports, including football. Elo ratings provide a dynamic measure of a team's strength, updating after each match based on the result and the quality of the opposition.
 
-By leveraging historical ELO ratings, we can assess the relative strength of any two teams at the time they played. This allows us to calculate a weighting factor for each goal scored, reflecting the challenge posed by the opponent.
+By leveraging historical Elo ratings, we can assess the relative strength of any two teams at the time they played. This allows us to calculate a weighting factor for each goal scored, reflecting the challenge posed by the opponent.
 
 ### The Weighting Formula
 
@@ -34,7 +34,7 @@ $$
 \text{Weight} = 1 - k\times\frac{E-O}{E}
 $$
 
-Where, $$E$$ is the ELO rating of England before the match, $$O$$ is the ELO rating of the opposition before the match and $$k$$ a scaling constant that adjusts the sensitivity of the weighting to the difference in ELO ratings.
+Where, $$E$$ is the Elo rating of England before the match, $$O$$ is the Elo rating of the opposition before the match and $$k$$ a scaling constant that adjusts the sensitivity of the weighting to the difference in Elo ratings.
 
 This formula adjusts the weight of a goal based on how much stronger or weaker the opposition is relative to England:
 
