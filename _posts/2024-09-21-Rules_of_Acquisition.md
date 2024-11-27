@@ -49,7 +49,7 @@ And what a wonderful job it did! The complete list is below, merging the ChatGPT
   <tbody>
     <tr>
       <td>1</td>
-      <td>Once you have their money... you never give it back./td>
+      <td>Once you have their money... you never give it back.</td>
       <td>DS9 episode: "The Nagus", PRD episode: "First Con-tact"</td>
     </tr>
     <tr>
