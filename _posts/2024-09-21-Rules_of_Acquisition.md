@@ -48,6 +48,11 @@ And what a wonderful job it did! The complete list is below, merging the ChatGPT
   </thead>
   <tbody>
     <tr>
+      <td>1</td>
+      <td>Once you have their money... you never give it back./td>
+      <td>DS9 episode: "The Nagus", PRD episode: "First Con-tact"</td>
+    </tr>
+    <tr>
       <td>2</td>
       <td>Money is everything.</td>
       <td>ST - Strange New Worlds 9 short story: "The Last Tree on Ferenginar: A Ferengi Fable From the Future"</td>
