@@ -1417,25 +1417,7 @@ And what a wonderful job it did! The complete list is below, merging the ChatGPT
       <td>No good deed ever goes unpunished.</td>
       <td>DS9 episode: "The Collaborator"</td>
     </tr>
-    <tr>
-      <td>295</td>
-      <td>Hidden opportunities yield the greatest profit.</td>
-      <td>ChatGPT</td>
-    </tr>
-    <tr>
-      <td>296</td>
-      <td>Contracts are flexible; terms can change.</td>
-      <td>ChatGPT</td>
-    </tr>
-    <tr>
-      <td>297</td>
-      <td>Conceal profits when necessary.</td>
-      <td>ChatGPT</td>
-    </tr>
-    <tr>
-      <td>298</td>
-      <td>Bigger deals bring bigger profits—but bigger risks.</td>
-      <td>ChatGPT</td>
-    </tr>
   </tbody>
 </table>
+
+Note: if the source is not ChatGPT then these rules come from the [Ferengi Rules of Acquisition by Memory Beta](https://memory-beta.fandom.com/wiki/Ferengi_Rules_of_Acquisition){:target="\_blank"}, which contains more details including links to the source material/epsiode guide.
