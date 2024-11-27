@@ -49,7 +49,7 @@ Note: if the source is not ChatGPT then these rules come from the [Ferengi Rules
 
 <table border="1" class="dataframe">
   <thead>
-    <tr style="text-align: right;">
+    <tr style="text-align: left;">
       <th>Rule Number</th>
       <th>Rule</th>
       <th>Source</th>
