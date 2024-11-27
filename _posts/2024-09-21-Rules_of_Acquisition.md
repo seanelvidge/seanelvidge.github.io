@@ -28,15 +28,24 @@ I feed it the complete biographical information of the Ferengi's, their biology,
 And what a wonderful job it did! The complete list is below, merging the ChatGPT-derived rules along with the existing canon (with those by ChatGPT clearly highlighted) but some of my favourites it came up with are:
 
 #12 "Anything worth doing is worth doing for profit."
+
 #24: "Never mix business with pleasure unless it enhances profit."
+
 #28: "Morality is always negotiable in the pursuit of profit."
+
 #80: "If it works, sell it; if it doesn't, sell it as an antique."
+
 #96: "For every opportunity, there's an equal and opposite opportunity—exploit both."
+
 #114: "The small print holds the biggest profits."
+
 #132: "A lie isn't a lie until someone else knows the truth."
+
 #161: "Never work for free, unless there's future profit."
 
 ## Complete List of the Rules of Acquisition
+
+Note: if the source is not ChatGPT then these rules come from the [Ferengi Rules of Acquisition by Memory Beta](https://memory-beta.fandom.com/wiki/Ferengi_Rules_of_Acquisition){:target="\_blank"}, which contains more details including links to the source material/epsiode guide.
 
 <table border="1" class="dataframe">
   <thead>
@@ -1419,5 +1428,3 @@ And what a wonderful job it did! The complete list is below, merging the ChatGPT
     </tr>
   </tbody>
 </table>
-
-Note: if the source is not ChatGPT then these rules come from the [Ferengi Rules of Acquisition by Memory Beta](https://memory-beta.fandom.com/wiki/Ferengi_Rules_of_Acquisition){:target="\_blank"}, which contains more details including links to the source material/epsiode guide.
