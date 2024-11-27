@@ -2,7 +2,7 @@
 layout: post
 title: Rules of Acquisition
 date: 2024-09-21 06:44:00
-description: The (complete) Rules of Acquisition, 1 to 289.
+description: The (complete) Rules of Acquisition, 1 to 285.
 tags: misc
 thumbnail: assets/img/quark.png
 related_posts: true
