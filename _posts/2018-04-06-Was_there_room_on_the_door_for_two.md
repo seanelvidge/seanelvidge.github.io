@@ -3,7 +3,7 @@ layout: post
 title: Was there room on the door for two?
 date: 2018-04-06 10:09:00
 description: Could Jack Dawson and Rose DeWitt Bukater both have survived by both floating on the door?
-tags: mathematics internet misc
+tags: mathematics misc
 related_posts: true
 thumbnail: assets/img/titanicSpace/door.jpg
 ---
