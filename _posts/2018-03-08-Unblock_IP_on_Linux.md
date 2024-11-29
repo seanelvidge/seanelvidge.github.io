@@ -2,7 +2,7 @@
 layout: post
 title: Unblock IP address from connecting via SSH
 date: 2018-03-08 11:46:00
-tags: linux
+tags: misc
 related_posts: true
 ---
 
