@@ -3,7 +3,7 @@ layout: post
 title: Number of Unique Song Choices on Desert Island Discs
 date: 2017-01-29 11:34:00
 description: How many unique song choices to guests pick on Desert Island Discs?
-tags: internet
+tags: misc
 related_posts: true
 thumbnail: assets/img/did1.png
 ---
