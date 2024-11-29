@@ -3,7 +3,7 @@ layout: post
 title: Safe Reboot of Locked Linux Machine
 date: 2015-03-20 11:29:00-0400
 description: How to safely reboot a locked linux machine
-tags: linux
+tags: misc
 related_posts: true
 ---
 
