@@ -3,7 +3,7 @@ layout: post
 title: Relationship between Car Insurance Price and Population Density
 date: 2017-02-07 08:17:00
 description: Is the price of car insurance correlated with where you live?
-tags: mathematics internet
+tags: mathematics misc
 related_posts: true
 thumbnail: assets/img/popDen_carInsur.png
 ---
