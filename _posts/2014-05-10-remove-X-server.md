@@ -3,7 +3,7 @@ layout: post
 title: Quick way to remove X Server for running a headless server
 date: 2014-05-10 07:35:00
 description: Remove X Server
-tags: linux
+tags: misc
 related_posts: true
 ---
 
