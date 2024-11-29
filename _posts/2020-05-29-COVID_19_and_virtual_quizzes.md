@@ -3,7 +3,7 @@ layout: post
 title: COVID-19 and Virtual Quizzes
 date: 2020-05-29 23:19:00
 description: It is pretty easy to tell what the UK has been upto during the coronavirus lockdown, virtual pub quizzes!
-tags: mathematics internet misc
+tags: mathematics misc
 related_posts: true
 thumbnail: assets/img/covid_quiz.jpeg
 ---
