@@ -4,7 +4,7 @@ title: Solar Storms are Like Buses You Wait 20 Years for One, and Then Two Come 
 date: 2024-10-11 14:31:00
 description: This week, across much of the world including the UK, the majestic aurora borealis, or Northern Lights, were once again visible to us.
 tags: spaceWeather
-thumbnail: assets/img/aurora.png
+thumbnail: assets/img/aurora.jpg
 related_posts: true
 ---
 
