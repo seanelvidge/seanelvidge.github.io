@@ -34,11 +34,10 @@ While the visual spectacle of an aurora is captivating, there’s serious scienc
 
 Space weather doesn't just create auroras; it can also affect critical systems such as communications, GPS, satellite orbits and even the power grid. SERENE's work is vital for mitigating the risks posed by these powerful geomagnetic storms. Their research is ensuring that as we enjoy the beauty of the Northern Lights, we’re also better equipped to protect the technology that supports modern life.
 
-> Thanks to research groups like SERENE, we can enjoy the beauty of the aurora with the peace of mind that we’re ready for whatever space weather may bring.
-> Prof. Sean Elvidge, Professor in Space Environment, in the Space Environment and Radio Engineering (SERENE) group
-
 ## Looking Ahead: More Auroras to Come?
 
 As we approach the peak of the solar cycle, we can expect more opportunities to witness auroras in the UK. Solar storms will continue to erupt from the Sun and head toward Earth, and if the conditions are right (including cloud-free skies!), we could see even more stunning displays over the next couple of years. For those eager to catch the lights, staying tuned to space weather forecasts during this period of increased activity is key.
 
 The next time you see those vibrant reds and greens shimmering in the night sky, you’ll know that it’s not just a stroke of luck - it’s the Sun, cycling through its periodic bursts of activity. And thanks to research groups like SERENE, we can enjoy the beauty of the aurora with the peace of mind that we’re ready for whatever space weather may bring.
+
+Originally available from: [https://www.birmingham.ac.uk/news/2024/solar-storms-are-like-buses-you-wait-20-years-for-one-and-then-two-come-at-once](https://www.birmingham.ac.uk/news/2024/solar-storms-are-like-buses-you-wait-20-years-for-one-and-then-two-come-at-once){:target="\_blank"}
