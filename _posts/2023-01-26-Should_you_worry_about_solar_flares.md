@@ -1,0 +1,56 @@
+---
+layout: post
+title: Should You Really Worry About Solar Flares (Scientific American)
+date: 2023-01-26 14:31:00
+description: The sun is unleashing powerful outbursts that could strike Earth, but these events are far more common—and much less worrisome—than some hyped headlines suggest (redirect to SciAm)
+tags: spaceWeather
+thumbnail: assets/img/solarFlare.gif
+related_posts: true
+redirect: https://www.scientificamerican.com/article/should-you-really-worry-about-solar-flares/
+---
+
+On January 6 a powerful solar flare erupted from the surface of the sun. It was the first X-class flare—the strongest type on the flare intensity scale—[in around two months](https://twitter.com/erikapal/status/1613251397516132352). Two further X-class flares followed within the next few days, marking a distinct uptick in solar activity—and in breathless speculations that the flurry of flares could threaten us here on Earth. One U.K. tabloid [raised the possibility](https://www.dailystar.co.uk/news/world-news/earth-facing-massive-solar-storm-28913925) of “major continent-wide power blackouts.” “Terrifying solar storm coming to Earth,” [read another outlet’s headline](https://tech.hindustantimes.com/tech/news/terrifying-solar-storm-coming-to-earth-sunspot-set-to-spark-x-class-solar-flare-explosion-today-71673507979553.html).
+
+Heliophysicists and other scientists studying “space weather” warn that flares and related solar outbursts can indeed interfere with modern life by damaging power grids, as well as by increasing radiation exposures for occupants of space habitats and high-altitude aircraft. But even so, such experts say, the risk of harm arising from inclement space weather remains far lower than many media reports often suggest. Does that mean we shouldn’t worry any time our star decides to belch in our general direction? Not exactly. Knowing what to worry about and when, however, requires proper context and perspective.
+
+Solar flares arise within the sun’s roiling soup of plasma when charged particles thrash around one another to form intense magnetic field lines that can tangle and interweave. When these magnetic fields suddenly shift or realign—as often happens in sunspot-pocked “active regions” of the solar surface—an enormous amount of energy is released.
+
+There is no question that these solar eruptions, and particularly X-class flares, are mind-bogglingly powerful. One of the strongest solar flares ever seen, the Carrington Event of 1859, may have released as much energy as [10 billion megatons of exploding TNT](https://www.pnas.org/doi/10.1073/pnas.1917356116). Imagine the infamous Tsar Bomba—the most powerful thermonuclear weapon ever detonated—and you’re about [five billionths](https://en.wikipedia.org/wiki/Tsar_Bomba#:~:text=50%E2%80%9358%20megatons%20of%20TNT) of the way there.
+
+Most solar eruptions are nowhere near this energetic. But they can still propel enormous, planet-engulfing clouds of plasma called coronal mass ejections (CMEs) toward Earth, as well as anywhere else in the solar system. Direct hits on our world by CMEs can and do occur, and each event packs more than enough oomph to discernibly disrupt some modern electronics. Even so, such disruptions are usually subtle and have little to no impact on most peoples’ daily lives.
+
+## Another Day, Another Flare
+
+In aggregate, spates of space-weather scaremongering are easy to predict because they’re usually tied to solar activity itself, which follows a roughly 11-year cycle. Each round of the cycle sees our star oscillate once between two main states: the solar minimum, in which flare activity tends to be at its lowest, and the solar maximum, in which flare activity tends to be strongest. [Currently](https://www.swpc.noaa.gov/products/solar-cycle-progression), the sun is slightly more than two years away from its maximum, so heightened activity (and media alertness) is to be expected now and for the next few years.
+
+“At this point, I do not need to convince you that we are not facing the apocalypse,” says Erika Palmerio, a heliophysicist at solar research company Predictive Science. “The point is that solar activity is rising at the moment because that is what is expected of the solar cycle.” X-class flares, for instance, are quite common during periods of heightened solar activity despite their ominous “strongest” ranking. According to Palmerio, a typical solar cycle produces almost 200 of them, with most occurring towards the maximum. Statistically speaking, that implies we can expect more than a dozen X-class flares to erupt this year alone.
+
+When the next one happens, it’s important to remember a key caveat often overlooked in subsequent media coverage: While X-class events occupy the highest tier of flare intensity, this tier has no upper limit. So despite all X-class flares residing in the “strongest” category, they still can vary enormously in strength. The Carrington Event, for example, would by some estimates have registered as an X40 flare, whereas the flares at the start of this month all ranked at far more humdrum levels of between X1 and X2.
+
+## The Realistic Threats
+
+Simply put, even the most severe solar outbursts in living memory have had relatively subdued effects.
+
+This is partly because, despite the alarming but unlikely possibility of widespread electricity blackouts, space weather does not tend to affect phones, laptops and other everyday electronic devices at all. “I can’t think of any consumer electronic impacts that would even be possible,” says Sean Elvidge, head of space environment research at the University of Birmingham in England. CMEs can and do pose threats to power grids by interacting with Earth’s magnetic field and inducing excess electrical currents along and through the planet’s surface that sometimes last for hours. Given sufficiently mighty currents from a strong solar storm, unprotected transformers along power grids can be severely damaged and knocked offline, which reduces a grid’s capacity and necessitates time-consuming and expensive repair and replacement work.
+
+“But this really can only happen in very long cables or pipelines,” Elvidge adds. “So we don’t see that in your house. Your house just isn’t a problem for that kind of thing.”
+
+Palmerio says there is one highly unlikely way in which an electronic device might be affected by a solar storm: If it were to be struck by a single, very strongly charged solar particle that transfers most of its energy to the device upon impact. Scientists refer to such incidents as a single-event upset. “So you’re at your computer, and this one extremely strong particle hits your computer and fries it,” Palmerio says. “But obviously, the probabilities are very low. It’s definitely not something on the order of ‘all the mobile phones in this entire country are fried.’ That’s not going to happen.”
+
+Such events do become more likely at higher latitudes because of the tendency for a solar storm’s swarms of charged particles to accumulate around Earth’s poles, where the planet’s magnetic field is strongest. They become more likely at higher altitudes as well, where the thinner atmosphere offers less protection against incoming particles. Such diminished protections are also why jet travel increases one’s total radiation exposure and why transcontinental flights are sometimes routed away from polar regions during severe solar storms. “[A single event upset is] sort of where the planes-falling-out-of-the-sky idea comes from,” Elvidge says. “You can exaggerate it to the point where it seems comical and absurd and therefore not going to happen—or, you know, it’s sensible to talk about the real impacts. If you’ve got a pilot who’s just had 2,000 warning lights come on, nothing’s going to break [the aircraft], but it’s going to be fairly stressful.”
+
+The wider and more realistic concern for electronic systems is damage to power grids. For that reason, space weather forecasting is key.
+
+## Looking Ahead
+
+Key to space weather forecasting is the distinction between solar flares and CMEs. If a flare is the muzzle flash of a gunshot, the CME is the bullet. The x-rays and extreme ultraviolet radiation from flares reach Earth at near light-speed, and by the time we observe them, their effects—such as disruptions of high-frequency radio signals or satellite navigation systems—are already being felt.
+
+“We cannot predict when a flare will occur,” Palmerio says, although closely monitoring sunspots and other denizens of solar active regions can allow for educated guesses. “There is a lot of research going on. For example, are there tiny features we can see on the sun that can be considered precursors of flaring activity?”
+
+CMEs are relatively easier to forecast, in large part because they almost always begin with an especially strong flare yet move far more slowly. While flares take just eight minutes or so to reach Earth, CMEs can take up to three days. In addition, certain space weather satellites can act as an early warning system and send back data on the strength of any incoming CME before it starts washing over the planet’s power grids.
+
+The Geostationary Operational Environmental Satellites (GOES) operated by the U.S. National Oceanic and Atmospheric Administration are examples. “We’ve worked closely with the power industry to help them prepare for these things and mitigate the impact,” says Rob Steenburgh, acting lead of NOAA’s Space Weather Forecast Office. “So we notify them when we think we know what’s coming.” Grid operators, Steenburgh says, can then take actions to mitigate possible threats, such as decreasing total power output or bringing more backup equipment online.
+
+None of this is to say there are no threats. A major unknown in space weather forecasting is when the next “big one” will occur—the next Carrington-level storm or even a storm 100 times more energetic than that. Estimates vary from once per 100 years for a Carrington-level event, according to Elvidge, to [once per millennia](https://theconversation.com/radioactive-traces-in-tree-rings-reveal-earths-history-of-unexplained-radiation-storms-193080#:~:text=around%20once%20every%20thousand%20years) for ones that are much more powerful. A 2022 study of tree rings, which can record prehistoric solar storms in their growth, found evidence that huge radiation spikes, dubbed Miyake events, [occurred several times](https://royalsocietypublishing.org/doi/10.1098/rspa.2022.0497) across millennia. If caused by gargantuan solar flares, such events would be enough to cause significant disruption to power grids and satellites today. Yet the events do not seem to have a consistent relationship with the solar cycle, and some appeared to last longer than a year—far longer than any known flare—so their true origins remain a mystery.
+
+“As a person who works with this every day, I am way more scared of a ‘doomsday’ derived from terrestrial weather like forest fires, hurricanes and extreme weather,” Palmerio concludes. “At every solar cycle, it’s as if we forgot what happened in the previous one. In [the cycle that stretched from 1996 to 2008], we saw really strong events. And I’m pretty sure that most people didn’t even know those events happened.... We have to monitor, and we have to be prepared. But we do not have to lose sleep over this.”
