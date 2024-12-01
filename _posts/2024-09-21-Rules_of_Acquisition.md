@@ -1112,11 +1112,6 @@ Note: if the source is not ChatGPT then these rules come from the [Ferengi Rules
       <td>"Past Tense, Part I" (DS9 episode)</td>
     </tr>
     <tr>
-      <td>217</td>
-      <td>Always know what you're buying.</td>
-      <td>The Ferengi Rules of Acquisition (DS9 reference book)</td>
-    </tr>
-    <tr>
       <td>218</td>
       <td>Sometimes what you get free costs entirely too much.</td>
       <td>Baby on Board (DS9 Malibu Comics)</td>
