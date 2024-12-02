@@ -22,9 +22,9 @@ To address this disparity, I embarked on a project to adjust goal records by acc
 
 ### Utilizing Elo Ratings
 
-The foundation of this approach lies in the Elo rating system, a method originally devised for ranking chess players but now widely adopted across various sports, including football. Elo ratings provide a dynamic measure of a team's strength, updating after each match based on the result and the quality of the opposition.
+The foundation of this approach lies in the {% glossary Elo %} rating system, a method originally devised for ranking chess players but now widely adopted across various sports, including football. {% glossary Elo %} ratings provide a dynamic measure of a team's strength, updating after each match based on the result and the quality of the opposition.
 
-By leveraging historical Elo ratings, we can assess the relative strength of any two teams at the time they played. This allows us to calculate a weighting factor for each goal scored, reflecting the challenge posed by the opponent.
+By leveraging historical {% glossary Elo %} ratings, we can assess the relative strength of any two teams at the time they played. This allows us to calculate a weighting factor for each goal scored, reflecting the challenge posed by the opponent.
 
 ### The Weighting Formula
 
@@ -34,7 +34,7 @@ $$
 \text{Weight} = 1 - k\times\frac{E-O}{E}
 $$
 
-Where, $$E$$ is the Elo rating of England before the match, $$O$$ is the Elo rating of the opposition before the match and $$k$$ a scaling constant that adjusts the sensitivity of the weighting to the difference in Elo ratings.
+Where, $$E$$ is the {% glossary Elo %} rating of England before the match, $$O$$ is the {% glossary Elo %} rating of the opposition before the match and $$k$$ a scaling constant that adjusts the sensitivity of the weighting to the difference in Elo ratings.
 
 This formula adjusts the weight of a goal based on how much stronger or weaker the opposition is relative to England:
 
