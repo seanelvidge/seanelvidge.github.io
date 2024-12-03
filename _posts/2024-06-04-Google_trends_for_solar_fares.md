@@ -8,7 +8,7 @@ related_posts: true
 thumbnail: assets/img/xkcd_solarFlares.png
 ---
 
-This is the [Google Trends](https://trends.google.com/trends/){:target="\_blank"} data for ["Solar Flare"](https://trends.google.com/trends/explore?date=all&geo=GB&q=solar%20flare&hl=en-GB){:target="\_blank"}. Google Trends report this as "interest over time", whcih is defined as:
+[Google Trends](https://trends.google.com/trends/) shows the popularity of search queries in Google Search across various regions and languages. Below I have plotted the data for "Solar Flare". Google Trends report this as "interest over time", whcih is defined as:
 
 > Numbers represent search interest relative to the highest point on the chart for the given region and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular. A score of 0 means that there was not enough data for this term.
 
