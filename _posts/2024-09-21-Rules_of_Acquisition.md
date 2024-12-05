@@ -229,7 +229,7 @@ Note: if the source is not ChatGPT then these rules come from the [Ferengi Rules
     <tr>
       <td>35</td>
       <td>Peace is good for business.</td>
-      <td>NaN</td>
+      <td>DS9 episode: "Destiny"</td>
     </tr>
     <tr>
       <td>36</td>
