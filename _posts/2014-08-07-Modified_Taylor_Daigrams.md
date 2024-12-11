@@ -12,7 +12,7 @@ related_posts: true
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        <figure>
+        <figure style="max-width:50%;">
             {% include figure.liquid loading="eager" path="assets/img/mtd.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
         </figure>
     </div>
