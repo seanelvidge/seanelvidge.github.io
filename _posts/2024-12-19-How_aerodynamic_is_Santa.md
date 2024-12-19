@@ -2,7 +2,7 @@
 layout: post
 title: How aerodynamic is Santa?
 date: 2023-01-26 14:31:00
-description: Santa is at the top of many engineering disciplines - his production line for presents, for example. However one that is often overlooked is the space-domain.
+description: Santa is at the top of many engineering disciplines - his production line for presents, for example. However one that is often overlooked is the space-domain (Redirect to University of Birmingham News page)
 tags: spaceWeather misc
 thumbnail: assets/img/santa_moon.png
 related_posts: true
