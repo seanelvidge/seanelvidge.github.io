@@ -57,67 +57,67 @@ th {
       <td>Son Heung-Min</td>
       <td>126</td>
       <td>92</td>
-      <td>+37%</td>
+      <td>+37</td>
     </tr>
     <tr>
       <td>Harry Kane</td>
       <td>231</td>
       <td>198</td>
-      <td>+16%</td>
+      <td>+16</td>
     </tr>
     <tr>
       <td>Lionel Messi</td>
       <td>253</td>
       <td>220</td>
-      <td>+15%</td>
+      <td>+15</td>
     </tr>
     <tr>
       <td>Kylian Mbappé</td>
       <td>183</td>
       <td>161</td>
-      <td>+14%</td>
+      <td>+14</td>
     </tr>
     <tr>
       <td>Erling Haaland</td>
       <td>112</td>
       <td>99</td>
-      <td>+13%</td>
+      <td>+13</td>
     </tr>
     <tr>
       <td>Cristiano Ronaldo</td>
       <td>234</td>
       <td>229</td>
-      <td>+2.2%</td>
+      <td>+2.2</td>
     </tr>
     <tr>
       <td>Karim Benzema</td>
       <td>166</td>
       <td>169</td>
-      <td>-1.8%</td>
+      <td>-1.8</td>
     </tr>
     <tr>
       <td>Robert Lewandowski</td>
       <td>269</td>
       <td>276</td>
-      <td>-2.5%</td>
+      <td>-2.5</td>
     </tr>
     <tr>
       <td>Victor Osimhen</td>
       <td>70</td>
       <td>73</td>
-      <td>-4.1%</td>
+      <td>-4.1</td>
     </tr>
     <tr>
       <td>Alexander Isak</td>
       <td>51</td>
       <td>55</td>
-      <td>-7.3%</td>
+      <td>-7.3</td>
     </tr>
     <tr>
       <td>Gabriel Jesus</td>
       <td>72</td>
       <td>97</td>
-      <td>-26%</td>
+      <td>-26</td>
     </tr>
   </tbody>
 </table>
