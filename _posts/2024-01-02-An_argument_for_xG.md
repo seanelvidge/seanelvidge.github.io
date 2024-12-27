@@ -144,14 +144,14 @@ function sortTable(tableID, columnIndex) {
 
 One final thought about the xG values that you will have seen presented. Different peoples and companies xG values are not all of the same quality. The original xG models “just” considered the position of where the shot was taken which has clear weaknesses because you know nothing about whether you are 15 yards out, but with an open goal, or 15 yards out on the half-turn with three defenders around you. More modern xG calculations (such as the one from Opta used by Match of the Day) are built on over a million shots considering, amongst others:
 
-* Distance to the goal,
-* Angle to the goal,
-* Goalkeeper position,
-* The clarity the shooter has of the goal mouth, based on the positions of other players,
-* The amount of pressure they are under from the opposition defenders,
-* Shot type, such as which foot the shooter used or whether it was a volley/header/one-on-one,
-* Pattern of play (e.g., open play, fast break, direct free-kick, corner kick, throw-in etc.),
-* Information on the previous action, such as the type of assist (e.g., through ball, cross etc.)
+- Distance to the goal,
+- Angle to the goal,
+- Goalkeeper position,
+- The clarity the shooter has of the goal mouth, based on the positions of other players,
+- The amount of pressure they are under from the opposition defenders,
+- Shot type, such as which foot the shooter used or whether it was a volley/header/one-on-one,
+- Pattern of play (e.g., open play, fast break, direct free-kick, corner kick, throw-in etc.),
+- Information on the previous action, such as the type of assist (e.g., through ball, cross etc.)
 
 So, when seeing xG analysis across the media you also have to be careful of the underlying xG model being used (and that information is very rarely provided).
 
