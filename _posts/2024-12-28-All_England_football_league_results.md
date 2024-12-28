@@ -180,7 +180,7 @@ related_posts: true
             $(table).DataTable({
                 destroy: true,
                 paging: false,
-				info: false, // Disable the "Showing X to Y of Z entries" text
+                info: false, // Disable the "Showing X to Y of Z entries" text
                 order: [[8, "desc"]], // Default sorting by "Points" (index 8)
                 data: leagueTable,
                 columns: [
@@ -197,6 +197,6 @@ related_posts: true
             });
         }
     </script>
-    
+
 </body>
 </html>
