@@ -1,20 +1,19 @@
 ---
 layout: post
 title: All England football league results
-date: 2022-12-29 10:09:00
+date: 2024-12-28 10:09:00
 description: A plain text set of all England football (soccer) league results from 1888 to present.
 tags: misc
-thumbnail: assets/img/calculator.png
+thumbnail: assets/img/england_league_results.png
 related_posts: true
 ---
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>League Table Generator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/papaparse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
@@ -23,19 +22,25 @@ related_posts: true
     <h1>League Table Generator</h1>
     <form id="leagueForm">
         <label for="season">Season:</label>
-        <input type="text" id="season" placeholder="e.g., 2024/2025"><br><br>
+        <input type="text" id="season" placeholder="e.g., 2024/2025"><br>
+
+        <h3>or</h3>
 
         <label for="start_year">Start Year:</label>
-        <input type="number" id="start_year" placeholder="e.g., 2024"><br><br>
+        <input type="number" id="start_year" placeholder="e.g., 2024" min="1888" max=""><br>
+
+        <h3>or</h3>
 
         <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate">
+        <input type="date" id="startDate" min="1888-09-08" max="">
 
         <label for="endDate">End Date:</label>
-        <input type="date" id="endDate"><br><br>
+        <input type="date" id="endDate" min="1888-09-08" max=""><br>
+
+        <h3>and</h3>
 
         <label for="division">Division:</label>
-        <input type="number" id="division" placeholder="Enter division number"><br><br>
+        <input type="number" id="division" value="1" min="1" max="4" step="1"><br><br>
 
         <button type="button" onclick="handleSubmit()">Generate Table</button>
     </form>
@@ -45,45 +50,67 @@ related_posts: true
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // URL of the CSV file on GitHub
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const formattedDate = currentDate.toISOString().split('T')[0];
+
+            // Set default and maximum values for date and year fields
+            document.getElementById("start_year").max = currentYear;
+            document.getElementById("startDate").max = formattedDate;
+            document.getElementById("endDate").max = formattedDate;
+
+            // Define CSV URL
             const csvUrl = "https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeagueResults.csv";
 
-            // Fetch and parse the CSV file
+            // Fetch and parse CSV data
             fetch(csvUrl)
                 .then(response => response.text())
                 .then(csvText => {
-                    // Parse CSV text to JSON format
+                    // console.log("CSV Text Loaded"); // Debugging
                     const csvData = Papa.parse(csvText, {
-                        header: true, // Use the first row as headers
-                        dynamicTyping: true, // Automatically typecast numeric fields
-                        skipEmptyLines: true // Skip empty rows
+                        header: true,
+                        dynamicTyping: true,
+                        skipEmptyLines: true
                     }).data;
 
-                    // Save data to a global variable
+                    // console.log("Parsed CSV Data:", csvData); // Debugging
                     window.matchData = csvData;
                 })
                 .catch(error => {
                     console.error("Failed to load CSV data:", error);
+                    alert("Failed to load CSV data. Please check the console for more details.");
                 });
         });
 
         function handleSubmit() {
-            // Get form values
-            const season = document.getElementById("season").value;
-            const startYear = document.getElementById("start_year").value;
-            const startDate = new Date(document.getElementById("startDate").value);
-            const endDate = new Date(document.getElementById("endDate").value);
+            if (!window.matchData || !Array.isArray(window.matchData)) {
+                alert("Match data is not loaded. Please wait for the data to load or reload the page.");
+                console.error("Match data is undefined or invalid.");
+                return;
+            }
+
+            const season = document.getElementById("season").value.trim();
+            const startYear = document.getElementById("start_year").value.trim();
+            const startDate = document.getElementById("startDate").value.trim();
+            const endDate = document.getElementById("endDate").value.trim();
+
+            // Ensure only one of Season, Start Year, or Date Range is set
+            const filtersSet = [season, startYear, (startDate && endDate)].filter(Boolean).length;
+            if (filtersSet > 1) {
+                alert("Please fill only one of Season, Start Year, or Start/End Date.");
+                return;
+            }
+
             const division = document.getElementById("division").value;
 
-            // Generate filters based on input
             const filters = {
-                season: season ? season.trim() : null,
+                season: season || null,
                 startYear: startYear ? parseInt(startYear, 10) : null,
-                dateRange: (!isNaN(startDate) && !isNaN(endDate)) ? [startDate, endDate] : null,
+                dateRange: (startDate && endDate) ? [new Date(startDate), new Date(endDate)] : null,
                 division: division ? parseInt(division, 10) : null
             };
 
-            // Pass filtered data to the league table generator
+            // console.log("Filters:", filters); // Debugging
             generateLeagueTable(window.matchData, filters);
         }
 
@@ -109,7 +136,8 @@ related_posts: true
                 });
             }
 
-            // Generate league table logic (same as before)
+            // console.log("Filtered Data:", filteredData); // Debugging
+
             const teams = {};
             for (const match of filteredData) {
                 const { HomeTeam, AwayTeam, hGoal, aGoal } = match;
@@ -146,10 +174,14 @@ related_posts: true
             const leagueTable = Object.keys(teams).map(team => ({ Team: team, ...teams[team] }));
             leagueTable.sort((a, b) => b.Points - a.Points || b.GD - a.GD || b.GF - a.GF);
 
-            // Display table using DataTables
+            // console.log("League Table:", leagueTable); // Debugging
+
             const table = document.getElementById("leagueTable");
             $(table).DataTable({
                 destroy: true,
+                paging: false,
+				info: false, // Disable the "Showing X to Y of Z entries" text
+                order: [[8, "desc"]], // Default sorting by "Points" (index 8)
                 data: leagueTable,
                 columns: [
                     { title: "Team", data: "Team" },
@@ -165,6 +197,6 @@ related_posts: true
             });
         }
     </script>
-
+    
 </body>
 </html>
