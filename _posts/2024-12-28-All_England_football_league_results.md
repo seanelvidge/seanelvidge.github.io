@@ -3,7 +3,7 @@ layout: post
 title: All England football league results
 date: 2024-12-28 10:09:00
 description: A plain text set of all England football (soccer) league results from 1888 to present.
-tags: misc
+tags: football
 thumbnail: assets/img/england_league_results.png
 related_posts: true
 ---
@@ -14,7 +14,7 @@ related_posts: true
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>League Table Generator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 </head>
