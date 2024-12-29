@@ -33,6 +33,7 @@ Between 1921 and 1958 there was a Third Division North and South, in the databas
 
 The data from 1888 to 2016 is based on that from:
 James P. Curley (2016). engsoccerdata: English Soccer Data 1871-2016. http://dx.doi.org/10.5281/zenodo.13158
+
 Many thanks to James, and other contributors, for that excellent work. This wouldn't be possible without it.
 
 Such a long database of results leads to some confusion around team names, the answer to the most common set of questions I have received in terms of team names:
