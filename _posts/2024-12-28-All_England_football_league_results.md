@@ -8,12 +8,11 @@ thumbnail: assets/img/england_league_results.png
 related_posts: true
 ---
 
-This is a plain text database of all England football (soccer) league results from 1888 to 2024/12/26 (covering 208,983 matches).
+This is a plain text database of all England football (soccer) league results from 1888 to the present day (covering over 209,000 matches).
+
+You can access the latest database on its dedicated github page:  [England-football-results](https://github.com/seanelvidge/England-football-results/tree/main)
 
 The database is updated roughly every two days (although I am looking for approaches to speed this up) for the top four divisions in England: Premier League, Championship, League 1 and League 2.
-
-The 1888-2016 data is based on that from:
-James P. Curley (2016). engsoccerdata: English Soccer Data 1871-2016. http://dx.doi.org/10.5281/zenodo.13158
 
 The database is a comma (",") delimited csv file with the following columns:
 
@@ -30,7 +29,11 @@ The database is a comma (",") delimited csv file with the following columns:
 | Result | the result "H" (home win), "A" (away win), "D" (draw) (string) |
 
 
-Between 1921 and 1958 there was a Third Division North and South, in the database we give both the numerical representation "3".
+Between 1921 and 1958 there was a Third Division North and South, in the database we give both the numerical representation "3". 
+
+The data from 1888 to 2016 is based on that from:
+James P. Curley (2016). engsoccerdata: English Soccer Data 1871-2016. http://dx.doi.org/10.5281/zenodo.13158
+Many thanks to James, and other contributors, for that excellent work. This wouldn't be possible without it.
 
 Such a long database of results leads to some confusion around team names, the answer to the most common set of questions I have received in terms of team names:
 
