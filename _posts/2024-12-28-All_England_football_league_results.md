@@ -194,6 +194,4 @@ window.addEventListener("load", function() {
   document.body.appendChild(dtScript);
 });
 </script>
-
-</body>
 </html>
