@@ -1,6 +1,6 @@
 ---
 layout: page
-permalink: /leaguetable/
+permalink: /leaguetable
 title: English Football League Table Generator
 description: Tool for constructing any English football league table
 nav: false
