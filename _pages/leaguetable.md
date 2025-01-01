@@ -51,6 +51,8 @@ nav: false
     	  <button type="button">Generate Table</button>
     	  <button type="button" id="resetTableBtn">Reset Form</button>
 
+        <hr>
+
     	  <script>
     		// Constants for start year and current date
     		const startYear = 1888;
@@ -249,6 +251,7 @@ nav: false
             destroy: true,
             paging: false,
             info: false,
+            searching: false,
             order: [[9, "desc"]],
             data: teamsArray,
             columns: [
@@ -287,7 +290,7 @@ nav: false
     		  // Grab URL parameters
     		  const urlParams = new URLSearchParams(window.location.search);
     		  const paramSeason = urlParams.get("season");
-    		  const paramStartYear = urlParams.get("start_year");
+    		  let paramStartYear = urlParams.get("start_year") || urlParams.get("year");
     		  let paramStartDate = urlParams.get("startDate");
     		  let paramEndDate = urlParams.get("endDate");
     		  // Optional division param
