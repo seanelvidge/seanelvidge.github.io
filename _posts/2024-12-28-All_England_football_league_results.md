@@ -64,77 +64,78 @@ table.dataTable th {
 		  <input type="text" id="season" placeholder="e.g., 2024/2025" list="seasonOptions"><br>
 		  <datalist id="seasonOptions"></datalist>
 
-		  <h3>or</h3>
+    	  <h3>or</h3>
 
-		  <label for="start_year">Year:</label>
-		  <input type="text" id="start_year" placeholder="e.g., 2024" list="yearOptions"><br>
-		  (where '2024' would mean the season 2023/2024)
-		  <datalist id="yearOptions"></datalist>
+    	  <label for="start_year">Year:</label>
+    	  <input type="text" id="start_year" placeholder="e.g., 2024" list="yearOptions"><br>
+    	  (where '2024' would mean the season 2023/2024)
+    	  <datalist id="yearOptions"></datalist>
 
-		  <br>
+    	  <br>
 
-		  <h3>or</h3>
+    	  <h3>or</h3>
 
-		  <label for="startDate">Start Date:</label>
-		  <input type="date" id="startDate" min="1888-09-08"><br>
+    	  <label for="startDate">Start Date:</label>
+    	  <input type="date" id="startDate" min="1888-09-08"><br>
 
-		  <label for="endDate">End Date:</label>
-		  <input type="date" id="endDate" min="1888-09-08"><br>
-		  (if only providing an end date it will assume the start date is the beginning of that season)
+    	  <label for="endDate">End Date:</label>
+    	  <input type="date" id="endDate" min="1888-09-08"><br>
+    	  (if only providing an end date it will assume the start date is the beginning of that season)
 
-		  <h3>and</h3>
+    	  <h3>and</h3>
 
-		  <label for="division">Division:</label>
-		  <input type="text" id="division" value="1" list="divOptions"><br>
-		  (1,2,3 or 4 where 1 means the 'first' division [currently the Premier League])
-		  <datalist id="divOptions"></datalist>
-		  <br><br>
+    	  <label for="division">Division:</label>
+    	  <input type="text" id="division" value="1" list="divOptions"><br>
+    	  (1,2,3 or 4 where 1 means the 'first' division [currently the Premier League])
+    	  <datalist id="divOptions"></datalist>
+    	  <br><br>
 
-		  <button type="button">Generate Table</button>
-		  <button type="button" id="resetTableBtn">Reset Form</button>
+    	  <button type="button">Generate Table</button>
+    	  <button type="button" id="resetTableBtn">Reset Form</button>
 
-		  <script>
-			// Constants for start year and current date
-			const startYear = 1888;
-			const currentDate = new Date();
-			const currentYear = currentDate.getFullYear();
-			const currentMonth = currentDate.getMonth(); // 0-indexed (0 = January, 11 = December)
-			const finalYear = currentMonth >= 6 ? currentYear + 1 : currentYear; // Final year logic
+    	  <script>
+    		// Constants for start year and current date
+    		const startYear = 1888;
+    		const currentDate = new Date();
+    		const currentYear = currentDate.getFullYear();
+    		const currentMonth = currentDate.getMonth(); // 0-indexed (0 = January, 11 = December)
+    		const finalYear = currentMonth >= 6 ? currentYear + 1 : currentYear; // Final year logic
 
-			// Generate options for "Season" datalist
-			const seasonList = document.getElementById('seasonOptions');
-			for (let year = startYear; year < finalYear; year++) {
-			  const option = document.createElement('option');
-			  option.value = `${year}/${year + 1}`;
-			  seasonList.appendChild(option);
-			}
+    		// Generate options for "Season" datalist
+    		const seasonList = document.getElementById('seasonOptions');
+    		for (let year = startYear; year < finalYear; year++) {
+    		  const option = document.createElement('option');
+    		  option.value = `${year}/${year + 1}`;
+    		  seasonList.appendChild(option);
+    		}
 
-			// Generate options for "Year" datalist
-			const yearList = document.getElementById('yearOptions');
-			for (let year = startYear; year <= finalYear; year++) {
-			  const option = document.createElement('option');
-			  option.value = year;
-			  yearList.appendChild(option);
-			}
-			
-			// Generate options for "Division" datalist
-			const divList = document.getElementById('divOptions');
-			for (let division = 1; division <= 4; division++) {
-			  const option = document.createElement('option');
-			  option.value = division;
-			  divList.appendChild(option);
-			}
-			
-			// Event listener for the "Reset Table" button
-			const resetButton = document.getElementById('resetTableBtn');
-				resetButton.addEventListener('click', () => {
-				  document.getElementById('season').value = '';
-				  document.getElementById('start_year').value = '';
-				  document.getElementById('startDate').value = '';
-				  document.getElementById('endDate').value = '';
-				  document.getElementById('division').value = 1;
-				});
-		  </script>
+    		// Generate options for "Year" datalist
+    		const yearList = document.getElementById('yearOptions');
+    		for (let year = startYear; year <= finalYear; year++) {
+    		  const option = document.createElement('option');
+    		  option.value = year;
+    		  yearList.appendChild(option);
+    		}
+
+    		// Generate options for "Division" datalist
+    		const divList = document.getElementById('divOptions');
+    		for (let division = 1; division <= 4; division++) {
+    		  const option = document.createElement('option');
+    		  option.value = division;
+    		  divList.appendChild(option);
+    		}
+
+    		// Event listener for the "Reset Table" button
+    		const resetButton = document.getElementById('resetTableBtn');
+    			resetButton.addEventListener('click', () => {
+    			  document.getElementById('season').value = '';
+    			  document.getElementById('start_year').value = '';
+    			  document.getElementById('startDate').value = '';
+    			  document.getElementById('endDate').value = '';
+    			  document.getElementById('division').value = 1;
+    			});
+    	  </script>
+
 </form>
    
 <form id="leagueForm">
