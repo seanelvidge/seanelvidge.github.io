@@ -235,7 +235,7 @@ nav: false
             b.GD - a.GD ||
             b.GF - a.GF
           ));
-		  
+
     	  // Assign position based on their sorted index
     	  teamsArray.forEach((row, idx) => {
     		row.Pos = idx + 1;  // e.g., 1, 2, 3, ...
