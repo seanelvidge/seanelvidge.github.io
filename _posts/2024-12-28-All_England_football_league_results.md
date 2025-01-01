@@ -93,6 +93,8 @@ table.dataTable th {
     	  <button type="button">Generate Table</button>
     	  <button type="button" id="resetTableBtn">Reset Form</button>
 
+          <hr>
+
     	  <script>
     		// Constants for start year and current date
     		const startYear = 1888;
