@@ -293,6 +293,7 @@ function generateLeagueTable(matchData, filters) {
     destroy: true,
     paging: false,
     info: false,
+    searching: false,
     order: [[8, "desc"]],
     data: tableRows,
     columns: [
