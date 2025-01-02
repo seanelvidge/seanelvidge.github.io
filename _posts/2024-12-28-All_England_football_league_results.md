@@ -139,31 +139,6 @@ table.dataTable th {
     	  </script>
 
 </form>
-   
-<form id="leagueForm">
-  <label for="season">Season:</label>
-  <input type="text" id="season" placeholder="e.g., 2024/2025"><br>
-  
-  <h3>or</h3>
-  <label for="start_year">Year:</label>
-  <input type="number" id="start_year" placeholder="e.g., 2024" min="1888"><br>
-  (where '2024' would mean the season 2023/2024)<br>
-  
-  <h3>or</h3>
-  <label for="startDate">Start Date:</label>
-  <input type="date" id="startDate" min="1888-09-08"><br>
-  <label for="endDate">End Date:</label>
-  <input type="date" id="endDate" min="1888-09-08"><br>
-  (if only providing an end date it will assume the start date is the beginning of that season)
-  
-  <h3>and</h3>
-  <label for="division">Division:</label>
-  <input type="number" id="division" value="1" min="1" max="4" step="1"><br>
-  (where 1 means the 'first' division [currently the Premier League])
-  <br><br>
-  
-  <button type="button">Generate Table</button>
-</form>
 
 <h2 id="tableHeading" style="display:none;">League Table</h2>
 <table id="leagueTable" class="table table-striped table-bordered" style="display:none;"></table>
