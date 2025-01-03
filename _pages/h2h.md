@@ -141,8 +141,6 @@ nav: false
   }
 </style>
 
-
-
 <h1>Head-to-Head Comparison</h1>
 
 <form id="h2hForm">
