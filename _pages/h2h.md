@@ -6,222 +6,116 @@ description: Tool for finding the head-to-head statistics between any two teams 
 nav: false
 ---
 
-<!-- Papa Parse for CSV reading -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    form {
+      margin-bottom: 20px;
+    }
+    label {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    .team-logo {
+      width: 120px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .team-name {
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 5px;
+    }
+    .teams-row {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .vs-label {
+      display: none; /* Hidden by default; will show after Compare */
+      margin: 0 5px;
+      font-size: 2em;
+      font-weight: bold;
+      vertical-align: middle;
+    }
+    .team-container {
+      display: inline-block;
+      width: 20%;
+      text-align: center;
+      vertical-align: middle;
+    }
+    svg {
+      overflow: visible;
+    }
+    .chart-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .bar-label {
+      font-weight: bold;
+    }
+    /* Match list styling */
+    .match-list {
+      margin-top: 40px;
+      text-align: center;
+    }
+    .match-item {
+      margin: 20px 0;
+    }
+    .match-date {
+      margin-bottom: 5px;
+      /* If we want the date near the center, we can do something like: */
+      margin-left: 35%; 
+      text-align: left;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h1>Head-to-Head Comparison</h1>
+  <form id="compareForm">
+    <label for="team1Input">Team #1:</label>
+    <input type="text" id="team1Input" list="teams" />
 
-<style>
-  body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    margin: 20px;
-    background: #fafafa;
-  }
-  h1 {
-    text-align: center;
-    margin-bottom: 1em;
-  }
-  form#h2hForm {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    min-width: 200px;
-  }
-  label {
-    font-weight: bold;
-    margin-bottom: 0.2em;
-  }
-  input[type="text"],
-  input[type="date"],
-  select {
-    padding: 0.3em;
-    font-size: 1em;
-  }
-  .checkbox-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-    margin-top: auto;
-  }
-  button {
-    padding: 0.6em 1em;
-    font-size: 1em;
-    cursor: pointer;
-    border: none;
-    background: #2b8a3e;
-    color: white;
-    border-radius: 4px;
-    font-weight: bold;
-    transition: background 0.3s ease;
-    margin-top: auto;
-  }
-  button:hover {
-    background: #236c31;
-  }
+    <label for="team2Input">Team #2:</label>
+    <input type="text" id="team2Input" list="teams" />
 
-  /* Head-to-head table styling */
-  #h2hTable {
-    width: 60%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    border-radius: 6px;
-    overflow: hidden;
-    font-size: 1.8em;
-    /* Fix column widths by declared percentages */
-    table-layout: fixed;
-  }
+    <datalist id="teams"></datalist>
 
-  /* All header cells in the top row are black */
-  #h2hTable th {
-    background: #333;
-    color: #fff;
-    font-weight: 600;
-    text-align: center;
-    padding: 1.2em;
-  }
+    <br><br>
 
-  /* Control the widths of the top row’s 3 columns */
-  #h2hTable thead th:first-child {
-    width: 15%;  /* first column (empty label cell) */
-  }
-  #h2hTable thead th:nth-child(2),
-  #h2hTable thead th:nth-child(3) {
-    width: 42.5%;
-  }
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" />
 
-  /* The body cells */
-  #h2hTable tbody td {
-    padding: 1.2em;
-    text-align: center;
-	font-size: 0.75em;
-  }
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" />
 
-  /* Gray background for left column cells in the body only */
-  #h2hTable tbody tr th {
-    width: 15%;
-    background: #f7f7f7;
-    color: #333;
-    text-align: right;
-	font-size: 0.75em;
-  }
+    <label for="premierOnly">Premier League Era only?</label>
+    <input type="checkbox" id="premierOnly" />
 
-  /* The other two columns in the body share the remaining 85% */
-  #h2hTable tbody td:nth-child(2),
-  #h2hTable tbody td:nth-child(3) {
-    width: 42.5%;
-  }
+    <button type="submit">Compare</button>
+    <button type="button" id="resetButton">Reset</button>
+  </form>
 
-  /* Subtle row hover */
-  #h2hTable tbody tr:hover {
-    background: #f2f2f2;
-  }
-
-  /* Team name + logo in the header cells */
-  .team-name {
-    display: block;
-    text-align: center;
-    margin-bottom: 0.4em;
-    font-weight: bold;
-    font-size: 1.3em;
-  }
-  .team-logo {
-    display: block;
-    margin: 0 auto;
-  }
-
-  /* Ensure the "Drawn" cell text is centered (it spans two columns) */
-  #numDraws {
-    text-align: center;
-  }
-</style>
-
-<h1>Head-to-Head Comparison</h1>
-
-<form id="h2hForm">
-  <div class="form-group">
-    <label for="team1Input">Team #1</label>
-    <input id="team1Input" list="teamsList" type="text" placeholder="Select or type Team #1" />
+  <div class="teams-row">
+    <div class="team-container" id="team1Container">
+      <img class="team-logo" id="team1Logo" />
+      <div class="team-name" id="team1Name"></div>
+    </div>
+    <div class="vs-label" id="vsLabel">vs</div>
+    <div class="team-container" id="team2Container">
+      <img class="team-logo" id="team2Logo" />
+      <div class="team-name" id="team2Name"></div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="team2Input">Team #2</label>
-    <input id="team2Input" list="teamsList" type="text" placeholder="Select or type Team #2" />
-  </div>
+  <div class="chart-container" id="chart"></div>
+  <div class="match-list" id="matchList"></div>
 
-  <datalist id="teamsList">
-    <!-- Populated dynamically once CSV loads, sorted alphabetically -->
-  </datalist>
-
-  <div class="form-group">
-    <label for="startDate">Start Date (optional)</label>
-    <input id="startDate" type="date" />
-  </div>
-
-  <div class="form-group">
-    <label for="endDate">End Date (optional)</label>
-    <input id="endDate" type="date" />
-  </div>
-
-  <div class="form-group checkbox-group">
-    <input id="plOnlyCheckbox" type="checkbox" />
-    <label for="plOnlyCheckbox" style="margin:0;">Premier League Only?</label>
-  </div>
-
-  <div style="display:flex; gap:1rem; margin-top:auto;">
-    <button type="button" id="compareButton">Compare</button>
-    <button type="button" id="resetButton" style="background:#999;">Reset</button>
-  </div>
-</form>
-
-<!-- The Head-to-Head table, hidden by default -->
-<table id="h2hTable" style="display:none;">
-  <thead>
-    <tr>
-      <th></th>
-      <th>
-        <!-- Team 1 Name and Logo -->
-        <div id="h2h-team1-col" class="team-name">Team #1</div>
-        <img id="team1Logo" class="team-logo" src="" alt="" width="60" height="60" />
-      </th>
-      <th>
-        <!-- Team 2 Name and Logo -->
-        <div id="h2h-team2-col" class="team-name">Team #2</div>
-        <img id="team2Logo" class="team-logo" src="" alt="" width="60" height="60" />
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Won</th>
-      <td id="team1Wins"></td>
-      <td id="team2Wins"></td>
-    </tr>
-    <tr>
-      <th>Drawn</th>
-      <td colspan="2" id="numDraws"></td>
-    </tr>
-    <tr>
-      <th>Goals For</th>
-      <td id="team1Goals"></td>
-      <td id="team2Goals"></td>
-    </tr>
-    <tr>
-      <th>Biggest Win</th>
-      <td id="team1BiggestWin"></td>
-      <td id="team2BiggestWin"></td>
-    </tr>
-  </tbody>
-</table>
-
-<script>
-// Dictionary from team name to a direct image URL.
-const TEAM_LOGOS = {
+  <script>
+    // Dictionary of known team logos:
+    const teamLogos = {
   "Aberdare Athletic": "https://upload.wikimedia.org/wikipedia/en/a/a6/Aberdare_Athletic_FC_crest.png",
   "AFC Bournemouth": "https://upload.wikimedia.org/wikipedia/en/e/e5/AFC_Bournemouth_%282013%29.svg",
   "AFC Wimbledon": "https://upload.wikimedia.org/wikipedia/en/1/1b/AFC_Wimbledon_%282020%29_logo.svg",
@@ -368,234 +262,441 @@ const TEAM_LOGOS = {
   "York City": "https://upload.wikimedia.org/wikipedia/en/7/71/York_City_FC.svg"
 };
 
-// If missing, use this fallback:
-const MISSING_IMAGE_URL = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg";
+    // CSV data source:
+    const csvUrl = "https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeagueResults.csv";
 
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeagueResults.csv")
-    .then(resp => resp.text())
-    .then(csv => {
-      const parsed = Papa.parse(csv, {
-        header: true,
-        dynamicTyping: true,
-        skipEmptyLines: true
-      });
-      window.matchData = parsed.data || [];
+    let allMatches = [];
+    let allTeams = [];
 
-      // Collect unique teams
-      const teamSet = new Set();
-      for (const row of window.matchData) {
-        if (row.HomeTeam) teamSet.add(row.HomeTeam.trim());
-        if (row.AwayTeam) teamSet.add(row.AwayTeam.trim());
-      }
-      // Sort them alphabetically
-      const sortedTeams = [...teamSet].sort((a, b) => a.localeCompare(b));
-
-      // Populate the datalist
-      const teamsList = document.getElementById("teamsList");
-      sortedTeams.forEach(team => {
-        const opt = document.createElement("option");
-        opt.value = team;
-        teamsList.appendChild(opt);
-      });
-
-      // Check if URL has team1 & team2
+    // Parse URL parameters:
+    // e.g. ?team1=Coventry&team2=Arse
+    function getURLParameter(name) {
       const params = new URLSearchParams(window.location.search);
-      const paramT1 = params.get("team1");
-      const paramT2 = params.get("team2");
-      const paramStart = params.get("startDate"); 
-      const paramEnd   = params.get("endDate");
-      const paramPL    = params.get("plOnly"); // 'yes', 'true', etc.
-
-      if (paramT1 && paramT2) {
-        document.getElementById("team1Input").value = paramT1;
-        document.getElementById("team2Input").value = paramT2;
-      }
-      if (paramStart) {
-        document.getElementById("startDate").value = paramStart;
-      }
-      if (paramEnd) {
-        document.getElementById("endDate").value = paramEnd;
-      }
-      if (paramPL && (paramPL.toLowerCase() === "yes" || paramPL.toLowerCase() === "true")) {
-        document.getElementById("plOnlyCheckbox").checked = true;
-      }
-
-      // If both teams arrived in URL, generate
-      if (paramT1 && paramT2) {
-        generateH2H();
-      }
-    })
-    .catch(err => {
-      console.error("CSV load error:", err);
-      alert("Failed to load CSV data. Check console for details.");
-    });
-
-  // Attach event handlers
-  document.getElementById("compareButton").addEventListener("click", generateH2H);
-  document.getElementById("resetButton").addEventListener("click", resetForm);
-});
-
-function generateH2H() {
-  const team1 = document.getElementById("team1Input").value.trim();
-  const team2 = document.getElementById("team2Input").value.trim();
-  const startDateVal = document.getElementById("startDate").value.trim();
-  const endDateVal   = document.getElementById("endDate").value.trim();
-  const plOnly       = document.getElementById("plOnlyCheckbox").checked;
-
-  if (!team1 || !team2 || !window.matchData) {
-    alert("Please enter two different teams (and ensure CSV is loaded).");
-    return;
-  }
-  if (team1.toLowerCase() === team2.toLowerCase()) {
-    alert("Cannot compare a team to itself.");
-    return;
-  }
-
-  // Show the team names in the table
-  document.getElementById("h2h-team1-col").textContent = team1;
-  document.getElementById("h2h-team2-col").textContent = team2;
-
-  // Determine the correct logos (or missing)
-  const t1Logo = TEAM_LOGOS[team1] || MISSING_IMAGE_URL;
-  const t2Logo = TEAM_LOGOS[team2] || MISSING_IMAGE_URL;
-  document.getElementById("team1Logo").src = t1Logo;
-  document.getElementById("team1Logo").alt = team1;
-  document.getElementById("team2Logo").src = t2Logo;
-  document.getElementById("team2Logo").alt = team2;
-
-  // Filter matches that involve exactly these two teams
-  let relevant = window.matchData.filter(m => {
-    const home = (m.HomeTeam || "").trim().toLowerCase();
-    const away = (m.AwayTeam || "").trim().toLowerCase();
-    const t1lower = team1.toLowerCase();
-    const t2lower = team2.toLowerCase();
-    return (
-      (home === t1lower && away === t2lower) ||
-      (home === t2lower && away === t1lower)
-    );
-  });
-
-  // Filter by date range if provided
-  if (startDateVal || endDateVal) {
-    const startDateObj = startDateVal ? new Date(startDateVal) : null;
-    const endDateObj   = endDateVal   ? new Date(endDateVal)   : null;
-    relevant = relevant.filter(m => {
-      const d = new Date(m.Date);
-      if (startDateObj && d < startDateObj) return false;
-      if (endDateObj && d > endDateObj)     return false;
-      return true;
-    });
-  }
-
-  // "Premier League only?" => on or after 1992-08-01
-  if (plOnly) {
-    const plStart = new Date("1992-08-01");
-    relevant = relevant.filter(m => {
-      const d = new Date(m.Date);
-      return d >= plStart;
-    });
-  }
-
-  // Compute stats
-  let team1Wins = 0, team2Wins = 0, draws = 0;
-  let team1Goals = 0, team2Goals = 0;
-  // Store the actual score for biggest margin
-  let bestMargin1 = 0, bestMargin2 = 0;
-  let bestHome1 = 0, bestAway1 = 0, bestDate1 = "";
-  let bestHome2 = 0, bestAway2 = 0, bestDate2 = "";
-
-  relevant.forEach(match => {
-    if (typeof match.hGoal !== "number" || typeof match.aGoal !== "number") return;
-
-    const homeT = (match.HomeTeam || "").trim().toLowerCase();
-    const awayT = (match.AwayTeam || "").trim().toLowerCase();
-    const hGoals = match.hGoal;
-    const aGoals = match.aGoal;
-    const margin = Math.abs(hGoals - aGoals);
-    const dateStr = match.Date; // raw date text from the CSV
-
-    // Determine which side is "team1" or "team2"
-    if (homeT === team1.toLowerCase()) {
-      team1Goals += hGoals;
-      team2Goals += aGoals;
-      if (hGoals > aGoals) {
-        team1Wins++;
-        if (margin > bestMargin1) {
-          bestMargin1 = margin;
-          bestHome1 = hGoals;
-          bestAway1 = aGoals;
-          bestDate1 = dateStr;
-        }
-      } else if (aGoals > hGoals) {
-        team2Wins++;
-        if (margin > bestMargin2) {
-          bestMargin2 = margin;
-          bestHome2 = aGoals;
-          bestAway2 = hGoals;
-          bestDate2 = dateStr;
-        }
-      } else {
-        draws++;
-      }
-    } else {
-      // Then team2 is at home
-      team2Goals += hGoals;
-      team1Goals += aGoals;
-      if (hGoals > aGoals) {
-        team2Wins++;
-        if (margin > bestMargin2) {
-          bestMargin2 = margin;
-          bestHome2 = hGoals;
-          bestAway2 = aGoals;
-          bestDate2 = dateStr;
-        }
-      } else if (aGoals > hGoals) {
-        team1Wins++;
-        if (margin > bestMargin1) {
-          bestMargin1 = margin;
-          bestHome1 = aGoals;
-          bestAway1 = hGoals;
-          bestDate1 = dateStr;
-        }
-      } else {
-        draws++;
-      }
+      return params.get(name) || "";
     }
-  });
 
-  // Fill the table cells
-  document.getElementById("team1Wins").textContent  = team1Wins;
-  document.getElementById("team2Wins").textContent  = team2Wins;
-  document.getElementById("numDraws").textContent   = draws;
-  document.getElementById("team1Goals").textContent = team1Goals;
-  document.getElementById("team2Goals").textContent = team2Goals;
+    // Approximate string distance for "closest match":
+    // Simple Levenshtein or other approach can be used. 
+    // For brevity, here's a quick method.
+    function editDistance(a, b) {
+      a = a.toLowerCase();
+      b = b.toLowerCase();
+      const costs = [];
+      for (let i = 0; i <= a.length; i++) {
+        let lastVal = i;
+        costs[i] = [i];
+      }
+      for (let j = 0; j <= b.length; j++) {
+        costs[0][j] = j;
+      }
+      for (let i = 1; i <= a.length; i++) {
+        for (let j = 1; j <= b.length; j++) {
+          if (a.charAt(i - 1) === b.charAt(j - 1)) {
+            costs[i][j] = costs[i - 1][j - 1];
+          } else {
+            costs[i][j] = 1 + Math.min(
+              costs[i - 1][j],    // deletion
+              costs[i][j - 1],    // insertion
+              costs[i - 1][j - 1] // substitution
+            );
+          }
+        }
+      }
+      return costs[a.length][b.length];
+    }
 
-  // Biggest win lines: e.g. "6-0 on 2022-05-01"
-  if (bestMargin1 > 0) {
-    document.getElementById("team1BiggestWin").textContent =
-      `${bestHome1}-${bestAway1} on ${bestDate1}`;
-  } else {
-    document.getElementById("team1BiggestWin").textContent = "None";
-  }
-  if (bestMargin2 > 0) {
-    document.getElementById("team2BiggestWin").textContent =
-      `${bestHome2}-${bestAway2} on ${bestDate2}`;
-  } else {
-    document.getElementById("team2BiggestWin").textContent = "None";
-  }
+    // Find the best match from the known list of teams
+    function getClosestTeamName(inputStr, teamList) {
+      if (!inputStr) return "";
+      let bestTeam = "";
+      let bestDistance = Infinity;
+      teamList.forEach(team => {
+        const dist = editDistance(team, inputStr);
+        if (dist < bestDistance) {
+          bestDistance = dist;
+          bestTeam = team;
+        }
+      });
+      return bestTeam;
+    }
 
-  // Show the table
-  document.getElementById("h2hTable").style.display = "table";
-}
+    // Load data
+    d3.csv(csvUrl).then(data => {
+      allMatches = data;
+      const uniqueTeams = new Set();
+      data.forEach(d => {
+        uniqueTeams.add(d.HomeTeam);
+        uniqueTeams.add(d.AwayTeam);
+      });
+      allTeams = Array.from(uniqueTeams).sort();
 
-function resetForm() {
-  document.getElementById("team1Input").value = "";
-  document.getElementById("team2Input").value = "";
-  document.getElementById("startDate").value = "";
-  document.getElementById("endDate").value   = "";
-  document.getElementById("plOnlyCheckbox").checked = false;
+      // Populate datalist
+      const teamDataList = document.getElementById("teams");
+      allTeams.forEach(t => {
+        const option = document.createElement("option");
+        option.value = t;
+        teamDataList.appendChild(option);
+      });
 
-  document.getElementById("h2hTable").style.display = "none";
-}
-</script>
+      // Check if we have URL params for team1 or team2
+      const urlTeam1 = getURLParameter("team1");
+      const urlTeam2 = getURLParameter("team2");
+      if (urlTeam1) {
+        document.getElementById("team1Input").value = getClosestTeamName(urlTeam1, allTeams);
+      }
+      if (urlTeam2) {
+        document.getElementById("team2Input").value = getClosestTeamName(urlTeam2, allTeams);
+      }
+    });
+
+    // Form submit handler
+    document.getElementById("compareForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const t1 = document.getElementById("team1Input").value;
+      const t2 = document.getElementById("team2Input").value;
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+      const premierOnly = document.getElementById("premierOnly").checked;
+
+      if (!t1 || !t2) return;
+
+      // Display logos & names
+      document.getElementById("team1Logo").src = teamLogos[t1] || "";
+      document.getElementById("team2Logo").src = teamLogos[t2] || "";
+      document.getElementById("team1Name").textContent = t1;
+      document.getElementById("team2Name").textContent = t2;
+
+      // Show vs label if both teams are valid
+      const vsLabel = document.getElementById("vsLabel");
+      vsLabel.style.display = t1 && t2 ? "inline-block" : "none";
+
+      // Filter & compute stats
+      const filtered = filterMatches(allMatches, t1, t2, startDate, endDate, premierOnly);
+      const stats = calculateStats(filtered, t1, t2);
+
+      // Render
+      renderComparisonChart(stats);
+      renderMatchesList(filtered);
+    });
+
+    // Reset button
+    document.getElementById("resetButton").addEventListener("click", () => {
+      window.location.search = "";  // Clear URL params
+      window.location.reload();
+    });
+
+    function filterMatches(data, team1, team2, start, end, premierOnly) {
+      return data.filter(d => {
+        const home = d.HomeTeam;
+        const away = d.AwayTeam;
+        if (!((home === team1 && away === team2) || (home === team2 && away === team1))) {
+          return false;
+        }
+        const matchDate = new Date(d.Date);
+        if (start) {
+          const s = new Date(start);
+          if (matchDate < s) return false;
+        }
+        if (end) {
+          const e = new Date(end);
+          if (matchDate > e) return false;
+        }
+        if (premierOnly) {
+          const plStart = new Date("1992-08-01");
+          if (matchDate < plStart) return false;
+        }
+        return true;
+      });
+    }
+
+    function calculateStats(matches, team1, team2) {
+      let t1Wins = 0, t2Wins = 0, draws = 0;
+      let t1Goals = 0, t2Goals = 0;
+
+      // Biggest margin
+      let biggestWinMarginT1 = 0;
+      let biggestWinDateT1 = "";
+      let biggestWinScoreT1 = "";
+
+      let biggestWinMarginT2 = 0;
+      let biggestWinDateT2 = "";
+      let biggestWinScoreT2 = "";
+
+      matches.forEach(m => {
+        const hTeam = m.HomeTeam;
+        const aTeam = m.AwayTeam;
+        const hGoals = +m.hGoal;
+        const aGoals = +m.aGoal;
+
+        // Track goals
+        if (hTeam === team1) {
+          t1Goals += hGoals;
+          t2Goals += aGoals;
+        } else if (hTeam === team2) {
+          t2Goals += hGoals;
+          t1Goals += aGoals;
+        }
+
+        // Determine winner
+        if (hGoals > aGoals) {
+          if (hTeam === team1) {
+            t1Wins++;
+            const margin = hGoals - aGoals;
+            if (margin > biggestWinMarginT1) {
+              biggestWinMarginT1 = margin;
+              biggestWinDateT1 = m.Date;
+              biggestWinScoreT1 = m.Score;
+            }
+          } else {
+            t2Wins++;
+            const margin = hGoals - aGoals;
+            if (margin > biggestWinMarginT2) {
+              biggestWinMarginT2 = margin;
+              biggestWinDateT2 = m.Date;
+              biggestWinScoreT2 = m.Score;
+            }
+          }
+        } else if (aGoals > hGoals) {
+          if (aTeam === team1) {
+            t1Wins++;
+            const margin = aGoals - hGoals;
+            if (margin > biggestWinMarginT1) {
+              biggestWinMarginT1 = margin;
+              biggestWinDateT1 = m.Date;
+              biggestWinScoreT1 = m.Score;
+            }
+          } else {
+            t2Wins++;
+            const margin = aGoals - hGoals;
+            if (margin > biggestWinMarginT2) {
+              biggestWinMarginT2 = margin;
+              biggestWinDateT2 = m.Date;
+              biggestWinScoreT2 = m.Score;
+            }
+          }
+        } else {
+          draws++;
+        }
+      });
+
+      return {
+        team1Wins: t1Wins,
+        team2Wins: t2Wins,
+        draws: draws,
+        team1Goals: t1Goals,
+        team2Goals: t2Goals,
+        biggestWinMarginT1,
+        biggestWinDateT1,
+        biggestWinScoreT1,
+        biggestWinMarginT2,
+        biggestWinDateT2,
+        biggestWinScoreT2
+      };
+    }
+
+    function renderComparisonChart(stats) {
+      // Data for first three rows
+      const chartData = [
+        { label: "Wins", team1Value: stats.team1Wins, team2Value: stats.team2Wins },
+        { label: "Draws", team1Value: stats.draws, team2Value: stats.draws },
+        { label: "Goals Against", team1Value: stats.team2Goals, team2Value: stats.team1Goals }
+      ];
+
+      // Biggest margin
+      const marginData = {
+        label: "Biggest Win",
+        team1Value: stats.biggestWinMarginT1,
+        team2Value: stats.biggestWinMarginT2
+      };
+
+      // Clear old chart
+      d3.select("#chart").selectAll("*").remove();
+
+      // Dimensions
+      const margin = { top: 20, right: 30, bottom: 20, left: 50 };
+      const totalWidth = 800;
+      const totalHeight = 300;
+      const width = totalWidth - margin.left - margin.right;
+      const height = totalHeight - margin.top - margin.bottom;
+
+      // Each bar’s height & row gap
+      const barHeight = 25;
+      const rowGap = 15;
+      const totalRows = 4; // 3 normal + 1 biggest margin
+      // centerGap defines how wide the “gap” is between left and right
+      const centerGap = 120;
+
+      // Create SVG
+      const svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", totalWidth)
+        .attr("height", totalHeight)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      // x scales for the first 3 rows
+      const maxVal = d3.max(chartData, d => Math.max(d.team1Value, d.team2Value));
+      const halfWidth = (width - centerGap) / 2;
+
+      // The left bars scale from 0..maxVal, mapped to 0..halfWidth
+      const xLeft = d3.scaleLinear()
+        .domain([0, maxVal])
+        .range([0, halfWidth]);
+
+      // The right bars scale from 0..maxVal, mapped to 0..halfWidth
+      const xRight = d3.scaleLinear()
+        .domain([0, maxVal])
+        .range([0, halfWidth]);
+
+      // gapLeft is the x-position where the gap starts.
+      // i.e. if halfWidth is 300, gapLeft = 300 => that means the left bars 
+      // extend from x=0..300, then we have a gap from 300..(300+centerGap).
+      const gapLeft = halfWidth; 
+      const gapCenter = gapLeft + (centerGap / 2); // For the text labels
+
+      // Render the first 3 rows
+      chartData.forEach((d, i) => {
+        const yPos = i * (barHeight + rowGap);
+
+        // Left bar (Team1), drawn from gapLeft leftward
+        const barWidthLeft = xLeft(d.team1Value);
+        svg.append("rect")
+          .attr("x", gapLeft - barWidthLeft)
+          .attr("y", yPos)
+          .attr("width", barWidthLeft)
+          .attr("height", barHeight)
+          .attr("fill", "#599ad3");
+
+        // Team1 value text
+        svg.append("text")
+          .attr("x", gapLeft - barWidthLeft - 5)
+          .attr("y", yPos + barHeight / 1.5)
+          .attr("text-anchor", "end")
+          .text(d.team1Value);
+
+        // Center label
+        svg.append("text")
+          .attr("x", gapCenter)
+          .attr("y", yPos + barHeight / 1.5)
+          .attr("text-anchor", "middle")
+          .attr("class", "bar-label")
+          .text(d.label);
+
+        // Right bar (Team2), starting after the center gap
+        const barWidthRight = xRight(d.team2Value);
+        const rightBarX = gapLeft + centerGap; // position
+        svg.append("rect")
+          .attr("x", rightBarX)
+          .attr("y", yPos)
+          .attr("width", barWidthRight)
+          .attr("height", barHeight)
+          .attr("fill", "#d3635a");
+
+        // Team2 value text
+        svg.append("text")
+          .attr("x", rightBarX + barWidthRight + 5)
+          .attr("y", yPos + barHeight / 1.5)
+          .text(d.team2Value);
+      });
+
+      // Now handle the biggest margin row
+      const maxMargin = d3.max([marginData.team1Value, marginData.team2Value]);
+      const xLeftMargin = d3.scaleLinear()
+        .domain([0, maxMargin])
+        .range([0, halfWidth]);
+      const xRightMargin = d3.scaleLinear()
+        .domain([0, maxMargin])
+        .range([0, halfWidth]);
+
+      const yPosMargin = 3 * (barHeight + rowGap);
+
+      // Team1 margin
+      const leftBarWidth = xLeftMargin(marginData.team1Value);
+      svg.append("rect")
+        .attr("x", gapLeft - leftBarWidth)
+        .attr("y", yPosMargin)
+        .attr("width", leftBarWidth)
+        .attr("height", barHeight)
+        .attr("fill", "#599ad3");
+
+      let team1Label = marginData.team1Value;
+      if (marginData.team1Value > 0) {
+        team1Label = `${stats.biggestWinScoreT1} on ${stats.biggestWinDateT1}`;
+      }
+      svg.append("text")
+        .attr("x", gapLeft - leftBarWidth - 5)
+        .attr("y", yPosMargin + barHeight / 1.5)
+        .attr("text-anchor", "end")
+        .text(team1Label);
+
+      // Center label
+      svg.append("text")
+        .attr("x", gapCenter)
+        .attr("y", yPosMargin + barHeight / 1.5)
+        .attr("text-anchor", "middle")
+        .attr("class", "bar-label")
+        .text(marginData.label);
+
+      // Team2 margin
+      const rightBarWidth = xRightMargin(marginData.team2Value);
+      const rightBarX = gapLeft + centerGap;
+      svg.append("rect")
+        .attr("x", rightBarX)
+        .attr("y", yPosMargin)
+        .attr("width", rightBarWidth)
+        .attr("height", barHeight)
+        .attr("fill", "#d3635a");
+
+      let team2Label = marginData.team2Value;
+      if (marginData.team2Value > 0) {
+        team2Label = `${stats.biggestWinScoreT2} on ${stats.biggestWinDateT2}`;
+      }
+      svg.append("text")
+        .attr("x", rightBarX + rightBarWidth + 5)
+        .attr("y", yPosMargin + barHeight / 1.5)
+        .text(team2Label);
+    }
+
+    function renderMatchesList(matches) {
+      const listDiv = document.getElementById("matchList");
+      listDiv.innerHTML = "";
+
+      const sorted = matches.slice().sort((a, b) => new Date(b.Date) - new Date(a.Date));
+
+      const heading = document.createElement("h2");
+      heading.textContent = "Head-to-Head Results";
+      listDiv.appendChild(heading);
+
+      sorted.forEach(m => {
+        const item = document.createElement("div");
+        item.className = "match-item";
+
+        // Date on its own line (slightly offset to the left)
+        const dateLine = document.createElement("div");
+        dateLine.className = "match-date";
+        dateLine.textContent = m.Date;
+        item.appendChild(dateLine);
+
+        // Centered line for the match
+        const homeGoals = parseInt(m.hGoal, 10);
+        const awayGoals = parseInt(m.aGoal, 10);
+        let homeTeam = m.HomeTeam;
+        let awayTeam = m.AwayTeam;
+
+        // Bold the winning team
+        if (homeGoals > awayGoals) {
+          homeTeam = "<b>" + homeTeam + "</b>";
+        } else if (awayGoals > homeGoals) {
+          awayTeam = "<b>" + awayTeam + "</b>";
+        }
+
+        const matchLine = document.createElement("div");
+        matchLine.innerHTML = `${homeTeam} vs ${awayTeam} (${m.Score})`;
+        // Center this line
+        matchLine.style.textAlign = "center";
+
+        item.appendChild(matchLine);
+        listDiv.appendChild(item);
+      });
+    }
+  </script>
