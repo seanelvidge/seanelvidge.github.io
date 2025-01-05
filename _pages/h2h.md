@@ -96,6 +96,7 @@ nav: false
 
     <button type="submit">Compare</button>
     <button type="button" id="resetButton">Reset</button>
+
   </form>
 
   <div class="teams-row">
