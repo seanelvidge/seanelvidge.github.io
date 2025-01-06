@@ -145,24 +145,55 @@ nav: false
     		@media (max-width: 600px) {
     		  /* Possibly stack team logos vertically, reduce chart container, etc. */
     		  .team-logo {
-    			max-width: 40px;
+    			max-width: 60px;
     		  }
     		  .teams-row {
-    			flex-direction: column;
-    		  }
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				text-align: center; /* optional */
+			  }
     		  .team-container {
-    			width: 80%;
+    			width: 100%;
+				margin-bottom: 10px; /* space between the team block and vs */
     		  }
     		  .vs-label {
-    			margin: 10px 0;
+    			margin-bottom: 10px; /* small gap below 'vs' */
     		  }
     		  .match-date {
     			margin-left: 15%; /* bring date closer to center on narrow devices */
     		  }
+			  /* Make the form inputs appear one per line */
+			  form#compareForm {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start; /* left-align the labels/inputs */
+			  }
+			  form#compareForm .form-row,
+			  form#compareForm br {
+				display: none; /* Hide existing line breaks if you'd like a cleaner layout */
+			  }
+
+			  /* Space out each label+input nicely */
+			  form#compareForm label,
+			  form#compareForm input[type="text"],
+			  form#compareForm input[type="date"],
+			  form#compareForm select {
+				display: block; /* Each on its own line */
+				margin: 8px 0;
+			  }
+
+			  /* The button row can stay together horizontally, centered */
+			  .button-row {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				width: 100%;
+				margin-top: 10px;
+			  }
     		}
           </style>
 
-          <h1>Head-to-Head Comparison</h1>
           <form id="compareForm">
             <label for="team1Input">Team #1:</label>
             <input type="text" id="team1Input" list ="teams"/>
