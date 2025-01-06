@@ -68,7 +68,7 @@
           text-align: left;
           font-style: italic;
         }
-		
+
 		@media (max-width: 600px) {
 		  /* Possibly stack team logos vertically, reduce chart container, etc. */
 		  .team-logo {
@@ -303,8 +303,8 @@
   const svg = d3.select("#chart")
     .append("svg")
     .attr("viewBox", `0 0 ${chartWidth} ${chartHeight}`)
-    .attr("preserveAspectRatio", "xMidYMid meet"); 
-    // ensures scaling keeps aspect ratio, 
+    .attr("preserveAspectRatio", "xMidYMid meet");
+    // ensures scaling keeps aspect ratio,
     // "meet" keeps entire chart visible.
 
   // We'll place a group inside, offset by our margins
