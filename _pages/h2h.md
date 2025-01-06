@@ -197,7 +197,7 @@ nav: false
           <form id="compareForm">
             <label for="team1Input">Team #1:</label>
             <input type="text" id="team1Input" list ="teams"/>
-   
+
             <label for="team2Input">Team #2:</label>
             <input type="text" id="team2Input" list="teams" />
 
