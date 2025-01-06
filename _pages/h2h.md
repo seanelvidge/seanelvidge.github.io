@@ -7,6 +7,7 @@ nav: false
 ---
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
+
           <style>
             form {
               margin-bottom: 20px;
@@ -17,7 +18,7 @@ nav: false
             }
             .team-logo {
               width: 100%;
-			  max-width: 120px;
+    		  max-width: 120px;
               height: auto;
               display: block;
               margin: 0 auto;
@@ -31,7 +32,7 @@ nav: false
             .teams-row {
               text-align: center;
               margin-bottom: 40px;
-			  flex-wrap: wrap;
+    		  flex-wrap: wrap;
             }
             .vs-label {
               display: none;
@@ -53,14 +54,14 @@ nav: false
             .chart-container {
               display: flex;
               justify-content: center;
-			  max-width: 900px;
-			  margin: 0 auto 2px auto;
+    		  max-width: 900px;
+    		  margin: 0 auto 2px auto;
             }
-			.chart-container svg {
-			  width: 100%;
-			  height: auto;
-			  display: block;
-			}
+    		.chart-container svg {
+    		  width: 100%;
+    		  height: auto;
+    		  display: block;
+    		}
             .bar-label {
               font-weight: bold;
             }
@@ -77,25 +78,25 @@ nav: false
               text-align: left;
               font-style: italic;
             }
-			
-			@media (max-width: 600px) {
-			  /* Possibly stack team logos vertically, reduce chart container, etc. */
-			  .team-logo {
-				max-width: 40px;
-			  }
-			  .teams-row {
-				flex-direction: column;
-			  }
-			  .team-container {
-				width: 80%;
-			  }
-			  .vs-label {
-				margin: 10px 0;
-			  }
-			  .match-date {
-				margin-left: 15%; /* bring date closer to center on narrow devices */
-			  }
-			}
+
+    		@media (max-width: 600px) {
+    		  /* Possibly stack team logos vertically, reduce chart container, etc. */
+    		  .team-logo {
+    			max-width: 40px;
+    		  }
+    		  .teams-row {
+    			flex-direction: column;
+    		  }
+    		  .team-container {
+    			width: 80%;
+    		  }
+    		  .vs-label {
+    			margin: 10px 0;
+    		  }
+    		  .match-date {
+    			margin-left: 15%; /* bring date closer to center on narrow devices */
+    		  }
+    		}
           </style>
 
           <h1>Head-to-Head Comparison</h1>
@@ -312,8 +313,8 @@ nav: false
       const svg = d3.select("#chart")
         .append("svg")
         .attr("viewBox", `0 0 ${chartWidth} ${chartHeight}`)
-        .attr("preserveAspectRatio", "xMidYMid meet"); 
-        // ensures scaling keeps aspect ratio, 
+        .attr("preserveAspectRatio", "xMidYMid meet");
+        // ensures scaling keeps aspect ratio,
         // "meet" keeps entire chart visible.
 
       // We'll place a group inside, offset by our margins
