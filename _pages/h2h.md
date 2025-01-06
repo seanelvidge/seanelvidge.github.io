@@ -10,29 +10,29 @@ nav: false
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
           <style>
-		  /* Buttons styling */
-			.btn {
-			  display: inline-block;
-			  margin: 6px 8px 0 0;
-			  padding: 8px 12px;
-			  border: none;
-			  border-radius: 4px;
-			  background-color: #008cba; 
-			  color: #fff;
-			  font-size: 14px;
-			  cursor: pointer;
-			}
-			.btn:hover {
-			  background-color: #007ba1; /* slightly darker on hover */
-			}
-			/* Light/dark for buttons */
-			body.dark-mode .btn {
-			  background-color: #444;
-			  color: #eee;
-			}
-			body.dark-mode .btn:hover {
-			  background-color: #666;
-			}
+    	  /* Buttons styling */
+    		.btn {
+    		  display: inline-block;
+    		  margin: 6px 8px 0 0;
+    		  padding: 8px 12px;
+    		  border: none;
+    		  border-radius: 4px;
+    		  background-color: #008cba;
+    		  color: #fff;
+    		  font-size: 14px;
+    		  cursor: pointer;
+    		}
+    		.btn:hover {
+    		  background-color: #007ba1; /* slightly darker on hover */
+    		}
+    		/* Light/dark for buttons */
+    		body.dark-mode .btn {
+    		  background-color: #444;
+    		  color: #eee;
+    		}
+    		body.dark-mode .btn:hover {
+    		  background-color: #666;
+    		}
             form {
               margin-bottom: 20px;
             }
@@ -40,39 +40,39 @@ nav: false
               margin-right: 10px;
               font-weight: bold;
             }
-			input[type="date"],
-			input[type="text"],
-			select {
-			  padding: 4px 6px;
-			  font-size: 14px;
-			  margin-right: 8px;
-			}
-			/* Warning message for unknown teams */
-			.warning {
-			  color: #c00;
-			  font-weight: bold;
-			  margin: 10px auto;
-			  max-width: 300px;
-			}
-			/* Suggestion lists for the custom auto-complete approach */
-			.suggestion-list {
-			  position: absolute;
-			  background: #fff;
-			  border: 1px solid #ccc;
-			  border-radius: 3px;
-			  margin-top: 2px;
-			  z-index: 999;
-			  width: 200px; /* match input width if desired */
-			  max-height: 150px;
-			  overflow-y: auto;
-			}
-			.suggestion-list li {
-			  padding: 4px;
-			  cursor: pointer;
-			}
-			.suggestion-list li:hover {
-			  background: #eee;
-			}
+    		input[type="date"],
+    		input[type="text"],
+    		select {
+    		  padding: 4px 6px;
+    		  font-size: 14px;
+    		  margin-right: 8px;
+    		}
+    		/* Warning message for unknown teams */
+    		.warning {
+    		  color: #c00;
+    		  font-weight: bold;
+    		  margin: 10px auto;
+    		  max-width: 300px;
+    		}
+    		/* Suggestion lists for the custom auto-complete approach */
+    		.suggestion-list {
+    		  position: absolute;
+    		  background: #fff;
+    		  border: 1px solid #ccc;
+    		  border-radius: 3px;
+    		  margin-top: 2px;
+    		  z-index: 999;
+    		  width: 200px; /* match input width if desired */
+    		  max-height: 150px;
+    		  overflow-y: auto;
+    		}
+    		.suggestion-list li {
+    		  padding: 4px;
+    		  cursor: pointer;
+    		}
+    		.suggestion-list li:hover {
+    		  background: #eee;
+    		}
             .team-logo {
               width: auto;
     		  max-width: 120px;
@@ -86,9 +86,9 @@ nav: false
               text-align: center;
               margin-top: 5px;
             }
-			.button-row {
-			  margin-top: 10px;
-			}
+    		.button-row {
+    		  margin-top: 10px;
+    		}
             .teams-row {
               text-align: center;
               margin-bottom: 40px;
@@ -106,7 +106,7 @@ nav: false
               width: 20%;
               text-align: center;
               vertical-align: middle;
-			  min-width: 150px;
+    		  min-width: 150px;
             }
             svg {
               overflow: visible;
@@ -117,9 +117,9 @@ nav: false
     		  max-width: 900px;
     		  margin: 0 auto 2px auto;
             }
-			.chart-container svg text {
-			  fill: currentColor; /* uses the inherited color from the container (which is from body) */
-			}
+    		.chart-container svg text {
+    		  fill: currentColor; /* uses the inherited color from the container (which is from body) */
+    		}
     		.chart-container svg {
     		  width: 100%;
     		  height: auto;
@@ -148,14 +148,14 @@ nav: false
     			max-width: 60px;
     		  }
     		  .teams-row {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				text-align: center; /* optional */
-			  }
+    			display: flex;
+    			flex-direction: column;
+    			align-items: center;
+    			text-align: center; /* optional */
+    		  }
     		  .team-container {
     			width: 100%;
-				margin-bottom: 10px; /* space between the team block and vs */
+    			margin-bottom: 10px; /* space between the team block and vs */
     		  }
     		  .vs-label {
     			margin-bottom: 10px; /* small gap below 'vs' */
@@ -163,41 +163,41 @@ nav: false
     		  .match-date {
     			margin-left: 15%; /* bring date closer to center on narrow devices */
     		  }
-			  /* Make the form inputs appear one per line */
-			  form#compareForm {
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start; /* left-align the labels/inputs */
-			  }
-			  form#compareForm .form-row,
-			  form#compareForm br {
-				display: none; /* Hide existing line breaks if you'd like a cleaner layout */
-			  }
+    		  /* Make the form inputs appear one per line */
+    		  form#compareForm {
+    			display: flex;
+    			flex-direction: column;
+    			align-items: flex-start; /* left-align the labels/inputs */
+    		  }
+    		  form#compareForm .form-row,
+    		  form#compareForm br {
+    			display: none; /* Hide existing line breaks if you'd like a cleaner layout */
+    		  }
 
-			  /* Space out each label+input nicely */
-			  form#compareForm label,
-			  form#compareForm input[type="text"],
-			  form#compareForm input[type="date"],
-			  form#compareForm select {
-				display: block; /* Each on its own line */
-				margin: 8px 0;
-			  }
+    		  /* Space out each label+input nicely */
+    		  form#compareForm label,
+    		  form#compareForm input[type="text"],
+    		  form#compareForm input[type="date"],
+    		  form#compareForm select {
+    			display: block; /* Each on its own line */
+    			margin: 8px 0;
+    		  }
 
-			  /* The button row can stay together horizontally, centered */
-			  .button-row {
-				display: flex;
-				flex-direction: row;
-				justify-content: center;
-				width: 100%;
-				margin-top: 10px;
-			  }
+    		  /* The button row can stay together horizontally, centered */
+    		  .button-row {
+    			display: flex;
+    			flex-direction: row;
+    			justify-content: center;
+    			width: 100%;
+    			margin-top: 10px;
+    		  }
     		}
           </style>
 
           <form id="compareForm">
             <label for="team1Input">Team #1:</label>
             <input type="text" id="team1Input" list ="teams"/>
-		    
+   
             <label for="team2Input">Team #2:</label>
             <input type="text" id="team2Input" list="teams" />
 
@@ -214,12 +214,12 @@ nav: false
             <input type="checkbox" id="premierOnly" />
 
             <div class="button-row">
-			  <button type="submit" class="btn">Compare</button>
-			  <button type="button" id="resetButton" class="btn">Reset</button>
-			</div>
+    		  <button type="submit" class="btn">Compare</button>
+    		  <button type="button" id="resetButton" class="btn">Reset</button>
+    		</div>
           </form>
-		  
-		    <div id="warningMessage" class="warning" style="display:none;">Unknown team name!</div>
+
+    	    <div id="warningMessage" class="warning" style="display:none;">Unknown team name!</div>
 
 
           <div class="teams-row">
@@ -269,33 +269,34 @@ nav: false
               return t[e.length][i.length];
             }
             function getClosestTeamName(e, i) {
-  if (!e) return "";
 
-  // Convert input to lowercase once
-  const lowerInput = e.toLowerCase();
+if (!e) return "";
 
-  // 1) Check for exact match
-  const exact = i.find(team => team.toLowerCase() === lowerInput);
-  if (exact) {
-    return exact;
-  }
+// Convert input to lowercase once
+const lowerInput = e.toLowerCase();
 
-  // 2) Gather partial matches first
-  const partials = i.filter(team => team.toLowerCase().includes(lowerInput));
-  const candidateList = partials.length ? partials : i;
+// 1) Check for exact match
+const exact = i.find(team => team.toLowerCase() === lowerInput);
+if (exact) {
+return exact;
+}
 
-  let bestTeam = "";
-  let bestDistance = Infinity;
+// 2) Gather partial matches first
+const partials = i.filter(team => team.toLowerCase().includes(lowerInput));
+const candidateList = partials.length ? partials : i;
 
-  candidateList.forEach(team => {
-    const dist = editDistance(team, e);
-    if (dist < bestDistance) {
-      bestDistance = dist;
-      bestTeam = team;
-    }
-  });
+let bestTeam = "";
+let bestDistance = Infinity;
 
-  return bestTeam;
+candidateList.forEach(team => {
+const dist = editDistance(team, e);
+if (dist < bestDistance) {
+bestDistance = dist;
+bestTeam = team;
+}
+});
+
+return bestTeam;
 }
 
             function filterMatches(e, i, t, a, o, d) {
