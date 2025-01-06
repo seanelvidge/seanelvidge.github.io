@@ -47,7 +47,7 @@ nav: false
               width: 20%;
               text-align: center;
               vertical-align: middle;
-			  min-width: 150px;
+    		  min-width: 150px;
             }
             svg {
               overflow: visible;
@@ -811,4 +811,5 @@ nav: false
                 window.location.reload();
               });
           </script>
+
 </html>
