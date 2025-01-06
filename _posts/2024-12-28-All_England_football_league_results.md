@@ -45,6 +45,6 @@ Such a long database of results leads to some confusion around team names, the a
 
 Hopefully there are lots of fun things you can do with this, please let me know about any of them! A couple of simple examples:
 
-- You can use the form on this site to work out a league table for any given season and division or for any arbitrary date range, from 1888 to present (remembering before 1981 there was only [2 points for a win](https://en.wikipedia.org/wiki/Three_points_for_a_win) in English football):  [https://seanelvidge.com/leaguetable](https://seanelvidge.com/leaguetable)
-- To find the Head-to-Head statistics of any two clubs who have played in the English Football League visit:  [https://seanelvidge.com/h2h](https://seanelvidge.com/h2h)
-  - This code can have the team names passed directly into the url, e.g. to get the head-to-head statistics of Arsenal v Chelsea visit:  [https://seanelvidge.com/h2h?team1=Arsenal&team2=Chelsea](https://seanelvidge.com/h2h?team1=Arsenal&team2=Chelsea)
+- You can use the form on this site to work out a league table for any given season and division or for any arbitrary date range, from 1888 to present (remembering before 1981 there was only [2 points for a win](https://en.wikipedia.org/wiki/Three_points_for_a_win) in English football): [https://seanelvidge.com/leaguetable](https://seanelvidge.com/leaguetable)
+- To find the Head-to-Head statistics of any two clubs who have played in the English Football League visit: [https://seanelvidge.com/h2h](https://seanelvidge.com/h2h)
+  - This code can have the team names passed directly into the url, e.g. to get the head-to-head statistics of Arsenal v Chelsea visit: [https://seanelvidge.com/h2h?team1=Arsenal&team2=Chelsea](https://seanelvidge.com/h2h?team1=Arsenal&team2=Chelsea)
