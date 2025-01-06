@@ -578,13 +578,13 @@ return bestTeam;
             }
             const teamLogos = {
               "Aberdare Athletic":
-                "https://upload.wikimedia.org/wikipedia/en/a/a6/Aberdare_Athletic_FC_crest.png",
+                "https://www.thesportsdb.com/images/media/team/badge/jmcjrh1639005987.png",
               "AFC Bournemouth":
                 "https://upload.wikimedia.org/wikipedia/en/e/e5/AFC_Bournemouth_%282013%29.svg",
               "AFC Wimbledon":
                 "https://upload.wikimedia.org/wikipedia/en/1/1b/AFC_Wimbledon_%282020%29_logo.svg",
               "Accrington F.C.":
-                "https://upload.wikimedia.org/wikipedia/en/7/7b/Accrington_FC_crest.png",
+                "https://www.thesportsdb.com/images/media/team/badge/pdks3s1639600928.png",
               "Accrington Stanley":
                 "https://upload.wikimedia.org/wikipedia/en/b/ba/Accrington_Stanley_F.C._logo.svg",
               Aldershot:
@@ -632,7 +632,7 @@ return bestTeam;
               "Burton Albion":
                 "https://upload.wikimedia.org/wikipedia/en/5/53/Burton_Albion_FC_logo.svg",
               "Burton Swifts":
-                "https://upload.wikimedia.org/wikipedia/en/d/d1/Burton_Swifts_FC_logo.png",
+                "https://www.thesportsdb.com/images/media/team/badge/c7ydqi1626283781.png",
               "Burton United":
                 "https://www.thesportsdb.com/images/media/team/badge/csfaiv1623622543.png",
               "Burton Wanderers":
@@ -724,7 +724,7 @@ return bestTeam;
               Liverpool:
                 "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
               Loughborough:
-                "https://upload.wikimedia.org/wikipedia/en/4/4d/Loughborough_FC_Crest.png",
+                "https://www.thesportsdb.com/images/media/team/badge/77rjz71639602384.png",
               "Luton Town":
                 "https://upload.wikimedia.org/wikipedia/en/9/9d/Luton_Town_logo.svg",
               Macclesfield:
@@ -742,7 +742,7 @@ return bestTeam;
               Middlesbrough:
                 "https://upload.wikimedia.org/wikipedia/en/2/2c/Middlesbrough_FC_crest.svg",
               "Middlesbrough Ironopolis":
-                "https://upload.wikimedia.org/wikipedia/en/5/5a/Middlesbrough_Ironopolis_FC_crest.png",
+                "https://www.thesportsdb.com/images/media/team/badge/vibcqw1639600004.png",
               Millwall:
                 "https://upload.wikimedia.org/wikipedia/en/9/98/Millwall_FC_crest.svg",
               "Milton Keynes Dons":
