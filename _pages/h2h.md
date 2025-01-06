@@ -898,6 +898,9 @@ return bestTeam;
                   allTeams
                 );
               }
+              if (a || o) {
+                  document.querySelector('#compareForm button[type="submit"]').click();
+              }
             });
             document
               .getElementById("compareForm")
