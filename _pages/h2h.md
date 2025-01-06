@@ -10,6 +10,29 @@ nav: false
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
           <style>
+		  /* Buttons styling */
+			.btn {
+			  display: inline-block;
+			  margin: 6px 8px 0 0;
+			  padding: 8px 12px;
+			  border: none;
+			  border-radius: 4px;
+			  background-color: #008cba; 
+			  color: #fff;
+			  font-size: 14px;
+			  cursor: pointer;
+			}
+			.btn:hover {
+			  background-color: #007ba1; /* slightly darker on hover */
+			}
+			/* Light/dark for buttons */
+			body.dark-mode .btn {
+			  background-color: #444;
+			  color: #eee;
+			}
+			body.dark-mode .btn:hover {
+			  background-color: #666;
+			}
             form {
               margin-bottom: 20px;
             }
@@ -17,10 +40,43 @@ nav: false
               margin-right: 10px;
               font-weight: bold;
             }
+			input[type="date"],
+			input[type="text"],
+			select {
+			  padding: 4px 6px;
+			  font-size: 14px;
+			  margin-right: 8px;
+			}
+			/* Warning message for unknown teams */
+			.warning {
+			  color: #c00;
+			  font-weight: bold;
+			  margin: 10px auto;
+			  max-width: 300px;
+			}
+			/* Suggestion lists for the custom auto-complete approach */
+			.suggestion-list {
+			  position: absolute;
+			  background: #fff;
+			  border: 1px solid #ccc;
+			  border-radius: 3px;
+			  margin-top: 2px;
+			  z-index: 999;
+			  width: 200px; /* match input width if desired */
+			  max-height: 150px;
+			  overflow-y: auto;
+			}
+			.suggestion-list li {
+			  padding: 4px;
+			  cursor: pointer;
+			}
+			.suggestion-list li:hover {
+			  background: #eee;
+			}
             .team-logo {
-              width: 100%;
+              width: auto;
     		  max-width: 120px;
-              height: auto;
+              height: 120px;
               display: block;
               margin: 0 auto;
             }
@@ -30,6 +86,9 @@ nav: false
               text-align: center;
               margin-top: 5px;
             }
+			.button-row {
+			  margin-top: 10px;
+			}
             .teams-row {
               text-align: center;
               margin-bottom: 40px;
@@ -47,7 +106,7 @@ nav: false
               width: 20%;
               text-align: center;
               vertical-align: middle;
-    		  min-width: 150px;
+			  min-width: 150px;
             }
             svg {
               overflow: visible;
@@ -58,6 +117,9 @@ nav: false
     		  max-width: 900px;
     		  margin: 0 auto 2px auto;
             }
+			.chart-container svg text {
+			  fill: currentColor; /* uses the inherited color from the container (which is from body) */
+			}
     		.chart-container svg {
     		  width: 100%;
     		  height: auto;
@@ -103,8 +165,8 @@ nav: false
           <h1>Head-to-Head Comparison</h1>
           <form id="compareForm">
             <label for="team1Input">Team #1:</label>
-            <input type="text" id="team1Input" list="teams" />
-
+            <input type="text" id="team1Input" list ="teams"/>
+		    
             <label for="team2Input">Team #2:</label>
             <input type="text" id="team2Input" list="teams" />
 
@@ -120,9 +182,14 @@ nav: false
             <label for="premierOnly">Premier League Era only?</label>
             <input type="checkbox" id="premierOnly" />
 
-            <button type="submit">Compare</button>
-            <button type="button" id="resetButton">Reset</button>
+            <div class="button-row">
+			  <button type="submit" class="btn">Compare</button>
+			  <button type="button" id="resetButton" class="btn">Reset</button>
+			</div>
           </form>
+		  
+		    <div id="warningMessage" class="warning" style="display:none;">Unknown team name!</div>
+
 
           <div class="teams-row">
             <div class="team-container" id="team1Container">
@@ -171,18 +238,35 @@ nav: false
               return t[e.length][i.length];
             }
             function getClosestTeamName(e, i) {
-              if (!e) return "";
-              let t = "",
-                a = Infinity;
-              i.forEach((o) => {
-                const d = editDistance(o, e);
-                if (d < a) {
-                  a = d;
-                  t = o;
-                }
-              });
-              return t;
-            }
+  if (!e) return "";
+
+  // Convert input to lowercase once
+  const lowerInput = e.toLowerCase();
+
+  // 1) Check for exact match
+  const exact = i.find(team => team.toLowerCase() === lowerInput);
+  if (exact) {
+    return exact;
+  }
+
+  // 2) Gather partial matches first
+  const partials = i.filter(team => team.toLowerCase().includes(lowerInput));
+  const candidateList = partials.length ? partials : i;
+
+  let bestTeam = "";
+  let bestDistance = Infinity;
+
+  candidateList.forEach(team => {
+    const dist = editDistance(team, e);
+    if (dist < bestDistance) {
+      bestDistance = dist;
+      bestTeam = team;
+    }
+  });
+
+  return bestTeam;
+}
+
             function filterMatches(e, i, t, a, o, d) {
               return e.filter((n) => {
                 const r = n.HomeTeam,
@@ -787,22 +871,42 @@ nav: false
               .getElementById("compareForm")
               .addEventListener("submit", (e2) => {
                 e2.preventDefault();
-                const i = document.getElementById("team1Input").value,
-                  t = document.getElementById("team2Input").value,
-                  a = document.getElementById("startDate").value,
-                  o = document.getElementById("endDate").value,
-                  d = document.getElementById("premierOnly").checked;
-                if (!i || !t) return;
-                document.getElementById("team1Logo").src = teamLogos[i] || "";
-                document.getElementById("team2Logo").src = teamLogos[t] || "";
-                document.getElementById("team1Name").textContent = i;
-                document.getElementById("team2Name").textContent = t;
-                document.getElementById("vsLabel").style.display =
-                  i && t ? "inline-block" : "none";
-                const n = filterMatches(allMatches, i, t, a, o, d),
-                  r = calculateStats(n, i, t);
-                renderComparisonChart(r);
-                renderMatchesList(n);
+                const iRaw = document.getElementById("team1Input").value.trim(),
+          tRaw = document.getElementById("team2Input").value.trim(),
+          a = document.getElementById("startDate").value,
+          o = document.getElementById("endDate").value,
+          d = document.getElementById("premierOnly").checked;
+
+    // Attempt to match team1 input
+    let i = allTeams.includes(iRaw) ? iRaw : getClosestTeamName(iRaw, allTeams);
+    // Attempt to match team2 input
+    let t = allTeams.includes(tRaw) ? tRaw : getClosestTeamName(tRaw, allTeams);
+
+    // If either is empty after trying, show warning & stop
+    const warnDiv = document.getElementById("warningMessage");
+    warnDiv.style.display = "none";
+    if (!i) {
+      warnDiv.textContent = "Unknown team name: " + iRaw;
+      warnDiv.style.display = "block";
+      return;
+    }
+    if (!t) {
+      warnDiv.textContent = "Unknown team name: " + tRaw;
+      warnDiv.style.display = "block";
+      return;
+    }
+
+    // Now we have valid i & t
+    document.getElementById("team1Logo").src = teamLogos[i] || "";
+    document.getElementById("team2Logo").src = teamLogos[t] || "";
+    document.getElementById("team1Name").textContent = i;
+    document.getElementById("team2Name").textContent = t;
+    document.getElementById("vsLabel").style.display = i && t ? "inline-block" : "none";
+
+    const n = filterMatches(allMatches, i, t, a, o, d),
+          r = calculateStats(n, i, t);
+    renderComparisonChart(r);
+    renderMatchesList(n);
               });
             document
               .getElementById("resetButton")
