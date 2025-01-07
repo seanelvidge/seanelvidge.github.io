@@ -493,7 +493,7 @@ return bestTeam;
       });
 
       // Biggest Win row
-      const maxMargin = d3.max([marginData.team1Value, marginData.team2Value]);
+      const maxMargin = 10 //d3.max([marginData.team1Value, marginData.team2Value]);
       const xLeftMargin = d3.scaleLinear().domain([0, maxMargin]).range([0, halfWidth]);
       const xRightMargin = d3.scaleLinear().domain([0, maxMargin]).range([0, halfWidth]);
       const yPosMargin = 3 * (barHeight + rowGap);
