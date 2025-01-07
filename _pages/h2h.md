@@ -400,7 +400,7 @@ return bestTeam;
       const chartData = [
         { label: "Wins", team1Value: stats.team1Wins, team2Value: stats.team2Wins },
         { label: "Draws", team1Value: stats.draws, team2Value: stats.draws },
-        { label: "Goals Against", team1Value: stats.team2Goals, team2Value: stats.team1Goals }
+        { label: "Goals For", team1Value: stats.team1Goals, team2Value: stats.team2Goals }
       ];
 
       const marginData = {
