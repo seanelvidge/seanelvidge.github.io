@@ -18,7 +18,7 @@ For those of us who consider coffee an essential part of our daily routine, the 
     </div>
 </div>
 
-Perhaps that seems like an odd question, buf if you've ever tried recreating your favorite [Birmingham](https://maps.app.goo.gl/8kBMHJEUhXWF1KvL9) coffee experience in [Boulder, Colorado](https://maps.app.goo.gl/rfqUP96D2L4juCtT9) (which I have, many times!), you might have noticed something's a bit "off". Let's dive into the science behind why:
+Perhaps that seems like an odd question, buf if you've ever tried recreating your favourite [Birmingham](https://maps.app.goo.gl/8kBMHJEUhXWF1KvL9) coffee experience in [Boulder, Colorado](https://maps.app.goo.gl/rfqUP96D2L4juCtT9) (which I have, many times!), you might have noticed something's a bit "off". Let's dive into the science behind why:
 
 It all boils down to atmospheric pressure. The air around us exerts pressure, and this pressure decreases as we go higher in altitude. Why? Essentially, there's less atmosphere above you pushing down.
 
