@@ -10,7 +10,7 @@ thumbnail: assets/img/overall2.png
 
 It is a fairly safe assumption that viewing figures for TV shows typically drop over time. But what I was thinking about this morning is how many people just turn on the TV and watch whatever is on, is that something we can work out from TV videwing figures?
 
-To start with lets consider "Grey's Anatomy". The viewing figure data is from <a href="http://abcmedianet.com/web/homepage/default.aspx" target="_blank">ABC Medianet</a> and initially we just plot the number of viewers per episode which results in the below graph.
+To start with lets consider "Grey's Anatomy". The viewing figure data is from "ABC Medianet" and initially we just plot the number of viewers per episode which results in the below graph.
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
