@@ -197,7 +197,7 @@ This page can be directly linked to by passing team names into the url, e.g. to 
     		  }
     		}
           </style>
-          <h2>Head-to-Head Statistics</h2>
+          <br /><br /><h2>Head-to-Head Statistics</h2>
           <form id="compareForm">
             <label for="team1Input">Team #1:</label>
             <input type="text" id="team1Input" list ="teams"/>
