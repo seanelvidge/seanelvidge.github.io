@@ -955,7 +955,7 @@ return bestTeam;
     // Insert a link in the #shareLink div:
     const shareDiv = document.getElementById("shareLink");
     shareDiv.style.display = "block";
-    shareDiv.innerHTML = ` 
+    shareDiv.innerHTML = `
     <a href="${shareUrl}" target="_blank" rel="noopener">URL link for this head-to-head</a><br><br>
     `;
               });
