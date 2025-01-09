@@ -197,7 +197,7 @@ This page can be directly linked to by passing team names into the url, e.g. to 
     		  }
     		}
           </style>
-
+          <h2>Head-to-Head Statistics</h2>
           <form id="compareForm">
             <label for="team1Input">Team #1:</label>
             <input type="text" id="team1Input" list ="teams"/>
@@ -421,7 +421,7 @@ return bestTeam;
       // then scale it to fit the container via viewBox.
       const margin = { top: 20, right: 30, bottom: 20, left: 50 };
       const chartWidth = 800; // internal coordinate space
-      const chartHeight = 200;
+      const chartHeight = 250;
       const contentWidth = chartWidth - margin.left - margin.right;
       const contentHeight = chartHeight - margin.top - margin.bottom;
 
