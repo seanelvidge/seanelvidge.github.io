@@ -2,9 +2,13 @@
 layout: page
 permalink: /h2h
 title: English Football Head-to-Head Statistics
-description: Tool for finding the head-to-head statistics between any two teams in the English Football League
+description: Tool for finding the head-to-head statistics between any two teams in the English Football League.
 nav: false
 ---
+
+This page can be directly linked to by passing team names into the url, e.g. to get the head-to-head statistics of Arsenal v Chelsea visit: [https://seanelvidge.com/h2h?team1=Arsenal&team2=Chelsea](https://seanelvidge.com/h2h?team1=Arsenal&team2=Chelsea)
+
+(This page looks best on a larger screen / landscape mobile phone screen)
 
 <html lang="en">
 <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -220,7 +224,7 @@ nav: false
           </form>
 
     	    <div id="warningMessage" class="warning" style="display:none;">Unknown team name!</div>
-
+              <div id="shareLink" style="display:none; margin: 10px 0; font-weight: bold;"></div>
 
           <div class="teams-row">
             <div class="team-container" id="team1Container">
@@ -235,6 +239,7 @@ nav: false
           </div>
 
           <div class="chart-container" id="chart"></div>
+          <div id="shareLink" style="display:none; margin: 10px 0; font-weight: bold;"></div>
           <div class="match-list" id="matchList"></div>
 
           <script>
@@ -416,7 +421,7 @@ return bestTeam;
       // then scale it to fit the container via viewBox.
       const margin = { top: 20, right: 30, bottom: 20, left: 50 };
       const chartWidth = 800; // internal coordinate space
-      const chartHeight = 300;
+      const chartHeight = 200;
       const contentWidth = chartWidth - margin.left - margin.right;
       const contentHeight = chartHeight - margin.top - margin.bottom;
 
@@ -942,6 +947,17 @@ return bestTeam;
           r = calculateStats(n, i, t);
     renderComparisonChart(r);
     renderMatchesList(n);
+
+    // Build a new shareable URL with the final, matched names:
+    const baseUrl = "https://seanelvidge.com/h2h";
+    const shareUrl = `${baseUrl}?team1=${encodeURIComponent(i)}&team2=${encodeURIComponent(t)}`;
+
+    // Insert a link in the #shareLink div:
+    const shareDiv = document.getElementById("shareLink");
+    shareDiv.style.display = "block";
+    shareDiv.innerHTML = ` 
+    <a href="${shareUrl}" target="_blank" rel="noopener">URL link for this head-to-head</a><br><br>
+    `;
               });
             document
               .getElementById("resetButton")
