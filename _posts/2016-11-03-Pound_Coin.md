@@ -46,7 +46,7 @@ In fact, as far as I am aware, the only coin in active circulation with an even 
     </div>
 </div>
 
-And why is this? It is all because of "constant diameter". Fortunately, as an undergrad, I was taught by [Prof. Chris Sangwin](https://www.maths.ed.ac.uk/~csangwin/) who wrote '[How Round is Your Circle](https://www.maths.ed.ac.uk/~csangwin/howroundcom/)' along with John Bryant [by the way, you should definitely read this book, it’s great!] so this evenness stood out like a sore thumb. You see, whilst a circle has constant diameter (of course it does, it has a constant radius, and diameter = 2 x radius), other shapes exist which don't have constant radius but do have constant diameter. Indeed there are an infinite number of such shapes. Any odd-sided regular polygon can be used to construct one of these shapes of constant diameter.
+And why is this? It is all because of "constant diameter". Fortunately, as an undergrad, I was taught by [Prof. Chris Sangwin](https://www.linkedin.com/in/chris-sangwin-9930b0b/?originalSubdomain=uk) who wrote '[How Round is Your Circle](https://en.wikipedia.org/wiki/How_Round_Is_Your_Circle%3F)' along with John Bryant [by the way, you should definitely read this book, it’s great!] so this evenness stood out like a sore thumb. You see, whilst a circle has constant diameter (of course it does, it has a constant radius, and diameter = 2 x radius), other shapes exist which don't have constant radius but do have constant diameter. Indeed there are an infinite number of such shapes. Any odd-sided regular polygon can be used to construct one of these shapes of constant diameter.
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
