@@ -41,7 +41,7 @@ Where:
 
 Birmingham, UK, sits at a relatively low altitude (around 140 meters above sea level). Water here boils pretty close to 100°C. Boulder, Colorado, on the other hand, is nestled in the foothills of the Rocky Mountains at an elevation of roughly 1655 meters. This significant difference in altitude has a significant impact on the temperature water boils at.
 
-To use the Clausius-Clapeyron equation we first need to calculate atmospheric pressure in Boulder - there are various ways of doing this (progressingly getting more difficult) but here it is sufficient to assume a 'standard atmosphere' where temperature decreasesd with altitude, and assume that our coffee machine is being used indoors where the temperature is about 20°C, then we can use:
+To use the Clausius-Clapeyron equation we first need to calculate atmospheric pressure in Boulder - there are various ways of doing this (getting progressively more difficult) but here it is sufficient to assume a 'standard atmosphere' where temperature decreasesd with altitude, and assume that our coffee machine is being used indoors where the temperature is about 20°C, then we can use:
 
 $$P = P_0\cdot\exp\left(\frac{-gM(h - h_0)}{RT}\right)$$
 
@@ -60,12 +60,12 @@ Plugging those numbers in gives us:
 
 $$
 \begin{eqnarray*}
-P &=& 101325*\exp\left(\frac{-9.81\times 0.0289644\times (1655 - 0)}{8.31432\times 293.15}\right)\\
+P &=& 101325\cdot\exp\left(\frac{-9.81\times 0.0289644\times (1655 - 0)}{8.31432\times 293.15}\right)\\
 &=& 83546
 \end{eqnarray*}
 $$
 
-So the atmospheric pressure of Boulder is about 83500 Pa (you can also use this [online calculator](https://www.mide.com/air-pressure-at-altitude-calculator) to be more accurate if you want to be, and this also provides more details on air pressure caclulations). Sub this value in (as $$P$$) using our other reference values: $$P_0$$ (101325 Pa), $$\Delta H$$ (40700 J/mol), $$R$$ (8.314 J/mol·K), and $$T_0$$ (373.15 K) to get:
+So the atmospheric pressure of Boulder is about 83500 Pa (you can also use this [online calculator](https://www.mide.com/air-pressure-at-altitude-calculator) to be more accurate if you want to be, and this also provides more details on air pressure caclulations). Sub this value in (as $$P$$) into the Clausius-Clapeyroin equation and using our other reference values: $$P_0$$ (101325 Pa), $$\Delta H$$ (40700 J/mol), $$R$$ (8.314 J/mol·K), and $$T_0$$ (373.15 K) to get:
 
 $$\ln\left(\frac{83500}{101325}\right) = -\left(\frac{40700}{8.314}\right)\cdot\left(\frac{1}{T} - \frac{1}{373.15}\right)$$
 
