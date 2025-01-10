@@ -43,12 +43,12 @@ Birmingham, UK, sits at a relatively low altitude (around 140 meters above sea l
 
 To use the Clausius-Clapeyron equation we first need to calculate atmospheric pressure in Boulder - there are various ways of doing this (progressingly getting more difficult) but here it is sufficient to assume a 'standard atmosphere' where temperature decreasesd with altitude, and assume that our coffee machine is being used indoors where the temperature is about 20°C, then we can use:
 
-$$P = P_0 * \exp\left(\frac{-gM(h - h_0)}{RT}\right)$$
+$$P = P_0\cdot\exp\left(\frac{-gM(h - h_0)}{RT}\right)$$
 
 Where:
 
 - $$P$$: The air pressure (Pa) at altitude $$h$$ (this is the thing we want)
-- $$P_0$$: Air pressure at reference altitude $$h_0$ (as in the previous equation we will use sea level pressure of 101325 Pa)
+- $$P_0$$: Air pressure at reference altitude $$h_0$$ (as in the previous equation we will use sea level pressure of 101325 Pa)
 - $$g$$: Acceleration due to gravity (9.81 m/s²)
 - $$M$$: Molar mass of air (0.0289644 kg/mol)
 - $$h$$: Altitude (m) (Boulder is at 1,655m)
