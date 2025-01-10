@@ -4,6 +4,7 @@ permalink: /h2h
 title: English Football Head-to-Head Statistics
 description: Tool for finding the head-to-head statistics between any two teams in the English Football League.
 nav: false
+tags: football
 ---
 
 This page can be directly linked to by passing team names into the url, e.g. to get the head-to-head statistics of Arsenal v Chelsea visit: [https://seanelvidge.com/h2h?team1=Arsenal&team2=Chelsea](https://seanelvidge.com/h2h?team1=Arsenal&team2=Chelsea)
