@@ -83,7 +83,7 @@ osf_id: # your OSF ID
 research_gate_profile: Sean-Elvidge # your profile on ResearchGate
 scopus_id: # your profile on Scopus
 flickr_id: # your flickr id
-blogger_url: # your blogger URL
+ger_url: # your ger URL
 work_url: # work page URL
 keybase_username: # your keybase user name
 wikidata_id: # your wikidata id
@@ -123,7 +123,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 
 blog_name: Sean's random musings # blog_name will be displayed in your blog page
 blog_description: A varied collection of thoughts and ideas, usually around statistics, football or generally interesting tidbits.
-permalink: /blog/:year/:title/
+permalink: /articles/:year/:title/
 
 # Pagination
 pagination:
@@ -273,9 +273,9 @@ jekyll-archives:
     tag: archive-tag
     category: archive-category
   permalinks:
-    year: "/blog/:year/"
-    tag: "/blog/tag/:name/"
-    category: "/blog/category/:name/"
+    year: "/articles/:year/"
+    tag: "/articles/tag/:name/"
+    category: "/articles/category/:name/"
 
 display_tags: ["mathematics", "football", "code", "spaceWeather", "misc", "MathsOnAMug"] # these tags will be displayed on the front page of your blog
 display_categories: # ["blockquotes"] # these categories will be displayed on the front page of your blog
