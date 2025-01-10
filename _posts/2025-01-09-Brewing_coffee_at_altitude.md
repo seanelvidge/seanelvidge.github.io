@@ -60,14 +60,14 @@ Plugging those numbers in gives us:
 
 $$
 \begin{eqnarray*}
-P &=& 101325\cdot\exp\left(\frac{-9.81\times 0.0289644\times (1655 - 0)}{8.31432\times 293.15}\right)\\
+P &=& 101325\times\exp\left(\frac{-9.81\times 0.0289644\times (1655 - 0)}{8.31432\times 293.15}\right)\\
 &=& 83546
 \end{eqnarray*}
 $$
 
 So the atmospheric pressure of Boulder is about 83500 Pa (you can also use this [online calculator](https://www.mide.com/air-pressure-at-altitude-calculator) to be more accurate if you want to be, and this also provides more details on air pressure caclulations). Sub this value in (as $$P$$) into the Clausius-Clapeyroin equation and using our other reference values: $$P_0$$ (101325 Pa), $$\Delta H$$ (40700 J/mol), $$R$$ (8.314 J/mol·K), and $$T_0$$ (373.15 K) to get:
 
-$$\ln\left(\frac{83500}{101325}\right) = -\left(\frac{40700}{8.314}\right)\cdot\left(\frac{1}{T} - \frac{1}{373.15}\right)$$
+$$\ln\left(\frac{83500}{101325}\right) = -\left(\frac{40700}{8.314}\right)\times\left(\frac{1}{T} - \frac{1}{373.15}\right)$$
 
 Solving the above equation for $$T$$ requires a little bit of algebraic manipulation but you should end up with $$T \approx 367.7 K$$. Which (by removing 273.15) gives a value of 94.55°C for the boiling point of water for Boulder.
 
