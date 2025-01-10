@@ -32,7 +32,7 @@ Where:
 
 - $$P$$: The vapor pressure of the liquid at the temperature of interest (in Pascals, Pa). This is what we want to find to determine the boiling point.
 - $$P_0$$: The vapor pressure at a known reference temperature (also in Pascals). For water, we often use standard atmospheric pressure (101325 Pa) and its corresponding boiling point of 100°C (373.15 Kelvin).
-- $$\Delta H$: The enthalpy of vaporization (in Joules per mole, J/mol). This represents the energy needed to change one mole of liquid into vapor at a constant temperature. For water, $$\Delta H$$ is approximately 40,700 J/mol.
+- $$\Delta H$$: The enthalpy of vaporization (in Joules per mole, J/mol). This represents the energy needed to change one mole of liquid into vapor at a constant temperature. For water, $$\Delta H$$ is approximately 40,700 J/mol.
 - $$R$$: The ideal gas constant (8.314 J/mol·K). This constant relates energy to temperature for gases.
 - $$T$$: The temperature in Kelvin (K) at which we want to find the vapor pressure (and ultimately, the boiling point).
 - $$T_0$$: The reference temperature in Kelvin (K). Again, for water, this is often 373.15 K.
@@ -41,13 +41,37 @@ Where:
 
 Birmingham, UK, sits at a relatively low altitude (around 140 meters above sea level). Water here boils pretty close to 100°C. Boulder, Colorado, on the other hand, is nestled in the foothills of the Rocky Mountains at an elevation of roughly 1655 meters. This significant difference in altitude has a significant impact on the temperature water boils at.
 
-To use the Clausius-Clapeyron equation first lets assume that the average atmospheric pressure of Boulder is about 84000 Pa (you could use this [online calculator](https://www.mide.com/air-pressure-at-altitude-calculator) to be more accurate if you want to be!). Sub this value in (as $$P$$) using our other reference values: $$P_0$$ (101325 Pa), $$\Delta H$$ (40700 J/mol), $$R$$ (8.314 J/mol·K), and $$T_0$$ (373.15 K) to get:
+To use the Clausius-Clapeyron equation we first need to calculate atmospheric pressure in Boulder - there are various ways of doing this (progressingly getting more difficult) but here it is sufficient to assume a 'standard atmosphere' where temperature decreasesd with altitude, and assume that our coffee machine is being used indoors where the temperature is about 20°C, then we can use:
 
-$$\ln\left(\frac{84000}{101325}\right) = -\left(\frac{40700}{8.314}\right)\cdot\left(\frac{1}{T} - \frac{1}{373.15}\right)$$
+$$P = P_0 * \exp\left(\frac{-gM(h - h_0)}{RT}\right)$$
 
-Solving the above equation for $$T$$ requires a little bit of algebraic manipulation but you should end up with $$T \approx 367.2 K$$. Which (by removing 273.15) gives a value of 94.05°C for the boiling point of water for Boulder.
+Where:
 
-**Water boils at approximately 94°C in Boulder.**
+- $$P$$: The air pressure (Pa) at altitude $$h$$ (this is the thing we want)
+- $$P_0$$: Air pressure at reference altitude $$h_0$ (as in the previous equation we will use sea level pressure of 101325 Pa)
+- $$g$$: Acceleration due to gravity (9.81 m/s²)
+- $$M$$: Molar mass of air (0.0289644 kg/mol)
+- $$h$$: Altitude (m) (Boulder is at 1,655m)
+- $$h_0$$: Reference altitude (m) (here we assume sea level, 0 m)
+- $$R$$: The universal gas constant (8.31432 J/(mol·K))
+- $$T$$: Temperature at altitude $$h$$ (K) (must be in Kelvin, and so we use 293.15 K)
+
+Plugging those numbers in gives us:
+
+$$
+\begin{eqnarray*}
+P &=& 101325*\exp\left(\frac{-9.81\times 0.0289644\times (1655 - 0)}{8.31432\times 293.15}\right)\\
+&=& 83546
+\end{eqnarray*}
+$$
+
+So the atmospheric pressure of Boulder is about 83500 Pa (you can also use this [online calculator](https://www.mide.com/air-pressure-at-altitude-calculator) to be more accurate if you want to be, and this also provides more details on air pressure caclulations). Sub this value in (as $$P$$) using our other reference values: $$P_0$$ (101325 Pa), $$\Delta H$$ (40700 J/mol), $$R$$ (8.314 J/mol·K), and $$T_0$$ (373.15 K) to get:
+
+$$\ln\left(\frac{83500}{101325}\right) = -\left(\frac{40700}{8.314}\right)\cdot\left(\frac{1}{T} - \frac{1}{373.15}\right)$$
+
+Solving the above equation for $$T$$ requires a little bit of algebraic manipulation but you should end up with $$T \approx 367.7 K$$. Which (by removing 273.15) gives a value of 94.55°C for the boiling point of water for Boulder.
+
+**Water boils at approximately 94.5°C in Boulder.**
 
 ## Why It Matters for Coffee
 
