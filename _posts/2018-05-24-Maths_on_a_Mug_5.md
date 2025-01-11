@@ -22,6 +22,6 @@ You need to get 5 numbers from a pot of 69 in the main draw, and then one ‘bon
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/blog/2017/Maths_on_a_Mug_4/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/blog/2018/Maths_on_a_Mug_6/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/article/2017/Maths_on_a_Mug_4/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/article/2018/Maths_on_a_Mug_6/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
