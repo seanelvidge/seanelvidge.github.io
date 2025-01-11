@@ -324,83 +324,87 @@ return bestTeam;
               });
             }
             function calculateStats(e, i, t) {
-              let a = 0,
-                o = 0,
-                d = 0,
-                n = 0,
-                r = 0,
-                s = 0,
-                p = "",
-                l = "",
-                g = 0,
-                w = "",
-                m = "";
-              e.forEach((h) => {
-                const _ = h.HomeTeam,
-                  u = h.AwayTeam,
-                  k = +h.hGoal,
-                  S = +h.aGoal;
+            let a = 0,  // team1Wins
+                o = 0,  // team2Wins
+                d = 0,  // draws
+                n = 0,  // team1Goals
+                r = 0,  // team2Goals
+                s = 0,  // biggestWinMarginT1
+                biggestWinOccurrencesT1 = [],
+                g = 0,  // biggestWinMarginT2
+                biggestWinOccurrencesT2 = [];
+          
+            e.forEach((h) => {
+              const _ = h.HomeTeam,
+                    u = h.AwayTeam,
+                    k = +h.hGoal,
+                    S = +h.aGoal;
+          
+              // Tally goals
+              if (_ === i) {
+                n += k;
+                r += S;
+              } else if (_ === t) {
+                r += k;
+                n += S;
+              }
+          
+              // Determine winner
+              if (k > S) {
+                const margin = k - S;
                 if (_ === i) {
-                  n += k;
-                  r += S;
-                } else if (_ === t) {
-                  r += k;
-                  n += S;
-                }
-                if (k > S) {
-                  if (_ === i) {
-                    a++;
-                    const x = k - S;
-                    if (x > s) {
-                      s = x;
-                      p = h.Date;
-                      l = h.Score;
-                    }
-                  } else {
-                    o++;
-                    const x = k - S;
-                    if (x > g) {
-                      g = x;
-                      w = h.Date;
-                      m = h.Score;
-                    }
-                  }
-                } else if (S > k) {
-                  if (u === i) {
-                    a++;
-                    const x = S - k;
-                    if (x > s) {
-                      s = x;
-                      p = h.Date;
-                      l = h.Score;
-                    }
-                  } else {
-                    o++;
-                    const x = S - k;
-                    if (x > g) {
-                      g = x;
-                      w = h.Date;
-                      m = h.Score;
-                    }
+                  a++;
+                  if (margin > s) {
+                    s = margin;
+                    biggestWinOccurrencesT1 = [{ date: h.Date, score: h.Score }];
+                  } else if (margin === s) {
+                    biggestWinOccurrencesT1.push({ date: h.Date, score: h.Score });
                   }
                 } else {
-                  d++;
+                  o++;
+                  if (margin > g) {
+                    g = margin;
+                    biggestWinOccurrencesT2 = [{ date: h.Date, score: h.Score }];
+                  } else if (margin === g) {
+                    biggestWinOccurrencesT2.push({ date: h.Date, score: h.Score });
+                  }
                 }
-              });
-              return {
-                team1Wins: a,
-                team2Wins: o,
-                draws: d,
-                team1Goals: n,
-                team2Goals: r,
-                biggestWinMarginT1: s,
-                biggestWinDateT1: p,
-                biggestWinScoreT1: l,
-                biggestWinMarginT2: g,
-                biggestWinDateT2: w,
-                biggestWinScoreT2: m,
-              };
-            }
+              } else if (S > k) {
+                const margin = S - k;
+                if (u === i) {
+                  a++;
+                  if (margin > s) {
+                    s = margin;
+                    biggestWinOccurrencesT1 = [{ date: h.Date, score: h.Score }];
+                  } else if (margin === s) {
+                    biggestWinOccurrencesT1.push({ date: h.Date, score: h.Score });
+                  }
+                } else {
+                  o++;
+                  if (margin > g) {
+                    g = margin;
+                    biggestWinOccurrencesT2 = [{ date: h.Date, score: h.Score }];
+                  } else if (margin === g) {
+                    biggestWinOccurrencesT2.push({ date: h.Date, score: h.Score });
+                  }
+                }
+              } else {
+                d++;
+              }
+            });
+          
+            return {
+              team1Wins: a,
+              team2Wins: o,
+              draws: d,
+              team1Goals: n,
+              team2Goals: r,
+              biggestWinMarginT1: s,
+              biggestWinOccurrencesT1,
+              biggestWinMarginT2: g,
+              biggestWinOccurrencesT2
+            };
+          }
             function renderComparisonChart(stats) {
       // Data for the first three rows
       const chartData = [
@@ -513,10 +517,13 @@ return bestTeam;
         .attr("height", barHeight)
         .attr("fill", "#599ad3");
 
-      let team1Label = 0;
-      if (marginData.team1Value > 0) {
-        team1Label = `${stats.biggestWinScoreT1} on ${stats.biggestWinDateT1}`;
-      }
+      let team1Label = "";
+          if (stats.biggestWinOccurrencesT1 && stats.biggestWinOccurrencesT1.length > 0) {
+          // Build a combined string of all date/score pairs
+          team1Label = stats.biggestWinOccurrencesT1
+          .map(o => `${o.score} on ${o.date}`)
+          .join("; ");
+          }
       chartG.append("text")
         .attr("x", gapLeft - leftBarWidth - 5)
         .attr("y", yPosMargin + barHeight / 1.5)
@@ -541,10 +548,12 @@ return bestTeam;
         .attr("height", barHeight)
         .attr("fill", "#d3635a");
 
-      let team2Label = 0;
-      if (marginData.team2Value > 0) {
-        team2Label = `${stats.biggestWinScoreT2} on ${stats.biggestWinDateT2}`;
-      }
+      let team2Label = "";
+          if (stats.biggestWinOccurrencesT2 && stats.biggestWinOccurrencesT2.length > 0) {
+          team2Label = stats.biggestWinOccurrencesT2
+          .map(o => `${o.score} on ${o.date}`)
+          .join("; ");
+          }
       chartG.append("text")
         .attr("x", rightX + rightBarWidth + 5)
         .attr("y", yPosMargin + barHeight / 1.5)
