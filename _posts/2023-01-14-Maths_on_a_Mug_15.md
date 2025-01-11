@@ -45,6 +45,6 @@ How we interpret Bayes’ theorem depends on how we interpret probability, a [Ba
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/blog/2021/Maths_on_a_Mug_14/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/article/2021/Maths_on_a_Mug_14/" style="text-decoration: none;">Previous Maths on a Mug</a>
     Next Maths on a Mug
 </div>
