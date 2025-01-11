@@ -46,6 +46,6 @@ For an excellent description of all the errors with the $$1+2+3+\cdots=\frac{-1}
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/article/2020/Maths_on_a_Mug_10/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/article/2020/Maths_on_a_Mug_12/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2020/Maths_on_a_Mug_10/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2020/Maths_on_a_Mug_12/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
