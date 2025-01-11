@@ -8,7 +8,7 @@ related_posts: true
 thumbnail: assets/img/euro2020/dSurface.jpg
 ---
 
-With the first round of fixtures complete we can have a first peak of how well our model is doing (for the details about my Euro’s prediction model see my [previous post](https://seanelvidge.github.io/article/2021/Euro_2020_Predictions/){:target="\_BLANK"}.)
+With the first round of fixtures complete we can have a first peak of how well our model is doing (for the details about my Euro’s prediction model see my [previous post](https://seanelvidge.github.io/articles/2021/Euro_2020_Predictions/){:target="\_BLANK"}.)
 
 A hugely important thing for any model is validation. How well is our model doing? One way to investigate this is by looking at the [Brier Score](https://en.wikipedia.org/wiki/Brier_score){:target="\_BLANK"} of the model. The Brier score is used to measure the accuracy of probabilistic predictions. Fundamentally it is the mean square error of the forecast and varies from 0 (perfect prediction) to 2. So the lower the score the better. For each result a Brier score is calculated and then an overall score is given to the models by taking the mean value.
 
