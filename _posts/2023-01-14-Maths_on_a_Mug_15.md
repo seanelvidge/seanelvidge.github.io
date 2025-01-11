@@ -15,7 +15,7 @@ thumbnail: assets/img/mathsonamug/mathsonamug_15.jpeg
     </div>
 </div>
 
-This is a "simple" [#MathsOnAMug](https://seanelvidge.github.io/blog/tag/mathsonamug/){:target="\_blank"}. Simple, but very important. This is [Bayes’ theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem){:target="\_blank"}:
+This is a "simple" [#MathsOnAMug](https://seanelvidge.github.io/articles/tag/mathsonamug/){:target="\_blank"}. Simple, but very important. This is [Bayes’ theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem){:target="\_blank"}:
 
 $$
 P(A|B)=P(B|A)P(A)P(B).
