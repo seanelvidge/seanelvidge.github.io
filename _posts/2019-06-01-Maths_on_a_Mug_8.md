@@ -82,6 +82,6 @@ There has been a lot of work on using EVT in space weather, on a wide range of t
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/blog/2018/Maths_on_a_Mug_7/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/blog/2019/Maths_on_a_Mug_9/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/article/2018/Maths_on_a_Mug_7/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/article/2019/Maths_on_a_Mug_9/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
