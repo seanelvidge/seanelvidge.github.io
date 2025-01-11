@@ -12,7 +12,7 @@ This article describes a plain text database of all England football (soccer) le
 
 You can access the latest database on its dedicated github page: [England-football-results](https://github.com/seanelvidge/England-football-results/tree/main)
 
-The database is updated roughly every two days (although I am looking for approaches to speed this up) for the top four divisions in England: Premier League, Championship, League 1 and League 2. The motivation for making the database is that I do a lot of statistical analysis on various bits and pieces in football (you can see some [here](https://seanelvidge.com/article/tag/football/)), and not having an easy to read database really slows me down.
+The database is updated roughly every two days (although I am looking for approaches to speed this up) for the top four divisions in England: Premier League, Championship, League 1 and League 2. The motivation for making the database is that I do a lot of statistical analysis on various bits and pieces in football (you can see some [here](https://seanelvidge.com/articles/tag/football/)), and not having an easy to read database really slows me down.
 
 The [database](https://github.com/seanelvidge/England-football-results/tree/main) is a comma (",") delimited csv file with the following columns:
 
