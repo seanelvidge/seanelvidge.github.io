@@ -333,13 +333,13 @@ return bestTeam;
                 biggestWinOccurrencesT1 = [],
                 g = 0,  // biggestWinMarginT2
                 biggestWinOccurrencesT2 = [];
-          
+
             e.forEach((h) => {
               const _ = h.HomeTeam,
                     u = h.AwayTeam,
                     k = +h.hGoal,
                     S = +h.aGoal;
-          
+
               // Tally goals
               if (_ === i) {
                 n += k;
@@ -348,7 +348,7 @@ return bestTeam;
                 r += k;
                 n += S;
               }
-          
+
               // Determine winner
               if (k > S) {
                 const margin = k - S;
@@ -392,7 +392,7 @@ return bestTeam;
                 d++;
               }
             });
-          
+
             return {
               team1Wins: a,
               team2Wins: o,
