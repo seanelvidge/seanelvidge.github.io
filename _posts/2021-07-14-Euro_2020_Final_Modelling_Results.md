@@ -12,7 +12,7 @@ With a disappointing end to the tournament (for us England fans anyway!) here is
 
 Unfortunately a mixture of work commitments, and games coming thick and fast, I was unable to keep this website up-to-date with my predictions for each fixture, but I did carry on doing them offline.
 
-(As a reminder: the model description is [here](https://seanelvidge.github.io/article/2021/Euro_2020_Predictions/){:target="\_blank"} and the other models we compare against are [here](https://seanelvidge.com/articles/2021/Euro_2020_Round_1_Results_and_Validation/).)
+(As a reminder: the model description is [here](https://seanelvidge.github.io/articles/2021/Euro_2020_Predictions/){:target="\_blank"} and the other models we compare against are [here](https://seanelvidge.com/articles/2021/Euro_2020_Round_1_Results_and_Validation/).)
 
 The Round of 16 gave us some truly surprising results, with every single model (including the bookies!) doing (a lot) worse than our Lazy prediction of 33% for Home, Draw and Away. This then seemed to be a sign of what was to come, the semifinal and final was worse than Lazy for most of the tested models. It made for an exciting tournament but a disaster for predictions!
 
