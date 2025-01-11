@@ -55,7 +55,7 @@ For the rest of this post we use a value of $$k=2$$.
 
 ### Results
 
-When I last wrote a post similar to this, Wayne Rooney had just [broke the England National team goal record with 50 goals](https://seanelvidge.github.io/article/2015/Rooney-50/). Since then Kane has broke this record again (at the time of writing) with 69 goals. Using the above approach the updated top 10 of England goal scorers are (the "Ranking" is based on the weighted goals column):
+When I last wrote a post similar to this, Wayne Rooney had just [broke the England National team goal record with 50 goals](https://seanelvidge.github.io/articles/2015/Rooney-50/). Since then Kane has broke this record again (at the time of writing) with 69 goals. Using the above approach the updated top 10 of England goal scorers are (the "Ranking" is based on the weighted goals column):
 
 <style>
 table {
