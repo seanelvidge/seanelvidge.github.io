@@ -89,4 +89,4 @@ $$
 \cos(c)=\cos(a)\cos(b)+\sin(a)\sin(b)\cos(C).
 $$
 
-Follow this link if you want to see the [sine rule on a sphere](https://seanelvidge.github.io/blog/2012/sine-rule-on-a-sphere/).
+Follow this link if you want to see the [sine rule on a sphere](https://seanelvidge.github.io/article/2012/sine-rule-on-a-sphere/).
