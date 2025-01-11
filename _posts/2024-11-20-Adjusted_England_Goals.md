@@ -207,7 +207,7 @@ At the other end of the table we end up with a number of people (41) who (becaus
 
 Unfortuntaely Tammy Abraham's 3 goals for England were scored against very much weaker opposition in the form of Montenegro (England won 7-0 on 14/11/19), Andorra (England won 0-5 on 09/10/21) and San Marino (England won 0-10 on 15/11/21).
 
-If you want to have a look at the data you can access it all [here](https://seanelvidge.github.io/assets/files/england_elo_goal_data.csv)) (which also includes the "Adjusted Total" which weights Friendlies as 0.5 and "finals" as 2x (as per the description [here](https://seanelvidge.github.io/blog/2015/Rooney-50/)).
+If you want to have a look at the data you can access it all [here](https://seanelvidge.github.io/assets/files/england_elo_goal_data.csv)) (which also includes the "Adjusted Total" which weights Friendlies as 0.5 and "finals" as 2x (as per the description [here](https://seanelvidge.github.io/articles/2015/Rooney-50/)).
 
 ## Data
 
