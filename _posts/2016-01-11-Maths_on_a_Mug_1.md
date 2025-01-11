@@ -79,5 +79,5 @@ Its simplicity, depth, and universality make it a source of awe and inspiration,
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
     Previous Maths on a Mug
-    <a href="https://seanelvidge.github.io/article/2016/Maths_on_a_Mug_2/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2016/Maths_on_a_Mug_2/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
