@@ -20,6 +20,6 @@ Another [University of Birmingham Mathematics](https://www.birmingham.ac.uk/scho
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/article/2019/Maths_on_a_Mug_9/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/article/2020/Maths_on_a_Mug_11/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2019/Maths_on_a_Mug_9/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2020/Maths_on_a_Mug_11/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
