@@ -30,6 +30,6 @@ The proof is not for the faint hearted, for a long time it had been conjectured 
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/article/2018/Maths_on_a_Mug_6/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/article/2019/Maths_on_a_Mug_8/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2018/Maths_on_a_Mug_6/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2019/Maths_on_a_Mug_8/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
