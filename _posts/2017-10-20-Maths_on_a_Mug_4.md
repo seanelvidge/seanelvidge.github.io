@@ -34,6 +34,6 @@ You can quite comfortabely get the first 100 numbers, and then things start to r
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/article/2017/Maths_on_a_Mug_3/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/article/2018/Maths_on_a_Mug_5/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2017/Maths_on_a_Mug_3/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2018/Maths_on_a_Mug_5/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
