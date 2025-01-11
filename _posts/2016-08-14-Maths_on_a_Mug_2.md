@@ -30,6 +30,6 @@ Construct the additional squares indicated by dotted lines. Angle C is the same 
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/blog/2016/Maths_on_a_Mug_1/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/blog/2017/Maths_on_a_Mug_3/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/article/2016/Maths_on_a_Mug_1/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/article/2017/Maths_on_a_Mug_3/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
