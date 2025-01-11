@@ -8,7 +8,7 @@ related_posts: true
 thumbnail: assets/img/Law-of-haversines.png
 ---
 
-A couple of days ago I wrote about how to find the [cosine rule on a sphere](https://seanelvidge.github.io/article/2012/cosine-rule-on-a-sphere/). In this post I'll show you the sine rule on a sphere.
+A couple of days ago I wrote about how to find the [cosine rule on a sphere](https://seanelvidge.github.io/articles/2012/cosine-rule-on-a-sphere/). In this post I'll show you the sine rule on a sphere.
 
 Consider the following triangle on a sphere:
 
