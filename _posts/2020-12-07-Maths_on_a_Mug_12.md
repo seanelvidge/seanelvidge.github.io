@@ -37,6 +37,6 @@ The only remaining case is if $$G$$ is not a tree. In which case let $$m$$ be a 
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/blog/2020/Maths_on_a_Mug_11/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/blog/2021/Maths_on_a_Mug_13/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/article/2020/Maths_on_a_Mug_11/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/article/2021/Maths_on_a_Mug_13/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
