@@ -26,6 +26,6 @@ Now $$2^n$$ must be even for all values of $$n$$, and $$3^m$$ must be odd for al
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/article/2020/Maths_on_a_Mug_12/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/article/2021/Maths_on_a_Mug_14/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2020/Maths_on_a_Mug_12/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2021/Maths_on_a_Mug_14/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
