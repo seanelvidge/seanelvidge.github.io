@@ -24,6 +24,6 @@ Sadly these mugs are not available to buy online. You need to complete a [Maths 
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/article/2018/Maths_on_a_Mug_5/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/article/2018/Maths_on_a_Mug_7/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2018/Maths_on_a_Mug_5/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2018/Maths_on_a_Mug_7/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
