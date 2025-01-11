@@ -24,6 +24,6 @@ Interestingly though the result doesn't hold for higher dimensional shapes – e
 <hr>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/article/2021/Maths_on_a_Mug_13/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/article/2023/Maths_on_a_Mug_15/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2021/Maths_on_a_Mug_13/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.github.io/articles/2023/Maths_on_a_Mug_15/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>
