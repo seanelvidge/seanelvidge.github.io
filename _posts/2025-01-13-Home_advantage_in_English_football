@@ -1,0 +1,34 @@
+---
+layout: post
+title: Waning Home Advantage in English Football
+date: 2025-01-13 09:00:00
+description: An investigation in the trend of home advantage in English football
+tags: football
+thumbnail: assets/img/england_league_results.png
+related_posts: true
+---
+
+For generations, "home advantage" has been a tenet of sports. The roar of the crowd, the familiarity of the pitch, the comfort of the home dressing room – all give the home team a significant edge. This is particularly true in English football with passionate fans and unique stadium atmospheres. However, a look at the data spanning over a century of English football reveals an interesting trend: the home advantage is shrinking.
+
+Using my database of all English league results since 1888 (available here, and described here) we can track the Home Win %, Draw %, and Away Win % from 1888 to the present day (at the time of writing, that is halfway through the 2024/2025 season, but the charts in this post should automatically update). The results are pretty clear:
+
+(Javascript chart here) 
+
+In the late 19th and early 20th centuries, home teams were dominant, boasting win percentages well above 60%. Away wins were a relative rarity, hovering around 20%. But as the decades have progressed, the lines have converged. Home win percentages have steadily declined, dipping towards 40% in recent years, while away wins have climbed, now consistently above 30% and with a clear upwards trajectory.
+
+It would be easy to assume that this trend is confined to the top flight, where the largest investments in training facilities, player recruitment, and tactical analysis occur. However, if we look at the home win percentages across all four divisions (where "Division 1" is the highest division, currently the Premier League and "Division 4" is the lowest, League 2) we can see that this is a league-wide phenomenon.
+
+(New chart showing home win % by division here)
+
+As you can see, the decline in home win percentages is remarkably consistent across all levels of professional English football. While there are some minor variations between divisions, the overall trajectory is the same: downwards. This suggests that the factors driving the change are not unique to the top tier but are systemic throughout the entire football pyramid. Each division shows high home win % at the start of the time series (above 50%), but each division ends up closer to 40% by the end of the series.
+
+So, what's driving this shift away from home dominance? Several factors are likely at play:
+
+- Standardization of Playing Conditions: In the early days, pitch conditions varied wildly. Home teams were intimately familiar with their own, often quirky, pitches, giving them a distinct advantage. Over time, regulations and advancements in groundskeeping have led to more standardized, high-quality pitches across the league, leveling the playing field. This impact would be felt across all divisions.
+- Improved Travel and Accommodation: Early football often involved arduous journeys for away teams, leaving them fatigued and less prepared. Modern transportation and improved accommodations have minimized the physical toll of travel, allowing away teams to arrive rested and ready to compete. Again, this is relevant to all levels of the game.
+- Tactical Advancements and Analysis: The modern game is far more tactically sophisticated. Managers and analysts have access to vast amounts of data and video footage, allowing them to dissect opponents' strengths and weaknesses, regardless of location. Away teams can now better prepare for the specific challenges posed by their opponents and their home stadiums. While the resources may be greater at the top, these advancements have filtered down through the divisions.
+- Professionalization and Fitness: Players today are fitter, faster, and more technically skilled than ever before. This overall increase in athleticism can help away teams better cope with the pressures of playing in hostile environments, a trend seen across the footballing spectrum.
+
+## The Future of Home Advantage
+
+Whilst home advantage may not be what it once was, it hasn't disappeared entirely. The support of the home crowd can still provide a boost, and familiarity with the surroundings can offer a slight edge. However, the trend is undeniable. The gap between home and away performance is narrowing, and the English Football League, across all its divisions, is becoming increasingly competitive on all fronts.
