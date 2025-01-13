@@ -68,6 +68,7 @@ Whilst home advantage may not be what it once was, it hasn't disappeared entirel
             download: true,
             header: true,
             dynamicTyping: true,
+	    skipEmptyLines: true,
             complete: function(results) {
                 // 1) Check if we received valid data
           if (!results || !results.data || results.data.length === 0) {
