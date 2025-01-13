@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Waning Home Advantage in English Football
+title: Waning Home Advantage in English League Football
 date: 2025-01-13 09:00:00
 description: An investigation in the trend of home advantage in English football
 tags: football
@@ -10,7 +10,7 @@ related_posts: true
 
 For generations, "home advantage" has been a tenet of sports. The roar of the crowd, the familiarity of the pitch, the comfort of the home dressing room – all give the home team a significant edge. This is particularly true in English football with passionate fans and unique stadium atmospheres. However, a look at the data spanning over a century of English football reveals an interesting trend: the home advantage is shrinking.
 
-Using my database of all English league results since 1888 (available here, and described here) we can track the Home Win %, Draw %, and Away Win % from 1888 to the present day (at the time of writing, that is halfway through the 2024/2025 season, but the charts in this post should automatically update). The results are pretty clear:
+Using my database of all English league results since 1888 (available [here](https://github.com/seanelvidge/England-football-results), and described [here](https://seanelvidge.com/articles/2024/All_England_football_league_results/)) we can track the Home Win %, Draw %, and Away Win % from 1888 to the present day (at the time of writing, that is halfway through the 2024/2025 season, but the charts in this post should automatically update). The results are pretty clear:
 
 <html>
 <div class="chart-container">
@@ -22,6 +22,15 @@ Using my database of all English league results since 1888 (available here, and 
   alt="Fallback image for home, draw, away % win" 
   style="display: none; max-width: 100%;"
 />
+<style>
+.chart-container {
+  position: relative;
+  width: 100%;
+  min-height: 250px;
+  height: 50vh;   /* Always 50% of the viewport height */
+  max-height: 80vh;
+}		
+</style>
 </html>
 
 In the late 19th and early 20th centuries, home teams were dominant, boasting win percentages well above 60%. Away wins were a relative rarity, hovering around 20%. But as the decades have progressed, the lines have converged. Home win percentages have steadily declined, dipping towards 40% in recent years, while away wins have climbed, now consistently above 30% and with a clear upwards trajectory.
@@ -289,6 +298,7 @@ Whilst home advantage may not be what it once was, it hasn't disappeared entirel
                 type: 'line',
                 data: chartData,
                 options: {
+		    maintainAspectRatio: false,
                     plugins: {
                         zoom: {
                             zoom: {
@@ -371,6 +381,7 @@ Whilst home advantage may not be what it once was, it hasn't disappeared entirel
                 type: 'line',
                 data: chartData,
                 options: {
+		    maintainAspectRatio: false,
                     plugins: {
                         zoom: {
                             zoom: {
@@ -452,5 +463,38 @@ Whilst home advantage may not be what it once was, it hasn't disappeared entirel
                 }
             });
         }
+	function updateChartTheme(isDark) {
+  // Decide on colors for dark vs. light
+  const chartBgColor = isDark ? "#242424" : "#FFFFFF";
+  const textColor = isDark ? "#FFFFFF" : "#000000";
+
+  // Example: update your main chart's background
+  resultsChart.options.plugins.legend.labels.color = textColor;
+  resultsChart.options.scales.x.title.color = textColor;
+  resultsChart.options.scales.x.ticks.color = textColor;
+  resultsChart.options.scales.y.title.color = textColor;
+  resultsChart.options.scales.y.ticks.color = textColor;
+
+  // If you want the canvas background to be distinct from page background:
+  // (Alternatively, you could just let the page background show through.)
+  resultsChart.options.backgroundColor = chartBgColor;
+
+  // Then re-render the chart
+  resultsChart.update();
+  
+  // Example: update your main chart's background
+  divisionChart.options.plugins.legend.labels.color = textColor;
+  divisionChart.options.scales.x.title.color = textColor;
+  divisionChart.options.scales.x.ticks.color = textColor;
+  divisionChart.options.scales.y.title.color = textColor;
+  divisionChart.options.scales.y.ticks.color = textColor;
+
+  // If you want the canvas background to be distinct from page background:
+  // (Alternatively, you could just let the page background show through.)
+  divisionChart.options.backgroundColor = chartBgColor;
+
+  // Then re-render the chart
+  divisionChart.update();
+}
     </script>
 </html>
