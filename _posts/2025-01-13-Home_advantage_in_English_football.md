@@ -318,7 +318,7 @@ Whilst home advantage may not be what it once was, it hasn't disappeared entirel
                                     if (label) {
                                         label += ': ';
                                     }
-                                    label += context.parsed.y.toFixed(2) + '%';
+                                    label += Number(context.parsed.y).toFixed(1) + "%";
                                     return label;
                                 },
                                 footer: function(context) {
@@ -401,7 +401,7 @@ Whilst home advantage may not be what it once was, it hasn't disappeared entirel
                                     if (label) {
                                         label += ': ';
                                     }
-                                    label += context.parsed.y.toFixed(2) + '%';
+                                    label += Number(context.parsed.y).toFixed(1) + "%";
                                     return label;
                                 },
                                 footer: function(context) {
