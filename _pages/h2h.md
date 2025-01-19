@@ -992,4 +992,3 @@ This page can be directly linked to by passing team names into the url, e.g. to 
 </script>
 
 </html>
-
