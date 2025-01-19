@@ -198,25 +198,27 @@ This page can be directly linked to by passing team names into the url, e.g. to 
         }
     }
 </style>
+
 <br /><br /><h2>Head-to-Head Statistics</h2><br />
+
 <form id="compareForm">
   <label for="team1Input">Team #1:</label>
   <input type="text" id="team1Input" list ="teams"/>
 
-  <label for="team2Input">Team #2:</label>
-  <input type="text" id="team2Input" list="teams" />
+<label for="team2Input">Team #2:</label>
+<input type="text" id="team2Input" list="teams" />
 
-  <datalist id="teams"></datalist>
-  <br /><br />
+<datalist id="teams"></datalist>
+<br /><br />
 
-  <label for="startDate">Start Date:</label>
-  <input type="date" id="startDate" />
+<label for="startDate">Start Date:</label>
+<input type="date" id="startDate" />
 
-  <label for="endDate">End Date:</label>
-  <input type="date" id="endDate" />
+<label for="endDate">End Date:</label>
+<input type="date" id="endDate" />
 
-  <label for="premierOnly">Premier League Era only?</label>
-  <input type="checkbox" id="premierOnly" />
+<label for="premierOnly">Premier League Era only?</label>
+<input type="checkbox" id="premierOnly" />
 
   <div class="button-row">
     <button type="submit" class="btn">Compare</button>
