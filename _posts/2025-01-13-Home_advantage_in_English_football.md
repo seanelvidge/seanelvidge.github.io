@@ -182,9 +182,11 @@ If we look to extrapolate the trends in the data we can try and estimate what wi
       const total = results.total;
 
       // const hPercent = (results.H / total) * 100;
+      // const dPercent = (results.D / total) * 100;
+      // const aPercent = (results.A / total) * 100;
       const hPercent = parseFloat((results.H / total * 100).toFixed(2));
-      const dPercent = (results.D / total) * 100;
-      const aPercent = (results.A / total) * 100;
+      const dPercent = parseFloat((results.D / total * 100).toFixed(2));
+      const aPercent = parseFloat((results.A / total * 100).toFixed(2));
 
       // Calculate standard deviation (error bars)
       const hError = calculateStandardDeviation(results.H, total);
@@ -268,9 +270,12 @@ If we look to extrapolate the trends in the data we can try and estimate what wi
           const results = resultsBySeasonAndDivision[season][division];
           const total = results.total;
 
-          const hPercent = (results.H / total) * 100;
-          const dPercent = (results.D / total) * 100;
-          const aPercent = (results.A / total) * 100;
+          // const hPercent = (results.H / total) * 100;
+          // const dPercent = (results.D / total) * 100;
+          // const aPercent = (results.A / total) * 100;
+          const hPercent = parseFloat((results.H / total * 100).toFixed(2));
+          const dPercent = parseFloat((results.D / total * 100).toFixed(2));
+          const aPercent = parseFloat((results.A / total * 100).toFixed(2));
 
           // Here we'll just use Home Win % for simplicity, but you can add others
           datasets[division].data.push({x: season, y: hPercent});
