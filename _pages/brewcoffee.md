@@ -7,6 +7,7 @@ nav: false
 tags: coffee
 ---
 
+<html lang="en">
 <form id="coffeeForm">
       <!-- Coffee specifics inputs -->
       <label for="name">Name of Coffee:</label>
@@ -546,3 +547,4 @@ tags: coffee
       URL.revokeObjectURL(url);
     }
   </script>
+</html>
