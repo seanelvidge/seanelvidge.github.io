@@ -8,7 +8,82 @@ tags: coffee
 ---
 
 <html lang="en">
-<form id="coffeeForm">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 20px;
+    }
+    .container {
+      max-width: 800px;
+      background: #fff;
+      padding: 20px;
+      margin: auto;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    .checkbox-group {
+      margin-top: 5px;
+    }
+    .checkbox-group fieldset {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .checkbox-group legend {
+      font-weight: bold;
+    }
+    .checkbox-group label {
+      display: inline-block;
+      margin-right: 10px;
+      font-weight: normal;
+    }
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e9ecef;
+      border-radius: 3px;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
+  </style>
+<body>
+  <div class="container">
+    <h1>Pulse Pour-Over Coffee Recipe Generator</h1>
+    <form id="coffeeForm">
       <!-- Coffee specifics inputs -->
       <label for="name">Name of Coffee:</label>
       <input type="text" id="name" name="name" placeholder="Enter the coffee name">
@@ -185,7 +260,6 @@ tags: coffee
     </form>
 
     <div class="output" id="output"></div>
-
   </div>
 
   <script>
@@ -547,4 +621,6 @@ tags: coffee
       URL.revokeObjectURL(url);
     }
   </script>
+</body>
 </html>
+
