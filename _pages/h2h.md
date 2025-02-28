@@ -879,7 +879,7 @@ This page can be directly linked to by passing team names into the url, e.g. to 
       "Wycombe Wanderers":
         "https://upload.wikimedia.org/wikipedia/en/f/fb/Wycombe_Wanderers_FC_logo.svg",
       "Yeovil Town":
-        "https://upload.wikimedia.org/wikipedia/commons/1/18/Yeovil_Town_Football_Club.png",
+        "https://upload.wikimedia.org/wikipedia/en/5/5c/Yeovil_Town_FC_crest.svg",
       "York City":
         "https://upload.wikimedia.org/wikipedia/en/7/71/York_City_FC.svg",
     },
