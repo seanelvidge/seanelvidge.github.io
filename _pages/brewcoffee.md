@@ -82,7 +82,6 @@ tags: coffee
   </style>
 <body>
   <div class="container">
-    <h1>Pulse Pour-Over Coffee Recipe Generator</h1>
     <form id="coffeeForm">
       <!-- Coffee specifics inputs -->
       <label for="name">Name of Coffee:</label>
