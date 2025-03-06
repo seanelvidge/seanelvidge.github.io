@@ -8,7 +8,6 @@ tags: coffee
 ---
 
 <html lang="en">
-	<!--
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -81,8 +80,7 @@ tags: coffee
       font-family: monospace;
     }
   </style>
-	-->
-<body>
+	
   <div class="container">
     <form id="coffeeForm">
       <!-- Coffee specifics inputs -->
@@ -643,6 +641,6 @@ tags: coffee
       URL.revokeObjectURL(url);
     }
   </script>
-</body>
+
 </html>
 
