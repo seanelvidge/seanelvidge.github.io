@@ -8,6 +8,7 @@ tags: coffee
 ---
 
 <html lang="en">
+	<!--
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -80,6 +81,7 @@ tags: coffee
       font-family: monospace;
     }
   </style>
+	-->
 <body>
   <div class="container">
     <form id="coffeeForm">
@@ -100,58 +102,58 @@ tags: coffee
       <label for="country">Country of Growth:</label>
       <input type="text" id="country" name="country" list="countryList" placeholder="Select or type a country">
       <datalist id="countryList">
-        <option value="Brazil">
-        <option value="Vietnam">
-        <option value="Colombia">
-        <option value="Indonesia">
-        <option value="Honduras">
-        <option value="Ethiopia">
-        <option value="India">
-        <option value="Uganda">
-        <option value="Mexico">
-        <option value="Guatemala">
-        <option value="Peru">
-        <option value="Nicaragua">
-        <option value="China">
-        <option value="Ivory Coast">
-        <option value="Costa Rica">
-        <option value="Kenya">
-        <option value="Papua New Guinea">
-        <option value="Tanzania">
-        <option value="El Salvador">
-        <option value="Ecuador">
-        <option value="Cameroon">
-        <option value="Laos">
-        <option value="Madagascar">
-        <option value="Gabon">
-        <option value="Thailand">
-        <option value="Venezuela">
-        <option value="Dominican Republic">
-        <option value="Haiti">
-        <option value="Democratic Republic of the Congo">
-        <option value="Rwanda">
-        <option value="Burundi">
-        <option value="Philippines">
-        <option value="Togo">
-        <option value="United States">
-        <option value="Guinea">
-        <option value="Yemen">
-        <option value="Cuba">
-        <option value="Panama">
-        <option value="Bolivia">
-        <option value="Timor Leste">
-        <option value="Central African Republic">
-        <option value="Nigeria">
-        <option value="Ghana">
-        <option value="Sierra Leone">
         <option value="Angola">
-        <option value="Jamaica">
-        <option value="Paraguay">
-        <option value="Malawi">
-        <option value="Trinidad and Tobago">
-        <option value="Zimbabwe">
-        <option value="Liberia">
-        <option value="Zambia">
+		<option value="Bolivia">
+		<option value="Brazil">
+		<option value="Burundi">
+		<option value="Cameroon">
+		<option value="Central African Republic">
+		<option value="China">
+		<option value="Colombia">
+		<option value="Costa Rica">
+		<option value="Cuba">
+		<option value="Democratic Republic of the Congo">
+		<option value="Dominican Republic">
+		<option value="Ecuador">
+		<option value="El Salvador">
+		<option value="Ethiopia">
+		<option value="Gabon">
+		<option value="Ghana">
+		<option value="Guatemala">
+		<option value="Guinea">
+		<option value="Haiti">
+		<option value="Honduras">
+		<option value="India">
+		<option value="Indonesia">
+		<option value="Ivory Coast">
+		<option value="Jamaica">
+		<option value="Kenya">
+		<option value="Laos">
+		<option value="Liberia">
+		<option value="Madagascar">
+		<option value="Malawi">
+		<option value="Mexico">
+		<option value="Nicaragua">
+		<option value="Nigeria">
+		<option value="Panama">
+		<option value="Papua New Guinea">
+		<option value="Paraguay">
+		<option value="Peru">
+		<option value="Philippines">
+		<option value="Rwanda">
+		<option value="Sierra Leone">
+		<option value="Tanzania">
+		<option value="Thailand">
+		<option value="Timor Leste">
+		<option value="Togo">
+		<option value="Trinidad and Tobago">
+		<option value="Uganda">
+		<option value="United States">
+		<option value="Venezuela">
+		<option value="Vietnam">
+		<option value="Yemen">
+		<option value="Zambia">
+		<option value="Zimbabwe">
       </datalist>
 
       <label>Altitude of Growth (in metres):</label>
@@ -159,7 +161,7 @@ tags: coffee
       <input type="number" id="altitudeMax" name="altitudeMax" placeholder="Maximum altitude (optional)" step="any">
 
       <label for="processing">Processing Method:</label>
-      <select id="processing" name="processing" required>
+      <select id="processing" name="processing">
         <option value="">Select Processing</option>
         <option value="Washed">Washed (Wet) Process</option>
         <option value="Natural">Natural (Dry) Process</option>
@@ -250,7 +252,7 @@ tags: coffee
       </div>
 
       <label for="daysRoasted">Days Since Roasted:</label>
-      <input type="number" id="daysRoasted" name="daysRoasted" required>
+      <input type="number" id="daysRoasted" name="daysRoasted">
 
       <div class="button-container">
         <button type="button" onclick="calculateRecipe()">Generate Recipe</button>
@@ -300,113 +302,124 @@ tags: coffee
       tastingNotesElements.forEach(note => {
         tastingNotes.push(note.value);
       });
-  
+
       // --- If no optional parameters are provided, use roast-level defaults ---
-      if (
-        country === "" &&
-        altitude === null &&
-        processing === "" &&
-        tastingNotes.length === 0
-      ) {
-        let brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps;
-        switch (roastLevel) {
-          case 1: // Light Roast defaults: less extraction needed; higher bloom to overcome dense structure.
-            brewRatio = 17;
-            bloomRatio = 3;
-            bloomTime = 45;
-            bloomTemp = 99;
-            pulses = 3;
-            pulseInterval = 23;
-            pulseTemps = [99, 99, 99];
-            break;
-          case 2: // Light-Medium Roast defaults: slightly lower than light, but still robust extraction.
-            brewRatio = 16.5;
-            bloomRatio = 2.5;
-            bloomTime = 38;
-            bloomTemp = 97.5;
-            pulses = 3;
-            pulseInterval = 23;
-            pulseTemps = [97.5, 97.5, 97.5];
-            break;
-          case 3: // Medium Roast defaults: balanced extraction.
-            brewRatio = 16;
-            bloomRatio = 2;
-            bloomTime = 30;
-            bloomTemp = 96;
-            pulses = 3;
-            pulseInterval = 23;
-            pulseTemps = [96, 96, 96];
-            break;
-          case 4: // Medium-Dark Roast defaults: slightly more aggressive extraction early on.
-            brewRatio = 16;
-            bloomRatio = 2;
-            bloomTime = 30;
-            bloomTemp = 97.5;
-            pulses = 3;
-            pulseInterval = 23;
-            pulseTemps = [90.5, 90.5, 90.5];
-            break;
-          case 5: // Dark Roast defaults: lower extraction due to brittle structure.
-            brewRatio = 16;
-            bloomRatio = 2;
-            bloomTime = 30;
-            bloomTemp = 99;
-            pulses = 3;
-            pulseInterval = 23;
-            pulseTemps = [85, 85, 85];
-            break;
-          default:
-            brewRatio = 16;
-            bloomRatio = 2;
-            bloomTime = 30;
-            bloomTemp = 96;
-            pulses = 3;
-            pulseInterval = 23;
-            pulseTemps = [96, 96, 96];
-        }
-        displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps);
-        return;
-      }
-  
+      //if (
+      //  country === "" &&
+      //  altitude === null &&
+      //  processing === "" &&
+      //  tastingNotes.length === 0 &&
+	  //  isNaN(daysRoasted)
+      //) {
+	  
+	  let brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval;//, pulseTemps;
+	  switch (roastLevel) {
+	    case 1: // Light Roast defaults: less extraction needed; higher bloom to overcome dense structure.
+		  brewRatio = 17;
+		  bloomRatio = 3;
+		  bloomTime = 45;
+		  bloomTemp = 99;
+		  pulses = 3;
+		  pulseInterval = 23;
+		  //pulseTemps = [99, 99, 99];
+		  delicateProcess = false;
+		  //break;
+	    case 2: // Light-Medium Roast defaults: slightly lower than light, but still robust extraction.
+  		  brewRatio = 16.5;
+		  bloomRatio = 2.5;
+		  bloomTime = 38;
+		  bloomTemp = 97.5;
+		  pulses = 3;
+		  pulseInterval = 23;
+		  //pulseTemps = [97.5, 97.5, 97.5];
+		  delicateProcess = false;
+		  //break;
+	    case 3: // Medium Roast defaults: balanced extraction.
+		  brewRatio = 16;
+		  bloomRatio = 2;
+		  bloomTime = 30;
+		  bloomTemp = 96;
+		  pulses = 3;
+		  pulseInterval = 23;
+		  //pulseTemps = [96, 96, 96];
+		  delicateProcess = false;
+		  //break;
+	    case 4: // Medium-Dark Roast defaults: slightly more aggressive extraction early on.
+  		  brewRatio = 16;
+		  bloomRatio = 2;
+		  bloomTime = 30;
+		  bloomTemp = 97.5;
+		  pulses = 3;
+		  pulseInterval = 23;
+		  //pulseTemps = [90.5, 90.5, 90.5];
+		  delicateProcess = false;
+		  //break;
+	    case 5: // Dark Roast defaults: lower extraction due to brittle structure.
+		  brewRatio = 16;
+		  bloomRatio = 2;
+		  bloomTime = 30;
+		  bloomTemp = 99;
+		  pulses = 3;
+		  pulseInterval = 23;
+		  //pulseTemps = [85, 85, 85];
+		  delicateProcess = false;
+		  //break;
+	    default:
+		  brewRatio = 16;
+		  bloomRatio = 2;
+		  bloomTime = 30;
+		  bloomTemp = 96;
+		  pulses = 3;
+		  pulseInterval = 23;
+		  //pulseTemps = [96, 96, 96];
+		  delicateProcess = false;
+	  }
+	  
+      //  displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps);
+      //  return;
+      //}
+
       // --- Otherwise, calculate adjustments based on provided parameters ---
       // Base values for adjustments.
-      let brewRatio = 16;      // Default water:coffee ratio.
-      let bloomRatio = 2;      // Default multiplier for water during bloom phase.
-      let bloomTime = 30;      // Default bloom time in seconds.
-      let bloomTemp = 93;      // Default bloom water temperature (°C).
-      let pulses = 4;          // Default number of pour-over pulses.
-      let pulseInterval = 30;  // Default time between pulses.
-      let delicateProcess = false;  // Flag for methods that require lower pulse temperatures.
+      //let brewRatio = 16;      // Default water:coffee ratio.
+      //let bloomRatio = 2;      // Default multiplier for water during bloom phase.
+      //let bloomTime = 30;      // Default bloom time in seconds.
+      //let bloomTemp = 93;      // Default bloom water temperature (°C).
+      //let pulses = 3;          // Default number of pour-over pulses.
+      //let pulseInterval = 30;  // Default time between pulses.
+      //let delicateProcess = false;  // Flag for methods that require lower pulse temperatures.            
   
-      // ---- Country of Origin Adjustments ----
-      // Adjust based on bean density and solubility (e.g., East African beans are denser).
-      const countryLC = country.toLowerCase();
-      if (["ethiopia", "kenya", "rwanda", "burundi"].some(ctry => countryLC.includes(ctry))) {
-        bloomRatio = 2;      // Lower bloom ratio for high-solubility East African beans.
-        bloomTime = 25;        // Shorter bloom to avoid over-extraction.
-        bloomTemp = 90;        // Lower bloom temperature to control acidity.
-        pulses = 3;            // Fewer pulses to prevent over-extraction.
-      } else if (["brazil", "colombia", "guatemala"].some(ctry => countryLC.includes(ctry))) {
-        bloomRatio = 2.5;      // Higher bloom ratio for softer, Latin American beans.
-        bloomTime = 40;        // Longer bloom for full degassing.
-        bloomTemp = 93;        // Higher bloom temperature for enhanced extraction.
-        pulses = 5;            // More pulses for even extraction.
-      } else if (["indonesia", "sumatra", "java"].some(ctry => countryLC.includes(ctry))) {
-        bloomRatio = 2.5;      // Indonesian beans: robust extraction with moderate bloom.
-        bloomTime = 40;
-        bloomTemp = 95;
-        pulses = 5;
-      }
-  
+	  if (country != "") {
+		  // ---- Country of Origin Adjustments ----
+		  // Adjust based on bean density and solubility (e.g., East African beans are denser).
+		  const countryLC = country.toLowerCase();
+		  if (["ethiopia", "kenya", "rwanda", "burundi"].some(ctry => countryLC.includes(ctry))) {
+			bloomRatio = 2;      // Lower bloom ratio for high-solubility East African beans.
+			bloomTime = 25;        // Shorter bloom to avoid over-extraction.
+			bloomTemp = 90;        // Lower bloom temperature to control acidity.
+			pulses = 2;            // Fewer pulses to prevent over-extraction.
+		  } else if (["brazil", "colombia", "guatemala"].some(ctry => countryLC.includes(ctry))) {
+			bloomRatio = 2.5;      // Higher bloom ratio for softer, Latin American beans.
+			bloomTime = 40;        // Longer bloom for full degassing.
+			bloomTemp = 93;        // Higher bloom temperature for enhanced extraction.
+			pulses = 4;            // More pulses for even extraction.
+		  } else if (["indonesia", "sumatra", "java"].some(ctry => countryLC.includes(ctry))) {
+			bloomRatio = 2.5;      // Indonesian beans: robust extraction with moderate bloom.
+			bloomTime = 40;
+			bloomTemp = 95;
+			pulses = 4;
+		  }
+		}
+
       // ---- Altitude Adjustments ----
       // Higher-altitude beans are denser, requiring stronger extraction.
       if (altitude !== null) {
         if (altitude > 1500) {
           brewRatio = 15;         // Stronger ratio for denser, high-altitude beans.
           bloomRatio += 0.5;      // Increase bloom ratio to assist in degassing.
-          bloomTime += 10;        // Longer bloom for thorough CO₂ release.
+          bloomTime += 10;        // Longer bloom for thorough CO2 release.
           bloomTemp += 2;         // Hotter bloom water helps initial extraction.
-          pulses = Math.max(pulses, 5);  // Ensure enough pulses.
+          pulses = Math.max(pulses, 4);  // Ensure enough pulses.
         } else if (altitude < 1200) {
           brewRatio = 17;         // Weaker ratio for softer, low-altitude beans.
           bloomRatio = Math.max(bloomRatio - 0.5, 1.5); // Reduce bloom ratio.
@@ -414,63 +427,72 @@ tags: coffee
           pulses = Math.max(pulses - 1, 2);               // Fewer pulses.
         }
       }
-  
+
       // ---- Processing Method Adjustments ----
-      // Natural, Honey, Carbonic, and Anaerobic methods retain more sugars, needing longer bloom.
-      if (processing === "Natural" || processing.includes("Honey") || processing === "Carbonic" || processing === "Anaerobic") {
-        bloomRatio = Math.max(bloomRatio, 3.0); // Ensure sufficient water for degassing.
-        bloomTime = Math.max(bloomTime, 45);      // Extend bloom time.
-        pulses = Math.max(pulses, 5);             // Increase pulses to control uneven extraction.
-        if (processing === "Carbonic" || processing === "Anaerobic") {
-          delicateProcess = true;  // Lower pulse temperatures to preserve volatile notes.
-        }
-      } else if (processing === "Washed" || processing === "Double Fermentation" || processing === "Wet-Hulled") {
-        bloomRatio = Math.min(bloomRatio, 2.0);   // Cleaner beans need less bloom.
-        bloomTime = Math.min(bloomTime, 30);        // Shorter bloom time.
-        pulses = Math.min(pulses, 4);               // Fewer pulses.
-      }
-  
+	  if (processing !== "") {
+		  // Natural, Honey, Carbonic, and Anaerobic methods retain more sugars, needing longer bloom.
+		  if (processing === "Natural" || processing.includes("Honey") || processing === "Carbonic" || processing === "Anaerobic") {
+			bloomRatio = Math.max(bloomRatio, 3.0); // Ensure sufficient water for degassing.
+			bloomTime = Math.max(bloomTime, 45);      // Extend bloom time.
+			pulses = Math.max(pulses+1, 5);             // Increase pulses to control uneven extraction.
+			if (processing === "Carbonic" || processing === "Anaerobic") {
+			  delicateProcess = true;  // Lower pulse temperatures to preserve volatile notes.
+			}
+		  } else if (processing === "Washed" || processing === "Double Fermentation" || processing === "Wet-Hulled") {
+			bloomRatio = Math.min(bloomRatio, 2.0);   // Cleaner beans need less bloom.
+			bloomTime = Math.min(bloomTime, 30);        // Shorter bloom time.
+			pulses = Math.min(pulses-1, 4);               // Fewer pulses.
+		  }
+		}
+
       // ---- Roasting Level Adjustments ----
       // Lighter roasts require more bloom and extraction time; darker roasts need less.
       let roastProfile = "medium"; // Default profile.
       if (roastLevel <= 2) {
         brewRatio = Math.max(brewRatio, 15);      // Slightly stronger extraction.
         bloomRatio = Math.max(bloomRatio, 3);     // Higher bloom ratio for dense, light roasts.
-        bloomTime = Math.max(bloomTime, 55);        // Longer bloom for extended extraction.
-        pulses = Math.max(pulses, 6);               // More pulses for full extraction.
+        bloomTime = Math.max(bloomTime, 55);      // Longer bloom for extended extraction.
+        pulses = Math.max(pulses+1, 6);           // More pulses for full extraction.
         roastProfile = roastLevel === 1 ? "light" : "light-medium";
       } else if (roastLevel >= 4) {
         brewRatio = Math.min(brewRatio, 17);        // Weaker ratio to avoid over-extraction.
-        bloomRatio = Math.min(bloomRatio, 2.0);       // Lower bloom ratio for porous, dark roasts.
-        bloomTime = Math.min(bloomTime, 35);          // Shorter bloom time.
-        pulses = Math.min(pulses, 4);                 // Fewer pulses to prevent bitterness.
+        bloomRatio = Math.min(bloomRatio, 2.0);     // Lower bloom ratio for porous, dark roasts.
+        bloomTime = Math.min(bloomTime, 35);        // Shorter bloom time.
+        pulses = Math.min(pulses-1, 4);             // Fewer pulses to prevent bitterness.
         roastProfile = roastLevel === 4 ? "medium-dark" : "dark";
       }
-  
+
       // ---- Days Since Roasted Adjustments ----
-      // Adjust based on bean freshness (CO₂ levels affect extraction dynamics).
-      // Fresh coffee (0–7 days): high CO₂ requires extra degassing (higher bloom ratio/time, higher temp, fewer pulses).
+      // Adjust based on bean freshness (CO2 levels affect extraction dynamics).
+      // Fresh coffee (0–7 days): high CO2 requires extra degassing (higher bloom ratio/time, higher temp, fewer pulses).
       // Moderately aged coffee (8–20 days): moderate settings.
       // Aged coffee (>20 days): minimal degassing (lower bloom, lower temp, additional pulses).
-      if (!isNaN(daysRoasted)) {
-        if (daysRoasted >= 0 && daysRoasted <= 7) {
+	  let roastDays
+	  if (isNaN(daysRoasted)) {
+		roastDays = 14; 		// Default assumption of number days since roasted
+	  }
+	  else {
+		roastDays = daysRoasted;
+	  }
+      if (!isNaN(roastDays)) {
+        if (roastDays >= 0 && roastDays <= 7) {
           bloomRatio = Math.max(bloomRatio, 2.5);   // Increase bloom ratio for extra degassing.
           bloomTime = Math.max(bloomTime, 45);        // Extend bloom time.
           if (bloomTemp < 92) { bloomTemp = 92; }      // Ensure higher temperature for fresh beans.
-          pulses = Math.max(pulses - 1, 2);            // Fewer pulses to manage rapid CO₂ release.
-        } else if (daysRoasted >= 8 && daysRoasted <= 20) {
+          pulses = Math.max(pulses - 1, 2);            // Fewer pulses to manage rapid CO2 release.
+        } else if (roastDays >= 8 && roastDays <= 20) {
           bloomRatio = 2.0;    // Moderate bloom ratio.
           bloomTime = 35;      // Average bloom time.
           bloomTemp = 90;      // Moderate bloom temperature.
           // Pulses remain as determined.
-        } else if (daysRoasted > 20) {
+        } else if (roastDays > 20) {
           bloomRatio = 1.5;    // Minimal bloom needed.
           bloomTime = 25;      // Shorter bloom time.
           bloomTemp = 87;      // Lower temperature to avoid over-extraction.
-          pulses = pulses + 1; // Increase pulses to maintain even extraction.
+          pulses = Math.max(pulses + 1, 2); // Increase pulses to maintain even extraction.
         }
       }
-  
+
       // ---- Tasting Notes Adjustments ----
       // Adjust parameters to highlight specific flavor profiles.
       const fruityNotes = ["Strawberry", "Blueberry", "Raspberry", "Blackberry", "Lemon", "Orange", "Grapefruit", "Lime", "Peach", "Apricot", "Cherry", "Plum", "Mango", "Pineapple", "Papaya", "Passionfruit"];
@@ -505,12 +527,12 @@ tags: coffee
         bloomTemp -= 2; // Lower temperature to preserve smooth, creamy textures.
       }
       if (tastingNotes.some(note => brightCleanNotes.includes(note))) {
-        pulses = Math.max(pulses, 5); // More pulses promote clarity.
+        pulses = Math.max(pulses + 1, 5); // More pulses promote clarity.
       }
       if (tastingNotes.some(note => deepHeavyNotes.includes(note))) {
         pulses = Math.max(pulses - 1, 2); // Fewer pulses enhance depth.
       }
-  
+
       // ---- Pulse Interval Based on Roast Profile ----
       // Adjust time between pulses based on roast to control extraction speed.
       if (roastProfile === "light" || roastProfile === "light-medium") {
@@ -520,7 +542,7 @@ tags: coffee
       } else if (roastProfile === "medium-dark" || roastProfile === "dark") {
         pulseInterval = 25;
       }
-  
+
       // ---- Pulse Temperature Profile ----
       // Determine the temperature for each pulse based on roast profile and process.
       let pulseTemps = [];
@@ -558,14 +580,14 @@ tags: coffee
           pulseTemps[pulses - 1] = Math.min(pulseTemps[pulses - 1], 90); // Lower final pulse for sweetness.
         }
       }
-  
+
       // ---- Pulse Temperature Adjustments Based on Days Since Roasted ----
-      // Fresh coffee: slightly lower pulse temps to counter CO₂ resistance.
+      // Fresh coffee: slightly lower pulse temps to counter CO2 resistance.
       // Aged coffee: slightly higher pulse temps to enhance extraction of diminished volatiles.
-      if (!isNaN(daysRoasted)) {
-        if (daysRoasted >= 0 && daysRoasted <= 7) {
+      if (!isNaN(roastDays)) {
+        if (roastDays >= 0 && roastDays <= 7) {
           pulseTemps = pulseTemps.map(temp => temp - 1);
-        } else if (daysRoasted > 20) {
+        } else if (roastDays > 20) {
           pulseTemps = pulseTemps.map(temp => temp + 1);
         }
       }
