@@ -8,6 +8,7 @@ tags: coffee
 ---
 
 <html lang="en">
+	<!--
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -80,7 +81,7 @@ tags: coffee
       font-family: monospace;
     }
   </style>
-	
+	-->
   <div class="container">
     <form id="coffeeForm">
       <!-- Coffee specifics inputs -->
@@ -259,7 +260,7 @@ tags: coffee
     </form>
 
     <div class="output" id="output"></div>
-  
+
   </div>
 
   <script>
