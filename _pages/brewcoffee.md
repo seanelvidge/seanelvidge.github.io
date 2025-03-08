@@ -439,25 +439,33 @@ tags: coffee
       const deepHeavyNotes = ["Chocolate Dark", "Maple Syrup", "Molasses", "Tobacco", "Leather"];
       const acidityNotes = ["Lemon", "Orange", "Lime", "Passionfruit", "White Wine"];
       const creamyNotes = ["Walnut", "Peanut", "Butter", "Cream"];
+
+      if 
   
       if (tastingNotes.some(note => fruityNotes.includes(note))) {
         brewRatio = parseFloat(brewRatio) + 0.5; // More water highlights bright, acidic notes.
         bloomTemp += 2;                          // Higher temperature boosts fruity extraction.
+	grind -= 2;
       }
       if (tastingNotes.some(note => nuttyChocoNotes.includes(note))) {
         brewRatio = parseFloat(brewRatio) - 0.5; // Less water to enhance body and richness.
+	grind += 1;
       }
       if (tastingNotes.some(note => floralHerbalNotes.includes(note))) {
         bloomRatio += 0.25; // Extra water in bloom to extract delicate aromatics.
+	grind += 1;
       }
       if (tastingNotes.some(note => heavySweetNotes.includes(note))) {
         bloomRatio = Math.max(bloomRatio - 0.3, 1.5); // Lower bloom preserves syrupy body.
+	grind -= 1;
       }
       if (tastingNotes.some(note => acidityNotes.includes(note))) {
         bloomTime += 5; // Extend bloom to fully extract bright acidity.
+	grind -= 2;
       }
       if (tastingNotes.some(note => note === "Brown Sugar")) {
         bloomTime = Math.max(bloomTime - 5, 20); // Shorten bloom for a fuller body.
+	grind -= 1;
       }
       if (tastingNotes.some(note => creamyNotes.includes(note))) {
         bloomTemp -= 2; // Lower temperature to preserve smooth, creamy textures.
@@ -467,6 +475,7 @@ tags: coffee
       }
       if (tastingNotes.some(note => deepHeavyNotes.includes(note))) {
         pulses = Math.max(pulses - 1, 2); // Fewer pulses enhance depth.
+	grind += 2;
       }
 
       // ---- Pulse Interval Based on Roast Profile ----
@@ -528,16 +537,17 @@ tags: coffee
         }
       }
   
-      displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps);
+      displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps, grind);
     }
   
-    function displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps) {
+    function displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps, grind) {
       // Format the output text for display and for download.
       currentRecipeText = "Coffee Recipe";
       if (name !== "") {
         currentRecipeText += " for " + name;
       }
-      currentRecipeText += "\n\nCoffee-to-Water Ratio: 1:" + parseFloat(brewRatio).toFixed(1) +
+      currentRecipeText += "\n\nCoffee Grind Setting: " + grind +
+	      		   "\nCoffee-to-Water Ratio: 1:" + parseFloat(brewRatio).toFixed(1) +
                            "\nBloom Ratio: 1:" + parseFloat(bloomRatio).toFixed(1) +
                            "\nBloom Time: " + bloomTime + " seconds" +
                            "\nBloom Temperature: " + bloomTemp + " °C" +
@@ -549,6 +559,7 @@ tags: coffee
       const outputDiv = document.getElementById('output');
       outputDiv.innerHTML =
         "<h2>Brew Parameters</h2>" +
+	"<p><strong>Coffee Grind Setting:</strong> " + grind + "</p>" +
         "<p><strong>Coffee-to-Water Ratio:</strong> 1:" + parseFloat(brewRatio).toFixed(1) + "</p>" +
         "<p><strong>Bloom Ratio:</strong> 1:" + parseFloat(bloomRatio).toFixed(1) + "</p>" +
         "<p><strong>Bloom Time:</strong> " + bloomTime + " seconds</p>" +
