@@ -8,80 +8,6 @@ tags: coffee
 ---
 
 <html lang="en">
-	<!--
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      margin: 20px;
-    }
-    .container {
-      max-width: 800px;
-      background: #fff;
-      padding: 20px;
-      margin: auto;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    input[type="text"],
-    input[type="number"],
-    select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      box-sizing: border-box;
-    }
-    .checkbox-group {
-      margin-top: 5px;
-    }
-    .checkbox-group fieldset {
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-    .checkbox-group legend {
-      font-weight: bold;
-    }
-    .checkbox-group label {
-      display: inline-block;
-      margin-right: 10px;
-      font-weight: normal;
-    }
-    .button-container {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-    button {
-      padding: 10px 15px;
-      font-size: 16px;
-      background-color: #007BFF;
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .output {
-      margin-top: 20px;
-      padding: 15px;
-      background-color: #e9ecef;
-      border-radius: 3px;
-      white-space: pre-wrap;
-      font-family: monospace;
-    }
-  </style>
-	-->
   <div class="container">
     <form id="coffeeForm">
       <!-- Coffee specifics inputs -->
@@ -175,83 +101,89 @@ tags: coffee
         <option value="Double Fermentation">Double Fermentation</option>
       </select>
 
+      <label for="daysRoasted">Days Since Roasted:</label>
+      <input type="number" id="daysRoasted" name="daysRoasted">
+
       <label>Tasting Notes (select all that apply):</label>
       <div class="checkbox-group">
         <fieldset>
           <legend>Fruity Notes</legend>
-          <label><input type="checkbox" name="tastingNotes" value="Strawberry"> Strawberry</label>
-          <label><input type="checkbox" name="tastingNotes" value="Blueberry"> Blueberry</label>
-          <label><input type="checkbox" name="tastingNotes" value="Raspberry"> Raspberry</label>
-          <label><input type="checkbox" name="tastingNotes" value="Blackberry"> Blackberry</label>
-          <label><input type="checkbox" name="tastingNotes" value="Lemon"> Lemon</label>
-          <label><input type="checkbox" name="tastingNotes" value="Orange"> Orange</label>
-          <label><input type="checkbox" name="tastingNotes" value="Grapefruit"> Grapefruit</label>
-          <label><input type="checkbox" name="tastingNotes" value="Lime"> Lime</label>
-          <label><input type="checkbox" name="tastingNotes" value="Peach"> Peach</label>
-          <label><input type="checkbox" name="tastingNotes" value="Apricot"> Apricot</label>
-          <label><input type="checkbox" name="tastingNotes" value="Cherry"> Cherry</label>
-          <label><input type="checkbox" name="tastingNotes" value="Plum"> Plum</label>
-          <label><input type="checkbox" name="tastingNotes" value="Mango"> Mango</label>
-          <label><input type="checkbox" name="tastingNotes" value="Pineapple"> Pineapple</label>
-          <label><input type="checkbox" name="tastingNotes" value="Papaya"> Papaya</label>
-          <label><input type="checkbox" name="tastingNotes" value="Passionfruit"> Passionfruit</label>
+	  <hr>
+          <label><input type="checkbox" name="tastingNotes" value="Apple"> Apple</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Apricot"> Apricot</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Blackberry"> Blackberry</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Blueberry"> Blueberry</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Cherry"> Cherry</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Grapefruit"> Grapefruit</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Lemon"> Lemon</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Lime"> Lime</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Mango"> Mango</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Orange"> Orange</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Papaya"> Papaya</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Passionfruit"> Passionfruit</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Peach"> Peach</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Pear"> Pear</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Pineapple"> Pineapple</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Plum"> Plum</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Raspberry"> Raspberry</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Strawberry"> Strawberry</label>
         </fieldset>
 
         <fieldset>
           <legend>Nutty & Chocolate Notes</legend>
+	  <hr>
           <label><input type="checkbox" name="tastingNotes" value="Almond"> Almond</label>
-          <label><input type="checkbox" name="tastingNotes" value="Hazelnut"> Hazelnut</label>
-          <label><input type="checkbox" name="tastingNotes" value="Walnut"> Walnut</label>
-          <label><input type="checkbox" name="tastingNotes" value="Peanut"> Peanut</label>
-          <label><input type="checkbox" name="tastingNotes" value="Chocolate Dark"> Chocolate Dark</label>
-          <label><input type="checkbox" name="tastingNotes" value="Chocolate Milk"> Chocolate Milk</label>
-          <label><input type="checkbox" name="tastingNotes" value="Cocoa Powder"> Cocoa Powder</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Chocolate Dark"> Chocolate (Dark)</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Chocolate Milk"> Chocolate (Milk)</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Cocoa Powder"> Cocoa Powder</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Hazelnut"> Hazelnut</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Peanut"> Peanut</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Walnut"> Walnut</label>
         </fieldset>
 
         <fieldset>
           <legend>Sweet & Caramel Notes</legend>
+	  <hr>
+   	  <label><input type="checkbox" name="tastingNotes" value="Brown Sugar"> Brown Sugar</label>
           <label><input type="checkbox" name="tastingNotes" value="Caramel"> Caramel</label>
           <label><input type="checkbox" name="tastingNotes" value="Honey"> Honey</label>
-          <label><input type="checkbox" name="tastingNotes" value="Brown Sugar"> Brown Sugar</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Maple Syrup"> Maple Syrup</label>
           <label><input type="checkbox" name="tastingNotes" value="Molasses"> Molasses</label>
-          <label><input type="checkbox" name="tastingNotes" value="Maple Syrup"> Maple Syrup</label>
         </fieldset>
 
         <fieldset>
           <legend>Floral & Herbal Notes</legend>
-          <label><input type="checkbox" name="tastingNotes" value="Jasmine"> Jasmine</label>
-          <label><input type="checkbox" name="tastingNotes" value="Lavender"> Lavender</label>
-          <label><input type="checkbox" name="tastingNotes" value="Rose"> Rose</label>
-          <label><input type="checkbox" name="tastingNotes" value="Chamomile"> Chamomile</label>
-          <label><input type="checkbox" name="tastingNotes" value="Hibiscus"> Hibiscus</label>
-          <label><input type="checkbox" name="tastingNotes" value="Mint"> Mint</label>
-          <label><input type="checkbox" name="tastingNotes" value="Basil"> Basil</label>
-          <label><input type="checkbox" name="tastingNotes" value="Thyme"> Thyme</label>
+	  <hr>
+	  <label><input type="checkbox" name="tastingNotes" value="Basil"> Basil</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Chamomile"> Chamomile</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Hibiscus"> Hibiscus</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Jasmine"> Jasmine</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Lavender"> Lavender</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Mint"> Mint</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Rose"> Rose</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Thyme"> Thyme</label>
         </fieldset>
 
         <fieldset>
           <legend>Other Notes</legend>
-          <label><input type="checkbox" name="tastingNotes" value="Apple/Pear"> Apple/Pear</label>
-          <label><input type="checkbox" name="tastingNotes" value="Red Wine"> Red Wine</label>
-          <label><input type="checkbox" name="tastingNotes" value="White Wine"> White Wine</label>
-          <label><input type="checkbox" name="tastingNotes" value="Rum"> Rum</label>
-          <label><input type="checkbox" name="tastingNotes" value="Fermented Fruit"> Fermented Fruit</label>
-          <label><input type="checkbox" name="tastingNotes" value="Yeast"> Yeast</label>
-          <label><input type="checkbox" name="tastingNotes" value="Tobacco"> Tobacco</label>
-          <label><input type="checkbox" name="tastingNotes" value="Cedar"> Cedar</label>
-          <label><input type="checkbox" name="tastingNotes" value="Leather"> Leather</label>
-          <label><input type="checkbox" name="tastingNotes" value="Mushroom"> Mushroom</label>
-          <label><input type="checkbox" name="tastingNotes" value="Moss"> Moss</label>
-          <label><input type="checkbox" name="tastingNotes" value="Vanilla"> Vanilla</label>
-          <label><input type="checkbox" name="tastingNotes" value="Butter"> Butter</label>
-          <label><input type="checkbox" name="tastingNotes" value="Cream"> Cream</label>
-          <label><input type="checkbox" name="tastingNotes" value="Toast"> Toast</label>
-          <label><input type="checkbox" name="tastingNotes" value="Smoke"> Smoke</label>
+	  <hr>
+	  <label><input type="checkbox" name="tastingNotes" value="Butter"> Butter</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Cedar"> Cedar</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Cream"> Cream</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Fermented Fruit"> Fermented Fruit</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Leather"> Leather</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Moss"> Moss</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Mushroom"> Mushroom</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Red Wine"> Red Wine</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Rum"> Rum</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Smoke"> Smoke</label>
+  	  <label><input type="checkbox" name="tastingNotes" value="Tobacco"> Tobacco</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Toast"> Toast</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Vanilla"> Vanilla</label>
+	  <label><input type="checkbox" name="tastingNotes" value="White Wine"> White Wine</label>
+	  <label><input type="checkbox" name="tastingNotes" value="Yeast"> Yeast</label>
         </fieldset>
       </div>
-
-      <label for="daysRoasted">Days Since Roasted:</label>
-      <input type="number" id="daysRoasted" name="daysRoasted">
 
       <div class="button-container">
         <button type="button" onclick="calculateRecipe()">Generate Recipe</button>
@@ -498,7 +430,7 @@ tags: coffee
       const nuttyChocoNotes = ["Almond", "Hazelnut", "Walnut", "Peanut", "Chocolate Dark", "Chocolate Milk", "Cocoa Powder"];
       const floralHerbalNotes = ["Jasmine", "Lavender", "Rose", "Chamomile", "Hibiscus", "Mint", "Basil", "Thyme"];
       const heavySweetNotes = ["Molasses", "Maple Syrup", "Caramel", "Honey"];
-      const brightCleanNotes = ["Apple/Pear", "Peach", "Passionfruit", "Jasmine", "Hibiscus", "White Wine"];
+      const brightCleanNotes = ["Apple", "Pear", "Peach", "Passionfruit", "Jasmine", "Hibiscus", "White Wine"];
       const deepHeavyNotes = ["Chocolate Dark", "Maple Syrup", "Molasses", "Tobacco", "Leather"];
       const acidityNotes = ["Lemon", "Orange", "Lime", "Passionfruit", "White Wine"];
       const creamyNotes = ["Walnut", "Peanut", "Butter", "Cream"];
