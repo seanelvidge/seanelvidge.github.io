@@ -13,6 +13,7 @@ tags: coffee
       <!-- Coffee specifics inputs -->
       <label for="name">Name of Coffee:</label>
       <input type="text" id="name" name="name" placeholder="Enter the coffee name">
+      <br>
       
 	  <label for="roast">Roasting Level*:</label>
       <select id="roast" name="roast" required>
@@ -23,6 +24,7 @@ tags: coffee
         <option value="4">4 (Medium-Dark)</option>
         <option value="5">5 (Dark)</option>
       </select>
+      <br>
 	  
       <label for="country">Country of Growth:</label>
       <input type="text" id="country" name="country" list="countryList" placeholder="Select or type a country">
@@ -80,10 +82,12 @@ tags: coffee
 		<option value="Zambia"></option>
 		<option value="Zimbabwe"></option>
       </datalist>
+      <br>
 
       <label>Altitude of Growth (in metres):</label>
       <input type="number" id="altitudeMin" name="altitudeMin" placeholder="Minimum altitude" step="any">
       <input type="number" id="altitudeMax" name="altitudeMax" placeholder="Maximum altitude (optional)" step="any">
+      <br>
 
       <label for="processing">Processing Method:</label>
       <select id="processing" name="processing">
@@ -100,9 +104,11 @@ tags: coffee
         <option value="Pulped Natural">Pulped Natural</option>
         <option value="Double Fermentation">Double Fermentation</option>
       </select>
+      <br>
 
       <label for="daysRoasted">Days Since Roasted:</label>
       <input type="number" id="daysRoasted" name="daysRoasted">
+      <br>
 
       <label>Tasting Notes (select all that apply):</label>
       <div class="checkbox-group">
@@ -184,6 +190,8 @@ tags: coffee
 	  <label><input type="checkbox" name="tastingNotes" value="Yeast"> Yeast</label>
         </fieldset>
       </div>
+      <br>
+      <br>
 
       <div class="button-container">
         <button type="button" onclick="calculateRecipe()">Generate Recipe</button>
@@ -233,17 +241,8 @@ tags: coffee
       tastingNotesElements.forEach(note => {
         tastingNotes.push(note.value);
       });
-
-      // --- If no optional parameters are provided, use roast-level defaults ---
-      //if (
-      //  country === "" &&
-      //  altitude === null &&
-      //  processing === "" &&
-      //  tastingNotes.length === 0 &&
-	  //  isNaN(daysRoasted)
-      //) {
 	  
-	  let brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval;//, pulseTemps;
+	  let brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, grind;//, pulseTemps;
 	  switch (roastLevel) {
 	    case 1: // Light Roast defaults: less extraction needed; higher bloom to overcome dense structure.
 		  brewRatio = 17;
@@ -254,7 +253,7 @@ tags: coffee
 		  pulseInterval = 23;
 		  //pulseTemps = [99, 99, 99];
 		  delicateProcess = false;
-		  //break;
+		  grind = 0;
 	    case 2: // Light-Medium Roast defaults: slightly lower than light, but still robust extraction.
   		  brewRatio = 16.5;
 		  bloomRatio = 2.5;
@@ -264,7 +263,7 @@ tags: coffee
 		  pulseInterval = 23;
 		  //pulseTemps = [97.5, 97.5, 97.5];
 		  delicateProcess = false;
-		  //break;
+		  grind = 0;
 	    case 3: // Medium Roast defaults: balanced extraction.
 		  brewRatio = 16;
 		  bloomRatio = 2;
@@ -274,7 +273,7 @@ tags: coffee
 		  pulseInterval = 23;
 		  //pulseTemps = [96, 96, 96];
 		  delicateProcess = false;
-		  //break;
+		  grind = 0;
 	    case 4: // Medium-Dark Roast defaults: slightly more aggressive extraction early on.
   		  brewRatio = 16;
 		  bloomRatio = 2;
@@ -284,7 +283,7 @@ tags: coffee
 		  pulseInterval = 23;
 		  //pulseTemps = [90.5, 90.5, 90.5];
 		  delicateProcess = false;
-		  //break;
+		  grind = 0;
 	    case 5: // Dark Roast defaults: lower extraction due to brittle structure.
 		  brewRatio = 16;
 		  bloomRatio = 2;
@@ -294,7 +293,7 @@ tags: coffee
 		  pulseInterval = 23;
 		  //pulseTemps = [85, 85, 85];
 		  delicateProcess = false;
-		  //break;
+		  grind = 0;
 	    default:
 		  brewRatio = 16;
 		  bloomRatio = 2;
@@ -304,22 +303,9 @@ tags: coffee
 		  pulseInterval = 23;
 		  //pulseTemps = [96, 96, 96];
 		  delicateProcess = false;
+		  grind = 0;
 	  }
-	  
-      //  displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps);
-      //  return;
-      //}
 
-      // --- Otherwise, calculate adjustments based on provided parameters ---
-      // Base values for adjustments.
-      //let brewRatio = 16;      // Default water:coffee ratio.
-      //let bloomRatio = 2;      // Default multiplier for water during bloom phase.
-      //let bloomTime = 30;      // Default bloom time in seconds.
-      //let bloomTemp = 93;      // Default bloom water temperature (°C).
-      //let pulses = 3;          // Default number of pour-over pulses.
-      //let pulseInterval = 30;  // Default time between pulses.
-      //let delicateProcess = false;  // Flag for methods that require lower pulse temperatures.            
-  
 	  if (country != "") {
 		  // ---- Country of Origin Adjustments ----
 		  // Adjust based on bean density and solubility (e.g., East African beans are denser).
@@ -351,11 +337,13 @@ tags: coffee
           bloomTime += 10;        // Longer bloom for thorough CO2 release.
           bloomTemp += 2;         // Hotter bloom water helps initial extraction.
           pulses = Math.max(pulses, 4);  // Ensure enough pulses.
+	  grind -= 1              // High-elevation coffee are denser and require finer grinds for optimal extraction.
         } else if (altitude < 1200) {
           brewRatio = 17;         // Weaker ratio for softer, low-altitude beans.
           bloomRatio = Math.max(bloomRatio - 0.5, 1.5); // Reduce bloom ratio.
           bloomTime = Math.max(bloomTime - 5, 20);        // Shorten bloom time.
           pulses = Math.max(pulses - 1, 2);               // Fewer pulses.
+	  grind += 1              // Low-elevation coffee extract more quickly, so a coarser grind prevents over-extraction.
         }
       }
 
