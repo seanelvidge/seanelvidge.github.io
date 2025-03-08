@@ -113,7 +113,7 @@ tags: coffee
       <label>Tasting Notes (select all that apply):</label>
       <div class="checkbox-group">
         <fieldset>
-          <legend>Fruity Notes</legend>
+          <legend><h3>Fruity Notes</h3></legend>
 	  <hr>
           <label><input type="checkbox" name="tastingNotes" value="Apple"> Apple</label>
 	  <label><input type="checkbox" name="tastingNotes" value="Apricot"> Apricot</label>
@@ -136,7 +136,7 @@ tags: coffee
         </fieldset>
 
         <fieldset>
-          <legend>Nutty & Chocolate Notes</legend>
+          <legend><h3>Nutty & Chocolate Notes</h3></legend>
 	  <hr>
           <label><input type="checkbox" name="tastingNotes" value="Almond"> Almond</label>
 	  <label><input type="checkbox" name="tastingNotes" value="Chocolate Dark"> Chocolate (Dark)</label>
@@ -148,7 +148,7 @@ tags: coffee
         </fieldset>
 
         <fieldset>
-          <legend>Sweet & Caramel Notes</legend>
+          <legend><h3>Sweet & Caramel Notes</h3></legend>
 	  <hr>
    	  <label><input type="checkbox" name="tastingNotes" value="Brown Sugar"> Brown Sugar</label>
           <label><input type="checkbox" name="tastingNotes" value="Caramel"> Caramel</label>
@@ -158,7 +158,7 @@ tags: coffee
         </fieldset>
 
         <fieldset>
-          <legend>Floral & Herbal Notes</legend>
+          <legend><h3>Floral & Herbal Notes</h3></legend>
 	  <hr>
 	  <label><input type="checkbox" name="tastingNotes" value="Basil"> Basil</label>
 	  <label><input type="checkbox" name="tastingNotes" value="Chamomile"> Chamomile</label>
@@ -171,7 +171,7 @@ tags: coffee
         </fieldset>
 
         <fieldset>
-          <legend>Other Notes</legend>
+          <legend><h3>Other Notes</h3></legend>
 	  <hr>
 	  <label><input type="checkbox" name="tastingNotes" value="Butter"> Butter</label>
 	  <label><input type="checkbox" name="tastingNotes" value="Cedar"> Cedar</label>
@@ -337,13 +337,13 @@ tags: coffee
           bloomTime += 10;        // Longer bloom for thorough CO2 release.
           bloomTemp += 2;         // Hotter bloom water helps initial extraction.
           pulses = Math.max(pulses, 4);  // Ensure enough pulses.
-	  grind -= 1              // High-elevation coffee are denser and require finer grinds for optimal extraction.
+	  grind -= 1;             // High-elevation coffee are denser and require finer grinds for optimal extraction.
         } else if (altitude < 1200) {
           brewRatio = 17;         // Weaker ratio for softer, low-altitude beans.
           bloomRatio = Math.max(bloomRatio - 0.5, 1.5); // Reduce bloom ratio.
           bloomTime = Math.max(bloomTime - 5, 20);        // Shorten bloom time.
           pulses = Math.max(pulses - 1, 2);               // Fewer pulses.
-	  grind += 1              // Low-elevation coffee extract more quickly, so a coarser grind prevents over-extraction.
+	  grind += 1;             // Low-elevation coffee extract more quickly, so a coarser grind prevents over-extraction.
         }
       }
 
@@ -361,6 +361,16 @@ tags: coffee
 			bloomRatio = Math.min(bloomRatio, 2.0);   // Cleaner beans need less bloom.
 			bloomTime = Math.min(bloomTime, 30);        // Shorter bloom time.
 			pulses = Math.min(pulses-1, 4);               // Fewer pulses.
+		  }
+		  // Grind settings for processing is in different groups
+		  if (processing === "Washed" || processing.includes("White") || processing.includes("Yellow") || processing.includes("Fermentation") || processing === "Carbonic") {
+			grind -= 2;      // Clean and bright flavor profiles benefit from a slower extraction.
+		  } else if (processing.includes("Red") || processing.includes("Black") || processing === "Pulped Natural") {
+			  grind -= 1;    // Balances sweetness and body while ensuring clarity.
+		  } else if (processing === "Natural") {
+			  grind += 1;    // Naturally processed coffees have more body and fruitiness, which can become muddled if over-extracted.
+		  } else if (processing === "Wet-Hulled") {
+			  grind += 2;    // Heavy-bodied and earthy coffees can become too bitter if over-extracted.
 		  }
 		}
 
@@ -380,6 +390,11 @@ tags: coffee
         pulses = Math.min(pulses-1, 4);             // Fewer pulses to prevent bitterness.
         roastProfile = roastLevel === 4 ? "medium-dark" : "dark";
       }
+      // Roast profiles for grind size is also different
+      if (roastLevel == 1) { grind -= 2; }
+      else if (roastLevel == 2) { grind -= 1; }
+      else if (roastLevel == 4) { grind += 1; }
+      else if (roastLevel == 5) { grind += 2; }
 
       // ---- Days Since Roasted Adjustments ----
       // Adjust based on bean freshness (CO2 levels affect extraction dynamics).
@@ -399,6 +414,7 @@ tags: coffee
           bloomTime = Math.max(bloomTime, 45);        // Extend bloom time.
           if (bloomTemp < 92) { bloomTemp = 92; }      // Ensure higher temperature for fresh beans.
           pulses = Math.max(pulses - 1, 2);            // Fewer pulses to manage rapid CO2 release.
+	  grind -= 2
         } else if (roastDays >= 8 && roastDays <= 20) {
           bloomRatio = 2.0;    // Moderate bloom ratio.
           bloomTime = 35;      // Average bloom time.
@@ -409,6 +425,7 @@ tags: coffee
           bloomTime = 25;      // Shorter bloom time.
           bloomTemp = 87;      // Lower temperature to avoid over-extraction.
           pulses = Math.max(pulses + 1, 2); // Increase pulses to maintain even extraction.
+	  grind += 2
         }
       }
 
