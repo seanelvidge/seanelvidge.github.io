@@ -113,7 +113,7 @@ tags: coffee
       <label>Tasting Notes (select all that apply):</label>
       <div class="checkbox-group">
         <fieldset>
-          <legend><h3>Fruity Notes</h3></legend>
+          <legend><h4>Fruity Notes</h4></legend>
       <hr>
           <label><input type="checkbox" name="tastingNotes" value="Apple"> Apple</label>
       <label><input type="checkbox" name="tastingNotes" value="Apricot"> Apricot</label>
@@ -136,7 +136,7 @@ tags: coffee
         </fieldset>
 
         <fieldset>
-          <legend><h3>Nutty & Chocolate Notes</h3></legend>
+          <legend><h4>Nutty & Chocolate Notes</h4></legend>
       <hr>
           <label><input type="checkbox" name="tastingNotes" value="Almond"> Almond</label>
       <label><input type="checkbox" name="tastingNotes" value="Chocolate Dark"> Chocolate (Dark)</label>
@@ -148,7 +148,7 @@ tags: coffee
         </fieldset>
 
         <fieldset>
-          <legend><h3>Sweet & Caramel Notes</h3></legend>
+          <legend><h4>Sweet & Caramel Notes</h4></legend>
       <hr>
 
 <label><input type="checkbox" name="tastingNotes" value="Brown Sugar"> Brown Sugar</label>
@@ -156,10 +156,11 @@ tags: coffee
 <label><input type="checkbox" name="tastingNotes" value="Honey"> Honey</label>
 <label><input type="checkbox" name="tastingNotes" value="Maple Syrup"> Maple Syrup</label>
 <label><input type="checkbox" name="tastingNotes" value="Molasses"> Molasses</label>
+
 </fieldset>
 
-	<fieldset>
-          <legend><h3>Floral & Herbal Notes</h3></legend>
+<fieldset>
+          <legend><h4>Floral & Herbal Notes</h4></legend>
       <hr>
       <label><input type="checkbox" name="tastingNotes" value="Basil"> Basil</label>
       <label><input type="checkbox" name="tastingNotes" value="Chamomile"> Chamomile</label>
@@ -172,7 +173,7 @@ tags: coffee
         </fieldset>
 
         <fieldset>
-          <legend><h3>Other Notes</h3></legend>
+          <legend><h4>Other Notes</h4></legend>
       <hr>
       <label><input type="checkbox" name="tastingNotes" value="Butter"> Butter</label>
       <label><input type="checkbox" name="tastingNotes" value="Cedar"> Cedar</label>
@@ -190,6 +191,7 @@ tags: coffee
 <label><input type="checkbox" name="tastingNotes" value="Vanilla"> Vanilla</label>
 <label><input type="checkbox" name="tastingNotes" value="White Wine"> White Wine</label>
 <label><input type="checkbox" name="tastingNotes" value="Yeast"> Yeast</label>
+
 </fieldset>
 </div>
 <br>
@@ -339,13 +341,13 @@ tags: coffee
           bloomTime += 10;        // Longer bloom for thorough CO2 release.
           bloomTemp += 2;         // Hotter bloom water helps initial extraction.
           pulses = Math.max(pulses, 4);  // Ensure enough pulses.
-	  grind -= 1;             // High-elevation coffee are denser and require finer grinds for optimal extraction.
+	  grind -= 2;             // High-elevation coffee are denser and require finer grinds for optimal extraction.
         } else if (altitude < 1200) {
           brewRatio = 17;         // Weaker ratio for softer, low-altitude beans.
           bloomRatio = Math.max(bloomRatio - 0.5, 1.5); // Reduce bloom ratio.
           bloomTime = Math.max(bloomTime - 5, 20);        // Shorten bloom time.
           pulses = Math.max(pulses - 1, 2);               // Fewer pulses.
-	  grind += 1;             // Low-elevation coffee extract more quickly, so a coarser grind prevents over-extraction.
+	  grind += 2;             // Low-elevation coffee extract more quickly, so a coarser grind prevents over-extraction.
         }
       }
 
@@ -366,13 +368,13 @@ tags: coffee
 		  }
 		  // Grind settings for processing is in different groups
 		  if (processing === "Washed" || processing.includes("White") || processing.includes("Yellow") || processing.includes("Fermentation") || processing === "Carbonic") {
-			grind -= 2;      // Clean and bright flavor profiles benefit from a slower extraction.
+			grind -= 4;      // Clean and bright flavor profiles benefit from a slower extraction.
 		  } else if (processing.includes("Red") || processing.includes("Black") || processing === "Pulped Natural") {
-			  grind -= 1;    // Balances sweetness and body while ensuring clarity.
+			  grind -= 2;    // Balances sweetness and body while ensuring clarity.
 		  } else if (processing === "Natural") {
-			  grind += 1;    // Naturally processed coffees have more body and fruitiness, which can become muddled if over-extracted.
+			  grind += 2;    // Naturally processed coffees have more body and fruitiness, which can become muddled if over-extracted.
 		  } else if (processing === "Wet-Hulled") {
-			  grind += 2;    // Heavy-bodied and earthy coffees can become too bitter if over-extracted.
+			  grind += 4;    // Heavy-bodied and earthy coffees can become too bitter if over-extracted.
 		  }
 		}
 
@@ -393,10 +395,10 @@ tags: coffee
         roastProfile = roastLevel === 4 ? "medium-dark" : "dark";
       }
       // Roast profiles for grind size is also different
-      if (roastLevel == 1) { grind -= 2; }
-      else if (roastLevel == 2) { grind -= 1; }
-      else if (roastLevel == 4) { grind += 1; }
-      else if (roastLevel == 5) { grind += 2; }
+      if (roastLevel == 1) { grind -= 4; }
+      else if (roastLevel == 2) { grind -= 2; }
+      else if (roastLevel == 4) { grind += 2; }
+      else if (roastLevel == 5) { grind += 4; }
 
       // ---- Days Since Roasted Adjustments ----
       // Adjust based on bean freshness (CO2 levels affect extraction dynamics).
@@ -416,7 +418,7 @@ tags: coffee
           bloomTime = Math.max(bloomTime, 45);        // Extend bloom time.
           if (bloomTemp < 92) { bloomTemp = 92; }      // Ensure higher temperature for fresh beans.
           pulses = Math.max(pulses - 1, 2);            // Fewer pulses to manage rapid CO2 release.
-	  grind -= 2
+	  grind -= 4
         } else if (roastDays >= 8 && roastDays <= 20) {
           bloomRatio = 2.0;    // Moderate bloom ratio.
           bloomTime = 35;      // Average bloom time.
@@ -427,7 +429,7 @@ tags: coffee
           bloomTime = 25;      // Shorter bloom time.
           bloomTemp = 87;      // Lower temperature to avoid over-extraction.
           pulses = Math.max(pulses + 1, 2); // Increase pulses to maintain even extraction.
-	  grind += 2
+	  grind += 4
         }
       }
 
@@ -445,27 +447,27 @@ tags: coffee
       if (tastingNotes.some(note => fruityNotes.includes(note))) {
         brewRatio = parseFloat(brewRatio) + 0.5; // More water highlights bright, acidic notes.
         bloomTemp += 2;                          // Higher temperature boosts fruity extraction.
-	grind -= 2;
+	grind -= 4;
       }
       if (tastingNotes.some(note => nuttyChocoNotes.includes(note))) {
         brewRatio = parseFloat(brewRatio) - 0.5; // Less water to enhance body and richness.
-	grind += 1;
+	grind += 2;
       }
       if (tastingNotes.some(note => floralHerbalNotes.includes(note))) {
         bloomRatio += 0.25; // Extra water in bloom to extract delicate aromatics.
-	grind += 1;
+	grind += 2;
       }
       if (tastingNotes.some(note => heavySweetNotes.includes(note))) {
         bloomRatio = Math.max(bloomRatio - 0.3, 1.5); // Lower bloom preserves syrupy body.
-	grind -= 1;
+	grind -= 2;
       }
       if (tastingNotes.some(note => acidityNotes.includes(note))) {
         bloomTime += 5; // Extend bloom to fully extract bright acidity.
-	grind -= 2;
+	grind -= 4;
       }
       if (tastingNotes.some(note => note === "Brown Sugar")) {
         bloomTime = Math.max(bloomTime - 5, 20); // Shorten bloom for a fuller body.
-	grind -= 1;
+	grind -= 2;
       }
       if (tastingNotes.some(note => creamyNotes.includes(note))) {
         bloomTemp -= 2; // Lower temperature to preserve smooth, creamy textures.
@@ -475,7 +477,7 @@ tags: coffee
       }
       if (tastingNotes.some(note => deepHeavyNotes.includes(note))) {
         pulses = Math.max(pulses - 1, 2); // Fewer pulses enhance depth.
-	grind += 2;
+	grind += 4;
       }
 
       // ---- Pulse Interval Based on Roast Profile ----
