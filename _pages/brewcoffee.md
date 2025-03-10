@@ -489,6 +489,7 @@ tags: coffee
 	    } else {
             pulseTemps.push(bloomTemp);
           }
+	  }
         } else if (roastProfile === "medium-dark") {
           // Darker roasts: start higher then gradually decrease to avoid bitterness.
           let startTemp = 91, endTemp = 85;
