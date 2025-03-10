@@ -246,53 +246,58 @@ tags: coffee
         tastingNotes.push(note.value);
       });
 	  
-	  let brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, grind;//, pulseTemps;
+	  let brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, grind, roastProfile;//, pulseTemps;
 	  switch (roastLevel) {
 	    case 1: // Light Roast defaults: less extraction needed; higher bloom to overcome dense structure.
 		  brewRatio = 17;
-		  bloomRatio = 3;
-		  bloomTime = 45;
+		  bloomRatio = 3; // Higher bloom ratio for dense, light roasts.
+		  bloomTime = 55; // Longer bloom for extended extraction.
 		  bloomTemp = 99;
-		  pulses = 3;
+		  pulses = 6;    // More pulses for full extraction.
 		  pulseInterval = 23;
 		  //pulseTemps = [99, 99, 99];
 		  grind = 0;
+		  roastProfile = "light";
 	    case 2: // Light-Medium Roast defaults: slightly lower than light, but still robust extraction.
   		  brewRatio = 16.5;
-		  bloomRatio = 2.5;
-		  bloomTime = 38;
+		  bloomRatio = 3;
+		  bloomTime = 55;
 		  bloomTemp = 97.5;
-		  pulses = 3;
+		  pulses = 5;
 		  pulseInterval = 23;
 		  //pulseTemps = [97.5, 97.5, 97.5];
 		  grind = 0;
+		  roastProfile = "light-medium";
 	    case 3: // Medium Roast defaults: balanced extraction.
 		  brewRatio = 16;
-		  bloomRatio = 2;
-		  bloomTime = 30;
+		  bloomRatio = 2.5;
+		  bloomTime = 50;
 		  bloomTemp = 96;
-		  pulses = 3;
+		  pulses = 4;
 		  pulseInterval = 23;
 		  //pulseTemps = [96, 96, 96];
 		  grind = 0;
+		  roastProfile = "medium";
 	    case 4: // Medium-Dark Roast defaults: slightly more aggressive extraction early on.
-  		  brewRatio = 16;
+  		  brewRatio = 15.5;
 		  bloomRatio = 2;
-		  bloomTime = 30;
+		  bloomTime = 45;
 		  bloomTemp = 97.5;
 		  pulses = 3;
 		  pulseInterval = 23;
 		  //pulseTemps = [90.5, 90.5, 90.5];
 		  grind = 0;
+		  roastProfile = "medium-dark";
 	    case 5: // Dark Roast defaults: lower extraction due to brittle structure.
-		  brewRatio = 16;
+		  brewRatio = 15;  // Increase dose to increase strenght, after lowing strength by having a coarser grind
 		  bloomRatio = 2;
-		  bloomTime = 30;
-		  bloomTemp = 99;
-		  pulses = 3;
+		  bloomTime = 40;
+		  bloomTemp = 99;  // Start with very hot bloom to increase complexity in the cup
+		  pulses = 3;     // Fewer pulses to prevent bitterness.
 		  pulseInterval = 23;
 		  //pulseTemps = [85, 85, 85];
 		  grind = 0;
+		  roastProfile = "dark";
 	    default:
 		  brewRatio = 16;
 		  bloomRatio = 2;
@@ -330,14 +335,14 @@ tags: coffee
       // Higher-altitude beans are denser, requiring stronger extraction.
       if (altitude !== null) {
         if (altitude > 1500) {
-          brewRatio = 15;         // Stronger ratio for denser, high-altitude beans.
+          brewRatio -= 0.5;         // Stronger ratio for denser, high-altitude beans.
           bloomRatio += 0.5;      // Increase bloom ratio to assist in degassing.
           bloomTime += 10;        // Longer bloom for thorough CO2 release.
           bloomTemp += 2;         // Hotter bloom water helps initial extraction.
           pulses = Math.max(pulses, 4);  // Ensure enough pulses.
 	  grind -= 2;             // High-elevation coffee are denser and require finer grinds for optimal extraction.
         } else if (altitude < 1200) {
-          brewRatio = 17;         // Weaker ratio for softer, low-altitude beans.
+          brewRatio += 0.5;         // Weaker ratio for softer, low-altitude beans.
           bloomRatio = Math.max(bloomRatio - 0.5, 1.5); // Reduce bloom ratio.
           bloomTime = Math.max(bloomTime - 5, 20);        // Shorten bloom time.
           pulses = Math.max(pulses - 1, 2);               // Fewer pulses.
@@ -370,21 +375,6 @@ tags: coffee
 		}
 
       // ---- Roasting Level Adjustments ----
-      // Lighter roasts require more bloom and extraction time; darker roasts need less.
-      let roastProfile = "medium"; // Default profile.
-      if (roastLevel <= 2) {
-        brewRatio = Math.max(brewRatio, 15);      // Slightly stronger extraction.
-        bloomRatio = Math.max(bloomRatio, 3);     // Higher bloom ratio for dense, light roasts.
-        bloomTime = Math.max(bloomTime, 55);      // Longer bloom for extended extraction.
-        pulses = Math.max(pulses+1, 6);           // More pulses for full extraction.
-        roastProfile = roastLevel === 1 ? "light" : "light-medium";
-      } else if (roastLevel >= 4) {
-        brewRatio = Math.min(brewRatio, 17);        // Weaker ratio to avoid over-extraction.
-        bloomRatio = Math.min(bloomRatio, 2.0);     // Lower bloom ratio for porous, dark roasts.
-        bloomTime = Math.min(bloomTime, 35);        // Shorter bloom time.
-        pulses = Math.min(pulses-1, 4);             // Fewer pulses to prevent bitterness.
-        roastProfile = roastLevel === 4 ? "medium-dark" : "dark";
-      }
       // Roast profiles for grind size is also different
       if (roastLevel == 1) { grind -= 4; }
       else if (roastLevel == 2) { grind -= 2; }
@@ -484,15 +474,6 @@ tags: coffee
       // ---- Pulse Temperature Profile ----
       // Determine the temperature for each pulse based on roast profile and process.
       let pulseTemps = [];
-	    if (processing === "Carbonic" || processing === "Anaerobic") {
-			  delicateProcess = true;  // Lower pulse temperatures to preserve volatile notes.
-			}
-      if (delicateProcess) {
-        // For Carbonic or Anaerobic processes, use lower, controlled temperatures.
-        for (let i = 0; i < pulses; i++) {
-          pulseTemps.push(91 + i); // Slight incremental rise.
-        }
-      } else {
         if (roastProfile === "light" || roastProfile === "light-medium") {
           // Light roasts: start lower and gradually increase to enhance extraction.
           let startTemp = 90, endTemp = 96;
@@ -508,25 +489,37 @@ tags: coffee
 	    } else {
             pulseTemps.push(bloomTemp);
           }
-        } else if (roastProfile === "medium-dark" || roastProfile === "dark") {
-          // Dark roasts: start higher then gradually decrease to avoid bitterness.
-          let startTemp = 94, endTemp = 88;
+        } else if (roastProfile === "medium-dark") {
+          // Darker roasts: start higher then gradually decrease to avoid bitterness.
+          let startTemp = 91, endTemp = 85;
           let step = (startTemp - endTemp) / (pulses - 1);
           for (let i = 0; i < pulses; i++) {
 	    if (processing === "Anaerobic") {
               pulseTemps.push(Math.round(startTemp -1 - step * i));  // Anaerobic Fermentation dark roasts may need to stay on the lower end to avoid amplifying funky/spiced notes.
 	    } else {
 	      pulseTemps.push(Math.round(startTemp - step * i));
+            }
           }
-        }
+	} else if (roastProfile === "dark") {
+          // Darker roasts: start higher then gradually decrease to avoid bitterness.
+          let startTemp = 86, endTemp = 80;
+          let step = (startTemp - endTemp) / (pulses - 1);
+          for (let i = 0; i < pulses; i++) {
+	    if (processing === "Anaerobic") {
+              pulseTemps.push(Math.round(startTemp -1 - step * i));  // Anaerobic Fermentation dark roasts may need to stay on the lower end to avoid amplifying funky/spiced notes.
+	    } else {
+	      pulseTemps.push(Math.round(startTemp - step * i));
+            }
+          }
+	}
+	      
         // Further adjust pulse temperatures based on tasting notes.
         if (tastingNotes.some(note => ["Lemon", "Orange", "Grapefruit", "Lime", "Strawberry", "Blueberry", "Raspberry", "Blackberry", "Jasmine", "Lavender", "Rose"].includes(note))) {
-          pulseTemps[0] = Math.max(pulseTemps[0], 96); // Boost first pulse for bright, fruity notes.
+          pulseTemps[0] += 1 // Math.max(pulseTemps[0], 96); // Boost first pulse for bright, fruity notes.
         }
         if (tastingNotes.some(note => ["Caramel", "Vanilla", "Brown Sugar", "Honey", "Cocoa Powder"].includes(note))) {
-          pulseTemps[pulses - 1] = Math.min(pulseTemps[pulses - 1], 90); // Lower final pulse for sweetness.
+          pulseTemps[pulses - 1] -= 1 // Math.min(pulseTemps[pulses - 1], 90); // Lower final pulse for sweetness.
         }
-      }
 
       // ---- Pulse Temperature Adjustments Based on Days Since Roasted ----
       // Fresh coffee: slightly lower pulse temps to counter CO2 resistance.
@@ -594,4 +587,3 @@ tags: coffee
   </script>
 
 </html>
-
