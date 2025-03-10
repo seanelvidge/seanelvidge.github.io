@@ -130,7 +130,7 @@ tags: coffee
 
       <label>Tasting Notes (select all that apply):</label>
       <div class="checkbox-group">
-        <fieldset>
+        <fieldset disabled>
           <legend><h5>Fruity Notes</h5></legend>
       <hr>
           <label><input type="checkbox" name="tastingNotes" value="Apple"> Apple</label>
@@ -254,7 +254,7 @@ tags: coffee
       }
   
       const processing = document.getElementById('processing').value.trim();
-      const roastLevel = parseInt(document.getElementById('roast').value);
+      const roast = document.getElementById('roast').value.trim(); // parseInt(document.getElementById('roast').value);
       const daysRoasted = parseInt(document.getElementById('daysRoasted').value);
   
       // Gather selected tasting notes into an array
@@ -264,9 +264,8 @@ tags: coffee
         tastingNotes.push(note.value);
       });
 	  
-	  let brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, grind, roastProfile;//, pulseTemps;
-	  switch (roastLevel) {
-	    case 1: // Light Roast defaults: less extraction needed; higher bloom to overcome dense structure.
+	  let brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, grind;//, pulseTemps;
+	  if (roast === "light") { // Light Roast defaults: less extraction needed; higher bloom to overcome dense structure.
 		  brewRatio = 17;
 		  bloomRatio = 3; // Higher bloom ratio for dense, light roasts.
 		  bloomTime = 55; // Longer bloom for extended extraction.
@@ -276,7 +275,7 @@ tags: coffee
 		  //pulseTemps = [99, 99, 99];
 		  grind = 0;
 		  roastProfile = "light";
-	    case 2: // Light-Medium Roast defaults: slightly lower than light, but still robust extraction.
+	   } else if (roast === "light-medium") { // Light-Medium Roast defaults: slightly lower than light, but still robust extraction.
   		  brewRatio = 16.5;
 		  bloomRatio = 3;
 		  bloomTime = 55;
@@ -285,8 +284,7 @@ tags: coffee
 		  pulseInterval = 23;
 		  //pulseTemps = [97.5, 97.5, 97.5];
 		  grind = 0;
-		  roastProfile = "light-medium";
-	    case 3: // Medium Roast defaults: balanced extraction.
+	    } else if (roast === "medium") { // Medium Roast defaults: balanced extraction.
 		  brewRatio = 16;
 		  bloomRatio = 2.5;
 		  bloomTime = 50;
@@ -295,8 +293,7 @@ tags: coffee
 		  pulseInterval = 23;
 		  //pulseTemps = [96, 96, 96];
 		  grind = 0;
-		  roastProfile = "medium";
-	    case 4: // Medium-Dark Roast defaults: slightly more aggressive extraction early on.
+	    } else if (roast === "medium-dark") { // Medium-Dark Roast defaults: slightly more aggressive extraction early on.
   		  brewRatio = 15.5;
 		  bloomRatio = 2;
 		  bloomTime = 45;
@@ -305,8 +302,7 @@ tags: coffee
 		  pulseInterval = 23;
 		  //pulseTemps = [90.5, 90.5, 90.5];
 		  grind = 0;
-		  roastProfile = "medium-dark";
-	    case 5: // Dark Roast defaults: lower extraction due to brittle structure.
+	    } else if (roast === "dark") { // Dark Roast defaults: lower extraction due to brittle structure.
 		  brewRatio = 15;  // Increase dose to increase strenght, after lowing strength by having a coarser grind
 		  bloomRatio = 2;
 		  bloomTime = 40;
@@ -315,8 +311,7 @@ tags: coffee
 		  pulseInterval = 23;
 		  //pulseTemps = [85, 85, 85];
 		  grind = 0;
-		  roastProfile = "dark";
-	    default:
+		} else {
 		  brewRatio = 16;
 		  bloomRatio = 2;
 		  bloomTime = 30;
@@ -325,6 +320,7 @@ tags: coffee
 		  pulseInterval = 23;
 		  //pulseTemps = [96, 96, 96];
 		  grind = 0;
+		  roast = "medium";
 	  }
 
 	  if (country != "") {
@@ -394,10 +390,10 @@ tags: coffee
 
       // ---- Roasting Level Adjustments ----
       // Roast profiles for grind size is also different
-      if (roastLevel == 1) { grind -= 4; }
-      else if (roastLevel == 2) { grind -= 2; }
-      else if (roastLevel == 4) { grind += 2; }
-      else if (roastLevel == 5) { grind += 4; }
+      if (roast == "light") { grind -= 4; }
+      else if (roast == "light-medium") { grind -= 2; }
+      else if (roast == "medium-dark") { grind += 2; }
+      else if (roast == "dark") { grind += 4; }
 
       // ---- Days Since Roasted Adjustments ----
       // Adjust based on bean freshness (CO2 levels affect extraction dynamics).
@@ -481,25 +477,26 @@ tags: coffee
 
       // ---- Pulse Interval Based on Roast Profile ----
       // Adjust time between pulses based on roast to control extraction speed.
-      if (roastProfile === "light" || roastProfile === "light-medium") {
+      if (roast === "light" || roast === "light-medium") {
         pulseInterval = 35;
-      } else if (roastProfile === "medium") {
+      } else if (roast === "medium") {
         pulseInterval = 30;
-      } else if (roastProfile === "medium-dark" || roastProfile === "dark") {
+      } else if (roast === "medium-dark" || roast === "dark") {
         pulseInterval = 25;
       }
 
       // ---- Pulse Temperature Profile ----
       // Determine the temperature for each pulse based on roast profile and process.
       let pulseTemps = [];
-        if (roastProfile === "light" || roastProfile === "light-medium") {
+	  
+        if (roast === "light" || roast === "light-medium") {
           // Light roasts: start lower and gradually increase to enhance extraction.
           let startTemp = 90, endTemp = 96;
           let step = (endTemp - startTemp) / (pulses - 1);
           for (let i = 0; i < pulses; i++) {
             pulseTemps.push(Math.round(startTemp + step * i));
           }
-        } else if (roastProfile === "medium") {
+        } else if (roast === "medium") {
           // Medium roasts: maintain a stable temperature.
           for (let i = 0; i < pulses; i++) {
 	    if (processing === "Carbonic" || processing === "Anaerobic") {
@@ -508,7 +505,7 @@ tags: coffee
             pulseTemps.push(bloomTemp);
           }
 	  }
-        } else if (roastProfile === "medium-dark") {
+        } else if (roast === "medium-dark") {
           // Darker roasts: start higher then gradually decrease to avoid bitterness.
           let startTemp = 91, endTemp = 85;
           let step = (startTemp - endTemp) / (pulses - 1);
@@ -519,7 +516,7 @@ tags: coffee
 	      pulseTemps.push(Math.round(startTemp - step * i));
             }
           }
-	} else if (roastProfile === "dark") {
+	} else if (roast === "dark") {
           // Darker roasts: start higher then gradually decrease to avoid bitterness.
           let startTemp = 86, endTemp = 80;
           let step = (startTemp - endTemp) / (pulses - 1);
@@ -550,7 +547,7 @@ tags: coffee
           pulseTemps = pulseTemps.map(temp => temp + 1);
         }
       }
-  
+
       displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps, grind);
     }
   
