@@ -8,6 +8,24 @@ tags: coffee
 ---
 
 <html lang="en">
+<head>
+  <style>
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+    legend {
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding: 0;
+      margin-bottom: 0;
+    }
+    hr {
+      margin-top: 5px;
+    }
+  </style>
+</head>
   <div class="container">
     <form id="coffeeForm">
       <!-- Coffee specifics inputs -->
