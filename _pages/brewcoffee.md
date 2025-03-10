@@ -113,7 +113,7 @@ tags: coffee
       <label>Tasting Notes (select all that apply):</label>
       <div class="checkbox-group">
         <fieldset>
-          <legend><h4>Fruity Notes</h4></legend>
+          <legend><h5>Fruity Notes</h5></legend>
       <hr>
           <label><input type="checkbox" name="tastingNotes" value="Apple"> Apple</label>
       <label><input type="checkbox" name="tastingNotes" value="Apricot"> Apricot</label>
@@ -136,7 +136,7 @@ tags: coffee
         </fieldset>
 
         <fieldset>
-          <legend><h4>Nutty & Chocolate Notes</h4></legend>
+          <legend><h5>Nutty & Chocolate Notes</h5></legend>
       <hr>
           <label><input type="checkbox" name="tastingNotes" value="Almond"> Almond</label>
       <label><input type="checkbox" name="tastingNotes" value="Chocolate Dark"> Chocolate (Dark)</label>
@@ -148,7 +148,7 @@ tags: coffee
         </fieldset>
 
         <fieldset>
-          <legend><h4>Sweet & Caramel Notes</h4></legend>
+          <legend><h5>Sweet & Caramel Notes</h5></legend>
       <hr>
 
 <label><input type="checkbox" name="tastingNotes" value="Brown Sugar"> Brown Sugar</label>
@@ -160,7 +160,7 @@ tags: coffee
 </fieldset>
 
 <fieldset>
-          <legend><h4>Floral & Herbal Notes</h4></legend>
+          <legend><h5>Floral & Herbal Notes</h5></legend>
       <hr>
       <label><input type="checkbox" name="tastingNotes" value="Basil"> Basil</label>
       <label><input type="checkbox" name="tastingNotes" value="Chamomile"> Chamomile</label>
@@ -173,7 +173,7 @@ tags: coffee
         </fieldset>
 
         <fieldset>
-          <legend><h4>Other Notes</h4></legend>
+          <legend><h5>Other Notes</h5></legend>
       <hr>
       <label><input type="checkbox" name="tastingNotes" value="Butter"> Butter</label>
       <label><input type="checkbox" name="tastingNotes" value="Cedar"> Cedar</label>
