@@ -256,7 +256,6 @@ tags: coffee
 		  pulses = 3;
 		  pulseInterval = 23;
 		  //pulseTemps = [99, 99, 99];
-		  delicateProcess = false;
 		  grind = 0;
 	    case 2: // Light-Medium Roast defaults: slightly lower than light, but still robust extraction.
   		  brewRatio = 16.5;
@@ -266,7 +265,6 @@ tags: coffee
 		  pulses = 3;
 		  pulseInterval = 23;
 		  //pulseTemps = [97.5, 97.5, 97.5];
-		  delicateProcess = false;
 		  grind = 0;
 	    case 3: // Medium Roast defaults: balanced extraction.
 		  brewRatio = 16;
@@ -276,7 +274,6 @@ tags: coffee
 		  pulses = 3;
 		  pulseInterval = 23;
 		  //pulseTemps = [96, 96, 96];
-		  delicateProcess = false;
 		  grind = 0;
 	    case 4: // Medium-Dark Roast defaults: slightly more aggressive extraction early on.
   		  brewRatio = 16;
@@ -286,7 +283,6 @@ tags: coffee
 		  pulses = 3;
 		  pulseInterval = 23;
 		  //pulseTemps = [90.5, 90.5, 90.5];
-		  delicateProcess = false;
 		  grind = 0;
 	    case 5: // Dark Roast defaults: lower extraction due to brittle structure.
 		  brewRatio = 16;
@@ -296,7 +292,6 @@ tags: coffee
 		  pulses = 3;
 		  pulseInterval = 23;
 		  //pulseTemps = [85, 85, 85];
-		  delicateProcess = false;
 		  grind = 0;
 	    default:
 		  brewRatio = 16;
@@ -306,7 +301,6 @@ tags: coffee
 		  pulses = 3;
 		  pulseInterval = 23;
 		  //pulseTemps = [96, 96, 96];
-		  delicateProcess = false;
 		  grind = 0;
 	  }
 
@@ -358,9 +352,6 @@ tags: coffee
 			bloomRatio = Math.max(bloomRatio, 3.0); // Ensure sufficient water for degassing.
 			bloomTime = Math.max(bloomTime, 45);      // Extend bloom time.
 			pulses = Math.max(pulses+1, 5);             // Increase pulses to control uneven extraction.
-			if (processing === "Carbonic" || processing === "Anaerobic") {
-			  delicateProcess = true;  // Lower pulse temperatures to preserve volatile notes.
-			}
 		  } else if (processing === "Washed" || processing === "Double Fermentation" || processing === "Wet-Hulled") {
 			bloomRatio = Math.min(bloomRatio, 2.0);   // Cleaner beans need less bloom.
 			bloomTime = Math.min(bloomTime, 30);        // Shorter bloom time.
@@ -493,10 +484,13 @@ tags: coffee
       // ---- Pulse Temperature Profile ----
       // Determine the temperature for each pulse based on roast profile and process.
       let pulseTemps = [];
+	    if (processing === "Carbonic" || processing === "Anaerobic") {
+			  delicateProcess = true;  // Lower pulse temperatures to preserve volatile notes.
+			}
       if (delicateProcess) {
         // For Carbonic or Anaerobic processes, use lower, controlled temperatures.
         for (let i = 0; i < pulses; i++) {
-          pulseTemps.push(87 + i); // Slight incremental rise.
+          pulseTemps.push(91 + i); // Slight incremental rise.
         }
       } else {
         if (roastProfile === "light" || roastProfile === "light-medium") {
@@ -509,6 +503,9 @@ tags: coffee
         } else if (roastProfile === "medium") {
           // Medium roasts: maintain a stable temperature.
           for (let i = 0; i < pulses; i++) {
+	    if (processing === "Carbonic" || processing === "Anaerobic") {
+	      pulseTemps.push(bloomTemp + 1);  // Carbonic/Anaerobic may benefit from the higher range to balance fermentation notes.
+	    } else {
             pulseTemps.push(bloomTemp);
           }
         } else if (roastProfile === "medium-dark" || roastProfile === "dark") {
@@ -516,7 +513,10 @@ tags: coffee
           let startTemp = 94, endTemp = 88;
           let step = (startTemp - endTemp) / (pulses - 1);
           for (let i = 0; i < pulses; i++) {
-            pulseTemps.push(Math.round(startTemp - step * i));
+	    if (processing === "Anaerobic") {
+              pulseTemps.push(Math.round(startTemp -1 - step * i));  // Anaerobic Fermentation dark roasts may need to stay on the lower end to avoid amplifying funky/spiced notes.
+	    } else {
+	      pulseTemps.push(Math.round(startTemp - step * i));
           }
         }
         // Further adjust pulse temperatures based on tasting notes.
