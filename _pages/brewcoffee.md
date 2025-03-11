@@ -19,7 +19,7 @@ tags: coffee
       font-size: 1.2rem;
       font-weight: bold;
       padding: 0;
-      margin-bottom: -15px;
+      margin-bottom: -5px;
     }
     hr {
       margin-top: 5px;
