@@ -171,6 +171,7 @@ tags: coffee
 
         <fieldset>
           <legend><h5>Sweet & Caramel Notes</h5></legend>
+
 <label><input type="checkbox" name="tastingNotes" value="Brown Sugar"> Brown Sugar</label>
 <label><input type="checkbox" name="tastingNotes" value="Caramel"> Caramel</label>
 <label><input type="checkbox" name="tastingNotes" value="Honey"> Honey</label>
