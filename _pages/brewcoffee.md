@@ -42,11 +42,11 @@ tags: coffee
 	  <label for="roast">Roasting Level*:</label>
       <select id="roast" name="roast" required>
         <option value="">Select Roasting Level</option>
-        <option value="1">1 (Light)</option>
-        <option value="2">2 (Light-Medium)</option>
-        <option value="3">3 (Medium)</option>
-        <option value="4">4 (Medium-Dark)</option>
-        <option value="5">5 (Dark)</option>
+        <option value="light">1 (Light)</option>
+        <option value="light-medium">2 (Light-Medium)</option>
+        <option value="medium">3 (Medium)</option>
+        <option value="medium-dark">4 (Medium-Dark)</option>
+        <option value="dark">5 (Dark)</option>
       </select>
       <br>
 	  
@@ -313,7 +313,7 @@ tags: coffee
 		  //pulseTemps = [85, 85, 85];
 		  grind = 0;
 		} else {
-		  console.log("Something very badly went wrong, you should never be able to get to this message");
+		  console.log("Something went very badly wrong, you should never be able to get to this message");
 	  }
 
 	  if (country != "") {
