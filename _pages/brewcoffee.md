@@ -313,15 +313,7 @@ tags: coffee
 		  //pulseTemps = [85, 85, 85];
 		  grind = 0;
 		} else {
-		  brewRatio = 16;
-		  bloomRatio = 2;
-		  bloomTime = 30;
-		  bloomTemp = 96;
-		  pulses = 3;
-		  pulseInterval = 23;
-		  //pulseTemps = [96, 96, 96];
-		  grind = 0;
-		  roast = "medium";
+		  console.log("Something very badly went wrong, you should never be able to get to this message");
 	  }
 
 	  if (country != "") {
