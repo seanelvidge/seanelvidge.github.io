@@ -19,10 +19,16 @@ tags: coffee
       font-size: 1.2rem;
       font-weight: bold;
       padding: 0;
-      margin-bottom: 0;
+      margin-bottom: -30px;
     }
     hr {
       margin-top: 5px;
+    }
+    fieldset {
+      border: 1px solid #ccc; /* Adjust thickness and color as needed */
+      padding: 10px; /* Ensure some inner spacing */
+      margin: 10px 0; /* Space it out from other elements */
+      border-radius: 5px; /* Optional: rounded corners */
     }
   </style>
 </head>
@@ -132,7 +138,6 @@ tags: coffee
       <div class="checkbox-group">
         <fieldset disabled>
           <legend><h5>Fruity Notes</h5></legend>
-      <hr>
           <label><input type="checkbox" name="tastingNotes" value="Apple"> Apple</label>
       <label><input type="checkbox" name="tastingNotes" value="Apricot"> Apricot</label>
       <label><input type="checkbox" name="tastingNotes" value="Blackberry"> Blackberry</label>
@@ -155,7 +160,6 @@ tags: coffee
 
         <fieldset>
           <legend><h5>Nutty & Chocolate Notes</h5></legend>
-      <hr>
           <label><input type="checkbox" name="tastingNotes" value="Almond"> Almond</label>
       <label><input type="checkbox" name="tastingNotes" value="Chocolate Dark"> Chocolate (Dark)</label>
       <label><input type="checkbox" name="tastingNotes" value="Chocolate Milk"> Chocolate (Milk)</label>
@@ -167,8 +171,6 @@ tags: coffee
 
         <fieldset>
           <legend><h5>Sweet & Caramel Notes</h5></legend>
-      <hr>
-
 <label><input type="checkbox" name="tastingNotes" value="Brown Sugar"> Brown Sugar</label>
 <label><input type="checkbox" name="tastingNotes" value="Caramel"> Caramel</label>
 <label><input type="checkbox" name="tastingNotes" value="Honey"> Honey</label>
@@ -179,7 +181,6 @@ tags: coffee
 
 <fieldset>
           <legend><h5>Floral & Herbal Notes</h5></legend>
-      <hr>
       <label><input type="checkbox" name="tastingNotes" value="Basil"> Basil</label>
       <label><input type="checkbox" name="tastingNotes" value="Chamomile"> Chamomile</label>
       <label><input type="checkbox" name="tastingNotes" value="Hibiscus"> Hibiscus</label>
@@ -192,7 +193,6 @@ tags: coffee
 
         <fieldset>
           <legend><h5>Other Notes</h5></legend>
-      <hr>
       <label><input type="checkbox" name="tastingNotes" value="Butter"> Butter</label>
       <label><input type="checkbox" name="tastingNotes" value="Cedar"> Cedar</label>
       <label><input type="checkbox" name="tastingNotes" value="Cream"> Cream</label>
