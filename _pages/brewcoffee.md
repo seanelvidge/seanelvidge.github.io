@@ -521,10 +521,10 @@ tags: coffee
       // ---- Pulse Temperature Adjustments Based on Days Since Roasted ----
       // Fresh coffee: slightly lower pulse temps to counter CO2 resistance.
       // Aged coffee: slightly higher pulse temps to enhance extraction of diminished volatiles.
-      if (!isNaN(roastDays)) {
-        if (roastDays >= 0 && roastDays <= 7) {
+      if (!isNaN(daysRoasted)) {
+        if (daysRoasted >= 0 && daysRoasted <= 7) {
           pulseTemps = pulseTemps.map(temp => temp - 1);
-        } else if (roastDays > 20) {
+        } else if (daysRoasted > 20) {
           pulseTemps = pulseTemps.map(temp => temp + 1);
         }
       }
