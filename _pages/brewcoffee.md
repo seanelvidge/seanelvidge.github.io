@@ -393,29 +393,17 @@ tags: coffee
       // Fresh coffee (0–7 days): high CO2 requires extra degassing (higher bloom ratio/time, higher temp, fewer pulses).
       // Moderately aged coffee (8–20 days): moderate settings.
       // Aged coffee (>20 days): minimal degassing (lower bloom, lower temp, additional pulses).
-	  let roastDays
-	  if (isNaN(daysRoasted)) {
-		roastDays = 14; 		// Default assumption of number days since roasted
-	  }
-	  else {
-		roastDays = daysRoasted;
-	  }
-      if (!isNaN(roastDays)) {
-        if (roastDays >= 0 && roastDays <= 7) {
-          bloomRatio = Math.max(bloomRatio, 2.5);   // Increase bloom ratio for extra degassing.
-          bloomTime = Math.max(bloomTime, 45);        // Extend bloom time.
+      if (!isNaN(daysRoasted)) {
+        if (daysRoasted >= 0 && daysRoasted <= 7) {
+          bloomRatio = Math.max(bloomRatio, 2.5);      // Increase bloom ratio for extra degassing.
+          bloomTime = Math.max(bloomTime, 45);         // Extend bloom time.
           if (bloomTemp < 92) { bloomTemp = 92; }      // Ensure higher temperature for fresh beans.
           pulses = Math.max(pulses - 1, 2);            // Fewer pulses to manage rapid CO2 release.
 	  grind -= 4
-        } else if (roastDays >= 8 && roastDays <= 20) {
-          bloomRatio = 2.0;    // Moderate bloom ratio.
-          bloomTime = 35;      // Average bloom time.
-          bloomTemp = 90;      // Moderate bloom temperature.
-          // Pulses remain as determined.
-        } else if (roastDays > 20) {
-          bloomRatio = 1.5;    // Minimal bloom needed.
-          bloomTime = 25;      // Shorter bloom time.
-          bloomTemp = 87;      // Lower temperature to avoid over-extraction.
+        } else if (daysRoasted > 20) {  // don't change any of the settings if between 8 and 20 days roasted.
+          bloomRatio = Math.min(bloomRatio, 1.5);    // Minimal bloom needed.
+          bloomTime = Math.min(bloomTime, 25);      // Shorter bloom time.
+          bloomTemp = Math.min(bloomTemp, 87);      // Lower temperature to avoid over-extraction.
           pulses = Math.max(pulses + 1, 2); // Increase pulses to maintain even extraction.
 	  grind += 4
         }
