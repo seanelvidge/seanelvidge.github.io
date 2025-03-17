@@ -528,27 +528,31 @@ tags: coffee
       if (name !== "") {
         currentRecipeText += " for " + name;
       }
-      currentRecipeText += "\n\nCoffee Grind Setting: " + grind +
+      currentRecipeText += "\n\nCoffee Grind Setting*: " + grind +
 	      		   "\nCoffee-to-Water Ratio: 1:" + parseFloat(brewRatio).toFixed(1) +
                            "\nBloom Ratio: 1:" + parseFloat(bloomRatio).toFixed(1) +
                            "\nBloom Time: " + bloomTime + " seconds" +
                            "\nBloom Temperature: " + bloomTemp + " °C" +
                            "\nNumber of Pulses: " + pulses +
                            "\nTime Between Pulses: " + pulseInterval + " seconds" +
-                           "\nPulse Temperatures: " + pulseTemps.join(', ') + " °C";
+                           "\nPulse Temperatures: " + pulseTemps.join(', ') + " °C" +
+	                   "\n"+
+	                   "\n* where 0 is your default grind settings for pour over coffee";
   
       // Also display the output on the webpage.
       const outputDiv = document.getElementById('output');
       outputDiv.innerHTML =
         "<h2>Brew Parameters</h2>" +
-	"<p><strong>Coffee Grind Setting:</strong> " + grind + "</p>" +
+	"<p><strong>Coffee Grind Setting*:</strong> " + grind + "</p>" +
         "<p><strong>Coffee-to-Water Ratio:</strong> 1:" + parseFloat(brewRatio).toFixed(1) + "</p>" +
         "<p><strong>Bloom Ratio:</strong> 1:" + parseFloat(bloomRatio).toFixed(1) + "</p>" +
         "<p><strong>Bloom Time:</strong> " + bloomTime + " seconds</p>" +
         "<p><strong>Bloom Temperature:</strong> " + bloomTemp + " °C</p>" +
         "<p><strong>Number of Pulses:</strong> " + pulses + "</p>" +
         "<p><strong>Time Between Pulses:</strong> " + pulseInterval + " seconds</p>" +
-        "<p><strong>Pulse Temperatures:</strong> " + pulseTemps.join(', ') + " °C</p>";
+        "<p><strong>Pulse Temperatures:</strong> " + pulseTemps.join(', ') + " °C</p>" +
+	"<p></p>" +
+	"<p>* where 0 is your default grind settings for pour over coffee</p>";
     }
   
     function downloadRecipe() {
