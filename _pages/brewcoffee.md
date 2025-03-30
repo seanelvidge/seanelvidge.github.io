@@ -133,10 +133,12 @@ tags: coffee
       <label for="daysRoasted">Days Since Roasted:</label>
       <input type="number" id="daysRoasted" name="daysRoasted">
       <br>
-
+	  <br>
+	  
       <label>Tasting Notes (select all that apply):</label>
+
       <div class="checkbox-group">
-        <fieldset disabled>
+        <fieldset>
           <legend><h5>Fruity Notes</h5></legend>
           <label><input type="checkbox" name="tastingNotes" value="Apple"> Apple</label>
       <label><input type="checkbox" name="tastingNotes" value="Apricot"> Apricot</label>
@@ -324,17 +326,17 @@ tags: coffee
 			bloomRatio -= 0.5;        // Lower bloom ratio for high-solubility East African beans.
 			bloomTime -= 5;        // Shorter bloom to avoid over-extraction.
 			bloomTemp -= 3;        // Lower bloom temperature to control acidity.
-			pulses = 2;            // Fewer pulses to prevent over-extraction.
+			pulses = Math.max(pulses-1, 2);  // Fewer pulses to prevent over-extraction.
 		  } else if (["brazil", "colombia", "guatemala"].some(ctry => countryLC.includes(ctry))) {
 			bloomRatio += 0.5;      // Higher bloom ratio for softer, Latin American beans.
 			bloomTime += 5;        // Longer bloom for full degassing.
 			bloomTemp += 3;        // Higher bloom temperature for enhanced extraction.
-			pulses = 4;            // More pulses for even extraction.
+			pulses = Math.min(pulses+1, 6);            // More pulses for even extraction.
 		  } else if (["indonesia", "sumatra", "java"].some(ctry => countryLC.includes(ctry))) {
 			bloomRatio = 2.5;      // Indonesian beans: robust extraction with moderate bloom.
 			bloomTime = 50;
 			// bloomTemp = 95;     // Do we want a specific temperature for this location?
-			pulses = 4;
+			pulses = Math.min(pulses+1, 6);
 		  }
 		}
 
@@ -363,11 +365,11 @@ tags: coffee
 		  if (processing === "Natural" || processing.includes("Honey") || processing === "Carbonic" || processing === "Anaerobic") {
 			bloomRatio = Math.max(bloomRatio + 0.5, 2.5);   // Ensure sufficient water for degassing.
 			bloomTime = Math.max(bloomTime + 5, 45);      // Extend bloom time.
-			pulses += 1;           // Increase pulses to control uneven extraction.
+			pulses = Math.min(pulses+1, 6);           // Increase pulses to control uneven extraction.
 		  } else if (processing === "Washed" || processing === "Double Fermentation" || processing === "Wet-Hulled") {
 			bloomRatio -= 0.5 // Math.min(bloomRatio - 0.5, 2.0);   // Cleaner beans need less bloom.
 			bloomTime -= 5 // Math.min(bloomTime, 30);      // Shorter bloom time.
-			pulses -= 1 // Math.min(pulses-1, 4);           // Fewer pulses.
+			pulses = Math.max(pulses-1, 2);           // Fewer pulses.
 		  }
 		  // Grind settings for processing is in different groups
 		  if (processing === "Washed" || processing.includes("White") || processing.includes("Yellow") || processing.includes("Fermentation") || processing === "Carbonic") {
@@ -404,7 +406,7 @@ tags: coffee
           bloomRatio -= 0.5 // Math.min(bloomRatio, 1.5);    // Minimal bloom needed.
           bloomTime -= 5 // Math.min(bloomTime, 25);      // Shorter bloom time.
           bloomTemp = Math.min(bloomTemp, 87);      // Lower temperature to avoid over-extraction.
-          pulses += 1 // Math.max(pulses + 1, 2); // Increase pulses to maintain even extraction.
+          pulses = Math.min(pulses+1, 6);  // Increase pulses to maintain even extraction.
 	  grind += 4
         }
       }
@@ -449,10 +451,10 @@ tags: coffee
         bloomTemp -= 2; // Lower temperature to preserve smooth, creamy textures.
       }
       if (tastingNotes.some(note => brightCleanNotes.includes(note))) {
-        pulses += 1; // More pulses promote clarity.
+        pulses = Math.min(pulses+1, 6); // More pulses promote clarity.
       }
       if (tastingNotes.some(note => deepHeavyNotes.includes(note))) {
-        pulses -= 1; // Fewer pulses enhance depth.
+        pulses = Math.max(pulses-1, 2); // Fewer pulses enhance depth.
 	grind += 4;
       }
 
