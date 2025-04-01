@@ -2,10 +2,11 @@
 layout: page
 permalink: /brewcoffee
 title: Pulse Pour-Over Coffee Recipe Generator
-description: Tool for generating coffee reciepes using a pulsed pour-over method (primarily designed for the Fellow Aiden Precision Coffee Maker)
 nav: false
 tags: coffee
 ---
+
+Tool for generating coffee reciepes using a pulsed pour-over method (primarily designed for the [Fellow Aiden Precision Coffee Maker](https://amzn.to/4j7ni2U)). A description of the methodology is [here](https://seanelvidge.com/articles/2025/Pour_over_brewing_recipe_generator/).
 
 <html lang="en">
 <head>
