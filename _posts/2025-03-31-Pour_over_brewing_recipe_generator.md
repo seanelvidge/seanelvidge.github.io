@@ -164,9 +164,9 @@ Creamy Notes:
 
 Dynamic pulse temperatures optimize extraction across roast levels:
 
-* Light roasts gradually increase temperature across pulses, enhancing complexity.
-* Medium roasts maintain stable temperatures for balanced extraction.
-* Dark roasts reduce temperatures progressively to avoid bitterness, enhancing depth.
+- Light roasts gradually increase temperature across pulses, enhancing complexity.
+- Medium roasts maintain stable temperatures for balanced extraction.
+- Dark roasts reduce temperatures progressively to avoid bitterness, enhancing depth.
 
 Final pulse temperatures further adjust to emphasize specific tasting notes—higher initial temperatures highlight bright, fruity notes, while lower final temperatures preserve sweetness and depth.
 
