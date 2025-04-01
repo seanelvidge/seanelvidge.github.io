@@ -135,7 +135,7 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
       <input type="number" id="daysRoasted" name="daysRoasted">
       <br>
       <br>
-	  
+
       <label>Tasting Notes (select all that apply):</label>
 
       <div class="checkbox-group">
