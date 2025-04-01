@@ -2,8 +2,8 @@
 layout: post
 title: Pour Over Brewing Recipe Generator
 date: 2025-03-31 18:41:00
-description: Generate pour over brewing coffee reciepes for a given bean 
-tags: misc 
+description: Generate pour over brewing coffee reciepes for a given bean
+tags: misc
 thumbnail: assets/img/fellow_aiden_full.jpg
 related_posts: true
 ---
@@ -25,12 +25,14 @@ Conversely, dark roasts, due to their brittleness and faster extraction tendency
 ### Specifics
 
 Light Roast:
+
 - Brew Ratio: Increased to 17 for lighter body.
 - Bloom Ratio: Increased to 3.5 to aid degassing.
 - Bloom Time: Extended to 60 seconds for thorough extraction.
 - Pulse Count: Increased to 6, ensuring complete flavor extraction.
 
 Dark Roast:
+
 - Brew Ratio: Reduced to 15 to intensify body and reduce bitterness.
 - Bloom Ratio: Decreased to 1.5 due to easier extraction.
 - Bloom Time: Shortened to 40 seconds to prevent over-extraction.
@@ -45,18 +47,21 @@ Latin American coffees often demand a longer bloom and higher temperatures to th
 ### Specifics
 
 East African (Ethiopia, Kenya, etc.):
+
 - Bloom Ratio: Decreased by 0.5 to minimize over-extraction.
 - Bloom Time: Shortened by 5 seconds.
 - Bloom Temperature: Reduced by 3°C.
 - Pulse Count: Decreased by 1 to control acidity.
 
 Latin American (Brazil, Colombia, Guatemala):
+
 - Bloom Ratio: Increased by 0.5 for effective degassing.
 - Bloom Time: Increased by 5 seconds.
 - Bloom Temperature: Raised by 3°C.
 - Pulse Count: Increased by 1 to promote even extraction.
 
 Indonesian (Sumatra, Java):
+
 - Bloom Ratio set to 2.5, Bloom Time standardized at 50 seconds.
 - Pulse Count: Increased by 1 to maximize extraction clarity.
 
@@ -67,12 +72,14 @@ High-altitude coffees, denser due to slower maturation, need more aggressive ext
 ### Specifics
 
 High Altitude (>1500m):
+
 - Brew Ratio: Reduced by 0.5 for stronger extraction.
 - Bloom Ratio: Increased by 0.5 to assist degassing.
 - Bloom Time: Increased by 5 seconds.
 - Grind Size: Finer by 2 increments.
 
 Low Altitude (<1200m):
+
 - Brew Ratio: Increased by 0.5 for gentler extraction.
 - Bloom Ratio: Decreased by 0.5.
 - Bloom Time: Reduced by 5 seconds.
@@ -82,14 +89,16 @@ Low Altitude (<1200m):
 
 Processing significantly impacts bean composition. Natural, honey, and anaerobic coffees, rich in sugars, require longer bloom periods and additional pulses to evenly extract these complex flavors. Washed coffees, typically cleaner and less dense, are best brewed with shorter blooms and fewer pulses, maintaining clarity and brightness.
 
-### Specifics 
+### Specifics
 
 Natural, Honey, Carbonic, Anaerobic:
+
 - Bloom Ratio: Increased by 0.5 (minimum of 2.5).
 - Bloom Time: Extended by 5 seconds (minimum of 45 seconds).
 - Pulse Count: Increased by 1 to control extraction consistency.
 
 Washed, Double Fermentation, Wet-Hulled:
+
 - Bloom Ratio: Decreased by 0.5.
 - Bloom Time: Reduced by 5 seconds.
 - Pulse Count: Decreased by 1.
@@ -101,12 +110,14 @@ The age of roasted coffee profoundly affects extraction due to CO₂ levels. Fre
 ### Specifics
 
 Fresh Coffee (0–7 days):
+
 - Bloom Ratio: Increased by 0.5.
 - Bloom Time: Extended by 5 seconds.
 - Grind Size: Finer by 4 increments.
 - Pulse temperatures decreased by 1°C per pulse to counter CO₂ resistance.
 
 Older Coffee (>20 days):
+
 - Bloom Ratio: Decreased by 0.5.
 - Bloom Time: Reduced by 5 seconds.
 - Grind Size: Coarser by 4 increments.
@@ -116,32 +127,37 @@ Older Coffee (>20 days):
 
 Achieving specific tasting notes requires fine-tuning extraction parameters:
 
-* Fruity and acidic notes: Higher temperatures and finer grinds enhance bright flavors.
-* Nutty and chocolatey notes: Richer bodies are cultivated through lower brew ratios and coarser grinds.
-* Floral and herbal notes: Delicate aromatics emerge clearly with increased bloom ratios.
-* Sweet and heavy notes: Lower bloom ratios preserve syrupy, sweet profiles.
-* Creamy textures: Lower temperatures ensure smooth, rounded mouthfeels.
+- Fruity and acidic notes: Higher temperatures and finer grinds enhance bright flavors.
+- Nutty and chocolatey notes: Richer bodies are cultivated through lower brew ratios and coarser grinds.
+- Floral and herbal notes: Delicate aromatics emerge clearly with increased bloom ratios.
+- Sweet and heavy notes: Lower bloom ratios preserve syrupy, sweet profiles.
+- Creamy textures: Lower temperatures ensure smooth, rounded mouthfeels.
 
 ### Specifics
 
 Fruity/Acidic Notes:
+
 - Brew Ratio: Increased by 0.5 for brightness.
 - Bloom Temperature: Raised by 2°C.
 - Grind Size: Finer by 4 increments.
 
 Nutty/Chocolate Notes:
+
 - Brew Ratio: Decreased by 0.5 for richer body.
 - Grind Size: Coarser by 2 increments.
 
 Floral/Herbal Notes:
+
 - Bloom Ratio: Increased by 0.5 for aromatic extraction.
 - Grind Size: Coarser by 2 increments.
 
 Heavy Sweet Notes:
+
 - Bloom Ratio: Reduced by 0.5 for syrupy texture.
 - Grind Size: Finer by 2 increments.
 
 Creamy Notes:
+
 - Bloom Temperature: Reduced by 2°C to preserve smoothness.
 
 # Pulse Temperature Profiles
@@ -162,6 +178,8 @@ Medium Roasts: Maintain stable bloom temperature; adjust slightly for anaerobic 
 
 Dark Roasts: Decrease temperature progressively from 91°C to 85°C to minimize bitterness.
 
-# Integration and Harmony
+# Conclusion
 
-The complexity and interplay of these adjustments ensure each coffee's unique characteristics are thoughtfully respected, creating precise, personalized brewing recipes. This holistic approach elevates both the consistency and enjoyment of specialty coffee brewing, transforming every cup into a deliberate expression of craft and science.
+The [Fellow Aiden Precision Coffee Maker](https://amzn.to/4j7ni2U) is a great coffee brewer, giving you almost complete control of the brewing process. You can access the recipe generator here:
+
+[seanelvidge.com/brewcoffee](https://seanelvidge.com/brewcoffee)
