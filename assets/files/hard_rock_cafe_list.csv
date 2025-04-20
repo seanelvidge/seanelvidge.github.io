@@ -1,0 +1,174 @@
+Name,City,Country,Latitude,Longtiude,Status,Visited
+Hard Rock Cafe Amsterdam,Amsterdam,Netherlands,52.36207172,4.882991226,OPEN,N
+Hard Rock Cafe Angkor,Angkor,Cambodia,13.35325507,103.8567128,OPEN,N
+Hard Rock Cafe Asuncion,Asuncion,Paraguay,-25.28925085,-57.5738499,OPEN,N
+Hard Rock Cafe Athens,Athens,Greece,37.97577263,23.72522305,OPEN,Y
+Hard Rock Cafe Atlanta,Atlanta,USA,33.75996788,-84.3874499,OPEN,N
+Hard Rock Cafe Atlantic City ,Atlantic City,USA,39.35930619,-74.42024381,OPEN,N
+Hard Rock Cafe Ayia Napa,Ayia Napa,Cyprus,34.98937538,34.00026546,OPEN,N
+Hard Rock Cafe I Gusti Ngurah Rai (Bali Airport),Bali Airport,Bali,-8.744617517,115.1690803,OPEN,N
+Hard Rock Cafe Bali,Bali,Bali,-8.720512302,115.1699913,OPEN,N
+Hard Rock Cafe Baltimore,Baltimore,USA,39.28626745,-76.60719157,OPEN,Y
+Hard Rock Cafe Bangkok,Bangkok,Thailand,13.74365112,100.5420131,OPEN,Y
+Hard Rock Cafe Beijing,Beijing,China,39.94609055,116.46266,CLOSED,Y
+Hard Rock Cafe Beirut,Beirut,Lebanon,33.88888713,35.49550087,CLOSED,Y
+Hard Rock Cafe Bengaluru Airport,Bengaluru Airport (BLR),India,13.19884524,77.71913919,OPEN,N
+Hard Rock Cafe Bangalore,Bangalore / Bengaluru,India,12.97634605,77.60152124,OPEN,N
+Hard Rock Cafe Berlin,Berlin,Germany,52.50320117,13.32944872,OPEN,N
+Hard Rock Cafe Biloxi,Biloxi,USA,30.39284804,-88.88753852,OPEN,N
+Hard Rock Cafe Birmingham,Birmingham,UK,52.47487622,-1.914500606,CLOSED,Y
+Hard Rock Cafe Boston,Boston,USA,42.36099035,-71.05524764,OPEN,Y
+"Hard Rock Cafe Bristol, VA (USA)",Bristol,VA (USA),36.59896068,-82.21962578,OPEN,N
+Hard Rock Cafe Brussels,Brussels,Belgium,50.8462746,4.352956879,OPEN,Y
+Hard Rock Cafe Bucharest,Bucharest,Romania,44.47566704,26.07622842,OPEN,N
+Hard Rock Cafe Budapest,Budapest,Hungary,47.49617591,19.05076955,OPEN,N
+Hard Rock Cafe Buenos Aires at Puerto Madero,Buenos Aires at Puerto Madero,Argentina,-34.60036302,-58.36721537,OPEN,N
+Hard Rock Cafe Buenos Aires Ezeiza Airport,Buenos Aires Ezeiza Airport EZE,Argentina,-34.81284897,-58.53892901,OPEN,N
+Hard Rock Cafe Buenos Aires Airport,Buenos Aires Airport AEP,Argentina,-34.55644536,-58.41373219,OPEN,N
+Hard Rock Cafe Cabo San Lucas,Cabo San Lucas,Mexico,22.88646677,-109.9097923,OPEN,N
+Hard Rock Cafe Cairo,Cairo,Egypt,30.02794093,31.26672048,CLOSED,Y
+Hard Rock Cafe Cancun,Cancun,Mexico,21.13238729,-86.74705394,OPEN,Y
+Hard Rock Cafe Cape Town,Cape Town,South Africa,-33.95295955,18.37737615,OPEN,N
+Hard Rock Cafe Caracas,Caracas,Venezula,10.50301841,-66.84567237,OPEN,N
+Hard Rock Cafe Cartagena,Cartagena,Colombia,10.42278012,-75.54982666,OPEN,N
+Hard Rock Cafe Chandigarh,Chandigarh,India,30.7260494,76.8050907,OPEN,N
+Hard Rock Cafe Changi Airport Singapore,Changi Airport Singapore,Singapore,1.354966266,103.989553,OPEN,N
+Hard Rock Cafe Chennai ,Chennai,India,13.06603369,80.24234122,OPEN,N
+Hard Rock Cafe Chiang Mai,Chiang Mai,Thailand,18.78419067,99.00059779,OPEN,N
+Hard Rock Cafe Chicago,Chicago,USA,41.89321455,-87.63039427,CLOSED,Y
+Hard Rock Cafe Cincinnati,Cincinnati,USA,39.10801692,-84.50739597,OPEN,N
+Hard Rock Cafe Ciudad Del Este,Ciudad Del Este,Paraguay,-25.50985725,-54.60562012,OPEN,N
+Hard Rock Cafe Clark,Clark,Philippines,15.19232525,120.5246653,OPEN,N
+Hard Rock Cafe Cologne,Cologne,Germany,50.93624191,6.957800235,OPEN,N
+Hard Rock Cafe Copenhagen,Copenhagen,Denmark,55.67678274,12.56909242,OPEN,N
+Hard Rock Café Cordoba Airport,Cordoba Airport ,Spain,-31.31537766,-64.21362742,OPEN,N
+Hard Rock Cafe Cozumel,Cozumel,Mexico,20.47902463,-86.9726121,OPEN,N
+Hard Rock Cafe Curitiba,Curitiba,Brazil,-25.43797294,-49.28104406,OPEN,N
+Hard Rock Cafe Dallas,Dallas,USA,32.78499521,-96.80957167,CLOSED,Y
+Hard Rock Cafe Dubai Airport,Dubai,UAE,25.24792458,55.36437803,OPEN,N
+Hard Rock Cafe Dubai,Dubai,UAE,25.22434289,55.35153652,OPEN,N
+Hard Rock Cafe Dublin,Dublin,Ireland,53.34599333,-6.260877122,OPEN,Y
+Hard Rock Cafe Dubrovnik,Dubrovnik,Croatia,42.64170796,18.10708142,OPEN,Y
+Hard Rock Cafe Edinburgh,Edinburgh,Scotland,55.95371569,-3.196281344,OPEN,Y
+Hard Rock Cafe Florence,Florence,Italy,43.77212906,11.25345013,OPEN,N
+Hard Rock Cafe Florianópolis,Florianópolis,Brazil,-27.59038207,-48.51457221,OPEN,N
+Hard Rock Cafe Foxwoods,Foxwoods,USA,41.47355996,-71.95733667,OPEN,N
+Hard Rock Cafe Fukuoka,Fukuoka,Japan,33.58998869,130.4204315,CLOSED,Y
+Hard Rock Cafe Gary (Northern Indiana),Gary (Northern Indiana),USA,41.56830698,-87.40675984,OPEN,N
+Hard Rock Cafe Gdansk,Gdansk,Poland,54.34852418,18.65451834,OPEN,N
+Hard Rock Cafe Gothenburg,Gothenburg,Sweden,57.7015208,11.97461774,OPEN,N
+Hard Rock Cafe Gramado,Gramado,Brazil,-29.38102162,-50.87114,OPEN,N
+Hard Rock Cafe Gran Canaria,Gran Canaria,Spain,27.75385893,-15.5700629,OPEN,Y
+Hard Rock Cafe Guadalajara,Guadalajara,Mexico,20.67713679,-103.413359,OPEN,N
+Hard Rock Cafe Guam USA,Guam USA,USA,13.51521021,144.805933,OPEN,N
+Hard Rock Cafe Guwahati,Guwahati,India,26.16589591,91.77949149,OPEN,N
+Hard Rock Cafe Guyana,Guyana,Guyana,6.824892496,-58.11428517,OPEN,N
+Hard Rock Cafe Hamburg,Hamburg,Germany,53.54586772,9.967622809,OPEN,Y
+Hard Rock Cafe Hollywood Blvd. (Los Angeles),Hollywood Blvd. (Los Angeles),USA,34.10190445,-118.3404863,OPEN,Y
+"Hard Rock Cafe Hollywood, FL","Hollywood, FL",USA,26.05274579,-80.2112158,OPEN,Y
+Hard Rock Cafe Honolulu,Honolulu,USA,21.28112121,-157.8307348,OPEN,N
+Hard Rock Cafe Hyderabad Hitech City,Hyderabad Hitech City,India,17.43386562,78.3829458,OPEN,N
+Hard Rock Cafe Hyderabad,Hyderabad,India,17.42510131,78.44956618,OPEN,N
+Hard Rock Cafe Iguazu Airport,Iguazu Airport,Argentina,-25.73125345,-54.47683733,OPEN,N
+Hard Rock Cafe Iguazu,Iguazu,Argentina,-25.59275653,-54.57303878,OPEN,N
+Hard Rock Cafe Innsbruck,Innsbruck,Austria,47.26601069,11.39378762,OPEN,N
+Hard Rock Cafe Ipoh,Ipoh,Malaysia,4.593440924,101.0864778,OPEN,N
+Hard Rock Cafe Istanbul,Istanbul,Turkey,41.03386868,28.97696039,CLOSED,Y
+"Hard Rock Cafe Jiuzhaigou, China",Jiuzhaigou,China,33.28930441,103.875701,OPEN,N
+Hard Rock Cafe Johannesburg,Johannesburg,South Africa,-26.10782441,28.05495694,OPEN,N
+Hard Rock Cafe Kathmandu,Kathmandu,Nepal,27.71073492,85.3178639,OPEN,N
+Hard Rock Cafe Key West,Key West,USA,24.55807181,-81.80393769,OPEN,N
+Hard Rock Cafe Kolkata,Kolkata,India,22.55247313,88.35325241,OPEN,N
+Hard Rock Cafe Krakow,Krakow,Poland,50.06159507,19.93878294,OPEN,N
+Hard Rock Cafe Kuala Lumpur International Airport,Kuala Lumpur International Airport,Malaysia,2.747327094,101.7139183,OPEN,N
+Hard Rock Cafe Kuala Lumpur,Kuala Lumpur,Malaysia,3.155816883,101.7053882,OPEN,N
+Hard Rock Cafe Kyoto,Kyoto,Japan,35.0038847,135.7730091,OPEN,Y
+Hard Rock Cafe Lagos,Lagos,Nigeria,6.42335141,3.444461643,OPEN,N
+Hard Rock Cafe La Paz,La Paz,Bolivia,-16.54049266,-68.08390432,OPEN,N
+Hard Rock Cafe Las Vegas ,Las Vegas (The Strip),USA,36.10438221,-115.1722944,OPEN,Y
+Hard Rock Cafe Lisbon,Lisbon,Portugal,38.71676557,-9.141841899,OPEN,Y
+Hard Rock Cafe London,London,UK,51.50413881,-0.149758636,OPEN,Y
+Hard Rock Cafe Madrid,Madrid,Spain,40.41860847,-3.705121265,CLOSED,Y
+Hard Rock Cafe Makati,Makati,Philippines,14.55258362,121.0253658,OPEN,N
+Hard Rock Cafe Malaga,Malaga,Spain,36.71842995,-4.412772153,OPEN,N
+Hard Rock Cafe Maldives,Maldives,Maldives,4.122588207,73.4663892,OPEN,N
+Hard Rock Cafe Mallorca Airport,Mallorca,Spain,39.55050458,2.732202474,OPEN,Y
+Hard Rock Cafe Mallorca,Mallorca,Spain,39.57184752,2.635042758,OPEN,Y
+Hard Rock Cafe Malta Airport,Malta,Malta,35.84958055,14.49482508,OPEN,N
+Hard Rock Cafe Malta,Malta,Malta,35.89118039,14.5082042,OPEN,Y
+Hard Rock Cafe Manchester,Manchester,UK,53.48511237,-2.241256949,OPEN,Y
+Hard Rock Cafe Manila,Manila,Philippines,14.53284417,120.9802718,OPEN,Y
+Hard Rock Cafe Melaka,Melaka,Malaysia,2.195096889,102.2487181,OPEN,N
+Hard Rock Cafe Miami,Miami,USA,25.7777231,-80.18447172,OPEN,N
+Hard Rock Cafe Milan,Milan,Italy,45.46641418,9.184663378,OPEN,N
+Hard Rock Cafe Montevideo,Montevideo,Uruguay,-34.90972148,-56.13349826,OPEN,N
+Hard Rock Cafe Montreal,Montreal,Canada,45.51531628,-73.55864665,CLOSED,Y
+Hard Rock Cafe Munich,Munich,Germany,48.13783996,11.57960765,OPEN,Y
+Hard Rock Cafe Myrtle Beach,Myrtle Beach,USA,33.71758501,-78.88135091,OPEN,N
+Hard Rock Cafe Nabq,Nabq,Egypt,28.0435788,34.43038253,OPEN,N
+Hard Rock Cafe Nashville,Nashville,USA,36.16266242,-86.77508474,OPEN,Y
+Hard Rock Cafe New Delhi,New Delhi,India,28.62934613,77.21973509,OPEN,N
+Hard Rock Cafe New Orleans,New Orleans,USA,29.95477251,-90.069339,OPEN,Y
+Hard Rock Cafe New York,New York,USA,40.75714079,-73.98662193,OPEN,Y
+Hard Rock Cafe Niagara Falls Canada,Niagara Falls Canada,Canada,43.09147617,-79.07194215,OPEN,Y
+Hard Rock Cafe Niagara Falls USA,Niagara Falls USA,USA,43.08692383,-79.06448638,OPEN,Y
+Hard Rock Cafe Northern Indiana,Northern Indiana,USA,41.5684033,-87.40671692,OPEN,N
+Hard Rock Cafe Orlando,Orlando,USA,28.4738131,-81.46762537,OPEN,Y
+Hard Rock Cafe Osaka,Osaka,Japan,34.66270147,135.5008551,CLOSED,Y
+Hard Rock Cafe Osaka Universal Citywalk,Osaka Universal Citywalk,Japan,34.66829258,135.4363291,OPEN,Y
+Hard Rock Cafe Ottawa,Ottawa,Canada,45.42886093,-75.69217579,CLOSED,Y
+"Hard Rock Cafe Oxford Street, London",Oxford Street,UK,51.5134518,-0.158997068,CLOSED,Y
+Hard Rock Cafe Panama,Panama,Panama,8.976103242,-79.51744534,OPEN,N
+Hard Rock Cafe Pattaya,Pattaya,Thailand,12.93969738,100.8842455,OPEN,N
+Hard Rock Cafe Penang,Penang,Malaysia,5.46754601,100.2416777,OPEN,N
+Hard Rock Cafe Philadelphia,Philadelphia,USA,39.95231843,-75.15956905,OPEN,Y
+Hard Rock Cafe Phnom Penh,Phnom Penh,Cambodia,11.57416424,104.9217339,OPEN,N
+Hard Rock Cafe Phuket,Phuket,Thailand,7.88731895,98.29425534,OPEN,N
+"Hard Rock Cafe Piccadilly Circus, London",Piccadilly Circus,UK,51.5105032,-0.133754839,OPEN,Y
+Hard Rock Cafe Pigeon Forge,Pigeon Forge,USA,35.82415323,-83.57877632,OPEN,N
+Hard Rock Cafe Podgorica,Podgorica,Montenegro,42.44181752,19.26238669,OPEN,N
+Hard Rock Cafe Ponce,Ponce,Puerto Rico,17.99707786,-66.6041216,OPEN,N
+Hard Rock Cafe Port El Kantaoui,Port El Kantaoui,Tunisia,35.90732601,10.58092811,OPEN,N
+Hard Rock Cafe Porto,Porto,Portugal,41.14738162,-8.612045807,OPEN,N
+Hard Rock Cafe Porto Alegre,Porto Alegre,Brazil,-30.07914257,-51.24739452,OPEN,N
+Hard Rock Cafe Prague,Prague,Czech Republic,50.08680504,14.41912858,OPEN,N
+Hard Rock Cafe Pune,Pune,India,18.5191982,73.93550823,OPEN,N
+Hard Rock Cafe Punta Cana,Punta Cana,Dominican Republic,18.64126913,-68.39451157,OPEN,N
+Hard Rock Cafe Puteri Harbour,Puteri Harbour,Malaysia,1.412369256,103.655453,OPEN,N
+Hard Rock Cafe Reykjavik,Reykjavik,Iceland,64.14715308,-21.93710938,OPEN,N
+Hard Rock Cafe Ribeiaro Preto,Ribeiaro Preto,Brazil,-21.20172051,-47.78932055,OPEN,N
+"Hard Rock Cafe Rockford, IL","Rockford, IL",USA,42.27024576,-88.96226976,OPEN,N
+Hard Rock Cafe Rome,Rome,Italy,41.90656352,12.48974068,OPEN,Y
+Hard Rock Cafe Sacramento,Sacramento,USA,39.05083362,-121.5121992,OPEN,N
+Hard Rock Cafe San Antonio,San Antonio,USA,29.42537008,-98.48921401,OPEN,N
+Hard Rock Cafe San Francisco,San Francisco,USA,37.8087722,-122.4100044,OPEN,Y
+"Hard Rock Cafe Santa Cruz, Bolivia",Santa Cruz,Bolivia,-17.75295839,-63.19900122,OPEN,N
+Hard Rock Cafe Santiago,Santiago,Chile,-33.41683965,-70.606339,OPEN,N
+Hard Rock Cafe Santo Domingo,Santo Domingo,Dominican Republic,18.47281191,-69.94055316,OPEN,N
+Hard Rock Cafe Sharm El Sheikh,Sharm El Sheikh,Egypt,27.90945731,34.32385473,OPEN,Y
+Hard Rock Cafe Shenzhen,Shenzhen (relocation),China,22.72385912,114.0689315,OPEN,N
+Hard Rock Cafe Singapore,Singapore,Singapore,1.30590551,103.8280762,OPEN,N
+Hard Rock Cafe Stockholm,Stockholm,Sweden,59.34415078,18.05482592,OPEN,Y
+Hard Rock Cafe Sun City,Sun City,South Africa,-25.34671656,27.10016281,OPEN,N
+Hard Rock Cafe Suriname Airport,Suriname Airport,Suriname,5.456120255,-55.20013596,OPEN,N
+Hard Rock Cafe Suriname,Suriname,Suriname,5.867679337,-55.17441851,OPEN,N
+Hard Rock Cafe Tampa Bay Airport,Tampa Bay Airport TPA,USA,27.98180359,-82.53437104,OPEN,N
+Hard Rock Cafe Tampa,Tampa,USA,27.99806006,-82.3742496,OPEN,N
+Hard Rock Cafe Tenerife,Tenerife,Spain,28.05494258,-16.73119921,OPEN,N
+Hard Rock Cafe Tianjin,Tianjin,China,39.09269155,117.177014,OPEN,N
+Hard Rock Cafe Tokyo,Tokyo,Japan,35.70032276,139.7225696,OPEN,Y
+Hard Rock Cafe Tokyo Uyeno,Tokyo Uyeno,Japan,35.71218279,139.7761805,OPEN,Y
+Hard Rock Cafe Toronto,Toronto,Canada,43.65713048,-79.38052297,CLOSED,Y
+Hard Rock Cafe Tromso,Tromso,Norway,69.64771431,18.95341288,OPEN,N
+Hard Rock Cafe Ulaanbaatar,Ulaanbaatar,Mongolia,47.91326902,106.9337862,OPEN,N
+Hard Rock Cafe Ushuaia,Ushuaia,Argentina,-54.80667543,-68.30595784,OPEN,N
+Hard Rock Cafe Valencia,Valencia,Spain,39.46883378,-0.377103836,OPEN,N
+Hard Rock Cafe Venice,Venice,Italy,45.43418113,12.33683625,OPEN,N
+Hard Rock Cafe Vienna,Vienna,Austria,48.21147463,16.37548221,OPEN,N
+Hard Rock Cafe Vientiane,Vientiane,Laos,17.96536,102.6062332,OPEN,N
+Hard Rock Cafe Warsaw,Warsaw,Poland,52.23013811,21.00409558,OPEN,N
+Hard Rock Cafe Washington D.C.,Washington D.C.,USA,38.8964788,-77.02589121,OPEN,Y
+Hard Rock Cafe Whitefield Bengaluru,Whitefield Bengaluru,India,12.98714993,77.73603916,OPEN,N
+Hard Rock Cafe Wroclaw,Wroclaw,Poland,51.10929865,17.03221645,OPEN,N
+Hard Rock Cafe Yerevan,Yerevan,Armenia,40.18019077,44.51612779,OPEN,N
+Hard Rock Cafe Yokohama,Yokohama,Japan,35.45602863,139.6326989,OPEN,Y
