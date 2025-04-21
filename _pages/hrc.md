@@ -13,7 +13,6 @@ tags: misc
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-sA+e2hE5tR+lXtZlijZ5lpQKzq1qF73b4g5A9n3j+Po="
     crossorigin=""
   />
   <style>
@@ -27,7 +26,6 @@ tags: misc
 <!-- Leaflet JS -->
 <script
   src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  integrity="sha256-oXHAdyyYN1tmHjPZXGmrjvMmKprHN4Qp3G+Z9lfk6tk="
   crossorigin=""
 ></script>
 <!-- Papa Parse for CSV loading -->
@@ -59,7 +57,7 @@ const redIcon = new L.Icon({
 });
 
 // load and parse your CSV
-Papa.parse('https://github.com/seanelvidge/seanelvidge.github.io/raw/refs/heads/master/assets/files/hard_rock_cafe_list.csv', {
+Papa.parse('https://raw.githubusercontent.com/seanelvidge/seanelvidge.github.io/refs/heads/master/assets/files/hard_rock_cafe_list.csv', {
   download: true,
   header: true,
   complete: results => {
