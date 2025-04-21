@@ -1,4 +1,4 @@
-Name,City,Country,Latitude,Longtiude,Status,Visited
+Name,City,Country,Latitude,Longitude,Status,Visited
 Hard Rock Cafe Amsterdam,Amsterdam,Netherlands,52.36207172,4.882991226,OPEN,N
 Hard Rock Cafe Angkor,Angkor,Cambodia,13.35325507,103.8567128,OPEN,N
 Hard Rock Cafe Asuncion,Asuncion,Paraguay,-25.28925085,-57.5738499,OPEN,N
@@ -41,7 +41,7 @@ Hard Rock Cafe Ciudad Del Este,Ciudad Del Este,Paraguay,-25.50985725,-54.6056201
 Hard Rock Cafe Clark,Clark,Philippines,15.19232525,120.5246653,OPEN,N
 Hard Rock Cafe Cologne,Cologne,Germany,50.93624191,6.957800235,OPEN,N
 Hard Rock Cafe Copenhagen,Copenhagen,Denmark,55.67678274,12.56909242,OPEN,N
-Hard Rock Café Cordoba Airport,Cordoba Airport ,Spain,-31.31537766,-64.21362742,OPEN,N
+Hard Rock CafÃ© Cordoba Airport,Cordoba Airport ,Spain,-31.31537766,-64.21362742,OPEN,N
 Hard Rock Cafe Cozumel,Cozumel,Mexico,20.47902463,-86.9726121,OPEN,N
 Hard Rock Cafe Curitiba,Curitiba,Brazil,-25.43797294,-49.28104406,OPEN,N
 Hard Rock Cafe Dallas,Dallas,USA,32.78499521,-96.80957167,CLOSED,Y
@@ -51,7 +51,7 @@ Hard Rock Cafe Dublin,Dublin,Ireland,53.34599333,-6.260877122,OPEN,Y
 Hard Rock Cafe Dubrovnik,Dubrovnik,Croatia,42.64170796,18.10708142,OPEN,Y
 Hard Rock Cafe Edinburgh,Edinburgh,Scotland,55.95371569,-3.196281344,OPEN,Y
 Hard Rock Cafe Florence,Florence,Italy,43.77212906,11.25345013,OPEN,N
-Hard Rock Cafe Florianópolis,Florianópolis,Brazil,-27.59038207,-48.51457221,OPEN,N
+Hard Rock Cafe FlorianÃ³polis,FlorianÃ³polis,Brazil,-27.59038207,-48.51457221,OPEN,N
 Hard Rock Cafe Foxwoods,Foxwoods,USA,41.47355996,-71.95733667,OPEN,N
 Hard Rock Cafe Fukuoka,Fukuoka,Japan,33.58998869,130.4204315,CLOSED,Y
 Hard Rock Cafe Gary (Northern Indiana),Gary (Northern Indiana),USA,41.56830698,-87.40675984,OPEN,N
