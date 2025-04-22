@@ -2,7 +2,7 @@
 layout: page
 permalink: /hrc
 title: Hard Rock Cafe
-description: A map of the open hard rock cafe's, and the ones I have visited.
+description: A map of the open Hard Rock Cafes (red), and the ones I have visited (green).
 nav: false
 tags: misc
 ---
@@ -87,3 +87,5 @@ Papa.parse('/assets/files/hard_rock_cafe_list.csv', {
 
 </body>
 </html>
+
+The data used to make this map can be downloaded from [here]('/assets/files/hard_rock_cafe_list.csv').
