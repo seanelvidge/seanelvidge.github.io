@@ -595,13 +595,13 @@ This page can be directly linked to by passing team names into the url, e.g. to 
   }
   const teamLogos = {
       "Aberdare Athletic":
-        "https://www.thesportsdb.com/images/media/team/badge/jmcjrh1639005987.png",
+        "https://r2.thesportsdb.com/images/media/team/badge/jmcjrh1639005987.png",
       "AFC Bournemouth":
         "https://upload.wikimedia.org/wikipedia/en/e/e5/AFC_Bournemouth_%282013%29.svg",
       "AFC Wimbledon":
         "https://upload.wikimedia.org/wikipedia/en/1/1b/AFC_Wimbledon_%282020%29_logo.svg",
       "Accrington F.C.":
-        "https://www.thesportsdb.com/images/media/team/badge/pdks3s1639600928.png",
+        "https://r2.thesportsdb.com/images/media/team/badge/pdks3s1639600928.png",
       "Accrington Stanley":
         "https://upload.wikimedia.org/wikipedia/en/b/ba/Accrington_Stanley_F.C._logo.svg",
       Aldershot:
@@ -649,11 +649,11 @@ This page can be directly linked to by passing team names into the url, e.g. to 
       "Burton Albion":
         "https://upload.wikimedia.org/wikipedia/en/5/53/Burton_Albion_FC_logo.svg",
       "Burton Swifts":
-        "https://www.thesportsdb.com/images/media/team/badge/c7ydqi1626283781.png",
+        "https://r2.thesportsdb.com/images/media/team/badge/c7ydqi1626283781.png",
       "Burton United":
-        "https://www.thesportsdb.com/images/media/team/badge/csfaiv1623622543.png",
+        "https://r2.thesportsdb.com/images/media/team/badge/csfaiv1623622543.png",
       "Burton Wanderers":
-        "https://www.thesportsdb.com/images/media/team/badge/1vnr3m1639601861.png",
+        "https://r2.thesportsdb.com/images/media/team/badge/1vnr3m1639601861.png",
       Bury:
         "https://upload.wikimedia.org/wikipedia/en/6/65/Bury_FC_crest.svg",
       "Cambridge United":
@@ -741,13 +741,13 @@ This page can be directly linked to by passing team names into the url, e.g. to 
       Liverpool:
         "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
       Loughborough:
-        "https://www.thesportsdb.com/images/media/team/badge/77rjz71639602384.png",
+        "https://r2.thesportsdb.com/images/media/team/badge/77rjz71639602384.png",
       "Luton Town":
         "https://upload.wikimedia.org/wikipedia/en/9/9d/Luton_Town_logo.svg",
       Macclesfield:
         "https://upload.wikimedia.org/wikipedia/en/7/75/Macclesfield_FC_crest.svg",
       "Maidstone United":
-        "https://upload.wikimedia.org/wikipedia/commons/0/0f/Maidstone_United_1897_logo.png",
+        "https://upload.wikimedia.org/wikipedia/en/b/b8/Maidstone_United_FC_crest.svg",
       "Manchester City":
         "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
       "Manchester United":
@@ -759,7 +759,7 @@ This page can be directly linked to by passing team names into the url, e.g. to 
       Middlesbrough:
         "https://upload.wikimedia.org/wikipedia/en/2/2c/Middlesbrough_FC_crest.svg",
       "Middlesbrough Ironopolis":
-        "https://www.thesportsdb.com/images/media/team/badge/vibcqw1639600004.png",
+        "https://r2.thesportsdb.com/images/media/team/badge/vibcqw1639600004.png",
       Millwall:
         "https://upload.wikimedia.org/wikipedia/en/9/98/Millwall_FC_crest.svg",
       "Milton Keynes Dons":
@@ -817,7 +817,7 @@ This page can be directly linked to by passing team names into the url, e.g. to 
       Scarborough:
         "https://upload.wikimedia.org/wikipedia/en/9/9a/Scarborough_FC_crest.svg",
       "Scunthorpe United":
-        "https://upload.wikimedia.org/wikipedia/commons/4/40/Scunthorpe_United_Crest_-125_years-.png",
+        "https://upload.wikimedia.org/wikipedia/en/c/c1/Scunthorpe_United_FC_125_crest.svg",
       "Sheffield United":
         "https://upload.wikimedia.org/wikipedia/en/9/9c/Sheffield_United_FC_logo.svg",
       "Sheffield Wednesday":
@@ -849,7 +849,7 @@ This page can be directly linked to by passing team names into the url, e.g. to 
       "Swindon Town":
         "https://upload.wikimedia.org/wikipedia/en/a/a3/Swindon_Town_FC.svg",
       Thames:
-        "https://www.thesportsdb.com/images/media/team/badge/68ob3g1623622459.png",
+        "https://r2.thesportsdb.com/images/media/team/badge/68ob3g1623622459.png",
       "Torquay United":
         "https://upload.wikimedia.org/wikipedia/commons/b/b9/TUFC_125.png",
       "Tottenham Hotspur":
