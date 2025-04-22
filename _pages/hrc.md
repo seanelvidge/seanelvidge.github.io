@@ -88,4 +88,4 @@ Papa.parse('/assets/files/hard_rock_cafe_list.csv', {
 </body>
 </html>
 
-The data used to make this map can be downloaded from [here](assets/files/hard_rock_cafe_list.csv).
+The data used to make this map can be downloaded from [here](/assets/files/hard_rock_cafe_list.csv).
