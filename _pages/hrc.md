@@ -16,7 +16,11 @@ tags: misc
     crossorigin=""
   />
   <style>
-    #map { width: 100%; height: 100%; }
+    #map {
+  width: 100%;
+  aspect-ratio: 16/9;   /* or 4/3, 2/1, whatever “shape” you like */
+  height: auto;         /* lets the browser compute height from width */
+}
   </style>
 </head>
 <body>
@@ -56,8 +60,8 @@ const redIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
-// load and parse your CSV
-Papa.parse('https://raw.githubusercontent.com/seanelvidge/seanelvidge.github.io/refs/heads/master/assets/files/hard_rock_cafe_list.csv', {
+// load and parse the CSV
+Papa.parse('/assets/files/hard_rock_cafe_list.csv', {
   download: true,
   header: true,
   complete: results => {
