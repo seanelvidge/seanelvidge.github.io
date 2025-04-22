@@ -359,6 +359,7 @@ imagemagick:
     - ".gif"
   output_formats:
     webp: "-quality 85"
+  output_directory: .jekyll-cache/images
 
 # Lazy loading images
 #   If you enable lazy loading, all images will add the loading="lazy" attribute.
