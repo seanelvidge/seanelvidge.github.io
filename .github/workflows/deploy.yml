@@ -73,6 +73,13 @@ jobs:
           valueFile: "_config.yml"
           propertyPath: "giscus.repo"
           value: ${{ github.repository }}
+      - name: Cache resized images
+        uses: actions/cache@v4
+        with:
+          path: .jekyll-cache/images
+          key: ${{ runner.os }}-images-${{ hashFiles('assets/img/**/*') }}
+          restore-keys: |
+            ${{ runner.os }}-images-
       - name: Install ImageMagick
         run: sudo apt-get update && sudo apt-get install -y imagemagick
       - name: Install and Build (Quick) 🔧
@@ -80,7 +87,7 @@ jobs:
           pip3 install --upgrade jupyter
           export JEKYLL_ENV=production
           bundle exec jekyll build
-      - name: Purge unused CSS 🧹
+      - name: Purge unused CSS (Quick) 🧹
         run: |
           npm install -g purgecss
           purgecss -c purgecss.config.js
