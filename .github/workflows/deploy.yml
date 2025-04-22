@@ -75,7 +75,7 @@ jobs:
           value: ${{ github.repository }}
       - name: Install ImageMagick
         run: sudo apt-get update && sudo apt-get install -y imagemagick
-      - name: Install and Build 🔧
+      - name: Install and Build (Quick) 🔧
         run: |
           pip3 install --upgrade jupyter
           export JEKYLL_ENV=production
@@ -84,7 +84,21 @@ jobs:
         run: |
           npm install -g purgecss
           purgecss -c purgecss.config.js
-      - name: Deploy 🚀
+      - name: Deploy (Quick Build) 🚀
+        if: github.event_name != 'pull_request'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: _site
+      - name: Install and Build (Full) 🔧
+        run: |
+          pip3 install --upgrade jupyter
+          export JEKYLL_ENV=production
+          bundle exec jekyll build --lsi
+      - name: Purge unused CSS (Full Build) 🧹
+        run: |
+          npm install -g purgecss
+          purgecss -c purgecss.config.js
+      - name: Deploy (Full Build) 🚀
         if: github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
