@@ -26,6 +26,10 @@ tags: misc
 <body>
 
 <div id="map"></div>
+<div id="hrc-stats" class="mt-3">
+  <strong>Total Cafés:</strong> <span id="total-count">–</span><br>
+  <strong>Visited:</strong> <span id="visited-count">–</span>
+</div>
 
 <!-- Leaflet JS -->
 <script
@@ -65,22 +69,31 @@ Papa.parse('/assets/files/hard_rock_cafe_list.csv', {
   download: true,
   header: true,
   complete: results => {
+    let total = 0;
+    let visited = 0;
+    
     results.data.forEach(row => {
       const lat = parseFloat(row.Latitude);
       const lng = parseFloat(row.Longitude);
       if (isNaN(lat) || isNaN(lng)) return;
 
-      const visited = (row.Visited || '').trim().toUpperCase() === 'Y';
-      const icon = visited ? greenIcon : redIcon;
+      total++;
+      const hasVisited = (row.Visited || '').trim().toUpperCase() === 'Y';
+      if (hasVisited) visited++;
+
+      const icon = hasVisited ? greenIcon : redIcon;
 
       L.marker([lat, lng], { icon })
         .addTo(map)
         .bindPopup(
           `<strong>${row.Name}</strong><br>` +
           `${row.City}, ${row.Country}<br>` +
-          `Visited: ${visited ? 'Yes' : 'No'}`
+          `Visited: ${hasVisited ? 'Yes' : 'No'}`
         );
     });
+    
+    document.getElementById('total-count').textContent = total;
+    document.getElementById('visited-count').textContent = visited;
   }
 });
 </script>
