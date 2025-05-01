@@ -125,6 +125,10 @@ nav: false
             startDateValue = `${year}-07-01`;
           }
 
+          if (startDateValue && !endDateValue) {
+            endDateValue = currentDate;
+          }
+
           if ([seasonValue, startYearValue, startDateValue && endDateValue].filter(Boolean).length > 1) {
             alert("Please fill only one of Season, Start Year, or Start/End Date.");
             return;
