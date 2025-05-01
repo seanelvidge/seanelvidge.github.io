@@ -38,7 +38,7 @@ nav: false
 
     	  <label for="endDate">End Date:</label>
     	  <input type="date" id="endDate" min="1888-09-08"><br>
-    	  (if only providing an end date it will assume the start date is the beginning of that season)
+    	  (if only providing a start date it will assume an end date of today, if only providing an end date it will assume the start date is the beginning of that season)
 
     	  <h3>and</h3>
 
