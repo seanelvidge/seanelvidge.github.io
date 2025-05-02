@@ -170,6 +170,24 @@ nav: false
             });
           }
 
+          // figure out the season string here
+            const seasonStr = config.season
+              || (config.startYear ? `${config.startYear-1}/${config.startYear}` : null);
+            
+            // a) 1931/32, Div “3N”: drop all Wigan Borough matches
+            if (seasonStr==='1931/1932' && config.division==='3N') {
+              filteredData = filteredData.filter(m =>
+                m.HomeTeam!=='Wigan Borough' && m.AwayTeam!=='Wigan Borough'
+              );
+            }
+            
+            // b) 1961/62, Div “4”: drop all Accrington Stanley matches
+            if (seasonStr==='1961/1962' && config.division==='4') {
+              filteredData = filteredData.filter(m =>
+                m.HomeTeam!=='Accrington Stanley' && m.AwayTeam!=='Accrington Stanley'
+              );
+            }
+
           const teamStats = {};
           for (const match of filteredData) {
             const {
@@ -231,6 +249,38 @@ nav: false
             teamStats[AwayTeam].GD = teamStats[AwayTeam].GF - teamStats[AwayTeam].GA;
           }
 
+          // c) 1919/20, Div “2”: merge Leeds City + Port Vale
+            if (seasonStr==='1919/1920' && config.division==='2') {
+              const L = teamStats['Leeds City']  || {Played:0,Won:0,Drawn:0,Lost:0,GF:0,GA:0,GD:0,Points:0};
+              const P = teamStats['Port Vale']   || {Played:0,Won:0,Drawn:0,Lost:0,GF:0,GA:0,GD:0,Points:0};
+              teamStats['Leeds City & Port Vale'] = {
+                Played: L.Played + P.Played,
+                Won:    L.Won    + P.Won,
+                Drawn:  L.Drawn  + P.Drawn,
+                Lost:   L.Lost   + P.Lost,
+                GF:     L.GF     + P.GF,
+                GA:     L.GA     + P.GA,
+                GD:    (L.GF+P.GF)-(L.GA+P.GA),
+                Points: L.Points + P.Points
+              };
+              delete teamStats['Leeds City'];
+              delete teamStats['Port Vale'];
+            }
+            
+            // apply external point deductions
+            if (window.pointDeductions) {
+              // determine the single‐year key in your CSV
+              const dedYear = seasonStr ? parseInt(seasonStr.split('/')[1],10).toString() : null;
+              window.pointDeductions
+                .filter(d => d.Season===dedYear)
+                .forEach(d => {
+                  const t = d.Team;
+                  if (teamStats[t]) {
+                    teamStats[t].Points = Math.max(0, teamStats[t].Points - d.Pts_deducted);
+                  }
+                });
+            }
+
           const teamsArray = Object.keys(teamStats).map(team => ({
             Team: team,
             ...teamStats[team]
@@ -291,6 +341,16 @@ nav: false
                 skipEmptyLines: true
               }).data;
               window.matchData = parsedData;
+          fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeaguePointDeductions.csv')
+              .then(res => res.text())
+              .then(text => {
+                window.pointDeductions = Papa.parse(text, {
+                  header: true,
+                  dynamicTyping: true,
+                  skipEmptyLines: true
+                }).data;
+              })
+              .catch(err => console.error('Failed to load point deductions:', err));
     		  // Grab URL parameters
     		  const urlParams = new URLSearchParams(window.location.search);
     		  const paramSeason = urlParams.get("season");
@@ -365,5 +425,57 @@ nav: false
           document.body.appendChild(script);
         });
       </script>
+
+      <script>
+        // (1) helper: determine which divisions existed in a given season-start year
+        function getDivisionsForYear(startYear) {
+          if (startYear >= 1959)    return ['1','2','3','4'];
+          if (startYear >= 1921)    return ['1','2','3N','3S'];
+          if (startYear >= 1920)    return ['1','2','3'];
+          if (startYear >= 1892)    return ['1','2'];
+          if (startYear >= 1888)    return ['1'];
+          return [];
+        }
+      
+        // (2) helper: extract the “start year” from whichever control has a value
+        function extractStartYear() {
+          const s = document.getElementById('season').value.trim();
+          if (s.match(/^\d{4}\/\d{4}$/)) {
+            return parseInt(s.split('/')[0],10);
+          }
+          const y = parseInt(document.getElementById('start_year').value,10);
+          if (!isNaN(y)) {
+            return y - 1;
+          }
+          const sd = document.getElementById('startDate').value;
+          if (sd) {
+            return new Date(sd).getFullYear();
+          }
+          return null;
+        }
+      
+        // (3) repopulate the datalist
+        function updateDivisionOptions() {
+          const year = extractStartYear();
+          const list = document.getElementById('divOptions');
+          list.innerHTML = '';
+          const divs = year ? getDivisionsForYear(year) : ['1','2','3N','3S','4'];
+          divs.forEach(code => {
+            const opt = document.createElement('option');
+            opt.value = code;
+            list.appendChild(opt);
+          });
+        }
+      
+        // (4) wire up listeners
+        ['season','start_year','startDate','endDate'].forEach(id => {
+          document.getElementById(id)
+            .addEventListener('input', updateDivisionOptions);
+        });
+      
+        // (5) initialize on load
+        document.addEventListener('DOMContentLoaded', updateDivisionOptions);
+      </script>
+
 
 </html>
