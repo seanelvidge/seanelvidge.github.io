@@ -173,14 +173,14 @@ nav: false
           // figure out the season string here
             const seasonStr = config.season
               || (config.startYear ? `${config.startYear-1}/${config.startYear}` : null);
-            
+
             // a) 1931/32, Div “3N”: drop all Wigan Borough matches
             if (seasonStr==='1931/1932' && config.division==='3N') {
               filteredData = filteredData.filter(m =>
                 m.HomeTeam!=='Wigan Borough' && m.AwayTeam!=='Wigan Borough'
               );
             }
-            
+
             // b) 1961/62, Div “4”: drop all Accrington Stanley matches
             if (seasonStr==='1961/1962' && config.division==='4') {
               filteredData = filteredData.filter(m =>
@@ -266,7 +266,7 @@ nav: false
               delete teamStats['Leeds City'];
               delete teamStats['Port Vale'];
             }
-            
+
             // apply external point deductions
             if (window.pointDeductions) {
               // determine the single‐year key in your CSV
@@ -436,7 +436,7 @@ nav: false
           if (startYear >= 1888)    return ['1'];
           return [];
         }
-      
+
         // (2) helper: extract the “start year” from whichever control has a value
         function extractStartYear() {
           const s = document.getElementById('season').value.trim();
@@ -453,7 +453,7 @@ nav: false
           }
           return null;
         }
-      
+
         // (3) repopulate the datalist
         function updateDivisionOptions() {
           const year = extractStartYear();
@@ -466,16 +466,15 @@ nav: false
             list.appendChild(opt);
           });
         }
-      
+
         // (4) wire up listeners
         ['season','start_year','startDate','endDate'].forEach(id => {
           document.getElementById(id)
             .addEventListener('input', updateDivisionOptions);
         });
-      
+
         // (5) initialize on load
         document.addEventListener('DOMContentLoaded', updateDivisionOptions);
       </script>
-
 
 </html>
