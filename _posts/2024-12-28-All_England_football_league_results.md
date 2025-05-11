@@ -12,26 +12,25 @@ This article describes a plain text database of all England football (soccer) le
 
 You can access the latest database on its dedicated github page: [England-football-results](https://github.com/seanelvidge/England-football-results/tree/main)
 
-The database is updated roughly every two days (although I am looking for approaches to speed this up) for the top four divisions in England: Premier League, Championship, League 1 and League 2. The motivation for making the database is that I do a lot of statistical analysis on various bits and pieces in football (you can see some [here](https://seanelvidge.com/articles/tag/football/)), and not having an easy to read database really slows me down.
+The database is updated roughly every two days (although I am looking for approaches to speed this up) for the top four tiers in England: Premier League, EFL Championship, EFL League One and EFL League Two. The motivation for making the database is that I do a lot of statistical analysis on various bits and pieces in football (you can see some [here](https://seanelvidge.com/articles/tag/football/)), and not having an easy to read database really slows me down.
 
 The [database](https://github.com/seanelvidge/England-football-results/tree/main) is a comma (",") delimited csv file with the following columns:
 
-| Column   | Details                                                                                                                                                 |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Date     | the day of the match (string; format "YYYY-MM-DD")                                                                                                      |
-| Season   | the season the match took place in (string; format "YYYY/YYYY")                                                                                         |
-| HomeTeam | the home team name (string)                                                                                                                             |
-| AwayTeam | the away team name (string)                                                                                                                             |
-| Score    | the final score (string; format "X-Z")                                                                                                                  |
-| hGoal    | number of goals scored by the home team (integer; "X" from the "Score" column)                                                                          |
-| aGoal    | number of goals scored by the away team (integer; "Z" from the "Score" column)                                                                          |
-| Division | numerical representation of the division which the match was from: 1, 2, 3 or 4, where "1" is the top division (currently the Premier League) (integer) |
-| Result   | the result "H" (home win), "A" (away win), "D" (draw) (string)                                                                                          |
+| Column   | Details                                                                                                                                         |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------|
+| Date     | the day of the match (string; format "YYYY-MM-DD")                                                                                              |
+| Season   | the season the match took place in (string; format "YYYY/YYYY")                                                                                 |
+| HomeTeam | the home team name (string)                                                                                                                     |
+| AwayTeam | the away team name (string)                                                                                                                     |
+| Score    | the final score (string; format "X-Z")                                                                                                          |
+| hGoal    | number of goals scored by the home team (integer; "X" from the "Score" column)                                                                  |
+| aGoal    | number of goals scored by the away team (integer; "Z" from the "Score" column)                                                                  |
+| Division | name of the division the match was played in (string)                                                                                           |
+| Tier     | numerical representation of the tier which the match was from: 1, 2, 3 or 4, where "1" is the top tier (currently the Premier League) (integer) |
+| Result   | the result "H" (home win), "A" (away win), "D" (draw) (string)                                                                                  |
 
 The data from 1888 to 2016 is based on that from:
 James P. Curley (2016). engsoccerdata: English Soccer Data 1871-2016. http://dx.doi.org/10.5281/zenodo.13158
-
-Between 1921 and 1958 there was a Third Division North and South, in the database we give both the numerical representation "3".
 
 Such a long database of results leads to some confusion around team names, the answer to the most common set of questions I have received in terms of team names:
 
