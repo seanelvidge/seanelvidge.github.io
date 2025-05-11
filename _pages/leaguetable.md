@@ -40,7 +40,7 @@ nav: false
     	  <input type="date" id="endDate" min="1888-09-08"><br>
     	  (if only providing a start date it will assume an end date of today, if only providing an end date it will assume the start date is the beginning of that season)
 
-	  <hr>
+      <hr>
     	  <h3>and</h3>
           <hr>
 
@@ -49,7 +49,7 @@ nav: false
     	  (1, 2, 3 or 4 where 1 means the 'first' tier [currently the Premier League])
     	  <datalist id="tierOptions"></datalist>
     	  <br>
-		  
+
     	  <h3>or</h3>
 
     	  <label for="division">Division:</label>
@@ -152,7 +152,7 @@ nav: false
             alert("Please fill only one of Season, Start Year, or Start/End Date.");
             return;
           }
-	  if ([tierValue.toString(), divisionValue].filter(Boolean).length > 1) {
+      if ([tierValue.toString(), divisionValue].filter(Boolean).length > 1) {
             alert("Please fill only one of Tier or Division.");
             return;
           }
@@ -174,7 +174,7 @@ nav: false
 
         function generateLeagueTable(data, config) {
           let filteredData = data;
-  
+
           if (config.tier) {
             filteredData = filteredData.filter(item => item.Tier.toString() === config.tier.toString());
           }
@@ -194,7 +194,7 @@ nav: false
               const matchDate = new Date(item.Date);
               return matchDate >= start && matchDate <= end;
             });
-          }  
+          }
 
           // figure out the season string here
             const seasonStr = config.season
@@ -275,7 +275,7 @@ nav: false
             teamStats[AwayTeam].GD = teamStats[AwayTeam].GF - teamStats[AwayTeam].GA;
           }
 
-          // c) 1919/20, Div “2”: merge Leeds City + Port Vale 
+          // c) 1919/20, Div “2”: merge Leeds City + Port Vale
             if (seasonStr==='1919/1920' && (config.division==='Football League Second Division' || config.tier==='2')) {
               const L = teamStats['Leeds City']  || {Played:0,Won:0,Drawn:0,Lost:0,GF:0,GA:0,GD:0,Points:0};
               const P = teamStats['Port Vale']   || {Played:0,Won:0,Drawn:0,Lost:0,GF:0,GA:0,GD:0,Points:0};
@@ -311,7 +311,7 @@ nav: false
             Team: team,
             ...teamStats[team]
           }));
-		
+
     	  // During Covid season 2019/20 tier 3 and 4 were decided by points per game (ppg)
     	  if (seasonStr==='2019/2020' && (config.tier==='3' || config.tier==='4' || config.division==='EFL League Two' || config.division==='EFL League One')) {
     	    teamsArray.sort((a, b) => (
@@ -444,7 +444,7 @@ nav: false
         });
 
         window.addEventListener("load", function () {
-  
+
 function loadScript(src, callback) {
 const script = document.createElement("script");
 script.src = src;
@@ -478,7 +478,7 @@ initDataTables();
           if (startYear >= 1888)    return ['1'];
           return [];
         }
-		
+
     	function getDivisionForYear(startYear) {
     	  if (startYear >= 2016)    return ['Premier League','EFL Championship','EFL League One','EFL League Two'];
     	  if (startYear >= 2004)    return ['Premier League','Football League Championship','Football League One','Football League Two'];
@@ -520,7 +520,7 @@ initDataTables();
             list.appendChild(opt);
           });
         }
-		
+
     	function updateDivisionOptions() {
           const year = extractStartYear();
           const list = document.getElementById('divisionOptions');
