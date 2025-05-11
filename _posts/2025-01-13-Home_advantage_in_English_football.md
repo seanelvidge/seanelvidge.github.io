@@ -8,7 +8,7 @@ thumbnail: assets/img/home_advantage_trend_fallback.png
 related_posts: true
 ---
 
-For generations, "home advantage" has been a tenet of sports. The roar of the crowd, the familiarity of the pitch, the comfort of the home dressing room – all give the home team a significant edge. This is particularly true in English football with passionate fans and unique stadium atmospheres. However, a look at the data spanning over a century of English football reveals an interesting trend: the home advantage is shrinking.
+For generations, "home advantage" has been a tenet of sports. The roar of the crowd, the familiarity of the pitch, the comfort of the home dressing room – all give the home team an edge. This is particularly true in English football. However, a look at the data spanning over a century of English football reveals an interesting trend: the home advantage is shrinking.
 
 Using my database of all English league results since 1888 (available [here](https://github.com/seanelvidge/England-football-results), and described [here](https://seanelvidge.com/articles/2024/All_England_football_league_results/)) we can track the Home Win %, Draw %, and Away Win % from 1888 to the present day (at the time of writing, that is halfway through the 2024/2025 season, but the charts in this post should automatically update). The results are pretty clear:
 
@@ -35,7 +35,7 @@ Using my database of all English league results since 1888 (available [here](htt
 
 In the late 19th and early 20th centuries, home teams were dominant, boasting win percentages well above 60%. Away wins were a relative rarity, hovering around 20%. But as the decades have progressed, the lines have converged. Home win percentages have steadily declined, dipping towards 40% in recent years, while away wins have climbed, now consistently above 30% and with a clear upwards trajectory.
 
-It would be easy to assume that this trend is confined to the top flight, where the largest investments in training facilities, player recruitment, and tactical analysis occur. However, if we look at the home win percentages across all four divisions (where "Division 1" is the highest division, currently the Premier League and "Division 4" is the lowest, League 2) we can see that this is a league-wide phenomenon.
+It would be easy to assume that this trend is confined to the top tier of English football, where the largest investments in training facilities, player recruitment, and tactical analysis occur. However, if we look at the home win percentages across all four tiers of English football (where "Tier 1" is the highest tier, currently the Premier League and "Tier 4" is the lowest, EFL League Two) we can see that this is a league-wide phenomenon.
 
 <html>
 <div class="chart-container">
@@ -62,7 +62,7 @@ So, what's driving this shift away from home dominance? Several factors are like
 
 Whilst home advantage may not be what it once was, it hasn't disappeared entirely. The support of the home crowd can still provide a boost, and familiarity with the surroundings can offer a slight edge. However, the trend is undeniable. The gap between home and away performance is narrowing, and the English Football League, across all its divisions, is becoming increasingly competitive on all fronts.
 
-If we look to extrapolate the trends in the data we can try and estimate what will happen in the future, fitting lines of best fit to the data we can estimate that home advantage will stick around until at least the 2080's!
+If we look to extrapolate the trends in the data we can try and estimate what will happen in the future, fitting lines of best fit to the data we can estimate that home advantage will stick around for quite a while yet!
 
 <div class="chart-container">
   <canvas id="finalTrendChart"></canvas>
@@ -131,7 +131,7 @@ If we look to extrapolate the trends in the data we can try and estimate what wi
         return;
       }
       const season = row.Season;
-      const division = row.Division;
+      const division = row.Tier;
       const result = row.Result;
 
       // Overall Results by Season
