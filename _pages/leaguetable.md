@@ -40,18 +40,28 @@ nav: false
     	  <input type="date" id="endDate" min="1888-09-08"><br>
     	  (if only providing a start date it will assume an end date of today, if only providing an end date it will assume the start date is the beginning of that season)
 
+		  <hr>
     	  <h3>and</h3>
+          <hr>
+		  
+    	  <label for="tier">Football Tier:</label>
+    	  <input type="text" id="tier" placeholder="e.g., 1" list="tierOptions"><br>
+    	  (1, 2, 3 or 4 where 1 means the 'first' tier [currently the Premier League])
+    	  <datalist id="tierOptions"></datalist>
+    	  <br>
+		  
+		  <h3>or</h3>
+		  
+		  <label for="division">Division:</label>
+    	  <input type="text" id="division" placeholder="e.g., Premier League" list="divisionOptions"><br>
+    	  <datalist id="divisionOptions"></datalist>
+    	  <br>
 
-    	  <label for="division">Division:</label>
-    	  <input type="text" id="division" value="1" list="divOptions"><br>
-    	  (1,2,3 or 4 where 1 means the 'first' division [currently the Premier League])
-    	  <datalist id="divOptions"></datalist>
-    	  <br><br>
-
+		  <hr>
     	  <button type="button">Generate Table</button>
-    	  <button type="button" id="resetTableBtn">Reset Form</button>
-
-        <hr>
+    	  <button type="button" id="resetTableBtn">Reset</button>
+		  <br>
+          <hr>
 
     	  <script>
     		// Constants for start year and current date
@@ -77,23 +87,30 @@ nav: false
     		  yearList.appendChild(option);
     		}
 
-    		// Generate options for "Division" datalist
-    		const divList = document.getElementById('divOptions');
-    		for (let division = 1; division <= 4; division++) {
-    		  const option = document.createElement('option');
-    		  option.value = division;
-    		  divList.appendChild(option);
-    		}
-
     		// Event listener for the "Reset Table" button
-    		const resetButton = document.getElementById('resetTableBtn');
-    			resetButton.addEventListener('click', () => {
-    			  document.getElementById('season').value = '';
-    			  document.getElementById('start_year').value = '';
-    			  document.getElementById('startDate').value = '';
-    			  document.getElementById('endDate').value = '';
-    			  document.getElementById('division').value = 1;
-    			});
+			const resetButton = document.getElementById('resetTableBtn');
+			resetButton.addEventListener('click', () => {
+			  // Clear all inputs
+			  document.getElementById('season').value = '';
+			  document.getElementById('start_year').value = '';
+			  document.getElementById('startDate').value = '';
+			  document.getElementById('endDate').value = '';
+			  document.getElementById('tier').value = '';
+			  document.getElementById('division').value = '';
+
+			  // Hide and clear the table
+			  const table = document.getElementById("leagueTable");
+			  const tableHeading = document.getElementById("tableHeading");
+
+			  if ($.fn.DataTable.isDataTable(table)) {
+				$(table).DataTable().clear().destroy();
+			  }
+
+			  table.innerHTML = '';
+			  table.style.display = 'none';
+			  tableHeading.style.display = 'none';
+			});
+
     	  </script>
       </form>
 
@@ -113,6 +130,8 @@ nav: false
           }
           const seasonValue = document.getElementById("season").value.trim();
           const startYearValue = document.getElementById("start_year").value.trim();
+		  const tierValue = document.getElementById("tier").value.trim();
+		  const divisionValue = document.getElementById("division").value.trim();
           let startDateValue = document.getElementById("startDate").value.trim();
           let endDateValue = document.getElementById("endDate").value.trim();
 
@@ -133,27 +152,34 @@ nav: false
             alert("Please fill only one of Season, Start Year, or Start/End Date.");
             return;
           }
+		  if ([tierValue.toString(), divisionValue].filter(Boolean).length > 1) {
+            alert("Please fill only one of Tier or Division.");
+            return;
+          }
 
-          const divisionValue = document.getElementById("division").value;
           const config = {
             season: seasonValue || null,
             startYear: startYearValue ? parseInt(startYearValue, 10) : null,
             dateRange: null,
-            division: divisionValue ? parseInt(divisionValue, 10) : null
+            tier: tierValue != null ? tierValue.toString() : null,
+			division: divisionValue != null ? divisionValue.toString() : null
           };
 
           if (startDateValue && endDateValue) {
             config.dateRange = [new Date(startDateValue), new Date(endDateValue)];
           }
-
+	
           generateLeagueTable(window.matchData, config);
         }
 
         function generateLeagueTable(data, config) {
           let filteredData = data;
-
-          if (config.division !== null) {
-            filteredData = filteredData.filter(item => item.Division === config.division);
+		  
+          if (config.tier) {
+            filteredData = filteredData.filter(item => item.Tier.toString() === config.tier.toString());
+          }
+		  if (config.division) {
+            filteredData = filteredData.filter(item => item.Division.toString() === config.division.toString());
           }
           if (config.season) {
             filteredData = filteredData.filter(item => item.Season === config.season);
@@ -169,20 +195,21 @@ nav: false
               return matchDate >= start && matchDate <= end;
             });
           }
+		  
 
           // figure out the season string here
             const seasonStr = config.season
               || (config.startYear ? `${config.startYear-1}/${config.startYear}` : null);
 
             // a) 1931/32, Div “3N”: drop all Wigan Borough matches
-            if (seasonStr==='1931/1932' && config.division==='3N') {
+            if (seasonStr==='1931/1932' && (config.division==='Football League Third Division North' || config.tier==='3')) {
               filteredData = filteredData.filter(m =>
                 m.HomeTeam!=='Wigan Borough' && m.AwayTeam!=='Wigan Borough'
               );
             }
 
             // b) 1961/62, Div “4”: drop all Accrington Stanley matches
-            if (seasonStr==='1961/1962' && config.division==='4') {
+            if (seasonStr==='1961/1962' && (config.division==='Football League Fourth Division' || config.tier==='4')) {
               filteredData = filteredData.filter(m =>
                 m.HomeTeam!=='Accrington Stanley' && m.AwayTeam!=='Accrington Stanley'
               );
@@ -249,8 +276,8 @@ nav: false
             teamStats[AwayTeam].GD = teamStats[AwayTeam].GF - teamStats[AwayTeam].GA;
           }
 
-          // c) 1919/20, Div “2”: merge Leeds City + Port Vale
-            if (seasonStr==='1919/1920' && config.division==='2') {
+          // c) 1919/20, Div “2”: merge Leeds City + Port Vale 
+            if (seasonStr==='1919/1920' && (config.division==='Football League Second Division' || config.tier==='2')) {
               const L = teamStats['Leeds City']  || {Played:0,Won:0,Drawn:0,Lost:0,GF:0,GA:0,GD:0,Points:0};
               const P = teamStats['Port Vale']   || {Played:0,Won:0,Drawn:0,Lost:0,GF:0,GA:0,GD:0,Points:0};
               teamStats['Leeds City & Port Vale'] = {
@@ -271,8 +298,8 @@ nav: false
             if (window.pointDeductions) {
               // determine the single‐year key in your CSV
               const dedYear = seasonStr ? parseInt(seasonStr.split('/')[1],10).toString() : null;
-              window.pointDeductions
-                .filter(d => d.Season===dedYear)
+			  window.pointDeductions
+                .filter(d => parseInt(d.Season, 10) === parseInt(dedYear, 10))
                 .forEach(d => {
                   const t = d.Team;
                   if (teamStats[t]) {
@@ -285,12 +312,21 @@ nav: false
             Team: team,
             ...teamStats[team]
           }));
-
-          teamsArray.sort((a, b) => (
+			
+		  // During Covid season 2019/20 tier 3 and 4 were decided by points per game (ppg)
+		  if (seasonStr==='2019/2020' && (config.tier==='3' || config.tier==='4' || config.division==='EFL League Two' || config.division==='EFL League One')) {
+		    teamsArray.sort((a, b) => (
+            b.Points/b.Played - a.Points/a.Played ||
+            b.GD - a.GD ||
+            b.GF - a.GF
+            ));
+           } else { 
+			teamsArray.sort((a, b) => (
             b.Points - a.Points ||
             b.GD - a.GD ||
             b.GF - a.GF
-          ));
+            ));
+		  }
 
     	  // Assign position based on their sorted index
     	  teamsArray.forEach((row, idx) => {
@@ -300,7 +336,7 @@ nav: false
           document.getElementById("tableHeading").style.display = "block";
           document.getElementById("leagueTable").style.display = "table";
           const leagueTable = document.getElementById("leagueTable");
-
+		
           $(leagueTable).DataTable({
             destroy: true,
             paging: false,
@@ -333,7 +369,7 @@ nav: false
           document.getElementById("endDate").max = currentDate;
 
           fetch("https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeagueResults.csv")
-            .then(response => response.text())
+		  .then(response => response.text())
             .then(csvData => {
               const parsedData = Papa.parse(csvData, {
                 header: true,
@@ -409,31 +445,49 @@ nav: false
         });
 
         window.addEventListener("load", function () {
-          if (typeof window.jQuery === "undefined") {
-            console.log("jQuery not yet defined when window.load fired.");
-            return;
-          }
-          const script = document.createElement("script");
-          script.src = "https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js";
-          script.onload = function () {
-            console.log("DataTables script loaded.");
-            document
-              .getElementById("leagueForm")
-              .querySelector("button")
-              .addEventListener("click", handleSubmit);
-          };
-          document.body.appendChild(script);
-        });
-      </script>
+  function loadScript(src, callback) {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = callback;
+    document.body.appendChild(script);
+  }
 
-      <script>
-        // (1) helper: determine which divisions existed in a given season-start year
-        function getDivisionsForYear(startYear) {
-          if (startYear >= 1959)    return ['1','2','3','4'];
-          if (startYear >= 1921)    return ['1','2','3N','3S'];
+  function initDataTables() {
+    loadScript("https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js", function () {
+      console.log("DataTables script loaded.");
+      document
+        .getElementById("leagueForm")
+        .querySelector("button")
+        .addEventListener("click", handleSubmit);
+    });
+  }
+
+  if (typeof window.jQuery === "undefined") {
+    console.log("Loading jQuery...");
+    loadScript("https://code.jquery.com/jquery-3.6.0.min.js", initDataTables);
+  } else {
+    initDataTables();
+  }
+});
+
+        // (1) helper: determine which tiers/divisions existed in a given season-start year
+        function getTierForYear(startYear) {
+          if (startYear >= 1958)    return ['1','2','3','4'];
           if (startYear >= 1920)    return ['1','2','3'];
           if (startYear >= 1892)    return ['1','2'];
           if (startYear >= 1888)    return ['1'];
+          return [];
+        }
+		
+		function getDivisionForYear(startYear) {
+		  if (startYear >= 2016)    return ['Premier League','EFL Championship','EFL League One','EFL League Two'];
+		  if (startYear >= 2004)    return ['Premier League','Football League Championship','Football League One','Football League Two'];
+          if (startYear >= 1992)    return ['Premier League','Football League First Division','Football League Second Division','Football League Third Division'];
+		  if (startYear >= 1958)    return ['Football League First Division','Football League Second Division','Football League Third Division','Football League Fourth Division'];
+		  if (startYear >= 1921)    return ['Football League First Division','Football League Second Division','Football League Third Division North','Football League Third Division South'];
+          if (startYear >= 1920)    return ['Football League First Division','Football League Second Division','Football League Third Division'];
+          if (startYear >= 1892)    return ['Football League First Division','Football League Second Division'];
+          if (startYear >= 1888)    return ['Football League First Division'];
           return [];
         }
 
@@ -454,12 +508,24 @@ nav: false
           return null;
         }
 
-        // (3) repopulate the datalist
-        function updateDivisionOptions() {
+        // (3) repopulate the datalists
+        function updateTierOptions() {
           const year = extractStartYear();
-          const list = document.getElementById('divOptions');
+          const list = document.getElementById('tierOptions');
           list.innerHTML = '';
-          const divs = year ? getDivisionsForYear(year) : ['1','2','3N','3S','4'];
+          const divs = year ? getTierForYear(year) : ['1','2','3','4'];
+          divs.forEach(code => {
+            const opt = document.createElement('option');
+            opt.value = code;
+            list.appendChild(opt);
+          });
+        }
+		
+		function updateDivisionOptions() {
+          const year = extractStartYear();
+          const list = document.getElementById('divisionOptions');
+          list.innerHTML = '';
+          const divs = year ? getDivisionForYear(year) : ['Premier League','EFL Championship','EFL League One','EFL League Two'];
           divs.forEach(code => {
             const opt = document.createElement('option');
             opt.value = code;
@@ -470,11 +536,17 @@ nav: false
         // (4) wire up listeners
         ['season','start_year','startDate','endDate'].forEach(id => {
           document.getElementById(id)
+            .addEventListener('input', updateTierOptions);
+        });
+		
+		['season','start_year','startDate','endDate'].forEach(id => {
+          document.getElementById(id)
             .addEventListener('input', updateDivisionOptions);
         });
 
         // (5) initialize on load
-        document.addEventListener('DOMContentLoaded', updateDivisionOptions);
+        document.addEventListener('DOMContentLoaded', updateTierOptions);
+		document.addEventListener('DOMContentLoaded', updateDivisionOptions);
       </script>
 
 </html>
