@@ -529,7 +529,7 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
       bloomTemp = Math.max(50, Math.min(bloomTemp, 99));
       pulses = Math.max(1, Math.min(pulses, 10));
       pulseInterval = Math.max(1, Math.min(pulseInterval, 60));
-      pulseTemps = Math.max(50, Math.min(pulseTemps, 99));
+      pulseTemps = pulseTemps.map(v => Math.min(Math.max(v, 50), 99));
 
       displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps, grind);
     }
@@ -547,7 +547,7 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
                            "\nBloom Temperature: " + String(bloomTemp) + " °C" +
                            "\nNumber of Pulses: " + String(pulses) +
                            "\nTime Between Pulses: " + String(pulseInterval) + " seconds" +
-                           "\nPulse Temperatures: " + String(pulseTemps) + ", °C" +
+                           "\nPulse Temperatures: " + pulseTemps.join(", ") + " °C" +
 	                   "\n"+
 	                   "\n* where 0 is your default grind settings for pour over coffee";
   
@@ -562,7 +562,7 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
         "<p><strong>Bloom Temperature:</strong> " + String(bloomTemp) + " °C</p>" +
         "<p><strong>Number of Pulses:</strong> " + String(pulses) + "</p>" +
         "<p><strong>Time Between Pulses:</strong> " + String(pulseInterval) + " seconds</p>" +
-        "<p><strong>Pulse Temperatures:</strong> " + String(pulseTemps) + ", °C</p>" +
+        "<p><strong>Pulse Temperatures:</strong> " + pulseTemps.join(", ") + " °C</p>" +
 	"<p></p>" +
 	"<p>* where 0 is your default grind settings for pour over coffee</p>";
     }
