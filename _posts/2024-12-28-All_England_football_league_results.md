@@ -17,7 +17,7 @@ The database is updated roughly every two days (although I am looking for approa
 The [database](https://github.com/seanelvidge/England-football-results/tree/main) is a comma (",") delimited csv file with the following columns:
 
 | Column   | Details                                                                                                                                         |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------|
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | Date     | the day of the match (string; format "YYYY-MM-DD")                                                                                              |
 | Season   | the season the match took place in (string; format "YYYY/YYYY")                                                                                 |
 | HomeTeam | the home team name (string)                                                                                                                     |
