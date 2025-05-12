@@ -543,11 +543,11 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
       currentRecipeText += "\n\nCoffee Grind Setting*: " + grind +
 	      		   "\nCoffee-to-Water Ratio: 1:" + parseFloat(brewRatio).toFixed(1) +
                            "\nBloom Ratio: 1:" + parseFloat(bloomRatio).toFixed(1) +
-                           "\nBloom Time: " + bloomTime + " seconds" +
-                           "\nBloom Temperature: " + bloomTemp + " °C" +
-                           "\nNumber of Pulses: " + pulses +
-                           "\nTime Between Pulses: " + pulseInterval + " seconds" +
-                           "\nPulse Temperatures: " + pulseTemps.join(', ') + " °C" +
+                           "\nBloom Time: " + String(bloomTime) + " seconds" +
+                           "\nBloom Temperature: " + String(bloomTemp) + " °C" +
+                           "\nNumber of Pulses: " + String(pulses) +
+                           "\nTime Between Pulses: " + String(pulseInterval) + " seconds" +
+                           "\nPulse Temperatures: " + String(pulseTemps) + ", °C" +
 	                   "\n"+
 	                   "\n* where 0 is your default grind settings for pour over coffee";
   
@@ -558,11 +558,11 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
 	"<p><strong>Coffee Grind Setting*:</strong> " + grind + "</p>" +
         "<p><strong>Coffee-to-Water Ratio:</strong> 1:" + parseFloat(brewRatio).toFixed(1) + "</p>" +
         "<p><strong>Bloom Ratio:</strong> 1:" + parseFloat(bloomRatio).toFixed(1) + "</p>" +
-        "<p><strong>Bloom Time:</strong> " + bloomTime + " seconds</p>" +
-        "<p><strong>Bloom Temperature:</strong> " + bloomTemp + " °C</p>" +
-        "<p><strong>Number of Pulses:</strong> " + pulses + "</p>" +
-        "<p><strong>Time Between Pulses:</strong> " + pulseInterval + " seconds</p>" +
-        "<p><strong>Pulse Temperatures:</strong> " + pulseTemps.join(', ') + " °C</p>" +
+        "<p><strong>Bloom Time:</strong> " + String(bloomTime) + " seconds</p>" +
+        "<p><strong>Bloom Temperature:</strong> " + String(bloomTemp) + " °C</p>" +
+        "<p><strong>Number of Pulses:</strong> " + String(pulses) + "</p>" +
+        "<p><strong>Time Between Pulses:</strong> " + String(pulseInterval) + " seconds</p>" +
+        "<p><strong>Pulse Temperatures:</strong> " + String(pulseTemps) + ", °C</p>" +
 	"<p></p>" +
 	"<p>* where 0 is your default grind settings for pour over coffee</p>";
     }
