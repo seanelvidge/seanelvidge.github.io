@@ -6,6 +6,7 @@ description: By weighting international goals by strength of the opposition we c
 tags: mathematics football
 related_posts: true
 thumbnail: assets/img/engPlayer.jpg
+giscus_comments: true
 ---
 
 In recent years, we've witnessed a surge in international football records being shattered. Modern players are scoring at unprecedented rates, and while this is undoubtedly exciting for fans, it raises an important question: Are today's goal-scoring feats truly comparable to those of past legends?
