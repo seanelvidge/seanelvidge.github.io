@@ -6,6 +6,7 @@ description: The use of expected goals (xG) in football has its proponents and, 
 tags: football
 thumbnail: assets/img/xG.png
 related_posts: true
+giscus_comments: true
 ---
 
 The use of expected goals (xG) in football has its proponents and, very high profile, detractors. Amongst those detractors includes Gary Lineker, Alan Shearer and Micah Richards and it is mentioned regulalry on their [podcast](https://linktr.ee/therestisfootball).
