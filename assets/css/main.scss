@@ -29,22 +29,36 @@ $max-content-width: {{ site.max_width }};
 }
 
 .card {
-  min-height: 300px;
+  height: 320px; /* fixed height for all cards */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
 }
 
 .card img,
 .card .figure img {
-  max-height: 150px;
+  max-height: 120px;
   object-fit: cover;
   width: 100%;
 }
 
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
 .card-text {
+  flex-grow: 1;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3; /* limits to 3 lines */
   -webkit-box-orient: vertical;
+  margin-bottom: 0.5rem;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
