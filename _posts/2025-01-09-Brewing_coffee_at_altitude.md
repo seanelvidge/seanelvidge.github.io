@@ -6,6 +6,7 @@ description: Why your coffee tastes different in Boulder, CO compared to Birming
 tags: misc mathematics
 thumbnail: assets/img/fellows_coffee.jpg
 related_posts: true
+giscus_comments: true
 ---
 
 For those of us who consider coffee an essential part of our daily routine, the pursuit of the perfect cup is a never-ending quest. But did you know that your altitude can significantly impact your brew? This post is inspired by my new [Fellows Aiden Precision Coffee Maker](https://amzn.to/4j7ni2U) which, on one of the first set up screens asks:
