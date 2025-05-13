@@ -6,6 +6,7 @@ description: A plain text set of all England football (soccer) league results fr
 tags: football
 thumbnail: assets/img/england_league_results.png
 related_posts: true
+giscus_comments: true
 ---
 
 This article describes a plain text database of all England football (soccer) league results from 1888 to the present day (covering over 209,000 matches).
