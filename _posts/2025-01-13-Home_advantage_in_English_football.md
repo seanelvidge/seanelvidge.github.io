@@ -6,6 +6,7 @@ description: An investigation in the trend of home advantage in English football
 tags: football
 thumbnail: assets/img/home_advantage_trend_fallback.png
 related_posts: true
+giscus_comments: true
 ---
 
 For generations, "home advantage" has been a tenet of sports. The roar of the crowd, the familiarity of the pitch, the comfort of the home dressing room – all give the home team an edge. This is particularly true in English football. However, a look at the data spanning over a century of English football reveals an interesting trend: the home advantage is shrinking.
