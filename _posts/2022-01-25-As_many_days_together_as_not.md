@@ -6,6 +6,7 @@ description: Calculate the date when you have been with your significant other l
 tags: misc
 thumbnail: assets/img/calculator.png
 related_posts: true
+giscus_comments: true
 ---
 
 <html lang="en">
