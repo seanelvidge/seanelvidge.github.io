@@ -6,6 +6,7 @@ description: Generate pour over brewing coffee reciepes for a given bean
 tags: misc
 thumbnail: assets/img/fellow_aiden_full.jpg
 related_posts: true
+giscus_comments: true
 ---
 
 I recently purchased a [Fellow Aiden Precision Coffee Maker](https://amzn.to/4j7ni2U) which is a pour over coffee brewer. Able to brew individual cups to whole batches this machine is fantastic, and gives you complete control of the recipe it uses. From the bloom time and temperature to the number of pulses and the ability to control the temperature of each individual pulse.
