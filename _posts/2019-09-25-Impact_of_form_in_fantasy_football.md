@@ -6,6 +6,7 @@ description: Does "form" impact player points in fantasy football?
 tags: mathematics football
 related_posts: true
 thumbnail: assets/img/formFPL/form_fpl.png
+giscus_comments: true
 ---
 
 I am a keen player of [Fantasy Football](https://fantasy.premierleague.com/){:target="\_blank"}. Not only is the game huge fun (and **very** addictive) it also provides an excellent opportunity to play around with a whole host of mathematics. I posted a controversial thread on Twitter which has been reasonably popular (and even inspired a [few Reddit threads](https://www.reddit.com/r/FantasyPL/comments/d4wtdc/theres_no_such_thing_as_player_form/){:target="\_blank"} and mentioned in three podcasts [that I am aware of]). The focus was on the impact of "form" on points scored in fantasy football.
