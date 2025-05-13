@@ -6,6 +6,7 @@ description: Investigating the number of unique snowballs
 tags: spaceWeather mathematics
 related_posts: true
 thumbnail: assets/img/xkcd_solarFlares.png
+giscus_comments: true
 ---
 
 [Google Trends](https://trends.google.com/trends/) shows the popularity of search queries in Google Search across various regions and languages. Below I have plotted the data for "Solar Flare". Google Trends report this as "interest over time", whcih is defined as:
