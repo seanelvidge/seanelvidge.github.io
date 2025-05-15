@@ -9,7 +9,4 @@ layout: null
     {{ page.content | strip_html | normalize_whitespace | jsonify }} }{% unless forloop.last %},{% endunless %}
   {% endif %}
 {% endfor %}
-      }{% unless forloop.last %},{% endunless %}
-    {% endif %}
-  {% endfor %}
 ]
