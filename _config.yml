@@ -233,7 +233,6 @@ plugins:
   - jekyll-feed
   - jekyll-get-json
   - jekyll-imagemagick
-  - jekyll-json-feed
   - jekyll-jupyter-notebook
   - jekyll-link-attributes
   - jekyll-minifier
