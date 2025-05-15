@@ -107,6 +107,15 @@
               {% endif %}
             {% endif %}
           {% endfor %}
+          <!-- Search -->
+          <li class="nav-item {% if page.url == '/search/' %}active{% endif %}">
+            <a class="nav-link" href="{{ '/search/' | relative_url }}">
+              Search
+              {% if page.url == '/search/' %}
+                <span class="sr-only">(current)</span>
+              {% endif %}
+            </a>
+          </li>
           {% if site.enable_darkmode %}
             <!-- Toogle theme mode -->
             <li class="toggle-container">
