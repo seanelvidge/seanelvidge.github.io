@@ -4,6 +4,7 @@ permalink: /
 title: articles
 nav: true
 nav_order: 1
+search_exclude: true
 pagination:
   enabled: true
   collection: posts
