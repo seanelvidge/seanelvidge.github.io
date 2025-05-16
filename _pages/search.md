@@ -14,6 +14,6 @@ permalink: /search/
   SimpleJekyllSearch({
     searchInput: document.getElementById("search-input"),
     resultsContainer: document.getElementById("results-container"),
-    json: "/_includes/search.json.liquid",
+    json: "/search.json.liquid",
   });
 </script>
