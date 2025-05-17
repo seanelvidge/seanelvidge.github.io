@@ -6,6 +6,7 @@ description: The (complete) Rules of Acquisition, 1 to 285.
 tags: misc
 thumbnail: assets/img/quark.png
 related_posts: true
+giscus_comments: true
 ---
 
 I am a big Star Trek fan and also have been enjoying the recent explosion of [Large Language Models (LLMs)](https://en.wikipedia.org/wiki/Large_language_model){:target="\_blank"}, so I thought I would come up with a way they could be combined.
