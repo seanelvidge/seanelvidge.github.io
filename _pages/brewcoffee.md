@@ -217,9 +217,9 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
 </fieldset>
 <br>
 <label>Select temperature unit:   </label>
-<input type="radio" id="celsius" name="unit" value="C" checked style="margin-right: 10px;">
+<input type="radio" id="celsius" name="unit" value="C" checked style="margin-right: 0px;">
 <label for="celsius">°C</label>
-<input type="radio" id="fahrenheit" name="unit" value="F" style="margin-left: 20px; margin-right: 10px;">
+<input type="radio" id="fahrenheit" name="unit" value="F" style="margin-left: 20px; margin-right: 0px;">
 <label for="fahrenheit">°F</label>
 </div>
 <br>
