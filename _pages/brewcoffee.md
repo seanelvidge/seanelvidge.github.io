@@ -216,9 +216,9 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
 
 </fieldset>
 <br>
-<label>Select temperature unit:</label><br>
+<label>Select temperature unit:</label>
 <input type="radio" id="celsius" name="unit" value="C" checked>
-<label for="celsius">°C</label><br>
+<label for="celsius">°C</label>
 <input type="radio" id="fahrenheit" name="unit" value="F">
 <label for="fahrenheit">°F</label><br>
 </div>
@@ -263,7 +263,7 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
       const country = document.getElementById('country').value.trim();
       const altitudeMin = parseFloat(document.getElementById('altitudeMin').value);
       const altitudeMax = parseFloat(document.getElementById('altitudeMax').value);
-      const selectedUnit = document.getElementById('unit');
+      const selectedUnit = document.getElementById('unit').value;
       let altitude;
       if (!isNaN(altitudeMin) && !isNaN(altitudeMax)) {
         altitude = (altitudeMin + altitudeMax) / 2;
