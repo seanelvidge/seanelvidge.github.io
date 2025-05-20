@@ -215,6 +215,12 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
 <label><input type="checkbox" name="tastingNotes" value="Yeast"> Yeast</label>
 
 </fieldset>
+<br>
+<label>Select temperature unit:</label><br>
+<input type="radio" id="celsius" name="unit" value="C" checked>
+<label for="celsius">°C</label><br>
+<input type="radio" id="fahrenheit" name="unit" value="F">
+<label for="fahrenheit">°F</label><br>
 </div>
 <br>
 <br>
@@ -232,7 +238,18 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
   <script>
     // Global variable to store the formatted recipe text for downloading.
     let currentRecipeText = "";
-    
+
+    function convertTemperature(input, unit) {
+	if (unit !== 'F') return input;
+	const convert = c => Math.round((c * 9 / 5) + 32);
+
+	if (Array.isArray(input)) {
+    	  return input.map(convert);
+  	} else {
+    	  return convert(input);
+        }
+    }
+
     function calculateRecipe() {
       // Force user to select a roasting level before proceeding.
       const roastSelect = document.getElementById('roast');
@@ -246,6 +263,7 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
       const country = document.getElementById('country').value.trim();
       const altitudeMin = parseFloat(document.getElementById('altitudeMin').value);
       const altitudeMax = parseFloat(document.getElementById('altitudeMax').value);
+      const selectedUnit = document.getElementById('unit');
       let altitude;
       if (!isNaN(altitudeMin) && !isNaN(altitudeMax)) {
         altitude = (altitudeMin + altitudeMax) / 2;
@@ -531,10 +549,14 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
       pulseInterval = Math.max(1, Math.min(pulseInterval, 60));
       pulseTemps = pulseTemps.map(v => Math.min(Math.max(v, 50), 99));
 
-      displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps, grind);
+      // Convert from C to F if needed
+      bloomTemp = convertTemperature(bloomTemp, selectedUnit);
+      pulseTemps = convertTemperature(pulseTemps, selectedUnit);
+
+      displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps, grind, selectedUnit);
     }
   
-    function displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps, grind) {
+    function displayOutput(name, brewRatio, bloomRatio, bloomTime, bloomTemp, pulses, pulseInterval, pulseTemps, grind, selectedUnit) {
       // Format the output text for display and for download.
       currentRecipeText = "Coffee Recipe";
       if (name !== "") {
@@ -544,10 +566,10 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
 	      		   "\nCoffee-to-Water Ratio: 1:" + parseFloat(brewRatio).toFixed(1) +
                            "\nBloom Ratio: 1:" + parseFloat(bloomRatio).toFixed(1) +
                            "\nBloom Time: " + String(bloomTime) + " seconds" +
-                           "\nBloom Temperature: " + String(bloomTemp) + " °C" +
+                           "\nBloom Temperature: " + String(bloomTemp) + " °" + selectedUnit +
                            "\nNumber of Pulses: " + String(pulses) +
                            "\nTime Between Pulses: " + String(pulseInterval) + " seconds" +
-                           "\nPulse Temperatures: " + pulseTemps.join(", ") + " °C" +
+                           "\nPulse Temperatures: " + pulseTemps.join(", ") + " °" + selectedUnit +
 	                   "\n"+
 	                   "\n* where 0 is your default grind settings for pour over coffee";
   
@@ -559,10 +581,10 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
         "<p><strong>Coffee-to-Water Ratio:</strong> 1:" + parseFloat(brewRatio).toFixed(1) + "</p>" +
         "<p><strong>Bloom Ratio:</strong> 1:" + parseFloat(bloomRatio).toFixed(1) + "</p>" +
         "<p><strong>Bloom Time:</strong> " + String(bloomTime) + " seconds</p>" +
-        "<p><strong>Bloom Temperature:</strong> " + String(bloomTemp) + " °C</p>" +
+        "<p><strong>Bloom Temperature:</strong> " + String(bloomTemp) + " °" + selectedUnit + "</p>" +
         "<p><strong>Number of Pulses:</strong> " + String(pulses) + "</p>" +
         "<p><strong>Time Between Pulses:</strong> " + String(pulseInterval) + " seconds</p>" +
-        "<p><strong>Pulse Temperatures:</strong> " + pulseTemps.join(", ") + " °C</p>" +
+        "<p><strong>Pulse Temperatures:</strong> " + pulseTemps.join(", ") + " °" + selectedUnit + "</p>" +
 	"<p></p>" +
 	"<p>* where 0 is your default grind settings for pour over coffee</p>";
     }
