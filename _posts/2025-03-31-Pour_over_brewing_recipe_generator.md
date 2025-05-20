@@ -4,7 +4,7 @@ title: Pour Over Brewing Recipe Generator
 date: 2025-03-31 18:41:00
 description: Generate pour over brewing coffee reciepes for a given bean
 tags: misc
-thumbnail: assets/img/fellow_aiden_full.jpg
+thumbnail: assets/img/recipeGen.png
 related_posts: true
 giscus_comments: true
 ---
