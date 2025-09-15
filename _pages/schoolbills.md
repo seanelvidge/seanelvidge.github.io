@@ -8,60 +8,7 @@ tags: mathematics
 
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Monthly School Bills Calculator</title>
-  <style>
-    :root {
-      --bg: #0b1020;
-      --card: #0f172a;
-      --muted: #94a3b8;
-      --text: #e2e8f0;
-      --accent: #60a5fa;
-      --border: #1f2a44;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 10% -10%, #11193a55, transparent), var(--bg);
-      color: var(--text); line-height: 1.4;
-      display: grid; place-items: start center; min-height: 100svh; padding: 24px;
-    }
-    .wrap { width: min(1000px, 100%); }
-    header {
-      display: grid; gap: 16px; grid-template-columns: 1fr;
-      margin-bottom: 16px;
-    }
-    .title { font-size: clamp(1.25rem, 2.2vw + 0.6rem, 2rem); font-weight: 700; }
-    .controls { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
-    @media (max-width: 640px) { .controls { grid-template-columns: 1fr; } }
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
-      border: 1px solid var(--border);
-      border-radius: 16px; padding: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-    }
-    label { display: block; font-size: 0.9rem; color: var(--muted); margin-bottom: 6px; }
-    input[type="month"], input[type="number"], input[type="checkbox"] {
-      width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: #0b122a; color: var(--text);
-    }
-    .grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
-    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
-    .totals { display: grid; gap: 12px; grid-template-columns: repeat(4, 1fr); }
-    @media (max-width: 900px) { .totals { grid-template-columns: 1fr 1fr; } }
-    .pill { background: #0c1933; border: 1px solid var(--border); padding: 12px; border-radius: 12px; }
-    .pill h3 { margin: 0 0 6px; font-size: 0.95rem; color: var(--muted); font-weight: 600; }
-    .pill .val { font-size: 1.25rem; font-weight: 700; }
-    .grand { font-size: clamp(1.4rem, 2.2vw + 0.8rem, 2rem); font-weight: 800; }
-    .muted { color: var(--muted); }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { text-align: left; padding: 10px 0; border-bottom: 1px dashed var(--border); }
-    th { color: var(--muted); font-weight: 600; }
-    .hint { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
-    .row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
-    .switch { display: inline-flex; align-items: center; gap: 8px; }
-    .accent { color: var(--accent); }
-  </style>
 </head>
 <body>
   <div class="wrap">
@@ -131,7 +78,7 @@ tags: mathematics
     </section>
 
     <footer class="muted" style="margin-top:16px; text-align:center;">
-      Built for quick monthly estimates. Update the month (and number of children if needed) to recalc instantly.
+      Built for quick monthly estimates. Update the month to recalc instantly.
     </footer>
   
   </div>
