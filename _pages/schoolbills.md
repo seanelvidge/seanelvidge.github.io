@@ -3,7 +3,7 @@ layout: page
 permalink: /schoolbills
 title: Function for creating the School Bills
 nav: false
-tags: mathematics 
+tags: mathematics
 ---
 
 <html lang="en">
@@ -133,6 +133,7 @@ tags: mathematics
     <footer class="muted" style="margin-top:16px; text-align:center;">
       Built for quick monthly estimates. Update the month (and number of children if needed) to recalc instantly.
     </footer>
+  
   </div>
 
   <script>
