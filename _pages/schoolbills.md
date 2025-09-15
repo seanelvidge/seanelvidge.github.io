@@ -1,17 +1,12 @@
 ---
 layout: page
 permalink: /schoolbills
-title: Function for creating the School Bills
+title: School Bills
 nav: false
 tags: mathematics
 ---
 
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>School Bills (Simple)</title>
-</head>
 <body>
   <!-- Simple: month picker only -->
   <h1>School Bills</h1>
