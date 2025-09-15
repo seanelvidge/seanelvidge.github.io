@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+---
+layout: page
+permalink: /schoolbills
+title: Function for creating the School Bills
+nav: false
+tags: mathematics
+---
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
