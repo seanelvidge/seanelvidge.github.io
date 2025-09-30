@@ -6,7 +6,6 @@ nav: false
 tags: mathematics
 ---
 
-<!DOCTYPE html>
 <html lang="en">
 <body>
 
