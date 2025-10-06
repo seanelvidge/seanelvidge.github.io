@@ -46,4 +46,4 @@ And it turns out that when Taylor sings her life, the data sings it back.
 
 ---
 
-Note: If you would like to try this yourself, if we other artists [here is the link](/assets/code/taylor_swift.py), to the code I used to make this post. You just need to pass a folder of music files to the code and it will work out the rest for you.
+Note: If you would like to try this yourself (inc. for other artists) [here is the link](/assets/code/taylor_swift.py), to the code I used to make this post. You just need to pass a folder of music files to the code and it will work out the rest for you.
