@@ -25,7 +25,7 @@ Here's how it works. Every song can be broken down into thousands of tiny audio 
 Instead, I weighted each frame by its 'loudness'. Big, bold notes dominate, quiet moments barely move the needle. Mathematically the "weighted average pitch" looks like this:
 
 $$
-M = \frac{\sum_{i=1}^{N}w_im_i}{\sum{i=1}^{N}w_i},
+M = \frac{\sum_{i=1}^{N}w_im_i}{\sum_{i=1}^{N}w_i},
 $$
 
 where $$m_i$$ is the pitch of a frame (in MIDI numbers) and $$w_i$$ is how loud it was. Here we do this in "MIDI" because it is a musical scale. Every step is a semitone. If we used raw frequency in Hertz the maths would skew towards the low notes in a way that doesn't really match how we actually hear music.
