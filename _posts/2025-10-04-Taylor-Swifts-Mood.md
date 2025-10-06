@@ -2,7 +2,7 @@
 layout: post
 title: The Trend in Taylor Swift's Mood
 date: 2025-10-04 12:00:00
-description: Taylor Swift doesn't just release albums, she releases chapters of her life, what does the average pitch of these albums look like?
+description: Taylor Swift doesn't just release albums, she releases chapters of her life, but can we see that story in the music itself?
 tags: mathematics code
 related_posts: true
 thumbnail: assets/img/taylorswift_eras.jpg
