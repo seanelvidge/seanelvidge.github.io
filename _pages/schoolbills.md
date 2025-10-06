@@ -9,8 +9,8 @@ tags: mathematics
 <html lang="en">
 <body>
 
-  <label for="monthInput">Month:</label>
-  <input id="monthInput" type="month" />
+<label for="monthInput">Month:</label>
+<input id="monthInput" type="month" />
 
   <p>Children: George and James. Prices: Breakfast (Mon/Tue/Wed/Fri) £4.50/child/day; After-school (Mon/Thu/Fri) £5.00/child/day; Lunch (Mon–Fri) £2.70/child/day.</p>
   <p>Use the weekday calendar to deselect days for each child (e.g., half-term, trips). Each week has master checkboxes to toggle that week’s column. By default all applicable days are selected.</p>
@@ -205,4 +205,3 @@ tags: mathematics
   </script>
 </body>
 </html>
-
