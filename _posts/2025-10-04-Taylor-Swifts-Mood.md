@@ -5,6 +5,7 @@ date: 2025-10-04 12:00:00
 description: Taylor Swift doesn't just release albums, she releases chapters of her life, what does the average pitch of these albums look like?
 tags: mathematics code
 related_posts: true
+thumbnail: assets/img/taylorswift_eras.jpg
 ---
 
 Taylor Swift doesn't just release albums, she releases chapters of her life. From the optimism of _Fearless_ to the bite of _Reputation_, from the hushed poetry of _folklore_ to the midnight reflections of, well, _Midnights_. Each album is often thought of as a snapshot of where she was at that moment in time.
@@ -37,7 +38,7 @@ So, if you look at our plot, focusing on the smoothed black line, a story starts
 - During lockdown, _folklore_ and _evermore_ settle into quieter, lower ground.
 - _Midnights_ stays low, steeped in melancholy.
 - And then _The Tortured Poets Department_ plunges deepest of all.
-- Then finally with _Life of a Showgirl_, the line bends upward again (significantly). Happy times have returned.
+- Then finally with _The Life of a Showgirl_, the line bends upward again (significantly). Happy times have returned.
 
 Obviously this is a very simplistic look at the album, and its emotional impact: lyrics, harmony, production, they all matter. But still, there's something striking about seeing the arc of her career emerge from the raw numbers. By weighting the most powerful sung moments, we get a sense of where the "centre of gravity" of each album lies.
 
