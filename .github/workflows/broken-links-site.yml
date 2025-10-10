@@ -44,4 +44,4 @@ jobs:
           fail: true
           # only check local links
           args: --offline --verbose --no-progress '**/*.html'
-        working-directory: _site
+        #working-directory: _site
