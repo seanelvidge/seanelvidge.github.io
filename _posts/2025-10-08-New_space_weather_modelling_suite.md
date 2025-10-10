@@ -4,7 +4,7 @@ title: New space weather modelling suite enables upper atmosphere forecasting
 date: 2025-10-08 14:31:00
 description: New suite of space weather forecasting models focuses on how space weather can influence the thermosphere and ionosphere here on Earth.
 tags: spaceWeather
-thumbnail: assets/img/aeneas_day_group.png
+thumbnail: assets/img/aeneas_day_group.jpg
 related_posts: true
 redirect: https://www.birmingham.ac.uk/news/2025/new-space-weather-modelling-suite-enables-upper-atmosphere-forecasting
 ---
