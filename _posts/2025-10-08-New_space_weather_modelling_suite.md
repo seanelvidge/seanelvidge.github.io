@@ -16,6 +16,7 @@ The Advanced Ensemble Networked Assimilation System (AENeAS) is a new suite of s
 The suite, built at the University of Birmingham, and developed in collaboration with Lancaster University, the Universities of Leeds, Bath and Leicester and the British Antarctic Survey is now running on the Met Office’s new supercomputer.
 
 > The deployment of this suite at the UK Met Office is the realization of a 10-year vision of SERENE, to build and deliver a state-of-the-art upper atmosphere modelling capability into operational use. The tools will be able to support a wide range of users and ultimately allow people to make informed decisions earlier, being proactive rather than reactive in their response to space weather.
+
 **Professor Sean Elvidge, Head of Space Environment and Radio Engineering (SERENE) - University of Birmingham**
 
 Complementing the Met Office’s existing space weather forecasting models, which include predicting the arrival of events from the surface of the Sun, this system introduces new forecasting capability for modelling impacts from space weather on satellites, aviation, communications and services which rely on GNSS.
@@ -33,6 +34,7 @@ Professor Sean Elvidge, Head of Space Environment and Radio Engineering (SERENE)
 The new suite means that, for the first time, forecasters at the Met Office Space Weather Operations Centre (MOSWOC) will have access to forecast model output on the impacts of space weather on the ionosphere, as well as enhanced modelling of the thermosphere.
 
 > Once again, cutting-edge British innovation is making a remarkable difference to our daily lives - this time from way up in the atmosphere. This is a really exciting example of how better understanding of what’s happening in space can protect the tech we all rely on, from GPS on our phones to keeping the power grid working.
+
 **UK Science Minister Lord Vallance**
 
 Met Office Space Weather Manager Simon Machin said: “This delivers a world-leading capability that provides greater confidence and forecasting skill than any models currently in operation anywhere else in the world.
