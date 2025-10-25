@@ -358,14 +358,14 @@ nav: false
 
           // Decide which column to show based on the start year
           const goalRatioColumn = (config.startYear < 1976)
-          ? { 
+          ? {
               title: "GR",
               data: "GR",
               render: function (data) {
                   return Number(data).toFixed(2);
               }
             }
-          : { 
+          : {
               title: "GD",
               data: "GD"
             };
