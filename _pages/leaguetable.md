@@ -281,9 +281,9 @@ nav: false
               teamStats[HomeTeam].GR = teamStats[HomeTeam].GF / teamStats[HomeTeam].GA;
             }
             if (teamStats[AwayTeam].GA == 0) {
-              teamstats[AwayTeam].GR = 0;
+              teamStats[AwayTeam].GR = 0;
             } else {
-              teamstats[AwayTeam].GR = teamStats[AwayTeam].GF / teamStats[AwayTeam].GA;
+              teamStats[AwayTeam].GR = teamStats[AwayTeam].GF / teamStats[AwayTeam].GA;
             }
           }
 
