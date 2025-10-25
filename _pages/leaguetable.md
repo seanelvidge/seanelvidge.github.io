@@ -233,6 +233,7 @@ nav: false
                 GF: 0,
                 GA: 0,
                 GD: 0,
+                GR: 0,
                 Points: 0
               };
             }
@@ -245,6 +246,7 @@ nav: false
                 GF: 0,
                 GA: 0,
                 GD: 0,
+                GR: 0,
                 Points: 0
               };
             }
@@ -273,12 +275,14 @@ nav: false
 
             teamStats[HomeTeam].GD = teamStats[HomeTeam].GF - teamStats[HomeTeam].GA;
             teamStats[AwayTeam].GD = teamStats[AwayTeam].GF - teamStats[AwayTeam].GA;
+            teamStats[HomeTeam].GR = teamStats[HomeTeam].GF / teamStats[HomeTeam].GA;
+            teamstats[AwayTeam].GR = teamStats[AwayTeam].GF / teamStats[AwayTeam].GA;
           }
 
           // c) 1919/20, Div “2”: merge Leeds City + Port Vale
             if (seasonStr==='1919/1920' && (config.division==='Football League Second Division' || config.tier==='2')) {
-              const L = teamStats['Leeds City']  || {Played:0,Won:0,Drawn:0,Lost:0,GF:0,GA:0,GD:0,Points:0};
-              const P = teamStats['Port Vale']   || {Played:0,Won:0,Drawn:0,Lost:0,GF:0,GA:0,GD:0,Points:0};
+              const L = teamStats['Leeds City']  || {Played:0,Won:0,Drawn:0,Lost:0,GF:0,GA:0,GD:0,GR:0,Points:0};
+              const P = teamStats['Port Vale']   || {Played:0,Won:0,Drawn:0,Lost:0,GF:0,GA:0,GD:0,GR:0,Points:0};
               teamStats['Leeds City & Port Vale'] = {
                 Played: L.Played + P.Played,
                 Won:    L.Won    + P.Won,
@@ -287,6 +291,7 @@ nav: false
                 GF:     L.GF     + P.GF,
                 GA:     L.GA     + P.GA,
                 GD:    (L.GF+P.GF)-(L.GA+P.GA),
+                GR:    (L.GF+P.GF)/(L.GA+P.GA),
                 Points: L.Points + P.Points
               };
               delete teamStats['Leeds City'];
@@ -317,8 +322,9 @@ nav: false
     	  if (config.startYear < 1976) {
             teamsArray.sort((a, b) => (
             b.Points - a.Points ||
-            b.GF/b.GA - a.GF/GA ||
+            b.GR - a.GR ||
             b.GF - a.GF
+            ));
         } else if (seasonStr==='2019/2020' && (config.tier==='3' || config.tier==='4' || config.division==='EFL League Two' || config.division==='EFL League One')) {
     	    teamsArray.sort((a, b) => (
             b.Points/b.Played - a.Points/a.Played ||
@@ -342,6 +348,11 @@ nav: false
           document.getElementById("leagueTable").style.display = "table";
           const leagueTable = document.getElementById("leagueTable");
 
+          // Decide which column to show based on the start year
+          const goalDiffColumn = (config.startYear < 1976)
+              ? { title: "GR", data: "GR" }
+              : { title: "GD", data: "GD" };
+
           $(leagueTable).DataTable({
             destroy: true,
             paging: false,
@@ -358,7 +369,7 @@ nav: false
               { title: "Lost", data: "Lost" },
               { title: "GF", data: "GF" },
               { title: "GA", data: "GA" },
-              { title: "GD", data: "GD" },
+              goalDiffColumn,
               { title: "Points", data: "Points" }
             ]
           });
