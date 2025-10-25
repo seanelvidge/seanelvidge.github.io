@@ -312,8 +312,14 @@ nav: false
             ...teamStats[team]
           }));
 
+        // Until (and including) the 1975-76 season goal average (goals scored divided by goals conceded) was used to determine position if tied on points
     	  // During Covid season 2019/20 tier 3 and 4 were decided by points per game (ppg)
-    	  if (seasonStr==='2019/2020' && (config.tier==='3' || config.tier==='4' || config.division==='EFL League Two' || config.division==='EFL League One')) {
+    	  if (config.startYear < 1976) {
+            teamsArray.sort((a, b) => (
+            b.Points - a.Points ||
+            b.GF/b.GA - a.GF/GA ||
+            b.GF - a.GF
+        } else if (seasonStr==='2019/2020' && (config.tier==='3' || config.tier==='4' || config.division==='EFL League Two' || config.division==='EFL League One')) {
     	    teamsArray.sort((a, b) => (
             b.Points/b.Played - a.Points/a.Played ||
             b.GD - a.GD ||
