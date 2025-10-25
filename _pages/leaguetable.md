@@ -357,9 +357,18 @@ nav: false
           const leagueTable = document.getElementById("leagueTable");
 
           // Decide which column to show based on the start year
-          const goalDiffColumn = (config.startYear < 1976)
-              ? { title: "GR", data: "GR" }
-              : { title: "GD", data: "GD" };
+          const goalRatioColumn = (config.startYear < 1976)
+          ? { 
+              title: "GR",
+              data: "GR",
+              render: function (data) {
+                  return Number(data).toFixed(2);
+              }
+            }
+          : { 
+              title: "GD",
+              data: "GD"
+            };
 
           $(leagueTable).DataTable({
             destroy: true,
