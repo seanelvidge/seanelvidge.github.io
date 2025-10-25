@@ -275,8 +275,16 @@ nav: false
 
             teamStats[HomeTeam].GD = teamStats[HomeTeam].GF - teamStats[HomeTeam].GA;
             teamStats[AwayTeam].GD = teamStats[AwayTeam].GF - teamStats[AwayTeam].GA;
-            teamStats[HomeTeam].GR = teamStats[HomeTeam].GF / teamStats[HomeTeam].GA;
-            teamstats[AwayTeam].GR = teamStats[AwayTeam].GF / teamStats[AwayTeam].GA;
+            if (teamStats[HomeTeam].GA == 0) {
+              teamStats[HomeTeam].GR = 0;
+            } else {
+              teamStats[HomeTeam].GR = teamStats[HomeTeam].GF / teamStats[HomeTeam].GA;
+            }
+            if (teamStats[AwayTeam].GA == 0) {
+              teamstats[AwayTeam].GR = 0;
+            } else {
+              teamstats[AwayTeam].GR = teamStats[AwayTeam].GF / teamStats[AwayTeam].GA;
+            }
           }
 
           // c) 1919/20, Div “2”: merge Leeds City + Port Vale
