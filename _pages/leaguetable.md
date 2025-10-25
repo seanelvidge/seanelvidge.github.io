@@ -302,7 +302,7 @@ nav: false
                 .forEach(d => {
                   const t = d.Team;
                   if (teamStats[t]) {
-                    teamStats[t].Points = Math.max(0, teamStats[t].Points - d.Pts_deducted);
+                    teamStats[t].Points = (teamStats[t].Points - d.Pts_deducted); // Allow negative points // Math.max(0, teamStats[t].Points - d.Pts_deducted);
                   }
                 });
             }
