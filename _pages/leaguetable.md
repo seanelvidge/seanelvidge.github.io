@@ -359,20 +359,21 @@ nav: false
           const leagueTable = document.getElementById("leagueTable");
 
           // Decide which column to show based on the start year
-          console.log(config.startYear)
-          console.log(config.earliestYear)
-          const goalDiffColumn = (config.startYear < 1976 || config.earliestYear < 1976)
-          ? {
-              title: "GR",
-              data: "GR",
-              render: function (data) {
-                  return Number(data).toFixed(2);
-              }
-            }
-          : {
-              title: "GD",
-              data: "GD"
-            };
+          const goalDiffColumn = (
+              (typeof config.startYear === "number" && config.startYear < 1976) ||
+              (earliestYear < 1976)
+            )
+              ? {
+                  title: "GR",
+                  data: "GR",
+                  render: function (data) {
+                    return Number(data).toFixed(2);
+                  }
+                }
+              : {
+                  title: "GD",
+                  data: "GD"
+                };
 
           $(leagueTable).DataTable({
             destroy: true,
