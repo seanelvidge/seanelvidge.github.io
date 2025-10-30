@@ -613,7 +613,7 @@ This page can be directly linked to by passing team names into the url, e.g. to 
 
     // Assign to global (or scoped) variable
     window.teamLogos = dict;
-
+    });
     csvUrl =
       "https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeagueResults.csv";
   let allMatches = [],
