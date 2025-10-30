@@ -161,12 +161,14 @@ nav: false
             season: seasonValue || null,
             startYear: startYearValue ? parseInt(startYearValue, 10) : null,
             dateRange: null,
+            earliestYear: null,
             tier: tierValue != null ? tierValue.toString() : null,
     		division: divisionValue != null ? divisionValue.toString() : null
           };
 
           if (startDateValue && endDateValue) {
             config.dateRange = [new Date(startDateValue), new Date(endDateValue)];
+            config.earliestYear = config.dateRange[0].getFullYear();
           }
 
           generateLeagueTable(window.matchData, config);
@@ -357,7 +359,7 @@ nav: false
           const leagueTable = document.getElementById("leagueTable");
 
           // Decide which column to show based on the start year
-          const goalDiffColumn = (config.startYear < 1976)
+          const goalDiffColumn = (config.startYear < 1976 || config.earliestYear < 1976)
           ? {
               title: "GR",
               data: "GR",
