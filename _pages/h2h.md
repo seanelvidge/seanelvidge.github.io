@@ -12,6 +12,8 @@ This page can be directly linked to by passing team names into the url, e.g. to 
 (This page looks best on a larger screen / landscape mobile phone screen)
 
 <html lang="en">
+<!-- Papa Parse for CSV reading -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
 <style>
@@ -593,6 +595,25 @@ This page can be directly linked to by passing team names into the url, e.g. to 
       i.appendChild(d);
     });
   }
+
+  fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueTeamLogos.csv')
+    .then(res => res.text())
+    .then(text => {
+      const rows = Papa.parse(text, {
+        header: true,
+        skipEmptyLines: true
+      }).data;
+    // Convert array of objects into a dictionary
+    const dict = {};
+    rows.forEach(row => {
+      if (row.Team && row.LogoURL) {
+        dict[row.Team.trim()] = row.LogoURL.trim();
+      }
+    });
+
+    // Assign to global (or scoped) variable
+    window.teamLogos = dict;
+/*
   const teamLogos = {
       "Aberdare Athletic":
         "https://r2.thesportsdb.com/images/media/team/badge/jmcjrh1639005987.png",
@@ -883,6 +904,7 @@ This page can be directly linked to by passing team names into the url, e.g. to 
       "York City":
         "https://upload.wikimedia.org/wikipedia/en/7/71/York_City_FC.svg",
     },
+*/
     csvUrl =
       "https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeagueResults.csv";
   let allMatches = [],
