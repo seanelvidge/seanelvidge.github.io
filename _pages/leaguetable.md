@@ -20,11 +20,26 @@ nav: false
   font-weight: 700;
 }
 
-/* Red position numbers — body cells only (keeps POS header white) */
+/* Equal width and centered headers for all stat columns */
+#leagueTable.dataTable thead th.stat-column {
+  text-align: center;
+  width: 55px;              /* adjust as needed (45–60px works well) */
+}
+
+/* Center numeric data cells */
+#leagueTable.dataTable tbody td.stat-column {
+  text-align: center;
+  width: 55px;
+}
+
+/* POS column — red background, white centered text */
 #leagueTable.dataTable tbody td.pos-column {
-  color: #b2182b;
+  background-color: #b2182b;
+  color: #fff;
   font-weight: 700;
   text-align: center;
+  width: 55px;
+  border-radius: 4px;
 }
 
 /* Team cell with logo + name */
@@ -34,8 +49,8 @@ nav: false
   gap: 8px;
 }
 #leagueTable .team-logo {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
 }
 #leagueTable .team-name {
@@ -52,14 +67,12 @@ nav: false
 #leagueTable.dataTable tbody tr:nth-child(even) {
   background-color: #f8f8f8;
 }
-</style>
-
 
 #leagueTable.table.table-striped tbody tr:nth-of-type(odd) { background-color: inherit; }
 #leagueTable.table.table-bordered, 
 #leagueTable.table.table-bordered th, 
 #leagueTable.table.table-bordered td { border: 0; }
-
+</style>
 
       <h1>League Table Generator</h1>
       <form id="leagueForm">
@@ -428,11 +441,7 @@ nav: false
               order: [[9, "desc"]],
               data: teamsArray,
               columns: [
-                {
-                  title: "POS",
-                  data: "Pos",
-                  className: "pos-column"
-                },
+                { title: "POS", data: "Pos", className: "pos-column" },
                 {
                   title: "TEAM",
                   data: "Team",
@@ -446,14 +455,14 @@ nav: false
                       </div>`;
                   }
                 },
-                { title: "GP", data: "Played" },
-                { title: "W", data: "Won" },
-                { title: "D", data: "Drawn" },
-                { title: "L", data: "Lost" },
-                { title: "GF", data: "GF" },
-                { title: "GA", data: "GA" },
-                goalDiffColumn,
-                { title: "PTS", data: "Points", className: "points-column" }
+                { title: "GP", data: "Played", className: "stat-column" },
+                { title: "W",  data: "Won",    className: "stat-column" },
+                { title: "D",  data: "Drawn",  className: "stat-column" },
+                { title: "L",  data: "Lost",   className: "stat-column" },
+                { title: "GF", data: "GF",     className: "stat-column" },
+                { title: "GA", data: "GA",     className: "stat-column" },
+                goalDiffColumn,  // you can also add className: "stat-column" inside that definition
+                { title: "PTS", data: "Points", className: "stat-column points-column" }
               ],
               createdRow: function (row, data, index) {
                 // Optional: highlight top 2 and bottom 2 rows differently
