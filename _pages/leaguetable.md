@@ -32,8 +32,8 @@ gap: 8px;
 }
 
 .team-logo {
-width: 24px;
-height: 24px;
+width: 6px;
+height: 6px;
 border-radius: 50%;
 }
 
