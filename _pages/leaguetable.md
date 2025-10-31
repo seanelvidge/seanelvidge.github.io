@@ -7,60 +7,6 @@ nav: false
 ---
 
 <html lang="en">
-<!-- CSS Start -->
-// Header bar styling
-table.dataTable thead th {
-  background-color: #3b5fd0; /* blue header */
-  color: white;
-  text-transform: uppercase;
-  text-align: left;
-  font-weight: bold;
-}
-
-// Red position numbers
-.pos-column {
-color: #b2182b;
-font-weight: 700;
-text-align: center;
-}
-
-// Team cell styling
-.team-cell {
-display: flex;
-align-items: center;
-gap: 8px;
-}
-
-.team-logo {
-width: 6px;
-height: 6px;
-border-radius: 50%;
-}
-
-.team-name {
-font-weight: 600;
-color: #333;
-}
-
-// Points column bold
-.points-column {
-font-weight: 700;
-}
-
-// Optional alternating background
-table.dataTable tbody tr:nth-child(even) {
-background-color: #f8f8f8;
-}
-
-// Optional top/bottom highlights
-.top-row {
-background-color: #e8f3ff;
-}
-.bottom-row {
-background-color: #fff1f1;
-}
-<!-- CSS End -->
-
 <!-- Papa Parse for CSV reading -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
@@ -69,6 +15,60 @@ background-color: #fff1f1;
         table.dataTable th {
           padding: 15px;
         }
+        <!-- CSS Start -->
+
+      // Header bar styling
+      table.dataTable thead th {
+        background-color: #3b5fd0; /* blue header */
+        color: white;
+        text-transform: uppercase;
+        text-align: left;
+        font-weight: bold;
+      }
+      
+      // Red position numbers
+      .pos-column {
+      color: #b2182b;
+      font-weight: 700;
+      text-align: center;
+      }
+      
+      // Team cell styling
+      .team-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      }
+      
+      .team-logo {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      }
+      
+      .team-name {
+      font-weight: 600;
+      color: #333;
+      }
+      
+      // Points column bold
+      .points-column {
+      font-weight: 700;
+      }
+      
+      // Optional alternating background
+      table.dataTable tbody tr:nth-child(even) {
+      background-color: #f8f8f8;
+      }
+      
+      // Optional top/bottom highlights
+      .top-row {
+      background-color: #e8f3ff;
+      }
+      .bottom-row {
+      background-color: #fff1f1;
+      }
+      <!-- CSS End -->
       </style>
 
       <h1>League Table Generator</h1>
