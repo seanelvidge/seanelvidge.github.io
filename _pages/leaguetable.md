@@ -8,7 +8,7 @@ nav: false
 
 <html lang="en">
 <!-- CSS Start -->
-/* Header bar styling */
+// Header bar styling
 table.dataTable thead th {
   background-color: #3b5fd0; /* blue header */
   color: white;
@@ -17,14 +17,14 @@ table.dataTable thead th {
   font-weight: bold;
 }
 
-/_ Red position numbers _/
+// Red position numbers
 .pos-column {
 color: #b2182b;
 font-weight: 700;
 text-align: center;
 }
 
-/_ Team cell styling _/
+// Team cell styling
 .team-cell {
 display: flex;
 align-items: center;
@@ -42,17 +42,17 @@ font-weight: 600;
 color: #333;
 }
 
-/_ Points column bold _/
+// Points column bold
 .points-column {
 font-weight: 700;
 }
 
-/_ Optional alternating background _/
+// Optional alternating background
 table.dataTable tbody tr:nth-child(even) {
 background-color: #f8f8f8;
 }
 
-/_ Optional top/bottom highlights _/
+// Optional top/bottom highlights
 .top-row {
 background-color: #e8f3ff;
 }
