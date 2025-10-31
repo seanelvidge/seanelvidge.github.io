@@ -63,10 +63,44 @@ nav: false
   font-weight: 700;
 }
 
-#leagueTable.table.table-striped tbody tr:nth-of-type(odd) { background-color: inherit; }
-#leagueTable.table.table-bordered, 
-#leagueTable.table.table-bordered th, 
-#leagueTable.table.table-bordered td { border: 0; }
+/* TEAM column takes the remaining flexible width */
+#leagueTable.dataTable thead th:nth-child(2),
+#leagueTable.dataTable tbody td:nth-child(2) {
+  width: auto;
+ }
+ 
+ /* Give the table body a light background so gaps show through */
+#leagueTable.dataTable tbody {
+  background-color: #f0f0f0; /* slightly lighter than row fill */
+}
+
+/* Add white cards for each row with spacing between them */
+#leagueTable.dataTable tbody tr {
+  background-color: #ffffff;
+  border-radius: 6px;
+  margin-bottom: 6px;      /* gap between rows */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+/* To make the margin actually appear (DataTables renders <tr> as table-row),
+   we wrap the spacing visually by simulating block layout */
+#leagueTable.dataTable tbody tr {
+  display: block;
+  margin: 6px 0;
+  overflow: hidden;        /* keeps radius clean */
+}
+
+/* Ensure table still behaves correctly */
+#leagueTable.dataTable tbody td {
+  border: none;
+  background-color: transparent; /* rely on row background */
+}
+
+/* Adjust table layout so column widths stay consistent */
+#leagueTable.dataTable {
+  border-collapse: separate !important;
+  border-spacing: 0;
+}
 </style>
 
       <h1>League Table Generator</h1>
