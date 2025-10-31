@@ -39,7 +39,7 @@ nav: false
   font-weight: 700;
   text-align: center;
   width: 55px;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 /* Team cell with logo + name */
