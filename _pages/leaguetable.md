@@ -10,7 +10,7 @@ nav: false
 <!-- Papa Parse for CSV reading -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
-      /* DataTables header: blue bar with white text */
+
 #leagueTable.dataTable thead th {
   background-color: #3b5fd0;
   color: #fff;
@@ -19,14 +19,14 @@ nav: false
   font-weight: 700;
 }
 
-/* Red position numbers — body cells only (keeps POS header white) */
+
 #leagueTable.dataTable tbody td.pos-column {
   color: #b2182b;
   font-weight: 700;
   text-align: center;
 }
 
-/* Team cell with logo + name */
+
 #leagueTable .team-cell {
   display: flex;
   align-items: center;
@@ -42,21 +42,21 @@ nav: false
   color: #333;
 }
 
-/* Points column bold */
+
 #leagueTable.dataTable tbody td.points-column {
   font-weight: 700;
 }
 
-/* Optional: simple even-row background (disable Bootstrap striping first) */
+
 #leagueTable.dataTable tbody tr:nth-child(even) {
   background-color: #f8f8f8;
 }
 
-/* Optional: highlight zones */
+
 #leagueTable.dataTable tbody tr.top-row { background-color: #e8f3ff; }
 #leagueTable.dataTable tbody tr.bottom-row { background-color: #fff1f1; }
 
-/* Neutralise Bootstrap striping/borders for this table only */
+
 #leagueTable.table.table-striped tbody tr:nth-of-type(odd) { background-color: inherit; }
 #leagueTable.table.table-bordered, 
 #leagueTable.table.table-bordered th, 
