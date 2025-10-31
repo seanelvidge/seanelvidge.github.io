@@ -64,10 +64,10 @@ nav: false
 }
 
 /* TEAM column takes the remaining flexible width */
-/* #leagueTable.dataTable tbody td:nth-child(2) { */
-/* #leagueTable.dataTable thead th:nth-child(2), */
-/*  width: auto; */
-/* } */
+#leagueTable.dataTable tbody td:nth-child(2) {
+#leagueTable.dataTable thead th:nth-child(2),
+ width: auto;
+}
  
  /* 1) Turn on separated borders and add vertical spacing only */
 #leagueTable.dataTable {
