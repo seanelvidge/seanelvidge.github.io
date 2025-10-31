@@ -10,66 +10,58 @@ nav: false
 <!-- Papa Parse for CSV reading -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
-      <style>
-        table.dataTable td,
-        table.dataTable th {
-          padding: 15px;
-        }
-        <!-- CSS Start -->
+      /* DataTables header: blue bar with white text */
+#leagueTable.dataTable thead th {
+  background-color: #3b5fd0;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: left;
+  font-weight: 700;
+}
 
-      // Header bar styling
-      table.dataTable thead th {
-        background-color: #3b5fd0; /* blue header */
-        color: white;
-        text-transform: uppercase;
-        text-align: left;
-        font-weight: bold;
-      }
-      
-      // Red position numbers
-      .pos-column {
-      color: #b2182b;
-      font-weight: 700;
-      text-align: center;
-      }
-      
-      // Team cell styling
-      .team-cell {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      }
-      
-      .team-logo {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      }
-      
-      .team-name {
-      font-weight: 600;
-      color: #333;
-      }
-      
-      // Points column bold
-      .points-column {
-      font-weight: 700;
-      }
-      
-      // Optional alternating background
-      table.dataTable tbody tr:nth-child(even) {
-      background-color: #f8f8f8;
-      }
-      
-      // Optional top/bottom highlights
-      .top-row {
-      background-color: #e8f3ff;
-      }
-      .bottom-row {
-      background-color: #fff1f1;
-      }
-      <!-- CSS End -->
-      </style>
+/* Red position numbers — body cells only (keeps POS header white) */
+#leagueTable.dataTable tbody td.pos-column {
+  color: #b2182b;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Team cell with logo + name */
+#leagueTable .team-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#leagueTable .team-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+#leagueTable .team-name {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Points column bold */
+#leagueTable.dataTable tbody td.points-column {
+  font-weight: 700;
+}
+
+/* Optional: simple even-row background (disable Bootstrap striping first) */
+#leagueTable.dataTable tbody tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+/* Optional: highlight zones */
+#leagueTable.dataTable tbody tr.top-row { background-color: #e8f3ff; }
+#leagueTable.dataTable tbody tr.bottom-row { background-color: #fff1f1; }
+
+/* Neutralise Bootstrap striping/borders for this table only */
+#leagueTable.table.table-striped tbody tr:nth-of-type(odd) { background-color: inherit; }
+#leagueTable.table.table-bordered, 
+#leagueTable.table.table-bordered th, 
+#leagueTable.table.table-bordered td { border: 0; }
+
 
       <h1>League Table Generator</h1>
       <form id="leagueForm">
