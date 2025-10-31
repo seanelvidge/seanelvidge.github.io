@@ -63,11 +63,6 @@ nav: false
   font-weight: 700;
 }
 
-/* Optional: simple even-row background (disable Bootstrap striping first) */
-#leagueTable.dataTable tbody tr:nth-child(even) {
-  background-color: #f8f8f8;
-}
-
 #leagueTable.table.table-striped tbody tr:nth-of-type(odd) { background-color: inherit; }
 #leagueTable.table.table-bordered, 
 #leagueTable.table.table-bordered th, 
