@@ -17,52 +17,53 @@ table.dataTable thead th {
   font-weight: bold;
 }
 
-/* Red position numbers */
+/_ Red position numbers _/
 .pos-column {
-  color: #b2182b;
-  font-weight: 700;
-  text-align: center;
+color: #b2182b;
+font-weight: 700;
+text-align: center;
 }
 
-/* Team cell styling */
+/_ Team cell styling _/
 .team-cell {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+display: flex;
+align-items: center;
+gap: 8px;
 }
 
 .team-logo {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
+width: 24px;
+height: 24px;
+border-radius: 50%;
 }
 
 .team-name {
-  font-weight: 600;
-  color: #333;
+font-weight: 600;
+color: #333;
 }
 
-/* Points column bold */
+/_ Points column bold _/
 .points-column {
-  font-weight: 700;
+font-weight: 700;
 }
 
-/* Optional alternating background */
+/_ Optional alternating background _/
 table.dataTable tbody tr:nth-child(even) {
-  background-color: #f8f8f8;
+background-color: #f8f8f8;
 }
 
-/* Optional top/bottom highlights */
+/_ Optional top/bottom highlights _/
 .top-row {
-  background-color: #e8f3ff;
+background-color: #e8f3ff;
 }
 .bottom-row {
-  background-color: #fff1f1;
+background-color: #fff1f1;
 }
 <!-- CSS End -->
 
 <!-- Papa Parse for CSV reading -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
       <style>
         table.dataTable td,
         table.dataTable th {
@@ -182,6 +183,7 @@ table.dataTable tbody tr:nth-child(even) {
             console.error("Match data is undefined or invalid.");
             return;
           }
+          await logosReady;  // ensure logos are available
           const seasonValue = document.getElementById("season").value.trim();
           const startYearValue = document.getElementById("start_year").value.trim();
     	  const tierValue = document.getElementById("tier").value.trim();
@@ -408,26 +410,6 @@ table.dataTable tbody tr:nth-child(even) {
     		row.Pos = idx + 1;  // e.g., 1, 2, 3, ...
     	  });
 
-      // Read in the team Logos
-      fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueTeamLogos.csv')
-    .then(res => res.text())
-    .then(text => {
-      const rows = Papa.parse(text, {
-        header: true,
-        skipEmptyLines: true
-      }).data;
-    // Convert array of objects into a dictionary
-    const dict = {};
-    rows.forEach(row => {
-      if (row.Team && row.LogoURL) {
-        dict[row.Team.trim()] = row.LogoURL.trim();
-      }
-    });
-
-    // Assign to global (or scoped) variable
-    window.teamLogos = dict;
-    });
-
           document.getElementById("tableHeading").style.display = "block";
           document.getElementById("leagueTable").style.display = "table";
           const leagueTable = document.getElementById("leagueTable");
@@ -465,11 +447,12 @@ table.dataTable tbody tr:nth-child(even) {
                 {
                   title: "TEAM",
                   data: "Team",
-                  render: function (data, type, row) {
-                    const logo = teamLogos[data] || "";
+                  render: function (data) {
+                    const logos = window.teamLogos || {};
+                    const logo = logos[data] || "";
                     return `
                       <div class="team-cell">
-                        <img src="${logo}" alt="${data}" class="team-logo"/>
+                        ${logo ? `<img src="${logo}" alt="${data}" class="team-logo"/>` : ""}
                         <span class="team-name">${data}</span>
                       </div>`;
                   }
@@ -522,6 +505,19 @@ table.dataTable tbody tr:nth-child(even) {
                 }).data;
               })
               .catch(err => console.error('Failed to load point deductions:', err));
+            // Read in the team Logos
+          const logosReady = fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueTeamLogos.csv')
+            .then(res => res.text())
+            .then(text => {
+              const rows = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
+              const dict = {};
+              rows.forEach(row => {
+                if (row.Team && row.LogoURL) dict[row.Team.trim()] = row.LogoURL.trim();
+              });
+              window.teamLogos = dict;   // single source of truth
+            })
+            .catch(() => { window.teamLogos = {}; });
+
     		  // Grab URL parameters
     		  const urlParams = new URLSearchParams(window.location.search);
     		  const paramSeason = urlParams.get("season");
