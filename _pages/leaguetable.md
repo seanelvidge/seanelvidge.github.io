@@ -39,7 +39,7 @@ nav: false
   font-weight: 700;
   text-align: center;
   width: 55px;
-  border-radius: 8px;
+  border-radius: px;
 }
 
 /* Team cell with logo + name */
@@ -64,42 +64,43 @@ nav: false
 }
 
 /* TEAM column takes the remaining flexible width */
-#leagueTable.dataTable thead th:nth-child(2),
-#leagueTable.dataTable tbody td:nth-child(2) {
-  width: auto;
- }
+/* #leagueTable.dataTable tbody td:nth-child(2) { */
+/* #leagueTable.dataTable thead th:nth-child(2), */
+/*  width: auto; */
+/* } */
  
- /* Give the table body a light background so gaps show through */
-#leagueTable.dataTable tbody {
-  background-color: #f0f0f0; /* slightly lighter than row fill */
-}
-
-/* Add white cards for each row with spacing between them */
-#leagueTable.dataTable tbody tr {
-  background-color: #ffffff;
-  border-radius: 6px;
-  margin-bottom: 6px;      /* gap between rows */
-  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
-}
-
-/* To make the margin actually appear (DataTables renders <tr> as table-row),
-   we wrap the spacing visually by simulating block layout */
-#leagueTable.dataTable tbody tr {
-  display: block;
-  margin: 6px 0;
-  overflow: hidden;        /* keeps radius clean */
-}
-
-/* Ensure table still behaves correctly */
-#leagueTable.dataTable tbody td {
-  border: none;
-  background-color: transparent; /* rely on row background */
-}
-
-/* Adjust table layout so column widths stay consistent */
+ /* 1) Turn on separated borders and add vertical spacing only */
 #leagueTable.dataTable {
   border-collapse: separate !important;
-  border-spacing: 0;
+  border-spacing: 0 8px;      /* 0 = no column gaps, 8px = row gap */
+  background: #f0f0f0;        /* shows through as the gap colour */
+}
+
+/* 2) Make each row a white pill sitting on that background */
+#leagueTable.dataTable tbody tr { background: transparent; }
+#leagueTable.dataTable tbody td {
+  background: #ffffff;
+  border-top: none;
+  border-bottom: none;
+}
+
+/* 3) Round the row’s ends */
+#leagueTable.dataTable tbody td:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+#leagueTable.dataTable tbody td:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* 4) Keep the POS cell as a solid red chip with white text */
+#leagueTable.dataTable tbody td.pos-column {
+  background-color: #b2182b;  /* overrides the white above */
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  width: 55px;
 }
 </style>
 
