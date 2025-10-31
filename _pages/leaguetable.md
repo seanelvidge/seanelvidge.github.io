@@ -451,7 +451,7 @@ nav: false
           // Decide which column to show based on the start year
           const goalDiffColumn = (
               (typeof config.startYear === "number" && config.startYear < 1976) ||
-              (config.earliestYear < 1976)
+              (typeof config.earliestYear === "number" && config.earliestYear < 1976)
             )
               ? {
                   title: "GR",
