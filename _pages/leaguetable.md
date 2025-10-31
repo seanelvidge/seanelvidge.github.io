@@ -183,7 +183,6 @@ background-color: #fff1f1;
             console.error("Match data is undefined or invalid.");
             return;
           }
-          await logosReady;  // ensure logos are available
           const seasonValue = document.getElementById("season").value.trim();
           const startYearValue = document.getElementById("start_year").value.trim();
     	  const tierValue = document.getElementById("tier").value.trim();
