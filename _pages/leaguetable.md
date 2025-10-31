@@ -40,7 +40,6 @@ nav: false
   font-weight: 700;
   text-align: center;
   width: 55px;
-  border-radius: px;
 }
 
 /* Team cell with logo + name */
@@ -65,8 +64,8 @@ nav: false
 }
 
 /* TEAM column takes the remaining flexible width */
-#leagueTable.dataTable tbody td:nth-child(2) {
-#leagueTable.dataTable thead th:nth-child(2),
+#leagueTable.dataTable tbody td:nth-child(2),
+#leagueTable.dataTable thead th:nth-child(2) {
  width: auto;
 }
  
@@ -151,7 +150,7 @@ nav: false
     	  <button type="button" id="resetTableBtn">Reset</button>
     	  <br>
         <hr>
-        <button id="downloadTableImage" class="btn btn-sm btn-primary">Download table as image</button>
+        <button type="button" id="downloadTableImage" class="btn btn-sm btn-primary">Download table as image</button>
         <br>
         <hr>
 
@@ -712,28 +711,26 @@ initDataTables();
         document.addEventListener('DOMContentLoaded', updateTierOptions);
     	document.addEventListener('DOMContentLoaded', updateDivisionOptions);
 
-      document.getElementById('downloadTableImage').addEventListener('click', async () => {
-  // target the DataTables wrapper so the blue header is included
+      document.getElementById('downloadTableImage').addEventListener('click', async (e) => {
+  e.preventDefault(); // stop form submit
   const wrapper = document.querySelector('#leagueTable').closest('.dataTables_wrapper');
-  // ensure a white background and a sharp image
+  if (!wrapper) return; // no table yet
+
   const canvas = await html2canvas(wrapper, {
     backgroundColor: '#ffffff',
-    scale: window.devicePixelRatio > 1 ? 2 : 1,  // higher-res on retina
+    scale: window.devicePixelRatio > 1 ? 2 : 1,
     useCORS: true
   });
 
-  // choose PNG (best quality) or switch to 'image/jpeg' with a quality value
-  const mime = 'image/png';
   canvas.toBlob((blob) => {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    const stamp = new Date().toISOString().slice(0,10);
-    a.download = `league-table-${stamp}.png`;
+    a.download = `league-table-${new Date().toISOString().slice(0,10)}.png`;
     document.body.appendChild(a);
     a.click();
     URL.revokeObjectURL(a.href);
     a.remove();
-  }, mime);
+  }, 'image/png');
 });
 
       </script>
