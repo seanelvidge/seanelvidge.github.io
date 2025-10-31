@@ -146,12 +146,9 @@ nav: false
     	  <br>
 
     	  <hr>
-    	  <button type="button">Generate Table</button>
-    	  <button type="button" id="resetTableBtn">Reset</button>
+    	  <button type="button" class="btn btn-sm btn-primary">Generate Table</button>
+    	  <button type="button" id="resetTableBtn" class="btn btn-sm btn-primary">Reset</button>
     	  <br>
-        <hr>
-        <button type="button" id="downloadTableImage" class="btn btn-sm btn-primary">Download table as image</button>
-        <br>
         <hr>
 
     	  <script>
@@ -211,6 +208,8 @@ nav: false
         class="table table-striped table-bordered"
         style="display:none;"
       ></table>
+      <br>
+      <button type="button" id="downloadTableImage" class="btn btn-sm btn-primary">Download table as image</button>
 
       <script>
         function handleSubmit() {
