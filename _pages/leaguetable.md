@@ -717,19 +717,19 @@ const wrapper = document.querySelector('#leagueTable').closest('.dataTables_wrap
 if (!wrapper) return; // no table yet
 
 const canvas = await html2canvas(wrapper, {
-  backgroundColor: '#ffffff',
-  scale: window.devicePixelRatio > 1 ? 2 : 1,
-  useCORS: true
+backgroundColor: '#ffffff',
+scale: window.devicePixelRatio > 1 ? 2 : 1,
+useCORS: true
 });
 
 canvas.toBlob((blob) => {
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `league-table-${new Date().toISOString().slice(0,10)}.png`;
-  document.body.appendChild(a);
-  a.click();
-  URL.revokeObjectURL(a.href);
-  a.remove();
+const a = document.createElement('a');
+a.href = URL.createObjectURL(blob);
+a.download = `league-table-${new Date().toISOString().slice(0,10)}.png`;
+document.body.appendChild(a);
+a.click();
+URL.revokeObjectURL(a.href);
+a.remove();
 }, 'image/png');
 });
 
