@@ -7,6 +7,60 @@ nav: false
 ---
 
 <html lang="en">
+<!-- CSS Start -->
+/* Header bar styling */
+table.dataTable thead th {
+  background-color: #3b5fd0; /* blue header */
+  color: white;
+  text-transform: uppercase;
+  text-align: left;
+  font-weight: bold;
+}
+
+/* Red position numbers */
+.pos-column {
+  color: #b2182b;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Team cell styling */
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.team-name {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Points column bold */
+.points-column {
+  font-weight: 700;
+}
+
+/* Optional alternating background */
+table.dataTable tbody tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+/* Optional top/bottom highlights */
+.top-row {
+  background-color: #e8f3ff;
+}
+.bottom-row {
+  background-color: #fff1f1;
+}
+<!-- CSS End -->
+
 <!-- Papa Parse for CSV reading -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
       <style>
@@ -354,6 +408,26 @@ nav: false
     		row.Pos = idx + 1;  // e.g., 1, 2, 3, ...
     	  });
 
+      // Read in the team Logos
+      fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueTeamLogos.csv')
+    .then(res => res.text())
+    .then(text => {
+      const rows = Papa.parse(text, {
+        header: true,
+        skipEmptyLines: true
+      }).data;
+    // Convert array of objects into a dictionary
+    const dict = {};
+    rows.forEach(row => {
+      if (row.Team && row.LogoURL) {
+        dict[row.Team.trim()] = row.LogoURL.trim();
+      }
+    });
+
+    // Assign to global (or scoped) variable
+    window.teamLogos = dict;
+    });
+
           document.getElementById("tableHeading").style.display = "block";
           document.getElementById("leagueTable").style.display = "table";
           const leagueTable = document.getElementById("leagueTable");
@@ -376,25 +450,48 @@ nav: false
                 };
 
           $(leagueTable).DataTable({
-            destroy: true,
-            paging: false,
-            info: false,
-            searching: false,
-            order: [[9, "desc"]],
-            data: teamsArray,
-            columns: [
-    		  { title: "Pos", data: "Pos" },
-              { title: "Team", data: "Team" },
-              { title: "Played", data: "Played" },
-              { title: "Won", data: "Won" },
-              { title: "Drawn", data: "Drawn" },
-              { title: "Lost", data: "Lost" },
-              { title: "GF", data: "GF" },
-              { title: "GA", data: "GA" },
-              goalDiffColumn,
-              { title: "Points", data: "Points" }
-            ]
-          });
+              destroy: true,
+              paging: false,
+              info: false,
+              searching: false,
+              order: [[9, "desc"]],
+              data: teamsArray,
+              columns: [
+                {
+                  title: "POS",
+                  data: "Pos",
+                  className: "pos-column"
+                },
+                {
+                  title: "TEAM",
+                  data: "Team",
+                  render: function (data, type, row) {
+                    const logo = teamLogos[data] || "";
+                    return `
+                      <div class="team-cell">
+                        <img src="${logo}" alt="${data}" class="team-logo"/>
+                        <span class="team-name">${data}</span>
+                      </div>`;
+                  }
+                },
+                { title: "GP", data: "Played" },
+                { title: "W", data: "Won" },
+                { title: "D", data: "Drawn" },
+                { title: "L", data: "Lost" },
+                { title: "GF", data: "GF" },
+                { title: "GA", data: "GA" },
+                goalDiffColumn,
+                { title: "PTS", data: "Points", className: "points-column" }
+              ],
+              createdRow: function (row, data, index) {
+                // Optional: highlight top 2 and bottom 2 rows differently
+                if (data.Pos <= 2) {
+                  $(row).addClass("top-row");
+                } else if (data.Pos >= 13) {
+                  $(row).addClass("bottom-row");
+                }
+              }
+            });
         }
 
         document.addEventListener("DOMContentLoaded", () => {
