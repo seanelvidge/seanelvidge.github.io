@@ -9,6 +9,7 @@ nav: false
 <html lang="en">
 <!-- Papa Parse for CSV reading -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
 /* DataTables header: blue bar with white text */
@@ -149,7 +150,10 @@ nav: false
     	  <button type="button">Generate Table</button>
     	  <button type="button" id="resetTableBtn">Reset</button>
     	  <br>
-          <hr>
+        <hr>
+        <button id="downloadTableImage" class="btn btn-sm btn-primary">Download table as image</button>
+        <br>
+        <hr>
 
     	  <script>
     		// Constants for start year and current date
@@ -480,7 +484,7 @@ nav: false
                     const logo = logos[data] || "";
                     return `
                       <div class="team-cell">
-                        ${logo ? `<img src="${logo}" alt="${data}" class="team-logo"/>` : ""}
+                        ${logo ? `<img src="${logo}" alt="${data}" class="team-logo" crossorigin="anonymous"/>` : ""}
                         <span class="team-name">${data}</span>
                       </div>`;
                   }
@@ -707,6 +711,31 @@ initDataTables();
         // (5) initialize on load
         document.addEventListener('DOMContentLoaded', updateTierOptions);
     	document.addEventListener('DOMContentLoaded', updateDivisionOptions);
+
+      document.getElementById('downloadTableImage').addEventListener('click', async () => {
+  // target the DataTables wrapper so the blue header is included
+  const wrapper = document.querySelector('#leagueTable').closest('.dataTables_wrapper');
+  // ensure a white background and a sharp image
+  const canvas = await html2canvas(wrapper, {
+    backgroundColor: '#ffffff',
+    scale: window.devicePixelRatio > 1 ? 2 : 1,  // higher-res on retina
+    useCORS: true
+  });
+
+  // choose PNG (best quality) or switch to 'image/jpeg' with a quality value
+  const mime = 'image/png';
+  canvas.toBlob((blob) => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    const stamp = new Date().toISOString().slice(0,10);
+    a.download = `league-table-${stamp}.png`;
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(a.href);
+    a.remove();
+  }, mime);
+});
+
       </script>
 
 </html>
