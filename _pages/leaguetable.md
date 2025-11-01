@@ -202,33 +202,34 @@ nav: false
 
     		// Event listener for the "Reset Table" button
       	const resetButton = document.getElementById('resetTableBtn');
-  			resetButton.addEventListener('click', () => {
-  			  // Clear all inputs
-  			  document.getElementById('season').value = '';
-  			  document.getElementById('start_year').value = '';
-  			  document.getElementById('startDate').value = '';
-  			  document.getElementById('endDate').value = '';
-  			  document.getElementById('tier').value = '';
-  			  document.getElementById('division').value = '';
-  
-  			  // Hide and clear the table
-  			  const table = document.getElementById("leagueTable");
-  			  const tableHeading = document.getElementById("tableHeading");
-  
-  			  if ($.fn.DataTable.isDataTable(table)) {
-  				$(table).DataTable().clear().destroy();
-  			  }
-  
-  			  table.innerHTML = '';
-  			  table.style.display = 'none';
-  			  tableHeading.style.display = 'none';
-  
-  			  // NEW: hide note and download button
-  			  const noteElem = document.getElementById("pointsDeductionNote");
-  			  const downloadBtn = document.getElementById("downloadTableImage");
-  			  if (noteElem) noteElem.style.display = 'none';
-  			  if (downloadBtn) downloadBtn.style.display = 'none';
-  			});
+
+		resetButton.addEventListener('click', () => {
+		// Clear all inputs
+		document.getElementById('season').value = '';
+		document.getElementById('start_year').value = '';
+		document.getElementById('startDate').value = '';
+		document.getElementById('endDate').value = '';
+		document.getElementById('tier').value = '';
+		document.getElementById('division').value = '';
+
+		// Hide and clear the table
+		const table = document.getElementById("leagueTable");
+		const tableHeading = document.getElementById("tableHeading");
+
+		if ($.fn.DataTable.isDataTable(table)) {
+		  $(table).DataTable().clear().destroy();
+		}
+
+		table.innerHTML = '';
+		table.style.display = 'none';
+		tableHeading.style.display = 'none';
+
+		// NEW: hide note and download button
+		const noteElem = document.getElementById("pointsDeductionNote");
+		const downloadBtn = document.getElementById("downloadTableImage");
+		if (noteElem) noteElem.style.display = 'none';
+		if (downloadBtn) downloadBtn.style.display = 'none';
+		});
 
     	  </script>
       </form>
@@ -239,11 +240,9 @@ nav: false
         class="table table-striped table-bordered"
         style="display:none;"
       ></table>
-      <br>
 	  <p id="pointsDeductionNote" style="display:none; font-style:italic; margin-top:8px;">* points deduction</p>
-      <br>
+	  <br>
 	  <button type="button" id="downloadTableImage" class="btn btn-sm btn-primary" style="display:none;">Download table as image</button>
-
 
       <script>
         function handleSubmit() {
@@ -474,7 +473,7 @@ nav: false
       					if (seasonSet.has(seasonKey)) {
       					  const pts = Number(row.Pts_deducted) || 0;
       					  deductionByTeam[team] = (deductionByTeam[team] || 0) + pts;
-      					} 
+      					}
       				  });
 
       				  // Apply summed deductions
@@ -482,7 +481,7 @@ nav: false
       				    if (teamStats[team]) {
       				      // Allow negative points;
       				      teamStats[team].Points -= pts;
-      					  
+
       				      // Add a * to team name if points deduction applied
       				      if (!teamStats[team].Name?.endsWith('*')) {
       				        teamStats[team].Name = (teamStats[team].Name || team) + '*';
@@ -603,28 +602,28 @@ nav: false
               }
             });
 
-			// Detect if any team has a * in its Name
-			const hasDeductions = teamsArray.some(t => t.Name?.includes('*'));
+    		// Detect if any team has a * in its Name
+    		const hasDeductions = teamsArray.some(t => t.Name?.includes('*'));
 
-			// Show/hide elements accordingly
-			const heading = document.getElementById("tableHeading");
-			const tableElem = document.getElementById("leagueTable");
-			const noteElem = document.getElementById("pointsDeductionNote");
-			const downloadBtn = document.getElementById("downloadTableImage");
+    		// Show/hide elements accordingly
+    		const heading = document.getElementById("tableHeading");
+    		const tableElem = document.getElementById("leagueTable");
+    		const noteElem = document.getElementById("pointsDeductionNote");
+    		const downloadBtn = document.getElementById("downloadTableImage");
 
-			// Only display heading, table, and button if there’s data
-			if (teamsArray.length > 0) {
-			  heading.style.display = "block";
-			  tableElem.style.display = "table";
-			  downloadBtn.style.display = "inline-block";
-			} else {
-			  heading.style.display = "none";
-			  tableElem.style.display = "none";
-			  downloadBtn.style.display = "none";
-			}
+    		// Only display heading, table, and button if there’s data
+    		if (teamsArray.length > 0) {
+    		  heading.style.display = "block";
+    		  tableElem.style.display = "table";
+    		  downloadBtn.style.display = "inline-block";
+    		} else {
+    		  heading.style.display = "none";
+    		  tableElem.style.display = "none";
+    		  downloadBtn.style.display = "none";
+    		}
 
-			// Show note only if deductions exist
-			noteElem.style.display = hasDeductions ? "block" : "none";
+    		// Show note only if deductions exist
+    		noteElem.style.display = hasDeductions ? "block" : "none";
         }
 
         document.addEventListener("DOMContentLoaded", () => {
