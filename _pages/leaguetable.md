@@ -561,7 +561,7 @@ nav: false
                 skipEmptyLines: true
               }).data;
               window.matchData = parsedData;
-          fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeaguePointDeductions.csv')
+          fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglishTeamPointDeductions.csv')
               .then(res => res.text())
               .then(text => {
                 window.pointDeductions = Papa.parse(text, {
@@ -572,7 +572,7 @@ nav: false
               })
               .catch(err => console.error('Failed to load point deductions:', err));
             // Read in the team Logos
-          const logosReady = fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueTeamLogos.csv')
+          const logosReady = fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamLogos.csv')
             .then(res => res.text())
             .then(text => {
               const rows = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
