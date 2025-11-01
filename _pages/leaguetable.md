@@ -106,6 +106,27 @@ nav: false
   text-align: center;
   width: 55px;
 }
+
+/* Remove all vertical borders in header and body cells */
+#leagueTable.dataTable thead th,
+#leagueTable.dataTable tbody td {
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none;           /* optional */
+  border-bottom: none;        /* optional */
+}
+
+/* DataTables sometimes adds a bottom border to the whole table */
+#leagueTable.dataTable.no-footer {
+  border-bottom: none;
+}
+
+/* If Bootstrap is still injecting borders via .table-bordered */
+#leagueTable.table.table-bordered,
+#leagueTable.table.table-bordered th,
+#leagueTable.table.table-bordered td {
+  border: 0 !important;
+}
 </style>
 
       <h1>League Table Generator</h1>
