@@ -291,16 +291,16 @@ nav: false
 
             // Converts a date to its "season year" (the second year, e.g. 2024-08-01 → 2025)
     		    function seasonYear(date) {
-    			  const year = date.getFullYear();
-    			  const month = date.getMonth() + 1; // JS months start at 0
-    			  return month >= 7 ? year + 1 : year;
+    			    const year = date.getFullYear();
+    			    const month = date.getMonth() + 1; // JS months start at 0
+    			    return month >= 7 ? year + 1 : year;
     		    }
 
     		    let seasonNumber = seasonYear(dateStart);
     		    const lastSeason = seasonYear(dateEnd);
     		    while (seasonNumber <= lastSeason) {
-    			  config.yearList.push(seasonNumber);
-    			  seasonNumber++;
+    			    config.yearList.push(seasonNumber);
+    			    seasonNumber++;
     		    }
           }
 
@@ -443,17 +443,45 @@ nav: false
 
             // apply external point deductions
             if (window.pointDeductions) {
-              // determine the single‐year key in your CSV
-              const dedYear = seasonStr ? parseInt(seasonStr.split('/')[1],10).toString() : null;
-    		  window.pointDeductions
-                .filter(d => parseInt(d.Season, 10) === parseInt(dedYear, 10))
-                .forEach(d => {
-                  const t = d.Team;
-                  if (teamStats[t]) {
-                    teamStats[t].Points = (teamStats[t].Points - d.Pts_deducted); // Allow negative points // Math.max(0, teamStats[t].Points - d.Pts_deducted);
-                  }
-                });
-            }
+      				console.log(seasonStr)
+      				let seasonsArr
+
+      				if (seasonStr != null) {
+      				  const dedYear = seasonStr ? parseInt(seasonStr.split('/')[1],10).toString() : null;
+      				  console.log(dedYear)
+      				  seasonsArr = [dedYear];
+      				  console.log(seasonsArr)
+      				} else {
+      				  seasonsArr = Array.isArray(config.yearList) ? config.yearList : [config.yearList];
+      				}
+      				console.log(seasonsArr)
+      				const seasonSet = new Set(seasonsArr.map(String)); // match CSV Season as strings
+
+      				console.log(seasonSet)
+      				console.log(seasonStr)
+      				
+      				// Apply external point deductions across all relevant seasons
+      				if (window.pointDeductions && seasonSet.size > 0) {
+      				  // Sum deductions per team for the selected seasons
+      				  const deductionByTeam = {};
+      				  window.pointDeductions.forEach(row => {
+      					const seasonKey = String(parseInt(row.Season, 10));
+      					if (seasonSet.has(seasonKey)) {
+      					  const team = row.Team;
+      					  const pts = Number(row.Pts_deducted) || 0;
+      					  deductionByTeam[team] = (deductionByTeam[team] || 0) + pts;
+      					}
+      				  });
+
+      				  // Apply summed deductions
+      				  Object.entries(deductionByTeam).forEach(([team, pts]) => {
+      					if (teamStats[team]) {
+      					  // Allow negative points;
+      					  teamStats[team].Points = teamStats[team].Points - pts;
+      					}
+      				  });
+      				}
+      			};
 
           const teamsArray = Object.keys(teamStats).map(team => ({
             Team: team,
