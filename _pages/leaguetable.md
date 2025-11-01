@@ -201,28 +201,34 @@ nav: false
     		}
 
     		// Event listener for the "Reset Table" button
-    		const resetButton = document.getElementById('resetTableBtn');
-    		resetButton.addEventListener('click', () => {
-    		  // Clear all inputs
-    		  document.getElementById('season').value = '';
-    		  document.getElementById('start_year').value = '';
-    		  document.getElementById('startDate').value = '';
-    		  document.getElementById('endDate').value = '';
-    		  document.getElementById('tier').value = '';
-    		  document.getElementById('division').value = '';
-
-    		  // Hide and clear the table
-    		  const table = document.getElementById("leagueTable");
-    		  const tableHeading = document.getElementById("tableHeading");
-
-    		  if ($.fn.DataTable.isDataTable(table)) {
-    			$(table).DataTable().clear().destroy();
-    		  }
-
-    		  table.innerHTML = '';
-    		  table.style.display = 'none';
-    		  tableHeading.style.display = 'none';
-    		});
+      	const resetButton = document.getElementById('resetTableBtn');
+  			resetButton.addEventListener('click', () => {
+  			  // Clear all inputs
+  			  document.getElementById('season').value = '';
+  			  document.getElementById('start_year').value = '';
+  			  document.getElementById('startDate').value = '';
+  			  document.getElementById('endDate').value = '';
+  			  document.getElementById('tier').value = '';
+  			  document.getElementById('division').value = '';
+  
+  			  // Hide and clear the table
+  			  const table = document.getElementById("leagueTable");
+  			  const tableHeading = document.getElementById("tableHeading");
+  
+  			  if ($.fn.DataTable.isDataTable(table)) {
+  				$(table).DataTable().clear().destroy();
+  			  }
+  
+  			  table.innerHTML = '';
+  			  table.style.display = 'none';
+  			  tableHeading.style.display = 'none';
+  
+  			  // NEW: hide note and download button
+  			  const noteElem = document.getElementById("pointsDeductionNote");
+  			  const downloadBtn = document.getElementById("downloadTableImage");
+  			  if (noteElem) noteElem.style.display = 'none';
+  			  if (downloadBtn) downloadBtn.style.display = 'none';
+  			});
 
     	  </script>
       </form>
@@ -234,7 +240,10 @@ nav: false
         style="display:none;"
       ></table>
       <br>
-      <button type="button" id="downloadTableImage" class="btn btn-sm btn-primary">Download table as image</button>
+	  <p id="pointsDeductionNote" style="display:none; font-style:italic; margin-top:8px;">* points deduction</p>
+      <br>
+	  <button type="button" id="downloadTableImage" class="btn btn-sm btn-primary" style="display:none;">Download table as image</button>
+
 
       <script>
         function handleSubmit() {
@@ -369,7 +378,8 @@ nav: false
                 GA: 0,
                 GD: 0,
                 GR: 0,
-                Points: 0
+                Points: 0,
+                Name: HomeTeam
               };
             }
             if (!teamStats[AwayTeam]) {
@@ -382,7 +392,8 @@ nav: false
                 GA: 0,
                 GD: 0,
                 GR: 0,
-                Points: 0
+                Points: 0,
+                Name: AwayTeam
               };
             }
 
@@ -443,45 +454,44 @@ nav: false
 
             // apply external point deductions
             if (window.pointDeductions) {
-      				console.log(seasonStr)
       				let seasonsArr
 
       				if (seasonStr != null) {
       				  const dedYear = seasonStr ? parseInt(seasonStr.split('/')[1],10).toString() : null;
       				  console.log(dedYear)
       				  seasonsArr = [dedYear];
-      				  console.log(seasonsArr)
       				} else {
       				  seasonsArr = Array.isArray(config.yearList) ? config.yearList : [config.yearList];
       				}
-      				console.log(seasonsArr)
       				const seasonSet = new Set(seasonsArr.map(String)); // match CSV Season as strings
 
-      				console.log(seasonSet)
-      				console.log(seasonStr)
-      				
       				// Apply external point deductions across all relevant seasons
       				if (window.pointDeductions && seasonSet.size > 0) {
       				  // Sum deductions per team for the selected seasons
       				  const deductionByTeam = {};
       				  window.pointDeductions.forEach(row => {
       					const seasonKey = String(parseInt(row.Season, 10));
+      					const team = row.Team;
       					if (seasonSet.has(seasonKey)) {
-      					  const team = row.Team;
       					  const pts = Number(row.Pts_deducted) || 0;
       					  deductionByTeam[team] = (deductionByTeam[team] || 0) + pts;
-      					}
+      					} 
       				  });
 
       				  // Apply summed deductions
       				  Object.entries(deductionByTeam).forEach(([team, pts]) => {
-      					if (teamStats[team]) {
-      					  // Allow negative points;
-      					  teamStats[team].Points = teamStats[team].Points - pts;
-      					}
+      				    if (teamStats[team]) {
+      				      // Allow negative points;
+      				      teamStats[team].Points -= pts;
+      					  
+      				      // Add a * to team name if points deduction applied
+      				      if (!teamStats[team].Name?.endsWith('*')) {
+      				        teamStats[team].Name = (teamStats[team].Name || team) + '*';
+      				      }
+      				    }
       				  });
-      				}
-      			};
+      			    } 
+      			}
 
           const teamsArray = Object.keys(teamStats).map(team => ({
             Team: team,
@@ -559,15 +569,21 @@ nav: false
                 {
                   title: "TEAM",
                   data: "Team",
-                  render: function (data) {
-                    const logos = window.teamLogos || {};
-                    const logo = logos[data] || "";
-                    return `
-                      <div class="team-cell">
-                        ${logo ? `<img src="${logo}" alt="${data}" class="team-logo" crossorigin="anonymous"/>` : ""}
-                        <span class="team-name">${data}</span>
-                      </div>`;
-                  }
+                  render: function (data, type, row) {
+        					  const logos = window.teamLogos || {};
+        					  const teamKey = row?.Team ?? data;       // for logo lookup
+        					  const displayName = row?.Name ?? data;   // what we show in the table
+        					  const logo = logos[teamKey] || "";
+
+        					  // For sort/search, return plain text
+        					  if (type !== 'display') return displayName;
+
+        					  return `
+        						<div class="team-cell">
+        						  ${logo ? `<img src="${logo}" alt="${displayName}" class="team-logo" crossorigin="anonymous"/>` : ""}
+        						  <span class="team-name">${displayName}</span>
+        						</div>`;
+        					}
                 },
                 { title: "GP", data: "Played", className: "stat-column" },
                 { title: "W",  data: "Won",    className: "stat-column" },
