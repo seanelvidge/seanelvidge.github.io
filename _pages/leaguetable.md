@@ -460,7 +460,7 @@ nav: false
           const goalDiffColumn = (
               (typeof config.startYear === "number" && config.startYear < 1976) ||
               (typeof config.earliestYear === "number" && config.earliestYear < 1976) ||
-              (typeof config.season != null && seasonStrNum < 1976)
+              (typeof config.season != null && typeof seasonStrNum === "number" && seasonStrNum < 1976)
             )
               ? {
                   title: "GR",
