@@ -238,7 +238,7 @@ nav: false
       <table
         id="leagueTable"
         class="table table-striped table-bordered"
-        style="display:none;" <a href="${shareUrl}"
+        style="display:none;"
       ></table>
       <p id="pointsDeductionNote" style="display:none; font-style:italic; margin-top:8px;">* points change (<a href="https://github.com/seanelvidge/England-football-results/blob/main/EnglishTeamPointDeductions.csv" target="_blank">details here</a>)</p>
       <br>
