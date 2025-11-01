@@ -203,33 +203,33 @@ nav: false
     		// Event listener for the "Reset Table" button
       	const resetButton = document.getElementById('resetTableBtn');
 
-		resetButton.addEventListener('click', () => {
-		// Clear all inputs
-		document.getElementById('season').value = '';
-		document.getElementById('start_year').value = '';
-		document.getElementById('startDate').value = '';
-		document.getElementById('endDate').value = '';
-		document.getElementById('tier').value = '';
-		document.getElementById('division').value = '';
+    	resetButton.addEventListener('click', () => {
+    	// Clear all inputs
+    	document.getElementById('season').value = '';
+    	document.getElementById('start_year').value = '';
+    	document.getElementById('startDate').value = '';
+    	document.getElementById('endDate').value = '';
+    	document.getElementById('tier').value = '';
+    	document.getElementById('division').value = '';
 
-		// Hide and clear the table
-		const table = document.getElementById("leagueTable");
-		const tableHeading = document.getElementById("tableHeading");
+    	// Hide and clear the table
+    	const table = document.getElementById("leagueTable");
+    	const tableHeading = document.getElementById("tableHeading");
 
-		if ($.fn.DataTable.isDataTable(table)) {
-		  $(table).DataTable().clear().destroy();
-		}
+    	if ($.fn.DataTable.isDataTable(table)) {
+    	  $(table).DataTable().clear().destroy();
+    	}
 
-		table.innerHTML = '';
-		table.style.display = 'none';
-		tableHeading.style.display = 'none';
+    	table.innerHTML = '';
+    	table.style.display = 'none';
+    	tableHeading.style.display = 'none';
 
-		// NEW: hide note and download button
-		const noteElem = document.getElementById("pointsDeductionNote");
-		const downloadBtn = document.getElementById("downloadTableImage");
-		if (noteElem) noteElem.style.display = 'none';
-		if (downloadBtn) downloadBtn.style.display = 'none';
-		});
+    	// NEW: hide note and download button
+    	const noteElem = document.getElementById("pointsDeductionNote");
+    	const downloadBtn = document.getElementById("downloadTableImage");
+    	if (noteElem) noteElem.style.display = 'none';
+    	if (downloadBtn) downloadBtn.style.display = 'none';
+    	});
 
     	  </script>
       </form>
@@ -488,7 +488,7 @@ nav: false
       				      }
       				    }
       				  });
-      			    } 
+      			    }
       			}
 
           const teamsArray = Object.keys(teamStats).map(team => ({
