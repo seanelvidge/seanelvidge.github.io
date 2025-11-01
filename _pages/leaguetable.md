@@ -24,13 +24,14 @@ nav: false
 /* Equal width and centered headers for all stat columns */
 #leagueTable.dataTable thead th.stat-column {
   text-align: center;
-  width: 55px;              /* adjust as needed (45–60px works well) */
+  width: 55px;
 }
 
 /* Center numeric data cells */
 #leagueTable.dataTable tbody td.stat-column {
   text-align: center;
   width: 55px;
+  color: #000;
 }
 
 /* POS column — red background, white centered text */
@@ -465,13 +466,15 @@ nav: false
               ? {
                   title: "GR",
                   data: "GR",
+                  className: "stat-column",
                   render: function (data) {
                     return Number(data).toFixed(2);
                   }
                 }
               : {
                   title: "GD",
-                  data: "GD"
+                  data: "GD",
+                  className: "stat-column"
                 };
 
           $(leagueTable).DataTable({
