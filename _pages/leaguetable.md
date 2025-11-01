@@ -277,13 +277,31 @@ nav: false
             startYear: startYearValue ? parseInt(startYearValue, 10) : null,
             dateRange: null,
             earliestYear: null,
+            yearList: null,
             tier: tierValue != null ? tierValue.toString() : null,
     		division: divisionValue != null ? divisionValue.toString() : null
           };
 
           if (startDateValue && endDateValue) {
+            const dateStart = new Date(startDateValue);
+      			const dateEnd = new Date(endDateValue);
+      			config.yearList = [];
             config.dateRange = [new Date(startDateValue), new Date(endDateValue)];
             config.earliestYear = config.dateRange[0].getFullYear();
+
+            // Converts a date to its "season year" (the second year, e.g. 2024-08-01 → 2025)
+    		    function seasonYear(date) {
+    			  const year = date.getFullYear();
+    			  const month = date.getMonth() + 1; // JS months start at 0
+    			  return month >= 7 ? year + 1 : year;
+    		    }
+
+    		    let seasonNumber = seasonYear(dateStart);
+    		    const lastSeason = seasonYear(dateEnd);
+    		    while (seasonNumber <= lastSeason) {
+    			  config.yearList.push(seasonNumber);
+    			  seasonNumber++;
+    		    }
           }
 
           generateLeagueTable(window.matchData, config);
