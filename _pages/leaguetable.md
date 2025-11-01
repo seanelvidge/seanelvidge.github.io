@@ -238,9 +238,9 @@ nav: false
       <table
         id="leagueTable"
         class="table table-striped table-bordered"
-        style="display:none;"
+        style="display:none;" <a href="${shareUrl}"
       ></table>
-      <p id="pointsDeductionNote" style="display:none; font-style:italic; margin-top:8px;">* points change</p>
+      <p id="pointsDeductionNote" style="display:none; font-style:italic; margin-top:8px;">* points change (<a href="https://github.com/seanelvidge/England-football-results/blob/main/EnglishTeamPointDeductions.csv" target="_blank">details here</a>)</p>
       <br>
       <button type="button" id="downloadTableImage" class="btn btn-sm btn-primary" style="display:none;">Download table as image</button>
 
