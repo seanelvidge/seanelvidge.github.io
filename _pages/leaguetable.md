@@ -19,6 +19,7 @@ nav: false
   text-transform: uppercase;
   text-align: left;
   font-weight: 700;
+  padding: 6px 8px;
 }
 
 /* Equal width and centered headers for all stat columns */
@@ -50,8 +51,8 @@ nav: false
   gap: 8px;
 }
 #leagueTable .team-logo {
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
 }
 #leagueTable .team-name {
@@ -83,6 +84,8 @@ nav: false
   background: #ffffff;
   border-top: none;
   border-bottom: none;
+  padding: 6px 8px;
+  line-height: 1.2;
 }
 
 /* 3) Round the row’s ends */
