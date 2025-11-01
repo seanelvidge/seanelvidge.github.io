@@ -458,7 +458,6 @@ nav: false
 
       				if (seasonStr != null) {
       				  const dedYear = seasonStr ? parseInt(seasonStr.split('/')[1],10).toString() : null;
-      				  console.log(dedYear)
       				  seasonsArr = [dedYear];
       				} else {
       				  seasonsArr = Array.isArray(config.yearList) ? config.yearList : [config.yearList];
@@ -591,7 +590,7 @@ nav: false
                 { title: "L",  data: "Lost",   className: "stat-column" },
                 { title: "GF", data: "GF",     className: "stat-column" },
                 { title: "GA", data: "GA",     className: "stat-column" },
-                goalDiffColumn,  // you can also add className: "stat-column" inside that definition
+                goalDiffColumn,
                 { title: "PTS", data: "Points", className: "stat-column points-column" }
               ],
               createdRow: function (row, data, index) {
@@ -603,6 +602,29 @@ nav: false
                 }
               }
             });
+
+			// Detect if any team has a * in its Name
+			const hasDeductions = teamsArray.some(t => t.Name?.includes('*'));
+
+			// Show/hide elements accordingly
+			const heading = document.getElementById("tableHeading");
+			const tableElem = document.getElementById("leagueTable");
+			const noteElem = document.getElementById("pointsDeductionNote");
+			const downloadBtn = document.getElementById("downloadTableImage");
+
+			// Only display heading, table, and button if there’s data
+			if (teamsArray.length > 0) {
+			  heading.style.display = "block";
+			  tableElem.style.display = "table";
+			  downloadBtn.style.display = "inline-block";
+			} else {
+			  heading.style.display = "none";
+			  tableElem.style.display = "none";
+			  downloadBtn.style.display = "none";
+			}
+
+			// Show note only if deductions exist
+			noteElem.style.display = hasDeductions ? "block" : "none";
         }
 
         document.addEventListener("DOMContentLoaded", () => {
