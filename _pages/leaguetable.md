@@ -448,10 +448,19 @@ nav: false
           document.getElementById("leagueTable").style.display = "table";
           const leagueTable = document.getElementById("leagueTable");
 
+          let seasonStrNum;
+    			if (config.season !== null) {
+    			  const seasonStrYr = config.season.split('/')[0];
+    			  seasonStrNum = parseInt(seasonStrYr, 10);
+    			} else {
+    			seasonStrNum = null;
+    			}
+
           // Decide which column to show based on the start year
           const goalDiffColumn = (
               (typeof config.startYear === "number" && config.startYear < 1976) ||
-              (typeof config.earliestYear === "number" && config.earliestYear < 1976)
+              (typeof config.earliestYear === "number" && config.earliestYear < 1976) ||
+              (typeof config.season != null && seasonStrNum < 1976)
             )
               ? {
                   title: "GR",
