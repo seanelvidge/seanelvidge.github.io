@@ -240,9 +240,9 @@ nav: false
         class="table table-striped table-bordered"
         style="display:none;"
       ></table>
-	  <p id="pointsDeductionNote" style="display:none; font-style:italic; margin-top:8px;">* points deduction</p>
-	  <br>
-	  <button type="button" id="downloadTableImage" class="btn btn-sm btn-primary" style="display:none;">Download table as image</button>
+      <p id="pointsDeductionNote" style="display:none; font-style:italic; margin-top:8px;">* points deduction</p>
+      <br>
+      <button type="button" id="downloadTableImage" class="btn btn-sm btn-primary" style="display:none;">Download table as image</button>
 
       <script>
         function handleSubmit() {
