@@ -8,7 +8,7 @@ related_posts: true
 thumbnail: assets/img/pts_avoid_relegation.png
 ---
 
-The number has become part of Premier League folk law. Forty points. Reach 40 and you can relax, the trapdoor to the Championship won't open. 
+The number has become part of Premier League folk law. Forty points. Reach 40 and you can relax, the trapdoor to the Championship won't open.
 
 At the start of the 2015/16 season (the season Leicester City won the League!) their manager Claudio Ranieri set them the target of reaching 40 points to avoid relegation. When they hit the target:
 
@@ -33,7 +33,7 @@ A few things are immediatly obvious:
 2. The average number of points needed to avoid relegation over the last 40 years is 37 (in the Premier League era, it is 36 points),
 3. There is a clear decreasing trend of the number of points required.
 
-So where does the idea that you need 40 points come from? There is no obvious origin of the phrase. My best guess is that in the mid 90s, after Southampton survied (just, on goal difference) with 38 points in 1995/96, followed by Coventry City with 41 the following year, then Everton with 40 and then Southampton (again) with 41 points in 1998/99, that that run of four was enough for the (rough) number to stick. 
+So where does the idea that you need 40 points come from? There is no obvious origin of the phrase. My best guess is that in the mid 90s, after Southampton survied (just, on goal difference) with 38 points in 1995/96, followed by Coventry City with 41 the following year, then Everton with 40 and then Southampton (again) with 41 points in 1998/99, that that run of four was enough for the (rough) number to stick.
 
 But despite the previous analysis (by me and many others) I think 40 is still the correct, pre-season, target. Moving to (for example) a 37 point target would only give you slightly better than a 50-50 chance of staying up (54.5%). Perhaps you would like a little more certainty...
 
@@ -44,18 +44,17 @@ One way to look at this is to calculate the cumulative distribution function (CD
   <figcaption></figcaption>
 </figure>
 
-The above figure shows two, slightly different, CDFs, in blue across the whole dataset (since 1985) and in red just in the Premier League era. To read the plot look at the number of points on the x-axis and then read off the corresponding probability of avoiding relegation on the y-axis for that number of points. 
+The above figure shows two, slightly different, CDFs, in blue across the whole dataset (since 1985) and in red just in the Premier League era. To read the plot look at the number of points on the x-axis and then read off the corresponding probability of avoiding relegation on the y-axis for that number of points.
 
 Now the 40 point value makes a lot more sense, as it gives a team over an 80% chance of staying in the division, now I prefer those odds!
 
 So, whilst there are plenty of posts online telling you that the 40 point target is a myth, I think, as pre-season target for teams, it is still a good one.
 
-
 <!-- Load Chart.js once -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 
-
 <canvas id="pointsChart"></canvas>
+
 <script>
   // Your data (unchanged)
   const chartData = {
