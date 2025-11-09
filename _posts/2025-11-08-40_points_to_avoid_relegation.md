@@ -20,10 +20,21 @@ But where did this number come from, and it is the right target?
 
 Many people have noted that the 40 point mark is a "myth" (e.g. [The Premier League](https://www.premierleague.com/en/news/3932287), [BBC](https://www.bbc.co.uk/sport/football/43049564), [The Athletic](https://www.nytimes.com/athletic/6126560/2025/02/12/leicester-city-fixtures-premier-league-relegation/)). But those articles are really just saying that, on average, you need less than 40 points to survive (and the number of points you need seems to be decreasing).
 
+<html>
 <figure>
   <canvas id="pointsChart"></canvas>
   <figcaption></figcaption>
 </figure>
+	<style>
+    .chart-container {
+        position: relative;
+        width: 100%;
+        min-height: 250px;
+        height: 50vh;   /* Always 50% of the viewport height */
+        max-height: 80vh;
+    }
+</style>
+</html>
 
 The plot above shows the number of points required to stay in the top division of English football (since 3 points for a win was introduced in 1985; this includes before the Premier League started in 1992). Note that during that time there have been a varying number of teams in the top division (between 20 and 22) which obviously impacts the points required. We have normalized this to a 38-game season for comparison.
 
