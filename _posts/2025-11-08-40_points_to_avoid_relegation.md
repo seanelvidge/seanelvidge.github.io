@@ -146,7 +146,7 @@ So, whilst there are plenty of posts online telling you that the 40 point target
   const primaryDataset = {
     label: '(Normalized) Points Needed to Avoid Relegation',
     data: yPoints,
-	borderColor: 'darkblue',
+	borderColor: 'grey',
     borderWidth: 2,
     pointRadius: 2,
     tension: 0
@@ -166,7 +166,7 @@ So, whilst there are plenty of posts online telling you that the 40 point target
   const fitLine = {
     label: 'Linear fit',
     data: fitY,
-    borderColor: 'grey',
+    borderColor: 'darkblue',
     borderWidth: 2,
     borderDash: [6, 4],
     pointRadius: 0,
