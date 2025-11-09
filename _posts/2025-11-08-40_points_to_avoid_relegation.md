@@ -285,5 +285,3 @@ So, whilst there are plenty of posts online telling you that the 40 point target
     }
   });
 </script>
-
-
