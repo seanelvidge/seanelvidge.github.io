@@ -29,7 +29,7 @@ Many people have noted that the 40 point mark is a "myth" (e.g. [The Premier Lea
     .chart-container {
         position: relative;
         width: 100%;
-        min-height: 250px;
+        min-height: 450px;
         height: 50vh;   /* Always 50% of the viewport height */
         max-height: 80vh;
     }
