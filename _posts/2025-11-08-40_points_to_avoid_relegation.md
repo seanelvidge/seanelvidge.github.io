@@ -7,7 +7,33 @@ tags: football mathematics
 related_posts: true
 thumbnail: assets/img/pts_avoid_relegation.png
 ---
+<html>
+	<head>
+		<style>
+  /* Make all chart figures wide */
+  .chart-figure { width: 100%; margin: 1rem 0; }
 
+  /* Parent controls size; canvas fills it */
+  .chart-container {
+    position: relative;
+    width: 100%;
+    height: 55vh;       /* big on mobile */
+    min-height: 420px;  /* keep readable on small screens */
+    max-height: 80vh;
+  }
+  .chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+
+  /* Optional: even taller on narrow screens */
+  @media (max-width: 640px) {
+    .chart-container { height: 65vh; min-height: 480px; }
+  }
+</style>
+	</head>
+</html>
 The number has become part of Premier League folk law. Forty points. Reach 40 and you can relax, the trapdoor to the Championship won't open.
 
 At the start of the 2015/16 season (the season Leicester City won the League!) their manager Claudio Ranieri set them the target of reaching 40 points to avoid relegation. When they hit the target:
@@ -20,21 +46,12 @@ But where did this number come from, and it is the right target?
 
 Many people have noted that the 40 point mark is a "myth" (e.g. [The Premier League](https://www.premierleague.com/en/news/3932287), [BBC](https://www.bbc.co.uk/sport/football/43049564), [The Athletic](https://www.nytimes.com/athletic/6126560/2025/02/12/leicester-city-fixtures-premier-league-relegation/)). But those articles are really just saying that, on average, you need less than 40 points to survive (and the number of points you need seems to be decreasing).
 
-<html>
-<figure>
-  <canvas id="pointsChart"></canvas>
+<figure class="chart-figure">
+  <div class="chart-container">
+    <canvas id="pointsChart"></canvas>
+  </div>
   <figcaption></figcaption>
 </figure>
-	<style>
-    .chart-container {
-        position: relative;
-        width: 100%;
-        min-height: 450px;
-        height: 50vh;   /* Always 50% of the viewport height */
-        max-height: 80vh;
-    }
-</style>
-</html>
 
 The plot above shows the number of points required to stay in the top division of English football (since 3 points for a win was introduced in 1985; this includes before the Premier League started in 1992). Note that during that time there have been a varying number of teams in the top division (between 20 and 22) which obviously impacts the points required. We have normalized this to a 38-game season for comparison.
 
@@ -183,6 +200,7 @@ So, whilst there are plenty of posts online telling you that the 40 point target
     },
     options: {
       responsive: true,
+		maintainAspectRatio: false,
       plugins: {
         legend: { position: 'top' },
         tooltip: {
