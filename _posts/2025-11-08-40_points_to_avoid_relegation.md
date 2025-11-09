@@ -67,8 +67,10 @@ But despite the previous analysis (by me and many others) I think 40 is still th
 
 One way to look at this is to calculate the cumulative distribution function (CDF). The CDF is a function that shows the probability that a random variable is less than or equal to a specific value. It "accumulates" or "adds up" the probabilities for all outcomes up to a certain point.
 
-<figure>
-  <canvas id="cdfChart"></canvas>
+<figure class="chart-figure">
+  <div class="chart-container">
+    <canvas id="cdfChart"></canvas>
+  </div>
   <figcaption></figcaption>
 </figure>
 
@@ -285,6 +287,7 @@ So, whilst there are plenty of posts online telling you that the 40 point target
     },
     options: {
       parsing: false,
+	  maintainAspectRatio: false,
       scales: {
         x: {
           type: 'linear',
