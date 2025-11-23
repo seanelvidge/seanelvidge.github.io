@@ -14,6 +14,7 @@ tags: football
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
 
+  {% raw %}
   <style>
   :root {
 	  --text-color: #111;
@@ -86,6 +87,7 @@ tags: football
       .vs-label { margin-bottom: 10px; }
     }
   </style>
+  {% endraw %}
 </head>
 <body>
 
