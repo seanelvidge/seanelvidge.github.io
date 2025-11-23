@@ -14,28 +14,20 @@ tags: football
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
 
-  {% raw %}
   <style>
-  :root {
-	  --text-color: #111;
-	  --muted-text-color: #333;
+  /* Let chart text inherit the page text color */
+	.chart-container {
+	  color: inherit; /* inherits from body / layout */
 	}
 
-	@media (prefers-color-scheme: dark) {
-	  :root {
-		--text-color: #eee;
-		--muted-text-color: #ccc;
-	  }
-	}
-
-	/* Make ALL SVG text follow theme */
+	/* Make ALL SVG text follow that inherited color */
 	.chart-container svg text {
-	  fill: var(--text-color);
+	  fill: currentColor;
 	}
 
-	/* If you want labels slightly muted vs percentages, you can use class hooks */
+	/* (optional) make center labels bold like h2h */
 	.chart-container svg text.bar-label {
-	  fill: var(--muted-text-color);
+	  font-weight: bold;
 	}
 
     .btn {
@@ -87,7 +79,6 @@ tags: football
       .vs-label { margin-bottom: 10px; }
     }
   </style>
-  {% endraw %}
 </head>
 <body>
 
