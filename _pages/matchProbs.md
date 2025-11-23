@@ -7,7 +7,6 @@ nav: false
 tags: football
 ---
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <!-- Papa Parse for CSV reading -->
@@ -442,5 +441,4 @@ tags: football
 </script>
 
 </body>
-</html>
 </html>
