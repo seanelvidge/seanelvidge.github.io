@@ -85,11 +85,11 @@ tags: football
   <label for="team1Input">Team #1 (Home):</label>
   <input type="text" id="team1Input" list="teams" />
 
-  <label for="team2Input">Team #2 (Away):</label>
-  <input type="text" id="team2Input" list="teams" />
+<label for="team2Input">Team #2 (Away):</label>
+<input type="text" id="team2Input" list="teams" />
 
-  <datalist id="teams"></datalist>
-  <br /><br />
+<datalist id="teams"></datalist>
+<br /><br />
   
   <div class="button-row">
     <button type="submit" class="btn">Compute</button>
