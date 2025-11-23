@@ -1,12 +1,13 @@
 ---
 layout: page
 permalink: /matchProbs
-title: Match Outcome Probabilities Calculator
+title: Experimental: Match Outcome Probabilities Calculator
 description: Experimental tool for calculating football match outcome probabilities.
 nav: false
 tags: football
 ---
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <!-- Papa Parse for CSV reading -->
@@ -14,6 +15,28 @@ tags: football
   <script src="https://d3js.org/d3.v7.min.js"></script>
 
   <style>
+  :root {
+	  --text-color: #111;
+	  --muted-text-color: #333;
+	}
+
+	@media (prefers-color-scheme: dark) {
+	  :root {
+		--text-color: #eee;
+		--muted-text-color: #ccc;
+	  }
+	}
+
+	/* Make ALL SVG text follow theme */
+	.chart-container svg text {
+	  fill: var(--text-color);
+	}
+
+	/* If you want labels slightly muted vs percentages, you can use class hooks */
+	.chart-container svg text.bar-label {
+	  fill: var(--muted-text-color);
+	}
+
     .btn {
       display: inline-block;
       margin: 6px 8px 0 0;
@@ -75,18 +98,7 @@ tags: football
 
   <datalist id="teams"></datalist>
   <br /><br />
-
-  <label for="yearInput">Year:</label>
-  <input type="number" id="yearInput" min="1888" max="2100" step="1" placeholder="e.g. 2024" />
-
-  <label for="tierSelect">Tier:</label>
-  <select id="tierSelect">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-  </select>
-
+  
   <div class="button-row">
     <button type="submit" class="btn">Compute</button>
     <button type="button" id="resetButton" class="btn">Reset</button>
@@ -224,16 +236,16 @@ tags: football
   }
 
 
-  function probabilities(t1elo, t2elo, tier, year, beta=0.9) {
-    const mu_tier = {1: +1.5, 2: +0.3, 3: -0.3, 4: -0.6};
+  function probabilities(t1elo, t2elo, year, beta=0.9) {
+    // const mu_tier = {1: +1.5, 2: +0.3, 3: -0.3, 4: -0.6};
 
     const sH = elo_to_skill(t1elo, beta);
     const sA = elo_to_skill(t2elo, beta);
 
     const rho = 0.997;
     const x_minus = [
-      rho * sH + (1 - rho) * mu_tier[tier],
-      rho * sA + (1 - rho) * mu_tier[tier]
+      rho * sH + (1 - rho), //* mu_tier[tier],
+      rho * sA + (1 - rho) //* mu_tier[tier]
     ];
 
     let p = predict_probs(x_minus[0], x_minus[1], year, beta);
@@ -270,12 +282,19 @@ tags: football
     data.forEach((d, i) => {
       const y = i * (barHeight + gap);
 
-      g.append("text")
-        .attr("x", -10)
-        .attr("y", y + barHeight/1.6)
-        .attr("text-anchor", "end")
-        .attr("class", "bar-label")
-        .text(d.label);
+      //g.append("text")
+      //  .attr("x", -10)
+      //  .attr("y", y + barHeight/1.6)
+      //  .attr("text-anchor", "end")
+      //  .attr("class", "bar-label")
+      //  .text(d.label);
+		
+	  g.append("text")
+	    .attr("x", x(d.value) + 6)
+		.attr("y", y + barHeight/1.6)
+		.attr("class", "bar-percent")
+		.text((100*d.value).toFixed(1) + "%");
+
 
       g.append("rect")
         .attr("x", 0)
@@ -347,15 +366,11 @@ tags: football
     // preload URL params if present
     const t1 = getURLParameter("team1");
     const t2 = getURLParameter("team2");
-    const yr = getURLParameter("year");
-    const tr = getURLParameter("tier");
 
     if (t1) document.getElementById("team1Input").value = getClosestTeamName(t1, allTeams);
     if (t2) document.getElementById("team2Input").value = getClosestTeamName(t2, allTeams);
-    if (yr) document.getElementById("yearInput").value = yr;
-    if (tr) document.getElementById("tierSelect").value = tr;
 
-    if (t1 || t2 || yr || tr) {
+    if (t1 || t2) {
       document.querySelector('#probForm button[type="submit"]').click();
     }
   });
@@ -367,8 +382,8 @@ tags: football
 
     const t1Raw = document.getElementById("team1Input").value.trim();
     const t2Raw = document.getElementById("team2Input").value.trim();
-    const year = parseInt(document.getElementById("yearInput").value, 10);
-    const tier = parseInt(document.getElementById("tierSelect").value, 10);
+    const year = new Date().getFullYear();
+
 
     const warnDiv = document.getElementById("warningMessage");
     warnDiv.style.display = "none";
@@ -410,17 +425,17 @@ tags: football
     // show names + ranks
     document.getElementById("team1Name").textContent = team1;
     document.getElementById("team2Name").textContent = team2;
-    document.getElementById("team1Rank").textContent = "Latest rank: " + r1.toFixed(0);
-    document.getElementById("team2Rank").textContent = "Latest rank: " + r2.toFixed(0);
+    document.getElementById("team1Rank").textContent = "Latest rating: " + r1.toFixed(0);
+    document.getElementById("team2Rank").textContent = "Latest rating: " + r2.toFixed(0);
     document.getElementById("vsLabel").style.display = "inline-block";
 
-    const p = probabilities(r1, r2, tier, year);
+    const p = probabilities(r1, r2, year);
 
     renderProbChart(p);
 
     // shareable URL (same idea as h2h)
     const baseUrl = "https://seanelvidge.com/matchProbs";
-    const shareUrl = `${baseUrl}?team1=${encodeURIComponent(team1)}&team2=${encodeURIComponent(team2)}&year=${encodeURIComponent(year)}&tier=${encodeURIComponent(tier)}`;
+    const shareUrl = `${baseUrl}?team1=${encodeURIComponent(team1)}&team2=${encodeURIComponent(team2)}`;
 
     const shareDiv = document.getElementById("shareLink");
     shareDiv.style.display = "block";
@@ -434,4 +449,5 @@ tags: football
 </script>
 
 </body>
+</html>
 </html>
