@@ -274,18 +274,18 @@ tags: football
     data.forEach((d, i) => {
       const y = i * (barHeight + gap);
 
-      //g.append("text")
-      //  .attr("x", -10)
-      //  .attr("y", y + barHeight/1.6)
-      //  .attr("text-anchor", "end")
-      //  .attr("class", "bar-label")
-      //  .text(d.label);
+      g.append("text")
+        .attr("x", -10)
+        .attr("y", y + barHeight/1.6)
+        .attr("text-anchor", "end")
+        .attr("class", "bar-label")
+        .text(d.label);
 		
-	  g.append("text")
-	    .attr("x", x(d.value) + 6)
-		.attr("y", y + barHeight/1.6)
-		.attr("class", "bar-percent")
-		.text((100*d.value).toFixed(1) + "%");
+	  //g.append("text")
+	  //  .attr("x", x(d.value) + 6)
+	  //.attr("y", y + barHeight/1.6)
+	  //.attr("class", "bar-percent")
+	  //.text((100*d.value).toFixed(1) + "%");
 
 
       g.append("rect")
