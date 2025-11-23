@@ -90,7 +90,7 @@ tags: football
 
 <datalist id="teams"></datalist>
 <br /><br />
-  
+
   <div class="button-row">
     <button type="submit" class="btn">Compute</button>
     <button type="button" id="resetButton" class="btn">Reset</button>
