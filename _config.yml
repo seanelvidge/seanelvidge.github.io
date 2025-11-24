@@ -335,7 +335,8 @@ enable_publication_thumbnails: true
 external_links:
   enabled: true
   rel: external nofollow noopener
-  target: # _blank
+  # Open external links in the current tab instead of a new one.
+  target: _self
   exclude:
 
 # -----------------------------------------------------------------------------
