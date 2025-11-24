@@ -29,6 +29,14 @@ tags: football
 	  font-weight: bold;
 	}
 
+	.team-logo {
+	  width: auto;
+	  max-width: 120px;
+	  height: 120px;
+	  display: block;
+	  margin: 0 auto;
+	}
+
     .btn {
       display: inline-block;
       margin: 6px 8px 0 0;
@@ -102,11 +110,13 @@ tags: football
 
 <div class="teams-row">
   <div class="team-container" id="team1Container">
+	<img class="team-logo" id="team1Logo" />
     <div class="team-name" id="team1Name"></div>
     <div class="team-rank" id="team1Rank"></div>
   </div>
   <div class="vs-label" id="vsLabel">vs</div>
   <div class="team-container" id="team2Container">
+	<img class="team-logo" id="team2Logo" />
     <div class="team-name" id="team2Name"></div>
     <div class="team-rank" id="team2Rank"></div>
   </div>
@@ -155,6 +165,22 @@ tags: football
     });
     return bestTeam;
   }
+
+  fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamLogos.csv')
+    .then(res => res.text())
+    .then(text => {
+      const rows = Papa.parse(text, {
+        header: true,
+        skipEmptyLines: true
+      }).data;
+      const dict = {};
+      rows.forEach(row => {
+        if (row.Team && row.LogoURL) {
+          dict[row.Team.trim()] = row.LogoURL.trim();
+        }
+      });
+      window.teamLogos = dict;
+    });
 
   // ---------------- Probability model bits (JS ports) ----------------
 
@@ -280,13 +306,6 @@ tags: football
         .attr("text-anchor", "end")
         .attr("class", "bar-label")
         .text(d.label);
-		
-	  //g.append("text")
-	  //  .attr("x", x(d.value) + 6)
-	  //.attr("y", y + barHeight/1.6)
-	  //.attr("class", "bar-percent")
-	  //.text((100*d.value).toFixed(1) + "%");
-
 
       g.append("rect")
         .attr("x", 0)
@@ -420,6 +439,9 @@ tags: football
     document.getElementById("team1Rank").textContent = "Latest rating: " + r1.toFixed(0);
     document.getElementById("team2Rank").textContent = "Latest rating: " + r2.toFixed(0);
     document.getElementById("vsLabel").style.display = "inline-block";
+    document.getElementById("team1Logo").src = (window.teamLogos && window.teamLogos[team1]) ? window.teamLogos[team1] : "";
+    document.getElementById("team2Logo").src = (window.teamLogos && window.teamLogos[team2]) ? window.teamLogos[team2] : "";
+
 
     const p = probabilities(r1, r2, year);
 
