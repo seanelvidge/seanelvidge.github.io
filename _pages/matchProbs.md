@@ -355,7 +355,6 @@ tags: football
       if (aTeam && !isNaN(aElo)) {
         if (!perTeam.has(aTeam)) perTeam.set(aTeam, []);
         perTeam.get(aTeam).push({ date: dateObj, elo: aElo });
-        }
       }
     });
 
