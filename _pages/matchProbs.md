@@ -66,7 +66,8 @@ tags: football
     }
     .team-name { font-size: 1.2em; font-weight: bold; text-align: center; margin-top: 5px; }
     .team-rank { font-size: 1em; text-align: center; margin-top: 2px; opacity: 0.9; }
-	.rating-arrow { margin-left: 6px; font-weight: bold; }
+    .rating-value { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .rating-arrow { margin-left: 0; font-weight: bold; }
     .rating-arrow.up { color: #2e8b57; }
     .rating-arrow.down { color: #c0392b; }
     .rating-arrow.neutral { color: #888; }
@@ -381,7 +382,8 @@ tags: football
 
   function latestRatingHTML(teamName, ratingValue) {
     const arrow = ratingArrowHTML(teamName, ratingValue);
-    return `Latest rating: ${ratingValue.toFixed(0)} ${arrow}`;
+    const arrowPart = arrow ? ` ${arrow}` : "";
+    return `Latest rating: <span class="rating-value">${ratingValue.toFixed(0)}${arrowPart}</span>`;
   }
   d3.csv(csvUrl).then(rows => {
     allMatches = rows;
