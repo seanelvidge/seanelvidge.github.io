@@ -66,6 +66,10 @@ tags: football
     }
     .team-name { font-size: 1.2em; font-weight: bold; text-align: center; margin-top: 5px; }
     .team-rank { font-size: 1em; text-align: center; margin-top: 2px; opacity: 0.9; }
+	.rating-arrow { margin-left: 6px; font-weight: bold; }
+    .rating-arrow.up { color: #2e8b57; }
+    .rating-arrow.down { color: #c0392b; }
+    .rating-arrow.neutral { color: #888; }
     .vs-label {
       display: none; margin: 0 5px; font-size: 2em; font-weight: bold; vertical-align: middle;
     }
@@ -327,7 +331,7 @@ tags: football
 
   let allMatches = [];
   let allTeams = [];
-  let latestRanks = {}; // team -> {date: Date, elo: number}
+  let latestRanks = {}; // team -> {date: Date, elo: number, prevElo: number|null}
 
   function toDateSafe(ds) {
     const d = new Date(ds);
@@ -335,7 +339,7 @@ tags: football
   }
 
   function buildLatestRanks(rows) {
-    const ranks = {};
+    const perTeam = new Map();
     rows.forEach(r => {
       const dateObj = toDateSafe(r.Date);
       const hTeam = r.HomeTeam;
@@ -345,19 +349,41 @@ tags: football
       const aElo = parseFloat(r.AwayRank_after);
 
       if (hTeam && !isNaN(hElo)) {
-        if (!ranks[hTeam] || dateObj >= ranks[hTeam].date) {
-          ranks[hTeam] = { date: dateObj, elo: hElo };
-        }
+        if (!perTeam.has(hTeam)) perTeam.set(hTeam, []);
+        perTeam.get(hTeam).push({ date: dateObj, elo: hElo });
       }
       if (aTeam && !isNaN(aElo)) {
-        if (!ranks[aTeam] || dateObj >= ranks[aTeam].date) {
-          ranks[aTeam] = { date: dateObj, elo: aElo };
+        if (!perTeam.has(aTeam)) perTeam.set(aTeam, []);
+        perTeam.get(aTeam).push({ date: dateObj, elo: aElo });
         }
       }
     });
+
+	const ranks = {};
+    perTeam.forEach((entries, team) => {
+      entries.sort((a, b) => a.date - b.date);
+      const latest = entries[entries.length - 1];
+      const prev = entries.length > 1 ? entries[entries.length - 2] : null;
+      ranks[team] = { date: latest.date, elo: latest.elo, prevElo: prev ? prev.elo : null };
+    });
+
     return ranks;
   }
 
+  function ratingArrowHTML(teamName, currentRating) {
+    const prev = latestRanks[teamName]?.prevElo;
+    if (prev == null) return "";
+
+    const diff = currentRating - prev;
+    if (diff > 0) return '<span class="rating-arrow up" aria-label="rating increased">▲</span>';
+    if (diff < 0) return '<span class="rating-arrow down" aria-label="rating decreased">▼</span>';
+    return '<span class="rating-arrow neutral" aria-label="rating unchanged">—</span>';
+  }
+
+  function latestRatingHTML(teamName, ratingValue) {
+    const arrow = ratingArrowHTML(teamName, ratingValue);
+    return `Latest rating: ${ratingValue.toFixed(0)} ${arrow}`;
+  }
   d3.csv(csvUrl).then(rows => {
     allMatches = rows;
 
@@ -436,8 +462,8 @@ tags: football
     // show names + ranks
     document.getElementById("team1Name").textContent = team1;
     document.getElementById("team2Name").textContent = team2;
-    document.getElementById("team1Rank").textContent = "Latest rating: " + r1.toFixed(0);
-    document.getElementById("team2Rank").textContent = "Latest rating: " + r2.toFixed(0);
+    document.getElementById("team1Rank").innerHTML = latestRatingHTML(team1, r1);
+    document.getElementById("team2Rank").innerHTML = latestRatingHTML(team2, r2);
     document.getElementById("vsLabel").style.display = "inline-block";
     document.getElementById("team1Logo").src = (window.teamLogos && window.teamLogos[team1]) ? window.teamLogos[team1] : "";
     document.getElementById("team2Logo").src = (window.teamLogos && window.teamLogos[team2]) ? window.teamLogos[team2] : "";
