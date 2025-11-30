@@ -14,16 +14,16 @@ thumbnail: assets/img/pts_avoid_relegation.png
 .chart-figure { width: 100%; margin: 1rem 0; }
 
 .chart-container {
- position: relative;
- width: 100%;
- height: 55vh;
- min-height: 420px;
- max-height: 80vh;
+position: relative;
+width: 100%;
+height: 55vh;
+min-height: 420px;
+max-height: 80vh;
 }
 .chart-container canvas {
- width: 100% !important;
- height: 100% !important;
- display: block;
+width: 100% !important;
+height: 100% !important;
+display: block;
 }
 
 @media (max-width: 640px) {
