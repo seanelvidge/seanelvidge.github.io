@@ -14,22 +14,23 @@ thumbnail: assets/img/pts_avoid_relegation.png
 .chart-figure { width: 100%; margin: 1rem 0; }
 
 .chart-container {
-  position: relative;
-  width: 100%;
-  height: 55vh;
-  min-height: 420px;
-  max-height: 80vh;
+ position: relative;
+ width: 100%;
+ height: 55vh;
+ min-height: 420px;
+ max-height: 80vh;
 }
 .chart-container canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
+ width: 100% !important;
+ height: 100% !important;
+ display: block;
 }
 
 @media (max-width: 640px) {
-  .chart-container { height: 65vh; min-height: 480px; }
+.chart-container { height: 65vh; min-height: 480px; }
 }
 </style>
+
 </head>
 </html>
 The number has become part of Premier League folk law. Forty points. Reach 40 and you can relax, the trapdoor to the Championship won't open.
