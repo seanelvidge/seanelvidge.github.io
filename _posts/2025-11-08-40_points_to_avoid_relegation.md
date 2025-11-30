@@ -7,32 +7,30 @@ tags: football mathematics
 related_posts: true
 thumbnail: assets/img/pts_avoid_relegation.png
 ---
+
 <html>
-	<head>
-		<style>
-  /* Make all chart figures wide */
-  .chart-figure { width: 100%; margin: 1rem 0; }
+<head>
+<style>
+.chart-figure { width: 100%; margin: 1rem 0; }
 
-  /* Parent controls size; canvas fills it */
-  .chart-container {
-    position: relative;
-    width: 100%;
-    height: 55vh;       /* big on mobile */
-    min-height: 420px;  /* keep readable on small screens */
-    max-height: 80vh;
-  }
-  .chart-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
-  }
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 55vh;
+  min-height: 420px;
+  max-height: 80vh;
+}
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
 
-  /* Optional: even taller on narrow screens */
-  @media (max-width: 640px) {
-    .chart-container { height: 65vh; min-height: 480px; }
-  }
+@media (max-width: 640px) {
+  .chart-container { height: 65vh; min-height: 480px; }
+}
 </style>
-	</head>
+</head>
 </html>
 The number has become part of Premier League folk law. Forty points. Reach 40 and you can relax, the trapdoor to the Championship won't open.
 
