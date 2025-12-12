@@ -87,9 +87,9 @@ The Premier League’s most mathematically defensible curse.
 
 ## Runner-up bogey teams
 
-Fulham–Arsenal is the only pair in the entire database whose Wilson upper bound hovers at just above the 10% threshold. But several others get close, and here are the best (or worst) of the rest:
+Fulham–Arsenal is the only pair in the entire database whose Wilson upper bound hovers at just above the 10% threshold. But several others get close, here are the best (or worst) of the rest:
 
-<table style="border-collapse: collapse; width: 50%;">
+<table style="border-collapse: collapse; width: 75%;">
   <thead>
     <tr>
       <th style="border: 1px solid black; padding: 8px;">Away Team</th>
