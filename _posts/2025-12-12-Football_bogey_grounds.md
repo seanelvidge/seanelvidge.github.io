@@ -85,7 +85,7 @@ So, therefore, I think it is safe to say to conclude:
 
 The Premier League’s most mathematically defensible curse.
 
-## Runner-up bogey teams
+## Other bogey teams
 
 Fulham–Arsenal is the only pair in the entire database whose Wilson upper bound hovers at just above the 10% threshold. But several others get close, here are the best (or worst) of the rest:
 
@@ -151,5 +151,6 @@ Fulham–Arsenal is the only pair in the entire database whose Wilson upper boun
     </tr>
   </tbody>
 </table>
+
 
 These are not small samples. These are not casual coincidences. When you are approaching 20 or 30 visits with no victory, it is time to stop thinking you are unlucky and start accepting you have a bogey ground.
