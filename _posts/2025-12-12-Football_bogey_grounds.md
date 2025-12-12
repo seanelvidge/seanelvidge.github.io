@@ -153,6 +153,5 @@ Fulham–Arsenal is the only pair in the entire database whose Wilson upper boun
 </table>
 
 <br>
-<br>
 
 These are not small samples. These are not casual coincidences. When you are approaching 20 or 30 visits with no victory, it is time to stop thinking you are unlucky and start accepting you have a bogey ground.
