@@ -18,7 +18,7 @@ In the Premier League an example of this is Fulham, and their trips to Arsenal.
 
 > Fulham have played 32 league matches away at Arsenal. They have never won.
 
-Not once. Not in 1914 (lost 2-0). Not in 1964 (2-2). Not in 2014 (lost 2-0). 
+Not once. Not in 1914 (lost 2-0). Not in 1964 (2-2). Not in 2014 (lost 2-0).
 
 Zero wins from thirty-two attempts. Seven draws. Twenty-five defeats.
 
@@ -51,12 +51,12 @@ and asks:
 
 > "If their true underlying chance of winning were $$p$$, how big could $$p$$ realistically be before the observed data (zero wins) would start to look implausible?"
 
-For small $$n$$  (not many games played) the answer is: "$$p$$ could still be quite large."
+For small $$n$$ (not many games played) the answer is: "$$p$$ could still be quite large."
 For large $$n$$ (a large number of games played) the answer is: "$$p$$ must be quite small."
 
 This lines up with our intuition.
 
-A team with 0 wins from 2 tries? Their true win rate might easily be 30%, 40%, even 50%. 
+A team with 0 wins from 2 tries? Their true win rate might easily be 30%, 40%, even 50%.
 
 A team with 0 wins from 32 tries? Now the interval collapses. It tells you the true away win probability is almost certainly very small, low enough that even by bad luck alone, you'd be surprised _not_ to have picked up a single win after that many attempts.
 
