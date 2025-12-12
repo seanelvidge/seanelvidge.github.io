@@ -89,14 +89,67 @@ The Premier League’s most mathematically defensible curse.
 
 Fulham–Arsenal is the only pair in the entire database whose Wilson upper bound hovers at just above the 10% threshold. But several others get close, and here are the best (or worst) of the rest:
 
-| Away Team           | Home Team             | Played   | Record       | Wilson Upper |
-| ------------------- | --------------------- | -------- | ------------ | ------------ |
-| Fulham              | Arsenal               | 32       | 0W–7D–25L    | 10.7%        |
-| Grimsby Town        | Blackburn Rovers      | 28       | 0W–9D–19L    | 12.1%        |
-| Mansfield Town      | Reading               | 26       | 0W–5D–21L    | 12.9%        |
-| Tranmere Rovers     | Barnsley              | 26       | 0W–11D–15L   | 12.9%        |
-| Oldham Athletic     | Charlton Athletic     | 25       | 0W–11D–14L   | 13.3%        |
-| Newport County      | Luton Town            | 24       | 0W–7D–17L    | 13.8%        |
-| Coventry City       | Preston North End     | 23       | 0W–8D–15L    | 14.3%        |
+<table style="border-collapse: collapse; width: 50%;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Away Team</th>
+      <th style="border: 1px solid black; padding: 8px;">Home Team</th>
+      <th style="border: 1px solid black; padding: 8px;">Played</th>
+      <th style="border: 1px solid black; padding: 8px;">Record</th>
+      <th style="border: 1px solid black; padding: 8px;">Wilson Upper</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Fulham</td>
+      <td style="border: 1px solid black; padding: 8px;">Arsenal</td>
+      <td style="border: 1px solid black; padding: 8px;">32</td>
+      <td style="border: 1px solid black; padding: 8px;">0W–7D–25L</td>
+      <td style="border: 1px solid black; padding: 8px;">10.7%</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Grimsby Town</td>
+      <td style="border: 1px solid black; padding: 8px;">Blackburn Rovers</td>
+      <td style="border: 1px solid black; padding: 8px;">28</td>
+      <td style="border: 1px solid black; padding: 8px;">0W–9D–19L</td>
+      <td style="border: 1px solid black; padding: 8px;">12.1%</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Mansfield Town</td>
+      <td style="border: 1px solid black; padding: 8px;">Reading</td>
+      <td style="border: 1px solid black; padding: 8px;">26</td>
+      <td style="border: 1px solid black; padding: 8px;">0W–5D–21L</td>
+      <td style="border: 1px solid black; padding: 8px;">12.9%</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Tranmere Rovers</td>
+      <td style="border: 1px solid black; padding: 8px;">Barnsley</td>
+      <td style="border: 1px solid black; padding: 8px;">26</td>
+      <td style="border: 1px solid black; padding: 8px;">0W–11D–15L</td>
+      <td style="border: 1px solid black; padding: 8px;">12.9%</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Oldham Athletic</td>
+      <td style="border: 1px solid black; padding: 8px;">Charlton Athletic</td>
+      <td style="border: 1px solid black; padding: 8px;">25</td>
+      <td style="border: 1px solid black; padding: 8px;">0W–11D–14L</td>
+      <td style="border: 1px solid black; padding: 8px;">13.3%</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Newport County</td>
+      <td style="border: 1px solid black; padding: 8px;">Luton Town</td>
+      <td style="border: 1px solid black; padding: 8px;">24</td>
+      <td style="border: 1px solid black; padding: 8px;">0W–7D–17L</td>
+      <td style="border: 1px solid black; padding: 8px;">13.8%</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Coventry City</td>
+      <td style="border: 1px solid black; padding: 8px;">Preston North End</td>
+      <td style="border: 1px solid black; padding: 8px;">24</td>
+      <td style="border: 1px solid black; padding: 8px;">0W–9D–15L</td>
+      <td style="border: 1px solid black; padding: 8px;">13.8%</td>
+    </tr>
+  </tbody>
+</table>
 
 These are not small samples. These are not casual coincidences. When you are approaching 20 or 30 visits with no victory, it is time to stop thinking you are unlucky and start accepting you have a bogey ground.
