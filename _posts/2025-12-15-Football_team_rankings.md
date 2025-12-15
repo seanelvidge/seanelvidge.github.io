@@ -5,7 +5,7 @@ date: 2025-12-15 09:20:00
 description: The methodology behind my football team strength model.
 tags: football mathematics
 related_posts: true
-thumbnail: assets/img/bogey_team.png
+thumbnail: assets/img/football_rankings.png
 ---
 
 Not all football-rating systems are the same. Many of the public ones, like the excellent [ClubElo](http://clubelo.com/System), do a fine job of ranking teams using elegant updates. Win and your rating rises, lose and it falls; the amount you move depends on how "surprised" the model was.
