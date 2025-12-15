@@ -71,6 +71,11 @@ tags: football
     .rating-arrow.up { color: #2e8b57; }
     .rating-arrow.down { color: #c0392b; }
     .rating-arrow.neutral { color: #888; }
+	.inactive-note {
+      color: #c00;
+      font-size: 0.95em;
+      margin-top: 4px;
+    }
     .vs-label {
       display: none; margin: 0 5px; font-size: 2em; font-weight: bold; vertical-align: middle;
     }
@@ -186,6 +191,35 @@ tags: football
       });
       window.teamLogos = dict;
     });
+
+  const inactiveTeams = new Set();
+  function loadInactiveTeams() {
+    return fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamActivePeriods.csv')
+      .then(res => res.text())
+      .then(text => {
+        const rows = Papa.parse(text, {
+          header: true,
+          skipEmptyLines: true
+        }).data;
+
+        rows.forEach(row => {
+          const teamName = (row["Team Name"] || "").trim();
+          const years = (row["Years"] || "").trim();
+          if (!teamName || !years) return;
+
+          const segments = years.split(";").map(s => s.trim()).filter(Boolean);
+          if (!segments.length) return;
+
+          const lastSegment = segments[segments.length - 1];
+          const endPart = (lastSegment.split("-")[1] || "").trim().toLowerCase();
+
+          if (endPart && endPart !== "present") {
+            inactiveTeams.add(teamName);
+          }
+        });
+      });
+  }
+  const inactiveTeamsReady = loadInactiveTeams();
 
   // ---------------- Probability model bits (JS ports) ----------------
 
@@ -383,7 +417,10 @@ tags: football
   function latestRatingHTML(teamName, ratingValue) {
     const arrow = ratingArrowHTML(teamName, ratingValue);
     const arrowPart = arrow ? ` ${arrow}` : "";
-    return `Latest rating: <span class="rating-value">${ratingValue.toFixed(0)}${arrowPart}</span>`;
+    const inactiveNote = inactiveTeams.has(teamName)
+      ? '<div class="inactive-note">Inactive team</div>'
+      : '';
+    return `<div>Latest rating: <span class="rating-value">${ratingValue.toFixed(0)}${arrowPart}</span></div>${inactiveNote}`;
   }
   d3.csv(csvUrl).then(rows => {
     allMatches = rows;
@@ -418,69 +455,69 @@ tags: football
   document.getElementById("probForm").addEventListener("submit", e => {
     e.preventDefault();
 
-    const t1Raw = document.getElementById("team1Input").value.trim();
-    const t2Raw = document.getElementById("team2Input").value.trim();
-    const year = new Date().getFullYear();
+    inactiveTeamsReady.then(() => {
+      const t1Raw = document.getElementById("team1Input").value.trim();
+      const t2Raw = document.getElementById("team2Input").value.trim();
+      const year = new Date().getFullYear();
 
+      const warnDiv = document.getElementById("warningMessage");
+      warnDiv.style.display = "none";
+      warnDiv.textContent = "";
 
-    const warnDiv = document.getElementById("warningMessage");
-    warnDiv.style.display = "none";
-    warnDiv.textContent = "";
+      let team1 = allTeams.includes(t1Raw) ? t1Raw : getClosestTeamName(t1Raw, allTeams);
+      let team2 = allTeams.includes(t2Raw) ? t2Raw : getClosestTeamName(t2Raw, allTeams);
 
-    let team1 = allTeams.includes(t1Raw) ? t1Raw : getClosestTeamName(t1Raw, allTeams);
-    let team2 = allTeams.includes(t2Raw) ? t2Raw : getClosestTeamName(t2Raw, allTeams);
+      if (!team1) {
+        warnDiv.textContent = "Unknown team name: " + t1Raw;
+        warnDiv.style.display = "block";
+        return;
+      }
+      if (!team2) {
+        warnDiv.textContent = "Unknown team name: " + t2Raw;
+        warnDiv.style.display = "block";
+        return;
+      }
+      if (!year || isNaN(year)) {
+        warnDiv.textContent = "Please enter a valid year.";
+        warnDiv.style.display = "block";
+        return;
+      }
 
-    if (!team1) {
-      warnDiv.textContent = "Unknown team name: " + t1Raw;
-      warnDiv.style.display = "block";
-      return;
-    }
-    if (!team2) {
-      warnDiv.textContent = "Unknown team name: " + t2Raw;
-      warnDiv.style.display = "block";
-      return;
-    }
-    if (!year || isNaN(year)) {
-      warnDiv.textContent = "Please enter a valid year.";
-      warnDiv.style.display = "block";
-      return;
-    }
+      const r1 = latestRanks[team1]?.elo;
+      const r2 = latestRanks[team2]?.elo;
 
-    const r1 = latestRanks[team1]?.elo;
-    const r2 = latestRanks[team2]?.elo;
+      if (r1 == null) {
+        warnDiv.textContent = "No ranking found for " + team1;
+        warnDiv.style.display = "block";
+        return;
+      }
+      if (r2 == null) {
+        warnDiv.textContent = "No ranking found for " + team2;
+        warnDiv.style.display = "block";
+        return;
+      }
 
-    if (r1 == null) {
-      warnDiv.textContent = "No ranking found for " + team1;
-      warnDiv.style.display = "block";
-      return;
-    }
-    if (r2 == null) {
-      warnDiv.textContent = "No ranking found for " + team2;
-      warnDiv.style.display = "block";
-      return;
-    }
+      // show names + ranks
+      document.getElementById("team1Name").textContent = team1;
+      document.getElementById("team2Name").textContent = team2;
+      document.getElementById("team1Rank").innerHTML = latestRatingHTML(team1, r1);
+      document.getElementById("team2Rank").innerHTML = latestRatingHTML(team2, r2);
+      document.getElementById("vsLabel").style.display = "inline-block";
+      document.getElementById("team1Logo").src = (window.teamLogos && window.teamLogos[team1]) ? window.teamLogos[team1] : "";
+      document.getElementById("team2Logo").src = (window.teamLogos && window.teamLogos[team2]) ? window.teamLogos[team2] : "";
 
-    // show names + ranks
-    document.getElementById("team1Name").textContent = team1;
-    document.getElementById("team2Name").textContent = team2;
-    document.getElementById("team1Rank").innerHTML = latestRatingHTML(team1, r1);
-    document.getElementById("team2Rank").innerHTML = latestRatingHTML(team2, r2);
-    document.getElementById("vsLabel").style.display = "inline-block";
-    document.getElementById("team1Logo").src = (window.teamLogos && window.teamLogos[team1]) ? window.teamLogos[team1] : "";
-    document.getElementById("team2Logo").src = (window.teamLogos && window.teamLogos[team2]) ? window.teamLogos[team2] : "";
+      const p = probabilities(r1, r2, year);
 
+      renderProbChart(p);
 
-    const p = probabilities(r1, r2, year);
+      // shareable URL (same idea as h2h)
+      const baseUrl = "https://seanelvidge.com/matchProbs";
+      const shareUrl = `${baseUrl}?team1=${encodeURIComponent(team1)}&team2=${encodeURIComponent(team2)}`;
 
-    renderProbChart(p);
-
-    // shareable URL (same idea as h2h)
-    const baseUrl = "https://seanelvidge.com/matchProbs";
-    const shareUrl = `${baseUrl}?team1=${encodeURIComponent(team1)}&team2=${encodeURIComponent(team2)}`;
-
-    const shareDiv = document.getElementById("shareLink");
-    shareDiv.style.display = "block";
-    shareDiv.innerHTML = `<a href="${shareUrl}" target="_blank" rel="noopener">URL link for this probability query</a><br><br>`;
+      const shareDiv = document.getElementById("shareLink");
+      shareDiv.style.display = "block";
+      shareDiv.innerHTML = `<a href="${shareUrl}" target="_blank" rel="noopener">URL link for this probability query</a><br><br>`;
+    });
   });
 
   document.getElementById("resetButton").addEventListener("click", () => {
