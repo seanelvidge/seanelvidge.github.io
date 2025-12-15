@@ -14,7 +14,7 @@ This model begins in the same spirit but replaces those heuristic updates with a
 
 Across the [full historical dataset](https://seanelvidge.com/articles/2024/All_England_football_league_results/) (every English league match since 1888) the system achieves a mean Brier score of 0.2035. These values are significantly better than many published computer models (e.g. [Nyamdorj et al. 2014](https://www.stat.cmu.edu/cmsac/sure/2023/showcase/soccer/report.html), [BSIC, 2024](https://bsic.it/odds-at-play-testing-efficiency-in-the-premier-league-and-serie-a/) and [Harvard Sports Analysis Collective, 2015](https://harvardsportsanalysis.org/2015/07/5988/)) which indicates a stable, well-calibrated predictive performance. Crucially, because the filter quantifies its own uncertainty, it can tell us not only who is strongest, but how confident we should be in that judgement.
 
-The rest of this post goes into the mathematical details of the ranking algorithm, but if you want to access the underlying data it is [available here](https://github.com/seanelvidge/England-football-results) (specifically the file `EnglandLeagueResults_wRanks.csv`).
+The rest of this post goes into the mathematical details of the ranking algorithm, but if you want to access the underlying data it is [available here](https://github.com/seanelvidge/England-football-results) (specifically the file [`EnglandLeagueResults_wRanks.csv`](https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv)).
 
 ## The Big Picture
 
@@ -67,6 +67,8 @@ By allowing the home-advantage parameter $$h$$ to evolve slowly with time, the m
 Predictive accuracy is measured using the [Brier score](https://en.wikipedia.org/wiki/Brier_score), defined as the mean squared error between predicted probabilities and observed outcomes. Over the full dataset the score is 0.2035 (for the 2024/25 season it is 0.2085), indicating robust calibration both historically and in the present day.
 
 Internally, the filter operates on a latent "skill" scale roughly spanning $$-3$$ to $$+3$$. However for presentation, these values are mapped linearly onto an Elo-style scale, centred on 1000 points, with elite teams reaching 1800+ and lower-league teams clustering about a thousand points below. This transformation is purely cosmetic; all inference happens on the latent scale.
+
+
 
 # Part II — If You Dare Read On: The Mathematics
 
