@@ -194,8 +194,12 @@ tags: football
 
   const inactiveTeams = new Set();
   function loadInactiveTeams() {
-    return fetch('https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamActivePeriods.csv')
-      .then(res => res.text())
+    const activePeriodsUrl = 'https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamActivePeriods.csv';
+    return fetch(activePeriodsUrl)
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load active periods: ${res.status}`);
+        return res.text();
+      })
       .then(text => {
         const rows = Papa.parse(text, {
           header: true,
@@ -214,9 +218,12 @@ tags: football
           const endPart = (lastSegment.split("-")[1] || "").trim().toLowerCase();
 
           if (endPart && endPart !== "present") {
-            inactiveTeams.add(teamName);
+            inactiveTeams.add(teamName.toLowerCase());
           }
         });
+      })
+      .catch(err => {
+        console.warn(err);
       });
   }
   const inactiveTeamsReady = loadInactiveTeams();
@@ -417,7 +424,7 @@ tags: football
   function latestRatingHTML(teamName, ratingValue) {
     const arrow = ratingArrowHTML(teamName, ratingValue);
     const arrowPart = arrow ? ` ${arrow}` : "";
-    const inactiveNote = inactiveTeams.has(teamName)
+    const inactiveNote = inactiveTeams.has(teamName.toLowerCase())
       ? '<div class="inactive-note">Inactive team</div>'
       : '';
     return `<div>Latest rating: <span class="rating-value">${ratingValue.toFixed(0)}${arrowPart}</span></div>${inactiveNote}`;
@@ -455,7 +462,7 @@ tags: football
   document.getElementById("probForm").addEventListener("submit", e => {
     e.preventDefault();
 
-    inactiveTeamsReady.then(() => {
+    inactiveTeamsReady.catch(() => {}).then(() => {
       const t1Raw = document.getElementById("team1Input").value.trim();
       const t2Raw = document.getElementById("team2Input").value.trim();
       const year = new Date().getFullYear();
