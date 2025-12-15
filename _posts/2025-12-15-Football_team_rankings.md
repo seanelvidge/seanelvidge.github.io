@@ -14,7 +14,7 @@ This model begins in the same spirit but replaces those heuristic updates with a
 
 Across the [full historical dataset](https://seanelvidge.com/articles/2024/All_England_football_league_results/) (every English league match since 1888) the system achieves a mean Brier score of 0.2035. These values are significantly better than many published computer models (e.g. [Nyamdorj et al. 2014](https://www.stat.cmu.edu/cmsac/sure/2023/showcase/soccer/report.html), [BSIC, 2024](https://bsic.it/odds-at-play-testing-efficiency-in-the-premier-league-and-serie-a/) and [Harvard Sports Analysis Collective, 2015](https://harvardsportsanalysis.org/2015/07/5988/)) which indicates a stable, well-calibrated predictive performance. Crucially, because the filter quantifies its own uncertainty, it can tell us not only who is strongest, but how confident we should be in that judgement.
 
-The rest of this post goes into the mathematical details of the ranking algorithm, but if you want to access the underlying data it is [available here](https://github.com/seanelvidge/England-football-results) (specifically the file `EnglandLeagueResults_wRanks.csv`). 
+The rest of this post goes into the mathematical details of the ranking algorithm, but if you want to access the underlying data it is [available here](https://github.com/seanelvidge/England-football-results) (specifically the file `EnglandLeagueResults_wRanks.csv`).
 
 ## The Big Picture
 
