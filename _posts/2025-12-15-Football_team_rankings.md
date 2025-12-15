@@ -139,6 +139,4 @@ The Kalman gain $$K$$ replaces the fixed $$K$$-factor of traditional Elo systems
 
 ## Why This Matters
 
-This framework enforces mathematical honesty. Uncertainty is explicit, calibration is measurable, and every parameter ($$\beta$$, $$\rho$$, $$q$$, $$\kappa$$, tier baselines, and historical home advantage) has a clear interpretation.
-
-Instead of a single magic constant, the model becomes a living system that adapts across seasons, divisions, and eras. When a lower-league team's rating converges toward that of a top-flight side, it is not guesswork—it is a probabilistic statement grounded in data, uncertainty, and time.
+This framework enforces mathematical honesty. Uncertainty is explicit, calibration is measurable, and every parameter ($$\beta$$, $$\rho$$, $$q$$, $$\kappa$$, tier baselines, and historical home advantage) has a clear interpretation. Instead of a single magic constant, the model becomes a living system that adapts across seasons, divisions, and eras.
