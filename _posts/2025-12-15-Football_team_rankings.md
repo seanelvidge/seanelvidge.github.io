@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Tracking Football Team Strengths with a Bayesian Kalman Model  
+title: Tracking Football Team Strengths with a Bayesian Kalman Model
 date: 2025-12-15 09:20:00
 description: The methodology behind my football team strength model.
 tags: football mathematics
@@ -8,11 +8,13 @@ related_posts: true
 thumbnail: assets/img/bogey_team.png
 ---
 
-Not all football-rating systems are born equal. Many of the public ones—like the excellent [ClubElo](http://clubelo.com/System)—do a fine job of ranking teams using elegant updates. Win and your rating rises, lose and it falls; the amount you move depends on how "surprised" the model was.
+Not all football-rating systems are the same. Many of the public ones, like the excellent [ClubElo](http://clubelo.com/System), do a fine job of ranking teams using elegant updates. Win and your rating rises, lose and it falls; the amount you move depends on how "surprised" the model was.
 
-This model begins in the same spirit but replaces those heuristic updates with a probabilistic engine: a _Bayesian Extended Kalman Filter_ coupled to a modern version of the [Bradley–Terry model](https://en.wikipedia.org/wiki/Bradley%E2%80%93Terry_model) (with added draws). The core idea is simple: treat each team's strength as something hidden that we estimate and track through time, with uncertainty that expands between matches and contracts when new results arrive.
+This model begins in the same spirit but replaces those heuristic updates with a probabilistic engine: a _Bayesian Extended Kalman Filter_ coupled to a modern version of the Bradley–Terry model (with added draws). The core idea is simple: treat each team's strength as something hidden that we estimate and track through time, with uncertainty that expands between matches and contracts when new results arrive.
 
-Across the [full historical dataset](https://seanelvidge.com/articles/2024/All_England_football_league_results/) (every English league match since 1888) the system achieves a mean [Brier score](https://en.wikipedia.org/wiki/Brier_score) of 0.2035. These values are significantly better than many published computer models (e.g. [Nyamdorj et al. 2014](https://www.stat.cmu.edu/cmsac/sure/2023/showcase/soccer/report.html), [BSIC, 2024](https://bsic.it/odds-at-play-testing-efficiency-in-the-premier-league-and-serie-a/) and [Harvard Sports Analysis Collective, 2015](https://harvardsportsanalysis.org/2015/07/5988/)) which indicates a stable, well-calibrated predictive performance. Crucially, because the filter quantifies its own uncertainty, it can tell us not only who is strongest, but how confident we should be in that judgement.
+Across the [full historical dataset](https://seanelvidge.com/articles/2024/All_England_football_league_results/) (every English league match since 1888) the system achieves a mean Brier score of 0.2035. These values are significantly better than many published computer models (e.g. [Nyamdorj et al. 2014](https://www.stat.cmu.edu/cmsac/sure/2023/showcase/soccer/report.html), [BSIC, 2024](https://bsic.it/odds-at-play-testing-efficiency-in-the-premier-league-and-serie-a/) and [Harvard Sports Analysis Collective, 2015](https://harvardsportsanalysis.org/2015/07/5988/)) which indicates a stable, well-calibrated predictive performance. Crucially, because the filter quantifies its own uncertainty, it can tell us not only who is strongest, but how confident we should be in that judgement.
+
+The rest of this post goes into the mathematical details of the ranking algorithm, but if you want to access the underlying data it is [available here](https://github.com/seanelvidge/England-football-results) (specifically the file `EnglandLeagueResults_wRanks.csv`). 
 
 ## The Big Picture
 
@@ -32,7 +34,7 @@ Between matches, team strengths are not frozen. Instead, they evolve according t
 
 ## Modelling Match Outcomes (Wins, Draws, Losses)
 
-Match outcomes are modelled using the [Davidson extension](https://www.jstor.org/stable/2283595) of the Bradley–Terry model, which naturally incorporates draws. The probability of each outcome is
+Match outcomes are modelled using the [Davidson extension](https://www.jstor.org/stable/2283595) of the [Bradley–Terry model](https://en.wikipedia.org/wiki/Bradley%E2%80%93Terry_model), which naturally incorporates draws. The probability of each outcome is
 
 $$
 \Pr(\text{Home}) = \frac{e^{\Delta}}{e^{\Delta} + e^{-\Delta} + \kappa},
@@ -62,13 +64,13 @@ By allowing the home-advantage parameter $$h$$ to evolve slowly with time, the m
 
 ## Validation and Rating Scale
 
-Predictive accuracy is measured using the **Brier score**, defined as the mean squared error between predicted probabilities and observed outcomes. Over the full dataset the score is 0.2035 (for the 2024/25 season it is 0.2085), indicating robust calibration both historically and in the present day.
+Predictive accuracy is measured using the [Brier score](https://en.wikipedia.org/wiki/Brier_score), defined as the mean squared error between predicted probabilities and observed outcomes. Over the full dataset the score is 0.2035 (for the 2024/25 season it is 0.2085), indicating robust calibration both historically and in the present day.
 
 Internally, the filter operates on a latent "skill" scale roughly spanning $$-3$$ to $$+3$$. However for presentation, these values are mapped linearly onto an Elo-style scale, centred on 1000 points, with elite teams reaching 1800+ and lower-league teams clustering about a thousand points below. This transformation is purely cosmetic; all inference happens on the latent scale.
 
 # Part II — If You Dare Read On: The Mathematics
 
-## 1. State Evolution ([Ornstein–Uhlenbeck](https://en.wikipedia.org/wiki/Ornstein%E2%80%93Uhlenbeck_process) Dynamics)  
+## 1. State Evolution ([Ornstein–Uhlenbeck](https://en.wikipedia.org/wiki/Ornstein%E2%80%93Uhlenbeck_process) Dynamics)
 
 Each team’s latent strength evolves as
 
