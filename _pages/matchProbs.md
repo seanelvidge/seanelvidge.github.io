@@ -328,7 +328,7 @@ tags: football
 
   // ------------------- Data loading & latest rank lookup -------------------
 
-  const csvUrl = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/experimental/EnglandLeagueResults_wRanks.csv";
+  const csvUrl = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
 
   let allMatches = [];
   let allTeams = [];
