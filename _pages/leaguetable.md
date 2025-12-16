@@ -993,7 +993,6 @@ a.remove();
 }, 'image/png');
 });
 
-
       </script>
 
 </html>
