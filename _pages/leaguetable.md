@@ -523,6 +523,97 @@ nav: false
     		row.Pos = idx + 1;  // e.g., 1, 2, 3, ...
     	  });
 
+        // ─────────────────────────────────────────────────────────────
+        // Build dynamic heading text (year-aware division names)
+        // ─────────────────────────────────────────────────────────────
+        const headingElem = document.getElementById("tableHeading");
+        
+        function formatDate(d) {
+          if (!d) return "";
+          const yyyy = d.getFullYear();
+          const mm = String(d.getMonth() + 1).padStart(2, "0");
+          const dd = String(d.getDate()).padStart(2, "0");
+          return `${yyyy}/${mm}/${dd}`;
+        }
+        
+        // 1) Work out the "season start year" to use with getDivisionForYear()
+        let seasonStartYear = null;
+        
+        if (config.season) {
+          // "1991/1992" → 1991
+          seasonStartYear = parseInt(config.season.split("/")[0], 10);
+        } else if (typeof config.startYear === "number") {
+          // startYear is the *ending* year (e.g. 2024 → season 2023/2024)
+          seasonStartYear = config.startYear - 1;
+        } else if (typeof config.earliestYear === "number") {
+          // for date ranges we stored the earliest calendar year
+          seasonStartYear = config.earliestYear;
+        }
+        
+        // 2) Detect whether multiple divisions/tiers are present in the data
+        const divisionSet = new Set(filteredData.map(m => m.Division).filter(Boolean));
+        const tierSet = new Set(filteredData.map(m => String(m.Tier)).filter(Boolean));
+        const multiDivOrTier = divisionSet.size > 1 || tierSet.size > 1;
+        
+        // 3) Decide if we have a single league
+        const hasTierInput = !!config.tier;
+        const hasDivisionInput = !!config.division;
+        let leagueName = null;
+        
+        // Only include a league name if:
+        //  - all rows are from a single division/tier, AND
+        //  - the user has constrained to one tier OR one division
+        if (!multiDivOrTier && (hasTierInput || hasDivisionInput)) {
+          if (config.division) {
+            // User gave a specific division string for this period
+            leagueName = config.division;
+          } else if (config.tier && seasonStartYear !== null) {
+            // Map tier → correct division name for that specific start year
+            const tierNum = parseInt(config.tier, 10);
+            const divisionsForYear = getDivisionForYear(seasonStartYear) || [];
+            leagueName = divisionsForYear[tierNum - 1] || null;
+          }
+        }
+        
+        // 4) Build the time part of the heading
+        let headingText = "League Table";
+        
+        // CASE A: explicit seasonal label (single season)
+        if (config.season && leagueName) {
+          headingText = `League Table: ${config.season} - ${leagueName}`;
+        
+        } else if (config.startYear && leagueName) {
+          const s = `${config.startYear - 1}/${config.startYear}`;
+          headingText = `League Table: ${s} - ${leagueName}`;
+        
+        // CASE B: date range (possibly spanning seasons)
+        } else if (config.dateRange) {
+          const [sd, ed] = config.dateRange;
+          if (!multiDivOrTier && leagueName) {
+            // one league over arbitrary dates/seasons
+            headingText = `League Table: ${formatDate(sd)}-${formatDate(ed)} - ${leagueName}`;
+          } else {
+            // multiple divisions/tiers → dates only
+            headingText = `League Table: ${formatDate(sd)}-${formatDate(ed)}`;
+          }
+        
+        // CASE C: derived from yearList when we don’t have explicit season/startYear
+        } else if (config.yearList && config.yearList.length > 1) {
+          // multiple seasons, no specific league name → just indicate span
+          const firstY = config.yearList[0];
+          const lastY = config.yearList[config.yearList.length - 1];
+          headingText = `League Table: ${firstY}/${lastY}`;
+        } else if (config.yearList && config.yearList.length === 1) {
+          const y = config.yearList[0];
+          headingText = leagueName
+            ? `League Table: ${y - 1}/${y} - ${leagueName}`
+            : `League Table: ${y - 1}/${y}`;
+        }
+        
+        // 5) Apply the heading
+        headingElem.innerText = headingText;
+        headingElem.style.display = "block";
+
           document.getElementById("tableHeading").style.display = "block";
           document.getElementById("leagueTable").style.display = "table";
           const leagueTable = document.getElementById("leagueTable");
