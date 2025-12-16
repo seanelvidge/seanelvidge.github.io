@@ -921,27 +921,77 @@ initDataTables();
     	document.addEventListener('DOMContentLoaded', updateDivisionOptions);
 
       document.getElementById('downloadTableImage').addEventListener('click', async (e) => {
+  e.preventDefault(); // stop form submit
 
-e.preventDefault(); // stop form submit
-const wrapper = document.querySelector('#leagueTable').closest('.dataTables_wrapper');
-if (!wrapper) return; // no table yet
+  const table = document.getElementById('leagueTable');
+  if (!table) return;
 
-const canvas = await html2canvas(wrapper, {
-backgroundColor: '#ffffff',
-scale: window.devicePixelRatio > 1 ? 2 : 1,
-useCORS: true
+  const wrapper = table.closest('.dataTables_wrapper');
+  const headingElem = document.getElementById('tableHeading');
+
+  // Build a temporary container that holds the heading + table
+  const tempContainer = document.createElement('div');
+  tempContainer.style.padding = '16px';
+  tempContainer.style.backgroundColor = '#ffffff';
+
+  // Clone the heading (so we don't disturb the real DOM)
+  if (headingElem && headingElem.style.display !== 'none') {
+    const headingClone = headingElem.cloneNode(true);
+    headingClone.style.marginBottom = '12px';
+    tempContainer.appendChild(headingClone);
+  }
+
+  // Clone the DataTables wrapper if present; otherwise fall back to the table
+  if (wrapper) {
+    const wrapperClone = wrapper.cloneNode(true);
+    tempContainer.appendChild(wrapperClone);
+  } else {
+    const tableClone = table.cloneNode(true);
+    tempContainer.appendChild(tableClone);
+  }
+
+  // Attach container off-screen so html2canvas can render it
+  tempContainer.style.position = 'fixed';
+  tempContainer.style.left = '-9999px';
+  document.body.appendChild(tempContainer);
+
+  const canvas = await html2canvas(tempContainer, {
+    backgroundColor: '#ffffff',
+    scale: window.devicePixelRatio > 1 ? 2 : 1,
+    useCORS: true
+  });
+
+  // Clean up the temporary DOM
+  document.body.removeChild(tempContainer);
+
+  // Build filename from the heading text
+  const rawHeading = headingElem ? headingElem.innerText.trim() : 'League Table';
+
+  // Strip leading "League Table:" and normalise
+  let namePart = rawHeading
+    .replace(/^League Table:\s*/i, '')     // remove fixed prefix
+    .replace(/[\/\\:]+/g, '-')             // slashes/colons → hyphens
+    .replace(/\s+/g, '_')                  // spaces → underscores
+    .replace(/[^A-Za-z0-9_-]/g, '');       // remove other odd chars
+
+  if (!namePart) {
+    namePart = 'League_Table';
+  }
+
+  const filename = `league-table-${namePart}.png`;
+
+  canvas.toBlob((blob) => {
+    if (!blob) return;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(a.href);
+    a.remove();
+  }, 'image/png');
 });
 
-canvas.toBlob((blob) => {
-const a = document.createElement('a');
-a.href = URL.createObjectURL(blob);
-a.download = `league-table-${new Date().toISOString().slice(0,10)}.png`;
-document.body.appendChild(a);
-a.click();
-URL.revokeObjectURL(a.href);
-a.remove();
-}, 'image/png');
-});
 
       </script>
 
