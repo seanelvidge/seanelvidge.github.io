@@ -921,44 +921,45 @@ initDataTables();
     	document.addEventListener('DOMContentLoaded', updateDivisionOptions);
 
       document.getElementById('downloadTableImage').addEventListener('click', async (e) => {
-  e.preventDefault(); // stop form submit
 
-  const table = document.getElementById('leagueTable');
-  if (!table) return;
+e.preventDefault(); // stop form submit
 
-  const wrapper = table.closest('.dataTables_wrapper');
-  const headingElem = document.getElementById('tableHeading');
+const table = document.getElementById('leagueTable');
+if (!table) return;
 
-  // Build a temporary container that holds the heading + table
-  const tempContainer = document.createElement('div');
-  tempContainer.style.padding = '16px';
-  tempContainer.style.backgroundColor = '#ffffff';
+const wrapper = table.closest('.dataTables_wrapper');
+const headingElem = document.getElementById('tableHeading');
 
-  // Clone the heading (so we don't disturb the real DOM)
-  if (headingElem && headingElem.style.display !== 'none') {
-    const headingClone = headingElem.cloneNode(true);
-    headingClone.style.marginBottom = '12px';
-    tempContainer.appendChild(headingClone);
-  }
+// Build a temporary container that holds the heading + table
+const tempContainer = document.createElement('div');
+tempContainer.style.padding = '16px';
+tempContainer.style.backgroundColor = '#ffffff';
 
-  // Clone the DataTables wrapper if present; otherwise fall back to the table
-  if (wrapper) {
-    const wrapperClone = wrapper.cloneNode(true);
-    tempContainer.appendChild(wrapperClone);
-  } else {
-    const tableClone = table.cloneNode(true);
-    tempContainer.appendChild(tableClone);
-  }
+// Clone the heading (so we don't disturb the real DOM)
+if (headingElem && headingElem.style.display !== 'none') {
+const headingClone = headingElem.cloneNode(true);
+headingClone.style.marginBottom = '12px';
+tempContainer.appendChild(headingClone);
+}
 
-  // Attach container off-screen so html2canvas can render it
-  tempContainer.style.position = 'fixed';
-  tempContainer.style.left = '-9999px';
-  document.body.appendChild(tempContainer);
+// Clone the DataTables wrapper if present; otherwise fall back to the table
+if (wrapper) {
+const wrapperClone = wrapper.cloneNode(true);
+tempContainer.appendChild(wrapperClone);
+} else {
+const tableClone = table.cloneNode(true);
+tempContainer.appendChild(tableClone);
+}
 
-  const canvas = await html2canvas(tempContainer, {
-    backgroundColor: '#ffffff',
-    scale: window.devicePixelRatio > 1 ? 2 : 1,
-    useCORS: true
+// Attach container off-screen so html2canvas can render it
+tempContainer.style.position = 'fixed';
+tempContainer.style.left = '-9999px';
+document.body.appendChild(tempContainer);
+
+const canvas = await html2canvas(tempContainer, {
+backgroundColor: '#ffffff',
+scale: window.devicePixelRatio > 1 ? 2 : 1,
+useCORS: true
   });
 
   // Clean up the temporary DOM
