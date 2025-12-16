@@ -1,8 +1,8 @@
 ---
 layout: page
 permalink: /matchProbs
-title: Experimental Match Outcome Probabilities Calculator
-description: Experimental tool for calculating football match outcome probabilities.
+title: Match Outcome Probabilities Calculator
+description: Tool for calculating football match outcome probabilities.
 nav: false
 tags: football
 ---
