@@ -68,8 +68,6 @@ Predictive accuracy is measured using the [Brier score](https://en.wikipedia.org
 
 Internally, the filter operates on a latent "skill" scale roughly spanning $$-3$$ to $$+3$$. However for presentation, these values are mapped linearly onto an Elo-style scale, centred on 1000 points, with elite teams reaching 1800+ and lower-league teams clustering about a thousand points below. This transformation is purely cosmetic; all inference happens on the latent scale.
 
-
-
 # Part II — If You Dare Read On: The Mathematics
 
 ## 1. State Evolution ([Ornstein–Uhlenbeck](https://en.wikipedia.org/wiki/Ornstein%E2%80%93Uhlenbeck_process) Dynamics)
