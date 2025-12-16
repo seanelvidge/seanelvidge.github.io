@@ -527,7 +527,7 @@ nav: false
         // Build dynamic heading text (year-aware division names)
         // ─────────────────────────────────────────────────────────────
         const headingElem = document.getElementById("tableHeading");
-        
+
         function formatDate(d) {
           if (!d) return "";
           const yyyy = d.getFullYear();
@@ -535,10 +535,10 @@ nav: false
           const dd = String(d.getDate()).padStart(2, "0");
           return `${yyyy}/${mm}/${dd}`;
         }
-        
+
         // 1) Work out the "season start year" to use with getDivisionForYear()
         let seasonStartYear = null;
-        
+
         if (config.season) {
           // "1991/1992" → 1991
           seasonStartYear = parseInt(config.season.split("/")[0], 10);
@@ -549,17 +549,17 @@ nav: false
           // for date ranges we stored the earliest calendar year
           seasonStartYear = config.earliestYear;
         }
-        
+
         // 2) Detect whether multiple divisions/tiers are present in the data
         const divisionSet = new Set(filteredData.map(m => m.Division).filter(Boolean));
         const tierSet = new Set(filteredData.map(m => String(m.Tier)).filter(Boolean));
         const multiDivOrTier = divisionSet.size > 1 || tierSet.size > 1;
-        
+
         // 3) Decide if we have a single league
         const hasTierInput = !!config.tier;
         const hasDivisionInput = !!config.division;
         let leagueName = null;
-        
+
         // Only include a league name if:
         //  - all rows are from a single division/tier, AND
         //  - the user has constrained to one tier OR one division
@@ -574,18 +574,18 @@ nav: false
             leagueName = divisionsForYear[tierNum - 1] || null;
           }
         }
-        
+
         // 4) Build the time part of the heading
         let headingText = "League Table";
-        
+
         // CASE A: explicit seasonal label (single season)
         if (config.season && leagueName) {
           headingText = `League Table: ${config.season} - ${leagueName}`;
-        
+
         } else if (config.startYear && leagueName) {
           const s = `${config.startYear - 1}/${config.startYear}`;
           headingText = `League Table: ${s} - ${leagueName}`;
-        
+
         // CASE B: date range (possibly spanning seasons)
         } else if (config.dateRange) {
           const [sd, ed] = config.dateRange;
@@ -596,7 +596,7 @@ nav: false
             // multiple divisions/tiers → dates only
             headingText = `League Table: ${formatDate(sd)}-${formatDate(ed)}`;
           }
-        
+
         // CASE C: derived from yearList when we don’t have explicit season/startYear
         } else if (config.yearList && config.yearList.length > 1) {
           // multiple seasons, no specific league name → just indicate span
@@ -609,7 +609,7 @@ nav: false
             ? `League Table: ${y - 1}/${y} - ${leagueName}`
             : `League Table: ${y - 1}/${y}`;
         }
-        
+
         // 5) Apply the heading
         headingElem.innerText = headingText;
         headingElem.style.display = "block";
