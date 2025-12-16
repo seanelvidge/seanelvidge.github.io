@@ -960,37 +960,37 @@ const canvas = await html2canvas(tempContainer, {
 backgroundColor: '#ffffff',
 scale: window.devicePixelRatio > 1 ? 2 : 1,
 useCORS: true
-  });
+});
 
-  // Clean up the temporary DOM
-  document.body.removeChild(tempContainer);
+// Clean up the temporary DOM
+document.body.removeChild(tempContainer);
 
-  // Build filename from the heading text
-  const rawHeading = headingElem ? headingElem.innerText.trim() : 'League Table';
+// Build filename from the heading text
+const rawHeading = headingElem ? headingElem.innerText.trim() : 'League Table';
 
-  // Strip leading "League Table:" and normalise
-  let namePart = rawHeading
-    .replace(/^League Table:\s*/i, '')     // remove fixed prefix
-    .replace(/[\/\\:]+/g, '-')             // slashes/colons → hyphens
-    .replace(/\s+/g, '_')                  // spaces → underscores
-    .replace(/[^A-Za-z0-9_-]/g, '');       // remove other odd chars
+// Strip leading "League Table:" and normalise
+let namePart = rawHeading
+.replace(/^League Table:\s\*/i, '') // remove fixed prefix
+.replace(/[\/\\:]+/g, '-') // slashes/colons → hyphens
+.replace(/\s+/g, '_') // spaces → underscores
+.replace(/[^A-Za-z0-9_-]/g, ''); // remove other odd chars
 
-  if (!namePart) {
-    namePart = 'League_Table';
-  }
+if (!namePart) {
+namePart = 'League_Table';
+}
 
-  const filename = `league-table-${namePart}.png`;
+const filename = `league-table-${namePart}.png`;
 
-  canvas.toBlob((blob) => {
-    if (!blob) return;
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    URL.revokeObjectURL(a.href);
-    a.remove();
-  }, 'image/png');
+canvas.toBlob((blob) => {
+if (!blob) return;
+const a = document.createElement('a');
+a.href = URL.createObjectURL(blob);
+a.download = filename;
+document.body.appendChild(a);
+a.click();
+URL.revokeObjectURL(a.href);
+a.remove();
+}, 'image/png');
 });
 
 
