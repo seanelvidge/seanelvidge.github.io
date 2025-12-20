@@ -24,9 +24,9 @@ Zero wins from thirty-two attempts. Seven draws. Twenty-five defeats.
 
 Even more striking, this isn't just a bad example, this is, among every club in the entire Football League dataset, over 135 years of football, no team has a larger, more emphatic, more mathematically convincing record of away futility than Fulham at Arsenal.
 
-So let’s take a look, not just at the record itself, but at how we can quantify bogeyness in a way that recognises your intuition ("two games aren’t enough!") but takes advantage of the huge dataset football provides.
+So let's take a look, not just at the record itself, but at how we can quantify bogeyness in a way that recognises your intuition ("two games aren’t enough!") but takes advantage of the huge dataset football provides.
 
-## Why "never won" isn’t enough (the curse of small $$n$$)
+## Why "never won" isn't enough (the curse of small $$n$$)
 
 Imagine you flip a coin twice and get two tails. Does that mean the coin is biased?
 
@@ -87,7 +87,7 @@ The Premier League’s most mathematically defensible curse.
 
 ## Other bogey teams
 
-Fulham–Arsenal is the only pair in the entire database whose Wilson upper bound hovers at just above the 10% threshold. But several others get close, here are the best (or worst) of the rest:
+Fulham–Arsenal is the only pair in the [entire database](https://seanelvidge.com/articles/2024/All_England_football_league_results/) whose Wilson upper bound hovers at just above the 10% threshold. But several others get close, here are the best (or worst) of the rest:
 
 <table style="border-collapse: collapse; width: 75%;">
   <thead>
