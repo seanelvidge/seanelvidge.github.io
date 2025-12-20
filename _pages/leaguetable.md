@@ -453,43 +453,48 @@ nav: false
 
             // apply external point deductions
             if (window.pointDeductions) {
-      				let seasonsArr
+              const deductionByTeam = {};
+              const hasDateRange = Array.isArray(config.dateRange);
+              const [rangeStart, rangeEnd] = hasDateRange ? config.dateRange : [];
 
-      				if (seasonStr != null) {
-      				  const dedYear = seasonStr ? parseInt(seasonStr.split('/')[1],10).toString() : null;
-      				  seasonsArr = [dedYear];
-      				} else {
-      				  seasonsArr = Array.isArray(config.yearList) ? config.yearList : [config.yearList];
-      				}
-      				const seasonSet = new Set(seasonsArr.map(String)); // match CSV Season as strings
+              const isDateInRange = (dateValue) => {
+                if (!dateValue || !hasDateRange) return false;
+                const parsedDate = new Date(dateValue);
+                if (Number.isNaN(parsedDate.getTime())) return false;
+                return parsedDate >= rangeStart && parsedDate <= rangeEnd;
+              };
 
-      				// Apply external point deductions across all relevant seasons
-      				if (window.pointDeductions && seasonSet.size > 0) {
-      				  // Sum deductions per team for the selected seasons
-      				  const deductionByTeam = {};
-      				  window.pointDeductions.forEach(row => {
-      					const seasonKey = String(parseInt(row.Season, 10));
-      					const team = row.Team;
-      					if (seasonSet.has(seasonKey)) {
-      					  const pts = Number(row.Pts_deducted) || 0;
-      					  deductionByTeam[team] = (deductionByTeam[team] || 0) + pts;
-      					}
-      				  });
+              const matchesSeason = (seasonValue) => {
+                if (!seasonStr || !seasonValue) return false;
+                return String(seasonValue).trim() === String(seasonStr).trim();
+              };
 
-      				  // Apply summed deductions
-      				  Object.entries(deductionByTeam).forEach(([team, pts]) => {
-      				    if (teamStats[team]) {
-      				      // Allow negative points;
-      				      teamStats[team].Points -= pts;
+              // Sum deductions per team for the selected season or date range
+              window.pointDeductions.forEach(row => {
+                const team = row.Team;
+                const pts = Number(row.Pts_deducted) || 0;
+                const applies = hasDateRange
+                  ? isDateInRange(row.Date)
+                  : matchesSeason(row.Season);
 
-      				      // Add a * to team name if points deduction applied
-      				      if (!teamStats[team].Name?.endsWith('*')) {
-      				        teamStats[team].Name = (teamStats[team].Name || team) + '*';
-      				      }
-      				    }
-      				  });
-      			    }
-      			}
+                if (applies) {
+                  deductionByTeam[team] = (deductionByTeam[team] || 0) + pts;
+                }
+              });
+
+              // Apply summed deductions
+              Object.entries(deductionByTeam).forEach(([team, pts]) => {
+                if (teamStats[team]) {
+                  // Allow negative points;
+                  teamStats[team].Points -= pts;
+
+                  // Add a * to team name if points deduction applied
+                  if (!teamStats[team].Name?.endsWith('*')) {
+                    teamStats[team].Name = (teamStats[team].Name || team) + '*';
+                  }
+                }
+              });
+            }
 
           const teamsArray = Object.keys(teamStats).map(team => ({
             Team: team,
