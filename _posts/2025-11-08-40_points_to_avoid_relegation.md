@@ -52,7 +52,7 @@ Many people have noted that the 40 point mark is a "myth" (e.g. [The Premier Lea
   <figcaption></figcaption>
 </figure>
 
-The plot above shows the number of points required to stay in the top division of English football (since 3 points for a win was introduced in 1985; this includes before the Premier League started in 1992). Note that during that time there have been a varying number of teams in the top division (between 20 and 22) which obviously impacts the points required. We have normalized this to a 38-game season for comparison.
+The plot above shows the number of points required to stay in the top division of English football since 3 points for a win was introduced in 1985 (this includes before the Premier League started in 1992). The league tables were created using my [arbitrary league table generator](https://seanelvidge.com/leaguetable). It is also worth noting that during the time range there have been a varying number of teams in the top division (between 20 and 22) which obviously impacts the points required. We have normalized this to a 38-game season for comparison.
 
 A few things are immediatly obvious:
 
