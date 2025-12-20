@@ -1,6 +1,6 @@
 ---
 layout: page
-permalink: /titleodds
+permalink: /tableProbs
 title: League Table Position Odds
 description: League table position odds for each tier.
 nav: false
