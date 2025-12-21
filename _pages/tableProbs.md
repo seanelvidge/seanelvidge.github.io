@@ -173,7 +173,7 @@ nav: false
 
     /* Mobile table can be narrower */
     .mobile-summary-wrap .probTable { min-width: 520px; table-layout: auto; }
-    .mobile-summary-wrap .probTable thead th.teamHead { width: 120px; }
+    .mobile-summary-wrap .probTable thead th.teamHead { width: 60px; }
   </style>
 </head>
 
