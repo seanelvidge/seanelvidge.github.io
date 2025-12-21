@@ -868,7 +868,7 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
 
         const name = document.createElement("div");
         name.className = "team-name";
-        name.textContent = r.team;
+        name.textContent = getShortTeamName(r.team);
         wrap.appendChild(name);
 
         tdTeam.appendChild(wrap);
