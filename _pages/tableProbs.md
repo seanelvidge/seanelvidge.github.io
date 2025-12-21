@@ -1,7 +1,7 @@
 ---
 layout: page
-permalink: /tableProbs
-title: Title & Position Odds
+permalink: /titleodds
+title: Title & Position Odds (Exact)
 description: Exact (non-Monte-Carlo) position odds for the latest season in each tier.
 nav: false
 ---
@@ -10,6 +10,7 @@ nav: false
 <head>
   <meta charset="utf-8" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <style>
     .tier-block { margin: 18px 0 34px 0; }
@@ -27,6 +28,15 @@ nav: false
       white-space: pre-wrap;
     }
 
+    /* Full-bleed container: lets the table area exceed the GitHub Pages content width */
+    .full-bleed {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
     .table-scroll {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -36,11 +46,11 @@ nav: false
       padding: 10px;
     }
 
-    /* Use separate borders + spacing to create a gap between all cells */
+    /* Create a gap between all cells */
     .probTable {
       width: 100%;
       border-collapse: separate !important;
-      border-spacing: 6px 6px;     /* <-- cell gaps */
+      border-spacing: 6px 6px;     /* cell gaps */
       background: transparent;
       table-layout: fixed;
       min-width: 980px;
@@ -55,12 +65,12 @@ nav: false
       padding: 6px 8px;
       font-size: 12px;
       white-space: nowrap;
-      border-radius: 8px;          /* header pills */
+      border-radius: 8px;
     }
 
     /* Column widths */
-    .probTable thead th.posHead { width: 60px; }
-    .probTable thead th.teamHead { text-align: left; width: 170px; }
+    .probTable thead th.posHead { width: 56px; }
+    .probTable thead th.teamHead { text-align: left; width: 150px; }
 
     .probTable tbody td {
       background: #ffffff;
@@ -71,24 +81,24 @@ nav: false
       font-size: 12px;
       text-align: center;
       white-space: nowrap;
-      border-radius: 8px;          /* cell pills */
+      border-radius: 8px;
     }
 
-    /* Position column (leftmost) */
+    /* Position chip */
     .pos-cell {
-      background-color: #b2182b;
+      background-color: #b2182b !important;
       color: #fff !important;
       font-weight: 800;
       text-align: center !important;
     }
 
-    /* Team cell: red chip, includes logo + name */
+    /* Team chip (red) */
     .team-cell {
-      background-color: #b2182b;
+      background-color: #b2182b !important;
       color: #fff !important;
       font-weight: 800;
       text-align: left !important;
-      width: 170px;
+      width: 150px;
     }
 
     .team-wrap {
@@ -99,10 +109,10 @@ nav: false
     }
 
     .team-logo {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
       flex: 0 0 auto;
-      border-radius: 3px;
       background: rgba(255,255,255,0.18);
     }
 
@@ -112,14 +122,47 @@ nav: false
       white-space: nowrap;
     }
 
-    /* Max cell should always be full red with white text */
+    /* Max cell full red */
     .max-cell {
       background-color: #b2182b !important;
       color: #fff !important;
       font-weight: 800;
     }
 
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 6px 0 10px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #cfcfcf;
+      background: #ffffff;
+      color: #333;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .btn:hover { background: #f3f3f3; }
+
     .smallnote { color: #666; font-size: 0.9em; margin-top: 6px; }
+
+    /* Dark mode: make sure text remains readable everywhere */
+    @media (prefers-color-scheme: dark) {
+      .meta { color: #d0d0d0; }
+      .status { background: #1e1e1e; border-color: #333; color: #e8e8e8; }
+      .table-scroll { background: #111; border-color: #333; }
+      .probTable tbody td { background: #1a1a1a; color: #e8e8e8; }
+      .btn { background: #1a1a1a; color: #e8e8e8; border-color: #333; }
+      .btn:hover { background: #222; }
+      .smallnote { color: #bdbdbd; }
+      /* pos/team chips stay red with white text via !important rules above */
+    }
   </style>
 </head>
 
@@ -138,15 +181,8 @@ nav: false
     // Config
     // ------------------------------------------------------------
     const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
+    const LOGO_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamLogos.csv";
     const TIERS = [1, 2, 3, 4];
-
-    // If you already have logo URLs used in leagueTable.md, put that mapping here.
-    // Fallback is a harmless placeholder square.
-    // You can extend this over time without touching the rest of the code.
-    const TEAM_LOGO = {
-      // "Arsenal": "/assets/team-logos/Arsenal.png",
-      // "Aston Villa": "/assets/team-logos/Aston%20Villa.png",
-    };
 
     // ------------------------------------------------------------
     // Status logging
@@ -154,6 +190,23 @@ nav: false
     function logStatus(msg) {
       const el = document.getElementById("status");
       el.textContent += (el.textContent.endsWith("\n") || el.textContent === "" ? "" : "\n") + msg;
+    }
+
+    // ------------------------------------------------------------
+    // Load team logos (same pattern as leagueTable.md)
+    // ------------------------------------------------------------
+    function loadTeamLogos() {
+      return fetch(LOGO_CSV_URL)
+        .then(res => res.text())
+        .then(text => {
+          const rows = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
+          const dict = {};
+          rows.forEach(row => {
+            if (row.Team && row.LogoURL) dict[String(row.Team).trim()] = String(row.LogoURL).trim();
+          });
+          window.teamLogos = dict;   // single source of truth
+        })
+        .catch(() => { window.teamLogos = {}; });
     }
 
     // ------------------------------------------------------------
@@ -421,60 +474,118 @@ nav: false
       return `${pct}%`;
     }
 
-    function getLogoUrl(teamName) {
-      if (TEAM_LOGO[teamName]) return TEAM_LOGO[teamName];
-
-      // If you have a consistent naming convention in your site assets,
-      // uncomment this line and ensure files exist:
-      // return `/assets/team-logos/${encodeURIComponent(teamName)}.png`;
-
-      return null;
-    }
-
     function applyRowHeat(td, p, maxP) {
-      // For <1% (or maxP==0) keep white.
+      // Keep <1% fully white
       if (!Number.isFinite(p) || p <= 0 || !Number.isFinite(maxP) || maxP <= 0) return;
-
-      // If it rounds to 0% but non-zero, user wants it white (leave as is)
       if (Math.round(100 * p) === 0) return;
 
-      // Shade relative to max probability in row.
-      // ratio in (0,1], map to alpha range.
       const ratio = clamp(p / maxP, 0, 1);
-
-      // Keep strong red for max (handled by class), otherwise transparent red tint.
-      // Use a gentle floor so visible but not overpowering.
       const alpha = 0.10 + 0.90 * ratio; // 0.10 .. 1.00
-      td.style.backgroundColor = `rgba(178, 24, 43, ${alpha})`; // #b2182b
-      td.style.color = (alpha > 0.55) ? "#fff" : "#000";
+      td.style.backgroundColor = `rgba(178, 24, 43, ${alpha})`;
+      td.style.color = (alpha > 0.55) ? "#fff" : "";  // empty => CSS decides (dark mode handled by media query)
       td.style.fontWeight = (ratio > 0.80) ? "800" : "600";
     }
 
+    function getLogoUrl(teamName) {
+      const logos = window.teamLogos || {};
+      const key = String(teamName || "").trim();
+      return logos[key] || "";
+    }
+
     // ------------------------------------------------------------
-    // Rendering: Position + Team + matrix (with logos + heat shading)
+    // Download table as image (division block)
+    // ------------------------------------------------------------
+    async function downloadBlockAsImage(blockElem, filenameBase) {
+      // Clone and render off-screen so the capture isn't clipped by scroll containers
+      const temp = document.createElement("div");
+      temp.style.position = "fixed";
+      temp.style.left = "-9999px";
+      temp.style.top = "0";
+      temp.style.padding = "16px";
+      temp.style.backgroundColor = "#ffffff";
+      temp.style.width = "fit-content";
+
+      const clone = blockElem.cloneNode(true);
+      // Remove buttons/status inside the clone if desired; keep heading + table.
+      const btns = clone.querySelectorAll("button");
+      btns.forEach(b => b.remove());
+
+      temp.appendChild(clone);
+      document.body.appendChild(temp);
+
+      const canvas = await html2canvas(temp, {
+        backgroundColor: "#ffffff",
+        scale: window.devicePixelRatio > 1 ? 2 : 1,
+        useCORS: true
+      });
+
+      document.body.removeChild(temp);
+
+      const safe = (filenameBase || "table")
+        .replace(/[\/\\:]+/g, "-")
+        .replace(/\s+/g, "_")
+        .replace(/[^A-Za-z0-9_-]/g, "");
+
+      const filename = `${safe}.png`;
+
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(a.href);
+        a.remove();
+      }, "image/png");
+    }
+
+    // ------------------------------------------------------------
+    // Rendering
     // ------------------------------------------------------------
     function renderTeamPositionMatrix(container, divisionName, seasonStr, teams, posProbs) {
       const N = teams.length;
 
       const block = document.createElement("div");
       block.className = "tier-block";
+      block.setAttribute("data-division", divisionName);
+      block.setAttribute("data-season", seasonStr);
 
       const h = document.createElement("h2");
       h.className = "tier-title";
       h.textContent = `${divisionName}`;
       block.appendChild(h);
 
+      const controls = document.createElement("div");
+      controls.className = "controls-row";
+
       const meta = document.createElement("div");
       meta.className = "meta";
       meta.textContent = `Season: ${seasonStr}`;
-      block.appendChild(meta);
+      controls.appendChild(meta);
 
-      // Order rows by expected finishing position (lower better)
+      const dlBtn = document.createElement("button");
+      dlBtn.className = "btn";
+      dlBtn.type = "button";
+      dlBtn.textContent = "Download table as image";
+      dlBtn.addEventListener("click", () => {
+        const base = `position-odds-${seasonStr}-${divisionName}`;
+        downloadBlockAsImage(block, base);
+      });
+      controls.appendChild(dlBtn);
+
+      block.appendChild(controls);
+
+      // Order rows by expected finishing position
       const expectedPos = teams.map(t => {
         let ep = 0;
         for (let pos = 1; pos <= N; pos++) ep += pos * (posProbs[t][pos] || 0);
         return { team: t, ep };
       }).sort((a, b) => a.ep - b.ep);
+
+      // Full-bleed wrapper so tables can be wider than the GitHub template column
+      const bleed = document.createElement("div");
+      bleed.className = "full-bleed";
 
       const scroll = document.createElement("div");
       scroll.className = "table-scroll";
@@ -496,7 +607,7 @@ nav: false
       for (const row of expectedPos) {
         const t = row.team;
 
-        // Find max probability in the row BEFORE rounding (as requested)
+        // max before rounding
         let maxP = 0;
         for (let pos = 1; pos <= N; pos++) {
           const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
@@ -505,13 +616,13 @@ nav: false
 
         const tr = document.createElement("tr");
 
-        // Position chip
+        // position
         const tdPos = document.createElement("td");
         tdPos.className = "pos-cell";
         tdPos.textContent = String(rank);
         tr.appendChild(tdPos);
 
-        // Team chip with logo
+        // team with logo
         const tdTeam = document.createElement("td");
         tdTeam.className = "team-cell";
 
@@ -523,12 +634,12 @@ nav: false
           const img = document.createElement("img");
           img.className = "team-logo";
           img.src = logoUrl;
-          img.alt = `${t} logo`;
+          img.alt = t;
           img.loading = "lazy";
+          img.setAttribute("crossorigin", "anonymous");
           img.onerror = () => { img.style.display = "none"; };
           wrap.appendChild(img);
         } else {
-          // placeholder square to keep alignment consistent
           const ph = document.createElement("div");
           ph.className = "team-logo";
           wrap.appendChild(ph);
@@ -542,18 +653,15 @@ nav: false
         tdTeam.appendChild(wrap);
         tr.appendChild(tdTeam);
 
-        // Probability cells with heat shading
+        // probabilities with shading
         for (let pos = 1; pos <= N; pos++) {
           const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
-
           const td = document.createElement("td");
           td.textContent = formatPctCell(p);
 
-          // Max cell: force full red via class
           if (p === maxP && maxP > 0) {
             td.classList.add("max-cell");
           } else {
-            // Apply red tint proportional to p/maxP (leave <1% fully white)
             applyRowHeat(td, p, maxP);
           }
 
@@ -566,7 +674,8 @@ nav: false
 
       table.appendChild(tbody);
       scroll.appendChild(table);
-      block.appendChild(scroll);
+      bleed.appendChild(scroll);
+      block.appendChild(bleed);
 
       const note = document.createElement("div");
       note.className = "smallnote";
@@ -581,9 +690,13 @@ nav: false
     // ------------------------------------------------------------
     // Main
     // ------------------------------------------------------------
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("status").textContent = "";
-      logStatus("Fetching CSV…");
+      logStatus("Fetching team logos…");
+      await loadTeamLogos();
+      logStatus(`Team logos loaded: ${Object.keys(window.teamLogos || {}).length}`);
+      logStatus("");
+      logStatus("Fetching match CSV…");
 
       Papa.parse(CSV_URL, {
         download: true,
