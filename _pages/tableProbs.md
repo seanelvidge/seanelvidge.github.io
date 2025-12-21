@@ -1,8 +1,8 @@
 ---
 layout: page
 permalink: /tableProbs
-title: Title & Position Odds (Exact)
-description: Exact (non-Monte-Carlo) position odds for the latest season in each tier.
+title: League Table Predictor
+description: Probabilistic league table predictor for each English football league tier.
 nav: false
 ---
 
@@ -157,7 +157,7 @@ nav: false
       .status { background: #1e1e1e; border-color: #333; color: #e8e8e8; }
       .table-scroll { background: #111; border-color: #333; }
       .probTable tbody td { background: #1a1a1a; color: #e8e8e8; }
-      .team-cell { background: #1a1a1a !important; color: #e8e8e8 !important; }
+      .team-cell { background: #1a1a1a !important; color: #333 !important; }
       .btn { background: #1a1a1a; color: #e8e8e8; border-color: #333; }
       .btn:hover { background: #222; }
       .smallnote { color: #bdbdbd; }
@@ -167,11 +167,8 @@ nav: false
 </head>
 
 <body>
-  <h1>Title & Position Odds (Exact)</h1>
   <div class="meta">
-    Exact (non-Monte-Carlo) position probabilities for the latest season in your database (latest season is determined by the last row in the CSV).
-    Remaining fixtures are inferred as all unplayed home/away pairings (double round-robin completion).
-    Point deductions/additions for the season are applied.
+    Position probabilities for the season. Remaining fixtures are inferred, assuming team strenghts remain constant.
   </div>
 
   <div id="status" class="status">Loading…</div>
@@ -215,7 +212,7 @@ nav: false
     // Load point deductions/additions
     //
     // Returns a dict keyed by Season string -> dict(team -> totalPtsAdjustment)
-    // Uses Pts_deducted as a signed number (negative = deduction, positive = addition).
+    // Uses Pts_deducted as a signed number (positive = deduction, negative = addition).
     // ------------------------------------------------------------
     function loadPointDeductions() {
       return fetch(DEDUCT_CSV_URL)
@@ -233,7 +230,7 @@ nav: false
 
             if (!seasonMap[season]) seasonMap[season] = {};
             if (!seasonMap[season][team]) seasonMap[season][team] = 0;
-            seasonMap[season][team] += pts;
+            seasonMap[season][team] -= pts;
           });
           window.pointAdjustmentsBySeason = seasonMap;
         })
@@ -516,6 +513,7 @@ nav: false
       if (!Number.isFinite(p) || p <= 0) return "0%";
       const pct = Math.round(100 * p);
       if (pct === 0) return "<1%";
+	  if (pct === 100) return ">99%";
       return `${pct}%`;
     }
 
@@ -595,10 +593,10 @@ nav: false
       const controls = document.createElement("div");
       controls.className = "controls-row";
 
-      const meta = document.createElement("div");
-      meta.className = "meta";
-      meta.textContent = `Season: ${seasonStr}`;
-      controls.appendChild(meta);
+      // const meta = document.createElement("div");
+      // meta.className = "meta";
+      // meta.textContent = `Season: ${seasonStr}`;
+      // controls.appendChild(meta);
 
       const dlBtn = document.createElement("button");
       dlBtn.className = "btn";
@@ -709,10 +707,7 @@ nav: false
 
       const note = document.createElement("div");
       note.className = "smallnote";
-      note.textContent =
-        "Cells show the probability of finishing in each position (rounded to whole %; values that round to 0 but are non-zero show as <1%). " +
-        "The largest probability in each team row is highlighted in red; other cells are shaded relative to that maximum. " +
-        "Season point deductions/additions have been applied.";
+      note.textContent = "";
       block.appendChild(note);
 
       container.appendChild(block);
@@ -724,17 +719,18 @@ nav: false
     document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("status").textContent = "";
 
-      logStatus("Fetching team logos…");
+      logStatus("Calculating probabilities...");
+	  // logStatus("Fetching team logos…");
       await loadTeamLogos();
-      logStatus(`Team logos loaded: ${Object.keys(window.teamLogos || {}).length}`);
+      // logStatus(`Team logos loaded: ${Object.keys(window.teamLogos || {}).length}`);
 
-      logStatus("Fetching point deductions/additions…");
+      // logStatus("Fetching point deductions/additions…");
       await loadPointDeductions();
       const nSeasons = Object.keys(window.pointAdjustmentsBySeason || {}).length;
-      logStatus(`Point adjustments loaded for seasons: ${nSeasons}`);
-      logStatus("");
+      // logStatus(`Point adjustments loaded for seasons: ${nSeasons}`);
+      // logStatus("");
 
-      logStatus("Fetching match CSV…");
+      // logStatus("Fetching match CSV…");
 
       Papa.parse(CSV_URL, {
         download: true,
@@ -744,19 +740,19 @@ nav: false
         complete: (results) => {
           const data = results.data || [];
           if (!data.length) { logStatus("No rows loaded."); return; }
-          logStatus(`Loaded rows: ${data.length}`);
+          // logStatus(`Loaded rows: ${data.length}`);
 
           const last = data[data.length - 1];
           const latestSeason = last.Season;
           const seasonStartYear = seasonStartYearFromSeasonStr(latestSeason);
-          logStatus(`Latest season (last row): ${latestSeason}`);
-          logStatus(`Season start year: ${seasonStartYear}`);
-          logStatus("");
+          // logStatus(`Latest season (last row): ${latestSeason}`);
+          // logStatus(`Season start year: ${seasonStartYear}`);
+          // logStatus("");
 
           const tablesDiv = document.getElementById("tables");
 
           for (const tier of TIERS) {
-            logStatus(`Tier ${tier}: filtering…`);
+            // logStatus(`Tier ${tier}: filtering…`);
 
             const seasonTier = data.filter(r =>
               String(r.Season) === String(latestSeason) &&
@@ -764,8 +760,8 @@ nav: false
             );
 
             if (!seasonTier.length) {
-              logStatus(`Tier ${tier}: no rows found for ${latestSeason}.`);
-              logStatus("");
+              // logStatus(`Tier ${tier}: no rows found for ${latestSeason}.`);
+              // logStatus("");
               continue;
             }
 
@@ -773,13 +769,13 @@ nav: false
             const divisionName = divisionSet.size ? Array.from(divisionSet)[0] : `Tier ${tier}`;
 
             const played = seasonTier.filter(r => r.Result === "H" || r.Result === "D" || r.Result === "A");
-            logStatus(`Tier ${tier}: played matches = ${played.length}`);
+            // logStatus(`Tier ${tier}: played matches = ${played.length}`);
 
             const teamSet = new Set();
             for (const r of played) { teamSet.add(r.HomeTeam); teamSet.add(r.AwayTeam); }
             const teams = Array.from(teamSet).sort();
             const N = teams.length;
-            logStatus(`Tier ${tier}: teams = ${N}`);
+            // logStatus(`Tier ${tier}: teams = ${N}`);
             if (N < 2) { logStatus(`Tier ${tier}: not enough teams.`); logStatus(""); continue; }
 
             // points so far INCLUDING deductions/additions
@@ -788,7 +784,7 @@ nav: false
             const elos = latestElosByScanningBackwards(seasonTier, teams);
 
             const remaining = inferRemainingFixturesDoubleRoundRobin(played, teams);
-            logStatus(`Tier ${tier}: remaining inferred fixtures = ${remaining.length}`);
+            // logStatus(`Tier ${tier}: remaining inferred fixtures = ${remaining.length}`);
 
             const fixturesForTeam = {};
             for (const t of teams) fixturesForTeam[t] = [];
@@ -814,16 +810,16 @@ nav: false
               finalPMFByTeam[t] = shiftPMF(added, pts[t] || 0, PfinalMax);
             }
 
-            logStatus(`Tier ${tier}: computing position probabilities…`);
+            // logStatus(`Tier ${tier}: computing position probabilities…`);
             const posProbs = computePositionProbabilities(finalPMFByTeam);
 
             renderTeamPositionMatrix(tablesDiv, divisionName, latestSeason, teams, posProbs);
 
-            logStatus(`Tier ${tier}: done.`);
-            logStatus("");
+            // logStatus(`Tier ${tier}: done.`);
+            // logStatus("");
           }
 
-          logStatus("Complete.");
+          // logStatus("Complete.");
         },
         error: (err) => {
           console.error(err);
