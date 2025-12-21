@@ -7,41 +7,52 @@ on:
 
 jobs:
   check-links-on-site:
-    # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#running-a-workflow-based-on-the-conclusion-of-another-workflow
+    # Only run if the Deploy site workflow completed successfully
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    # available images: https://github.com/actions/runner-images#available-images
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
-      - name: Setup Ruby
+
+      # Ruby/Jekyll setup
+      - name: Set up Ruby 💎
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.2.2"
+          ruby-version: "3.2"
           bundler-cache: true
-      - name: Update _config.yml ⚙️
-        uses: fjogeleit/yaml-update-action@main
+
+      # Node is needed for purgecss
+      - name: Set up Node.js 🟢
+        uses: actions/setup-node@v4
         with:
-          commitChange: false
-          valueFile: "_config.yml"
-          changes: |
-            {
-              "giscus.repo": "${{ github.repository }}",
-              "baseurl": ""
-            }
-      - name: Install and Build 🔧
+          node-version: "20"
+
+      # Fix 1: ImageMagick is required by jekyll-imagemagick
+      - name: Install ImageMagick 🖼️
         run: |
-          pip3 install --upgrade jupyter
-          export JEKYLL_ENV=production
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
+      - name: Install dependencies 📦
+        run: |
+          bundle install --jobs 4 --retry 3
+
+      - name: Build site 🏗️
+        env:
+          JEKYLL_ENV: production
+        run: |
           bundle exec jekyll build
+
       - name: Purge unused CSS 🧹
         run: |
           npm install -g purgecss
           purgecss -c purgecss.config.js
+
+      # Fix 2: only scan the built site output, not vendor/bundle etc.
       - name: Link Checker 🔗
         uses: lycheeverse/lychee-action@v1.9.0
         with:
           fail: true
-          # only check local links
-          args: --offline --verbose --no-progress '**/*.html'
-        #working-directory: _site
+          # only check local links in the generated site
+          args: --offline --verbose --no-progress "_site/**/*.html"
