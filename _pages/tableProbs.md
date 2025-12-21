@@ -120,6 +120,7 @@ nav: false
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+	  color: #333 !important
     }
 
     /* Max cell full red */
@@ -498,7 +499,7 @@ nav: false
     // Shading + logos + download image
     // ------------------------------------------------------------
     function formatPctCell(p) {
-      if (!Number.isFinite(p) || p <= 0) return "0%";
+      if (!Number.isFinite(p) || p <= 0) return "-";
       const pct = Math.round(100 * p);
       if (pct === 0) return "<1%";
 	  if (pct === 100) return ">99%";
