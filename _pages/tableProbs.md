@@ -1,6 +1,6 @@
 ---
 layout: page
-permalink: /titleodds
+permalink: /tableProbs
 title: Title & Position Odds (Exact)
 description: Exact (non-Monte-Carlo) position odds for the latest season in each tier.
 nav: false
@@ -92,10 +92,10 @@ nav: false
       text-align: center !important;
     }
 
-    /* Team chip (red) */
+    /* Team cell (YOUR updated styling) */
     .team-cell {
-      background-color: #b2182b !important;
-      color: #fff !important;
+      background-color: #ffffff !important;
+      color: #333 !important;
       font-weight: 800;
       text-align: left !important;
       width: 150px;
@@ -113,7 +113,7 @@ nav: false
       height: 20px;
       border-radius: 50%;
       flex: 0 0 auto;
-      background: rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.06);
     }
 
     .team-name {
@@ -152,16 +152,16 @@ nav: false
 
     .smallnote { color: #666; font-size: 0.9em; margin-top: 6px; }
 
-    /* Dark mode: make sure text remains readable everywhere */
     @media (prefers-color-scheme: dark) {
       .meta { color: #d0d0d0; }
       .status { background: #1e1e1e; border-color: #333; color: #e8e8e8; }
       .table-scroll { background: #111; border-color: #333; }
       .probTable tbody td { background: #1a1a1a; color: #e8e8e8; }
+      .team-cell { background: #1a1a1a !important; color: #e8e8e8 !important; }
       .btn { background: #1a1a1a; color: #e8e8e8; border-color: #333; }
       .btn:hover { background: #222; }
       .smallnote { color: #bdbdbd; }
-      /* pos/team chips stay red with white text via !important rules above */
+      /* pos chip and max-cell remain red with white text via !important */
     }
   </style>
 </head>
@@ -171,6 +171,7 @@ nav: false
   <div class="meta">
     Exact (non-Monte-Carlo) position probabilities for the latest season in your database (latest season is determined by the last row in the CSV).
     Remaining fixtures are inferred as all unplayed home/away pairings (double round-robin completion).
+    Point deductions/additions for the season are applied.
   </div>
 
   <div id="status" class="status">Loading…</div>
@@ -182,6 +183,7 @@ nav: false
     // ------------------------------------------------------------
     const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
     const LOGO_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamLogos.csv";
+    const DEDUCT_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv";
     const TIERS = [1, 2, 3, 4];
 
     // ------------------------------------------------------------
@@ -193,7 +195,7 @@ nav: false
     }
 
     // ------------------------------------------------------------
-    // Load team logos (same pattern as leagueTable.md)
+    // Load team logos
     // ------------------------------------------------------------
     function loadTeamLogos() {
       return fetch(LOGO_CSV_URL)
@@ -204,9 +206,46 @@ nav: false
           rows.forEach(row => {
             if (row.Team && row.LogoURL) dict[String(row.Team).trim()] = String(row.LogoURL).trim();
           });
-          window.teamLogos = dict;   // single source of truth
+          window.teamLogos = dict;
         })
         .catch(() => { window.teamLogos = {}; });
+    }
+
+    // ------------------------------------------------------------
+    // Load point deductions/additions
+    //
+    // Returns a dict keyed by Season string -> dict(team -> totalPtsAdjustment)
+    // Uses Pts_deducted as a signed number (negative = deduction, positive = addition).
+    // ------------------------------------------------------------
+    function loadPointDeductions() {
+      return fetch(DEDUCT_CSV_URL)
+        .then(res => res.text())
+        .then(text => {
+          const rows = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
+          const seasonMap = {}; // season -> {team: adj}
+          rows.forEach(r => {
+            const season = String(r.Season || "").trim();
+            const team = String(r.Team || "").trim();
+            if (!season || !team) return;
+
+            const pts = parseFloat(r.Pts_deducted);
+            if (!Number.isFinite(pts) || pts === 0) return;
+
+            if (!seasonMap[season]) seasonMap[season] = {};
+            if (!seasonMap[season][team]) seasonMap[season][team] = 0;
+            seasonMap[season][team] += pts;
+          });
+          window.pointAdjustmentsBySeason = seasonMap;
+        })
+        .catch(() => { window.pointAdjustmentsBySeason = {}; });
+    }
+
+    function getSeasonPointAdjustment(seasonStr, teamName) {
+      const s = String(seasonStr || "").trim();
+      const t = String(teamName || "").trim();
+      const bySeason = window.pointAdjustmentsBySeason || {};
+      const m = bySeason[s] || {};
+      return Number.isFinite(m[t]) ? m[t] : 0;
     }
 
     // ------------------------------------------------------------
@@ -285,9 +324,9 @@ nav: false
     }
 
     // ------------------------------------------------------------
-    // Points so far
+    // Points so far (with point deductions/additions applied)
     // ------------------------------------------------------------
-    function computePointsSoFar(playedRows) {
+    function computePointsSoFar(playedRows, seasonStr) {
       const teams = new Set();
       for (const r of playedRows) { teams.add(r.HomeTeam); teams.add(r.AwayTeam); }
       const pts = {};
@@ -300,6 +339,12 @@ nav: false
         else if (res === "A") pts[at] += 3;
         else if (res === "D") { pts[ht] += 1; pts[at] += 1; }
       }
+
+      // apply season point adjustments
+      for (const t of teams) {
+        pts[t] += getSeasonPointAdjustment(seasonStr, t);
+      }
+
       return pts;
     }
 
@@ -356,9 +401,9 @@ nav: false
         const pW = f[0], pD = f[1], pL = f[2];
         const next = new Float64Array(Pmax + 1);
 
-        for (let i = 0; i < pmf.length; i++) next[i] += pmf[i] * pL;            // +0
-        for (let i = 0; i < pmf.length - 1; i++) next[i + 1] += pmf[i] * pD;    // +1
-        for (let i = 0; i < pmf.length - 3; i++) next[i + 3] += pmf[i] * pW;    // +3
+        for (let i = 0; i < pmf.length; i++) next[i] += pmf[i] * pL;
+        for (let i = 0; i < pmf.length - 1; i++) next[i + 1] += pmf[i] * pD;
+        for (let i = 0; i < pmf.length - 3; i++) next[i + 3] += pmf[i] * pW;
 
         pmf = next;
       }
@@ -465,24 +510,16 @@ nav: false
     }
 
     // ------------------------------------------------------------
-    // Formatting + heat shading
+    // Shading + logos + download image
     // ------------------------------------------------------------
-    function formatPctCell(p) {
-      if (!Number.isFinite(p) || p <= 0) return "0%";
-      const pct = Math.round(100 * p);
-      if (pct === 0) return "<1%";
-      return `${pct}%`;
-    }
-
     function applyRowHeat(td, p, maxP) {
-      // Keep <1% fully white
       if (!Number.isFinite(p) || p <= 0 || !Number.isFinite(maxP) || maxP <= 0) return;
-      if (Math.round(100 * p) === 0) return;
+      if (Math.round(100 * p) === 0) return; // <1% stays white
 
       const ratio = clamp(p / maxP, 0, 1);
-      const alpha = 0.10 + 0.90 * ratio; // 0.10 .. 1.00
+      const alpha = 0.10 + 0.90 * ratio;
       td.style.backgroundColor = `rgba(178, 24, 43, ${alpha})`;
-      td.style.color = (alpha > 0.55) ? "#fff" : "";  // empty => CSS decides (dark mode handled by media query)
+      td.style.color = (alpha > 0.55) ? "#fff" : "";
       td.style.fontWeight = (ratio > 0.80) ? "800" : "600";
     }
 
@@ -492,11 +529,7 @@ nav: false
       return logos[key] || "";
     }
 
-    // ------------------------------------------------------------
-    // Download table as image (division block)
-    // ------------------------------------------------------------
     async function downloadBlockAsImage(blockElem, filenameBase) {
-      // Clone and render off-screen so the capture isn't clipped by scroll containers
       const temp = document.createElement("div");
       temp.style.position = "fixed";
       temp.style.left = "-9999px";
@@ -506,10 +539,8 @@ nav: false
       temp.style.width = "fit-content";
 
       const clone = blockElem.cloneNode(true);
-      // Remove buttons/status inside the clone if desired; keep heading + table.
       const btns = clone.querySelectorAll("button");
       btns.forEach(b => b.remove());
-
       temp.appendChild(clone);
       document.body.appendChild(temp);
 
@@ -541,15 +572,13 @@ nav: false
     }
 
     // ------------------------------------------------------------
-    // Rendering
+    // Render
     // ------------------------------------------------------------
     function renderTeamPositionMatrix(container, divisionName, seasonStr, teams, posProbs) {
       const N = teams.length;
 
       const block = document.createElement("div");
       block.className = "tier-block";
-      block.setAttribute("data-division", divisionName);
-      block.setAttribute("data-season", seasonStr);
 
       const h = document.createElement("h2");
       h.className = "tier-title";
@@ -576,14 +605,12 @@ nav: false
 
       block.appendChild(controls);
 
-      // Order rows by expected finishing position
       const expectedPos = teams.map(t => {
         let ep = 0;
         for (let pos = 1; pos <= N; pos++) ep += pos * (posProbs[t][pos] || 0);
         return { team: t, ep };
       }).sort((a, b) => a.ep - b.ep);
 
-      // Full-bleed wrapper so tables can be wider than the GitHub template column
       const bleed = document.createElement("div");
       bleed.className = "full-bleed";
 
@@ -607,7 +634,6 @@ nav: false
       for (const row of expectedPos) {
         const t = row.team;
 
-        // max before rounding
         let maxP = 0;
         for (let pos = 1; pos <= N; pos++) {
           const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
@@ -616,13 +642,11 @@ nav: false
 
         const tr = document.createElement("tr");
 
-        // position
         const tdPos = document.createElement("td");
         tdPos.className = "pos-cell";
         tdPos.textContent = String(rank);
         tr.appendChild(tdPos);
 
-        // team with logo
         const tdTeam = document.createElement("td");
         tdTeam.className = "team-cell";
 
@@ -653,7 +677,6 @@ nav: false
         tdTeam.appendChild(wrap);
         tr.appendChild(tdTeam);
 
-        // probabilities with shading
         for (let pos = 1; pos <= N; pos++) {
           const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
           const td = document.createElement("td");
@@ -681,7 +704,8 @@ nav: false
       note.className = "smallnote";
       note.textContent =
         "Cells show the probability of finishing in each position (rounded to whole %; values that round to 0 but are non-zero show as <1%). " +
-        "The largest probability in each team row is highlighted in red; other cells are shaded relative to that maximum.";
+        "The largest probability in each team row is highlighted in red; other cells are shaded relative to that maximum. " +
+        "Season point deductions/additions have been applied.";
       block.appendChild(note);
 
       container.appendChild(block);
@@ -692,10 +716,17 @@ nav: false
     // ------------------------------------------------------------
     document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("status").textContent = "";
+
       logStatus("Fetching team logos…");
       await loadTeamLogos();
       logStatus(`Team logos loaded: ${Object.keys(window.teamLogos || {}).length}`);
+
+      logStatus("Fetching point deductions/additions…");
+      await loadPointDeductions();
+      const nSeasons = Object.keys(window.pointAdjustmentsBySeason || {}).length;
+      logStatus(`Point adjustments loaded for seasons: ${nSeasons}`);
       logStatus("");
+
       logStatus("Fetching match CSV…");
 
       Papa.parse(CSV_URL, {
@@ -708,7 +739,6 @@ nav: false
           if (!data.length) { logStatus("No rows loaded."); return; }
           logStatus(`Loaded rows: ${data.length}`);
 
-          // Latest season from last row
           const last = data[data.length - 1];
           const latestSeason = last.Season;
           const seasonStartYear = seasonStartYearFromSeasonStr(latestSeason);
@@ -745,7 +775,9 @@ nav: false
             logStatus(`Tier ${tier}: teams = ${N}`);
             if (N < 2) { logStatus(`Tier ${tier}: not enough teams.`); logStatus(""); continue; }
 
-            const pts = computePointsSoFar(played);
+            // points so far INCLUDING deductions/additions
+            const pts = computePointsSoFar(played, latestSeason);
+
             const elos = latestElosByScanningBackwards(seasonTier, teams);
 
             const remaining = inferRemainingFixturesDoubleRoundRobin(played, teams);
