@@ -157,7 +157,7 @@ nav: false
       .status { background: #1e1e1e; border-color: #333; color: #e8e8e8; }
       .table-scroll { background: #111; border-color: #333; }
       .probTable tbody td { background: #1a1a1a; color: #e8e8e8; }
-      .team-cell { background: #1a1a1a !important; color: #333 !important; }
+      .team-cell { background: #1a1a1a !important; }
       .btn { background: #1a1a1a; color: #e8e8e8; border-color: #333; }
       .btn:hover { background: #222; }
       .smallnote { color: #bdbdbd; }
