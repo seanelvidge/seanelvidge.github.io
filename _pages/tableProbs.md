@@ -1,8 +1,8 @@
 ---
 layout: page
 permalink: /tableProbs
-title: League Table Position Odds
-description: League table position odds for each tier.
+title: Title & Position Odds
+description: Exact (non-Monte-Carlo) position odds for the latest season in each tier.
 nav: false
 ---
 
@@ -36,10 +36,11 @@ nav: false
       padding: 10px;
     }
 
+    /* Use separate borders + spacing to create a gap between all cells */
     .probTable {
       width: 100%;
       border-collapse: separate !important;
-      border-spacing: 0 8px;
+      border-spacing: 6px 6px;     /* <-- cell gaps */
       background: transparent;
       table-layout: fixed;
       min-width: 980px;
@@ -54,13 +55,13 @@ nav: false
       padding: 6px 8px;
       font-size: 12px;
       white-space: nowrap;
-    }
-    .probTable thead th:first-child {
-      text-align: left;
-      width: 220px;
+      border-radius: 8px;          /* header pills */
     }
 
-    .probTable tbody tr { background: transparent; }
+    /* Column widths */
+    .probTable thead th.posHead { width: 60px; }
+    .probTable thead th.teamHead { text-align: left; width: 170px; }
+
     .probTable tbody td {
       background: #ffffff;
       border: none !important;
@@ -70,26 +71,48 @@ nav: false
       font-size: 12px;
       text-align: center;
       white-space: nowrap;
+      border-radius: 8px;          /* cell pills */
     }
 
-    /* “pill” edges */
-    .probTable tbody td:first-child {
-      border-top-left-radius: 8px;
-      border-bottom-left-radius: 8px;
-      text-align: left;
-      font-weight: 800;
-      width: 220px;
-
-      /* team names in red like prior POS chip */
+    /* Position column (leftmost) */
+    .pos-cell {
       background-color: #b2182b;
-      color: #fff;
-    }
-    .probTable tbody td:last-child {
-      border-top-right-radius: 8px;
-      border-bottom-right-radius: 8px;
+      color: #fff !important;
+      font-weight: 800;
+      text-align: center !important;
     }
 
-    /* highlight the max cell in each row */
+    /* Team cell: red chip, includes logo + name */
+    .team-cell {
+      background-color: #b2182b;
+      color: #fff !important;
+      font-weight: 800;
+      text-align: left !important;
+      width: 170px;
+    }
+
+    .team-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+    }
+
+    .team-logo {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.18);
+    }
+
+    .team-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Max cell should always be full red with white text */
     .max-cell {
       background-color: #b2182b !important;
       color: #fff !important;
@@ -101,8 +124,10 @@ nav: false
 </head>
 
 <body>
+  <h1>Title & Position Odds (Exact)</h1>
   <div class="meta">
-    Position probabilities for the latest season.
+    Exact (non-Monte-Carlo) position probabilities for the latest season in your database (latest season is determined by the last row in the CSV).
+    Remaining fixtures are inferred as all unplayed home/away pairings (double round-robin completion).
   </div>
 
   <div id="status" class="status">Loading…</div>
@@ -115,6 +140,14 @@ nav: false
     const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
     const TIERS = [1, 2, 3, 4];
 
+    // If you already have logo URLs used in leagueTable.md, put that mapping here.
+    // Fallback is a harmless placeholder square.
+    // You can extend this over time without touching the rest of the code.
+    const TEAM_LOGO = {
+      // "Arsenal": "/assets/team-logos/Arsenal.png",
+      // "Aston Villa": "/assets/team-logos/Aston%20Villa.png",
+    };
+
     // ------------------------------------------------------------
     // Status logging
     // ------------------------------------------------------------
@@ -124,7 +157,7 @@ nav: false
     }
 
     // ------------------------------------------------------------
-    // Parsing helpers
+    // Helpers
     // ------------------------------------------------------------
     function seasonStartYearFromSeasonStr(seasonStr) {
       const m = String(seasonStr || "").match(/^(\d{4})\s*\/\s*(\d{4})$/);
@@ -315,7 +348,7 @@ nav: false
       }
 
       const out = {};
-      for (const t of teams) out[t] = new Float64Array(N + 1); // positions 1..N
+      for (const t of teams) out[t] = new Float64Array(N + 1);
 
       for (const t of teams) {
         const others = teams.filter(u => u !== t);
@@ -324,9 +357,9 @@ nav: false
           const pi = pmf[t][x];
           if (pi === 0) continue;
 
-          const a = new Float64Array(N - 1); // >x
-          const b = new Float64Array(N - 1); // =x
-          const c = new Float64Array(N - 1); // <x
+          const a = new Float64Array(N - 1);
+          const b = new Float64Array(N - 1);
+          const c = new Float64Array(N - 1);
 
           for (let j = 0; j < others.length; j++) {
             const u = others[j];
@@ -379,7 +412,7 @@ nav: false
     }
 
     // ------------------------------------------------------------
-    // Formatting & rendering
+    // Formatting + heat shading
     // ------------------------------------------------------------
     function formatPctCell(p) {
       if (!Number.isFinite(p) || p <= 0) return "0%";
@@ -388,13 +421,44 @@ nav: false
       return `${pct}%`;
     }
 
+    function getLogoUrl(teamName) {
+      if (TEAM_LOGO[teamName]) return TEAM_LOGO[teamName];
+
+      // If you have a consistent naming convention in your site assets,
+      // uncomment this line and ensure files exist:
+      // return `/assets/team-logos/${encodeURIComponent(teamName)}.png`;
+
+      return null;
+    }
+
+    function applyRowHeat(td, p, maxP) {
+      // For <1% (or maxP==0) keep white.
+      if (!Number.isFinite(p) || p <= 0 || !Number.isFinite(maxP) || maxP <= 0) return;
+
+      // If it rounds to 0% but non-zero, user wants it white (leave as is)
+      if (Math.round(100 * p) === 0) return;
+
+      // Shade relative to max probability in row.
+      // ratio in (0,1], map to alpha range.
+      const ratio = clamp(p / maxP, 0, 1);
+
+      // Keep strong red for max (handled by class), otherwise transparent red tint.
+      // Use a gentle floor so visible but not overpowering.
+      const alpha = 0.10 + 0.90 * ratio; // 0.10 .. 1.00
+      td.style.backgroundColor = `rgba(178, 24, 43, ${alpha})`; // #b2182b
+      td.style.color = (alpha > 0.55) ? "#fff" : "#000";
+      td.style.fontWeight = (ratio > 0.80) ? "800" : "600";
+    }
+
+    // ------------------------------------------------------------
+    // Rendering: Position + Team + matrix (with logos + heat shading)
+    // ------------------------------------------------------------
     function renderTeamPositionMatrix(container, divisionName, seasonStr, teams, posProbs) {
       const N = teams.length;
 
       const block = document.createElement("div");
       block.className = "tier-block";
 
-      // Title should be ONLY the league name (no "Tier X:")
       const h = document.createElement("h2");
       h.className = "tier-title";
       h.textContent = `${divisionName}`;
@@ -420,40 +484,84 @@ nav: false
 
       const thead = document.createElement("thead");
       const headCells = [];
-      headCells.push(`<th>TEAM</th>`);
+      headCells.push(`<th class="posHead">POS</th>`);
+      headCells.push(`<th class="teamHead">TEAM</th>`);
       for (let pos = 1; pos <= N; pos++) headCells.push(`<th>${pos}</th>`);
       thead.innerHTML = `<tr>${headCells.join("")}</tr>`;
       table.appendChild(thead);
 
       const tbody = document.createElement("tbody");
 
+      let rank = 1;
       for (const row of expectedPos) {
         const t = row.team;
 
         // Find max probability in the row BEFORE rounding (as requested)
-        let maxP = -1;
+        let maxP = 0;
         for (let pos = 1; pos <= N; pos++) {
           const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
           if (p > maxP) maxP = p;
         }
 
         const tr = document.createElement("tr");
-        const cells = [];
 
-        // Team name cell is red via CSS (first-child)
-        cells.push(`<td>${t}</td>`);
+        // Position chip
+        const tdPos = document.createElement("td");
+        tdPos.className = "pos-cell";
+        tdPos.textContent = String(rank);
+        tr.appendChild(tdPos);
 
-        for (let pos = 1; pos <= N; pos++) {
-          const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
-          const isMax = (p === maxP) && (maxP > 0);
+        // Team chip with logo
+        const tdTeam = document.createElement("td");
+        tdTeam.className = "team-cell";
 
-          // If multiple equal maxima exist, they'll all be highlighted. That’s usually desirable.
-          const cls = isMax ? ` class="max-cell"` : "";
-          cells.push(`<td${cls}>${formatPctCell(p)}</td>`);
+        const wrap = document.createElement("div");
+        wrap.className = "team-wrap";
+
+        const logoUrl = getLogoUrl(t);
+        if (logoUrl) {
+          const img = document.createElement("img");
+          img.className = "team-logo";
+          img.src = logoUrl;
+          img.alt = `${t} logo`;
+          img.loading = "lazy";
+          img.onerror = () => { img.style.display = "none"; };
+          wrap.appendChild(img);
+        } else {
+          // placeholder square to keep alignment consistent
+          const ph = document.createElement("div");
+          ph.className = "team-logo";
+          wrap.appendChild(ph);
         }
 
-        tr.innerHTML = cells.join("");
+        const name = document.createElement("div");
+        name.className = "team-name";
+        name.textContent = t;
+        wrap.appendChild(name);
+
+        tdTeam.appendChild(wrap);
+        tr.appendChild(tdTeam);
+
+        // Probability cells with heat shading
+        for (let pos = 1; pos <= N; pos++) {
+          const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
+
+          const td = document.createElement("td");
+          td.textContent = formatPctCell(p);
+
+          // Max cell: force full red via class
+          if (p === maxP && maxP > 0) {
+            td.classList.add("max-cell");
+          } else {
+            // Apply red tint proportional to p/maxP (leave <1% fully white)
+            applyRowHeat(td, p, maxP);
+          }
+
+          tr.appendChild(td);
+        }
+
         tbody.appendChild(tr);
+        rank += 1;
       }
 
       table.appendChild(tbody);
@@ -462,7 +570,9 @@ nav: false
 
       const note = document.createElement("div");
       note.className = "smallnote";
-      note.textContent = "Cells show the probability of finishing in each position (rounded to whole %; values that round to 0 but are non-zero show as <1%). The largest probability in each team row is highlighted.";
+      note.textContent =
+        "Cells show the probability of finishing in each position (rounded to whole %; values that round to 0 but are non-zero show as <1%). " +
+        "The largest probability in each team row is highlighted in red; other cells are shaded relative to that maximum.";
       block.appendChild(note);
 
       container.appendChild(block);
@@ -485,7 +595,7 @@ nav: false
           if (!data.length) { logStatus("No rows loaded."); return; }
           logStatus(`Loaded rows: ${data.length}`);
 
-          // Latest season from last row (as requested)
+          // Latest season from last row
           const last = data[data.length - 1];
           const latestSeason = last.Season;
           const seasonStartYear = seasonStartYearFromSeasonStr(latestSeason);
@@ -520,7 +630,6 @@ nav: false
             const teams = Array.from(teamSet).sort();
             const N = teams.length;
             logStatus(`Tier ${tier}: teams = ${N}`);
-
             if (N < 2) { logStatus(`Tier ${tier}: not enough teams.`); logStatus(""); continue; }
 
             const pts = computePointsSoFar(played);
@@ -556,7 +665,6 @@ nav: false
             logStatus(`Tier ${tier}: computing position probabilities…`);
             const posProbs = computePositionProbabilities(finalPMFByTeam);
 
-            // Render matrix (title is division name only; team name column red; max cell red)
             renderTeamPositionMatrix(tablesDiv, divisionName, latestSeason, teams, posProbs);
 
             logStatus(`Tier ${tier}: done.`);
