@@ -512,6 +512,13 @@ nav: false
     // ------------------------------------------------------------
     // Shading + logos + download image
     // ------------------------------------------------------------
+    function formatPctCell(p) {
+      if (!Number.isFinite(p) || p <= 0) return "0%";
+      const pct = Math.round(100 * p);
+      if (pct === 0) return "<1%";
+      return `${pct}%`;
+    }
+
     function applyRowHeat(td, p, maxP) {
       if (!Number.isFinite(p) || p <= 0 || !Number.isFinite(maxP) || maxP <= 0) return;
       if (Math.round(100 * p) === 0) return; // <1% stays white
