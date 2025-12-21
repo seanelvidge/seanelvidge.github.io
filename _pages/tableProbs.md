@@ -173,7 +173,7 @@ nav: false
 
     /* Mobile table can be narrower */
     .mobile-summary-wrap .probTable { min-width: 260px; table-layout: auto; }
-    .mobile-summary-wrap .probTable thead th.teamHead { width: 40px; }
+    .mobile-summary-wrap .probTable thead th.teamHead { width: 120px; }
   </style>
 </head>
 
@@ -190,6 +190,8 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
     const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
     const LOGO_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamLogos.csv";
     const DEDUCT_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv";
+	const SHORTNAME_CSV_URL =
+    "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamActivePeriods.csv";
     const TIERS = [1, 2, 3, 4];
 
     // ------------------------------------------------------------
@@ -223,6 +225,31 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
         })
         .catch(() => { window.teamLogos = {}; });
     }
+	
+	// ------------------------------------------------------------
+    // Load short names
+    // Returns: mapping from full team name to short name (for displaying in table)
+    // ------------------------------------------------------------
+	function loadTeamShortNames() {
+	  return fetch(SHORTNAME_CSV_URL)
+		.then(res => res.text())
+		.then(text => {
+		  const rows = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
+		  const map = {};
+		  rows.forEach(r => {
+			if (r.Team && r.ShortName) {
+			  map[String(r.Team).trim()] = String(r.ShortName).trim();
+			}
+		  });
+		  window.teamShortNames = map;
+		})
+		.catch(() => { window.teamShortNames = {}; });
+	}
+	
+	function getShortTeamName(team) {
+	  const m = window.teamShortNames || {};
+	  return m[team] || team; // fallback to full name
+	}
 
     // ------------------------------------------------------------
     // Load point deductions/additions (signed)
@@ -757,7 +784,7 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
 
         const name = document.createElement("div");
         name.className = "team-name";
-        name.textContent = t;
+        name.textContent = getShortTeamName(t);
         wrap.appendChild(name);
 
         tdTeam.appendChild(wrap);
@@ -932,6 +959,8 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
       logStatus("Calculating tables...");
       await loadTeamLogos();
       //logStatus(`Team logos loaded: ${Object.keys(window.teamLogos || {}).length}`);
+	  
+	  await loadTeamShortNames();
 
       //logStatus("Fetching point deductions/additions…");
       await loadPointDeductions();
