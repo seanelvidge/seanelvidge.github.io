@@ -151,18 +151,6 @@ nav: false
     .btn:hover { background: #f3f3f3; }
 
     .smallnote { color: #666; font-size: 0.9em; margin-top: 6px; }
-
-    @media (prefers-color-scheme: dark) {
-      .meta { color: #d0d0d0; }
-      .status { background: #1e1e1e; border-color: #333; color: #e8e8e8; }
-      .table-scroll { background: #111; border-color: #333; }
-      .probTable tbody td { background: #1a1a1a; color: #e8e8e8; }
-      .team-cell { background: #1a1a1a !important; }
-      .btn { background: #1a1a1a; color: #e8e8e8; border-color: #333; }
-      .btn:hover { background: #222; }
-      .smallnote { color: #bdbdbd; }
-      /* pos chip and max-cell remain red with white text via !important */
-    }
   </style>
 </head>
 
