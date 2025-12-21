@@ -173,7 +173,7 @@ nav: false
 
     /* Mobile table can be narrower */
     .mobile-summary-wrap .probTable { min-width: 520px; table-layout: auto; }
-    .mobile-summary-wrap .probTable thead th.teamHead { width: 180px; }
+    .mobile-summary-wrap .probTable thead th.teamHead { width: 120px; }
   </style>
 </head>
 
@@ -589,48 +589,86 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
     // ------------------------------------------------------------
     // Download as image: ALWAYS capture the full matrix element
     // ------------------------------------------------------------
-    async function downloadElementAsImage(elementToCapture, filenameBase) {
-      const temp = document.createElement("div");
-      temp.style.position = "fixed";
-      temp.style.left = "-9999px";
-      temp.style.top = "0";
-      temp.style.padding = "16px";
-      temp.style.backgroundColor = "#ffffff";
-      temp.style.width = "fit-content";
+	async function downloadElementAsImage(elementToCapture, filenameBase) {
+	  const temp = document.createElement("div");
+	  temp.style.position = "fixed";
+	  temp.style.left = "-9999px";
+	  temp.style.top = "0";
+	  temp.style.padding = "16px";
+	  temp.style.backgroundColor = "#ffffff";
 
-      const clone = elementToCapture.cloneNode(true);
-      clone.querySelectorAll("button").forEach(b => b.remove());
-      clone.style.display = "block";
+	  // Clone
+	  const clone = elementToCapture.cloneNode(true);
+	  clone.querySelectorAll("button").forEach(b => b.remove());
+	  clone.style.display = "block";
 
-      temp.appendChild(clone);
-      document.body.appendChild(temp);
+	  // IMPORTANT: unwrap scroll containers in the clone
+	  const scrolls = clone.querySelectorAll(".table-scroll");
+	  scrolls.forEach(s => {
+		s.style.overflow = "visible";
+		s.style.maxWidth = "none";
+		s.style.width = "fit-content";
+	  });
 
-      const canvas = await html2canvas(temp, {
-        backgroundColor: "#ffffff",
-        scale: window.devicePixelRatio > 1 ? 2 : 1,
-        useCORS: true
-      });
+	  // The full-bleed 100vw trick hurts capture; neutralise it in the clone
+	  const bleeds = clone.querySelectorAll(".full-bleed");
+	  bleeds.forEach(b => {
+		b.style.width = "fit-content";
+		b.style.marginLeft = "0";
+		b.style.marginRight = "0";
+		b.style.paddingLeft = "0";
+		b.style.paddingRight = "0";
+	  });
 
-      document.body.removeChild(temp);
+	  // Expand to the full table width
+	  const table = clone.querySelector("table.probTable");
+	  if (table) {
+		// Ensure table is laid out at its intrinsic width
+		table.style.width = "max-content";
+		table.style.minWidth = "unset";
+	  }
 
-      const safe = (filenameBase || "table")
-        .replace(/[\/\\:]+/g, "-")
-        .replace(/\s+/g, "_")
-        .replace(/[^A-Za-z0-9_-]/g, "");
+	  temp.appendChild(clone);
+	  document.body.appendChild(temp);
 
-      const filename = `${safe}.png`;
+	  // After it’s in the DOM, we can measure true scrollWidth
+	  let captureWidth = 1200;
+	  let captureHeight = 800;
+	  if (table) {
+		captureWidth = Math.ceil(table.scrollWidth) + 40;   // padding buffer
+		captureHeight = Math.ceil(table.scrollHeight) + 40;
+		temp.style.width = `${captureWidth}px`;
+	  }
 
-      canvas.toBlob((blob) => {
-        if (!blob) return;
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        URL.revokeObjectURL(a.href);
-        a.remove();
-      }, "image/png");
-    }
+	  const canvas = await html2canvas(temp, {
+		backgroundColor: "#ffffff",
+		scale: window.devicePixelRatio > 1 ? 2 : 1,
+		useCORS: true,
+		windowWidth: captureWidth,
+		windowHeight: captureHeight
+	  });
+
+	  document.body.removeChild(temp);
+
+	  const safe = (filenameBase || "table")
+		.replace(/[\/\\:]+/g, "-")
+		.replace(/\s+/g, "_")
+		.replace(/[^A-Za-z0-9_-]/g, "");
+
+	  const filename = `${safe}.png`;
+
+	  canvas.toBlob((blob) => {
+		if (!blob) return;
+		const a = document.createElement("a");
+		a.href = URL.createObjectURL(blob);
+		a.download = filename;
+		document.body.appendChild(a);
+		a.click();
+		URL.revokeObjectURL(a.href);
+		a.remove();
+	  }, "image/png");
+	}
+
 
     // ------------------------------------------------------------
     // Rendering: full matrix + mobile summary with toggle
@@ -765,9 +803,9 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
         <thead>
           <tr>
             <th class="teamHead">TEAM</th>
-            <th>1</th>
-            <th>TOP6</th>
-            <th>BOTTOM3</th>
+            <th>1st Place</th>
+            <th>TOP 6</th>
+            <th>BOTTOM 3</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -891,7 +929,7 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
     document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("status").textContent = "";
 
-      //logStatus("Fetching team logos…");
+      logStatus("Calculating tables...");
       await loadTeamLogos();
       //logStatus(`Team logos loaded: ${Object.keys(window.teamLogos || {}).length}`);
 
