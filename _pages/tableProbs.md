@@ -12,69 +12,9 @@ nav: false
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
   <style>
-    /* Reuse the “pill row” look from leagueTable.md, adapted to a simple table */
-
+    /* Adapted from leagueTable.md styling (pill rows + clean header). */
     .tier-block { margin: 18px 0 34px 0; }
     .tier-title { margin: 6px 0 10px 0; }
-
-    .probTable {
-      width: 100%;
-      border-collapse: separate !important;
-      border-spacing: 0 8px;      /* row gap */
-      background: #f0f0f0;        /* gap colour */
-    }
-
-    .probTable thead th {
-      background-color: #3b5fd0;
-      color: #fff;
-      text-transform: uppercase;
-      text-align: left;
-      font-weight: 700;
-      padding: 6px 8px;
-    }
-
-    .probTable tbody tr { background: transparent; }
-    .probTable tbody td {
-      background: #ffffff;
-      border: none !important;
-      padding: 6px 8px;
-      line-height: 1.2;
-      color: #000;
-    }
-
-    /* Round ends */
-    .probTable tbody td:first-child {
-      border-top-left-radius: 8px;
-      border-bottom-left-radius: 8px;
-    }
-    .probTable tbody td:last-child {
-      border-top-right-radius: 8px;
-      border-bottom-right-radius: 8px;
-    }
-
-    /* POS column — red chip */
-    .probTable tbody td.pos-column {
-      background-color: #b2182b;
-      color: #fff;
-      font-weight: 700;
-      text-align: center;
-      width: 55px;
-    }
-
-    /* TEAM column */
-    .probTable tbody td.team-column {
-      font-weight: 600;
-      color: #333;
-      width: auto;
-    }
-
-    /* PROB column */
-    .probTable tbody td.prob-column {
-      text-align: right;
-      width: 90px;
-      font-weight: 700;
-    }
-
     .meta {
       color: #444;
       font-size: 0.95em;
@@ -87,23 +27,87 @@ nav: false
       border-radius: 10px;
       border: 1px solid #e6e6e6;
       margin: 12px 0;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
       font-size: 12px;
       white-space: pre-wrap;
     }
 
-    .smallnote { color: #666; font-size: 0.9em; margin-top: 6px; }
+    /* Make wide tables usable on GitHub pages */
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 10px;
+      border: 1px solid #e6e6e6;
+      background: #f0f0f0; /* gap colour */
+      padding: 10px;
+    }
+
+    .probTable {
+      width: 100%;
+      border-collapse: separate !important;
+      border-spacing: 0 8px;  /* row gap */
+      background: transparent;
+      table-layout: fixed;
+      min-width: 980px;
+    }
+
+    .probTable thead th {
+      background-color: #3b5fd0;
+      color: #fff;
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: 700;
+      padding: 6px 8px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .probTable thead th:first-child {
+      text-align: left;
+      width: 220px;
+    }
+
+    .probTable tbody tr { background: transparent; }
+    .probTable tbody td {
+      background: #ffffff;
+      border: none !important;
+      padding: 6px 8px;
+      line-height: 1.2;
+      color: #000;
+      font-size: 12px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    /* Round ends for pill rows */
+    .probTable tbody td:first-child {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      text-align: left;
+      font-weight: 700;
+      color: #333;
+      width: 220px;
+    }
+    .probTable tbody td:last-child {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    .smallnote {
+      color: #666;
+      font-size: 0.9em;
+      margin-top: 6px;
+    }
   </style>
 </head>
 
 <body>
   <h1>Title & Position Odds (Exact)</h1>
   <div class="meta">
-    Exact position probabilities for the latest season in your database, computed from current points + remaining fixtures inferred from unplayed home/away pairings.
+    Exact (non-Monte-Carlo) position probabilities for the latest season in your database (latest season is determined by the last row in the CSV).
+    Remaining fixtures are inferred as all unplayed home/away pairings (double round-robin completion).
   </div>
 
   <div id="status" class="status">Loading…</div>
-
   <div id="tables"></div>
 
   <script>
@@ -111,30 +115,27 @@ nav: false
     // Config
     // ------------------------------------------------------------
     const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
-    const TIERS = [1,2,3,4];
+    const TIERS = [1, 2, 3, 4];
 
     // ------------------------------------------------------------
-    // Utilities
+    // Status logging
     // ------------------------------------------------------------
     function logStatus(msg) {
       const el = document.getElementById("status");
       el.textContent += (el.textContent.endsWith("\n") || el.textContent === "" ? "" : "\n") + msg;
     }
 
+    // ------------------------------------------------------------
+    // Parsing helpers
+    // ------------------------------------------------------------
     function seasonStartYearFromSeasonStr(seasonStr) {
-      // "2025/2026" -> 2025
       const m = String(seasonStr || "").match(/^(\d{4})\s*\/\s*(\d{4})$/);
       if (m) return parseInt(m[1], 10);
       const m2 = String(seasonStr || "").match(/(\d{4})/);
-      return m2 ? parseInt(m2[1],10) : (new Date()).getFullYear();
+      return m2 ? parseInt(m2[1], 10) : (new Date()).getFullYear();
     }
 
-    function toInt(x, fallback=0) {
-      const v = parseInt(x, 10);
-      return Number.isFinite(v) ? v : fallback;
-    }
-
-    function toFloat(x, fallback=NaN) {
+    function toFloat(x, fallback = NaN) {
       const v = parseFloat(x);
       return Number.isFinite(v) ? v : fallback;
     }
@@ -143,9 +144,9 @@ nav: false
       return Math.max(lo, Math.min(hi, x));
     }
 
-    function safeProbs(arr, floor=1e-3) {
+    function safeProbs(arr, floor = 1e-3) {
       const p = arr.map(v => clamp(+v, floor, 1 - floor));
-      const s = p.reduce((a,b) => a+b, 0);
+      const s = p.reduce((a, b) => a + b, 0);
       return p.map(v => v / s);
     }
 
@@ -154,13 +155,12 @@ nav: false
     // ------------------------------------------------------------
     const ELO_PER_NAT_LOGIT = 400.0 / Math.log(10.0);
 
-    function eloToSkill(elo, beta=0.9, base=1000.0, mult=2.0, offset=0.0) {
+    function eloToSkill(elo, beta = 0.9, base = 1000.0, mult = 2.0, offset = 0.0) {
       const S = ELO_PER_NAT_LOGIT * beta * mult;
       return (elo - base) / S + offset;
     }
 
     function eraProbsFromYear(year) {
-      // percentages -> normalized probabilities
       const h = (year - 1888) * (-0.141579) + 60.5636;
       const a = (year - 1888) * ( 0.075714) + 19.4769;
       const d = (year - 1888) * ( 0.065851) + 19.9608;
@@ -168,17 +168,17 @@ nav: false
       let pD = Math.max(d, 0.001);
       let pA = Math.max(a, 0.001);
       const s = pH + pD + pA;
-      return [pH/s, pD/s, pA/s];
+      return [pH / s, pD / s, pA / s];
     }
 
     function deltaBaseAndKappa(year) {
-      const [pH,pD,pA] = eraProbsFromYear(year);
+      const [pH, pD, pA] = eraProbsFromYear(year);
       const DeltaBase = 0.5 * Math.log(pH / pA);
       const kappa = (pD / (1 - pD)) * 2.0 * Math.cosh(DeltaBase);
       return [DeltaBase, kappa];
     }
 
-    function predictProbs(sH, sA, year, beta=1.0) {
+    function predictProbs(sH, sA, year, beta = 1.0) {
       const [DeltaBase, kappa] = deltaBaseAndKappa(year);
       const DeltaStar = beta * (sH - sA) + DeltaBase;
       const u = Math.exp(DeltaStar);
@@ -187,21 +187,21 @@ nav: false
       const pH = u / Den;
       const pA = v / Den;
       const pD = kappa / Den;
-      return [pH, pD, pA]; // [Home, Draw, Away]
+      return [pH, pD, pA]; // [HomeWin, Draw, AwayWin]
     }
 
-    function matchProbabilities(homeElo, awayElo, seasonStartYear, beta=0.9) {
+    function matchProbabilities(homeElo, awayElo, seasonStartYear, beta = 0.9) {
       const sH = eloToSkill(homeElo, beta);
       const sA = eloToSkill(awayElo, beta);
       const rho = 0.997;
       const xH = rho * sH + (1 - rho);
       const xA = rho * sA + (1 - rho);
       const p = predictProbs(xH, xA, seasonStartYear, beta);
-      return safeProbs(p, 1e-3); // [pHomeWin, pDraw, pAwayWin]
+      return safeProbs(p, 1e-3);
     }
 
     // ------------------------------------------------------------
-    // League extraction + points so far
+    // Compute points so far
     // ------------------------------------------------------------
     function computePointsSoFar(playedRows) {
       const teams = new Set();
@@ -209,7 +209,6 @@ nav: false
         teams.add(r.HomeTeam);
         teams.add(r.AwayTeam);
       }
-
       const pts = {};
       for (const t of teams) pts[t] = 0;
 
@@ -223,8 +222,10 @@ nav: false
       return pts;
     }
 
+    // ------------------------------------------------------------
+    // Latest Elo (scan backwards; check home/away sides)
+    // ------------------------------------------------------------
     function latestElosByScanningBackwards(seasonTierRows, teams) {
-      // Scan in reverse; use HomeRank_after/AwayRank_after according to side.
       const need = new Set(teams);
       const elo = {};
       for (let i = seasonTierRows.length - 1; i >= 0; i--) {
@@ -244,26 +245,28 @@ nav: false
       return elo;
     }
 
+    // ------------------------------------------------------------
+    // Remaining fixtures (inferred): unplayed ordered pairs (home,away)
+    // ------------------------------------------------------------
     function inferRemainingFixturesDoubleRoundRobin(playedRows, teams) {
       const playedPairs = new Set();
-      for (const r of playedRows) playedPairs.add(r.HomeTeam + "|||"+ r.AwayTeam);
+      for (const r of playedRows) playedPairs.add(r.HomeTeam + "|||" + r.AwayTeam);
 
       const rem = [];
       for (const h of teams) {
         for (const a of teams) {
           if (h === a) continue;
-          const key = h + "|||"+ a;
-          if (!playedPairs.has(key)) rem.push([h,a]);
+          const key = h + "|||" + a;
+          if (!playedPairs.has(key)) rem.push([h, a]);
         }
       }
       return rem;
     }
 
     // ------------------------------------------------------------
-    // DP: points distribution for one team (sum of {0,1,3})
+    // DP: team added-points distribution (sum of {0,1,3})
     // ------------------------------------------------------------
     function teamAddedPointsPMF(fixtures) {
-      // fixtures: array of [pW,pD,pL] from team's perspective
       const Pmax = 3 * fixtures.length;
       let pmf = new Float64Array(Pmax + 1);
       pmf[0] = 1.0;
@@ -271,20 +274,17 @@ nav: false
       for (const f of fixtures) {
         const pW = f[0], pD = f[1], pL = f[2];
         const next = new Float64Array(Pmax + 1);
-        // +0
-        for (let i=0;i<pmf.length;i++) next[i] += pmf[i] * pL;
-        // +1
-        for (let i=0;i<pmf.length-1;i++) next[i+1] += pmf[i] * pD;
-        // +3
-        for (let i=0;i<pmf.length-3;i++) next[i+3] += pmf[i] * pW;
+
+        for (let i = 0; i < pmf.length; i++) next[i] += pmf[i] * pL;            // +0
+        for (let i = 0; i < pmf.length - 1; i++) next[i + 1] += pmf[i] * pD;    // +1
+        for (let i = 0; i < pmf.length - 3; i++) next[i + 3] += pmf[i] * pW;    // +3
 
         pmf = next;
       }
 
-      // normalise
       let s = 0;
-      for (let i=0;i<pmf.length;i++) s += pmf[i];
-      if (s > 0) for (let i=0;i<pmf.length;i++) pmf[i] /= s;
+      for (let i = 0; i < pmf.length; i++) s += pmf[i];
+      if (s > 0) for (let i = 0; i < pmf.length; i++) pmf[i] /= s;
 
       return pmf;
     }
@@ -293,17 +293,12 @@ nav: false
       const out = new Float64Array(PfinalMax + 1);
       const start = bankPoints;
       const end = Math.min(PfinalMax + 1, bankPoints + pmfAdded.length);
-      for (let i=start;i<end;i++) out[i] = pmfAdded[i - start];
+      for (let i = start; i < end; i++) out[i] = pmfAdded[i - start];
       return out;
     }
 
     // ------------------------------------------------------------
     // Position probabilities under random tie-break on points
-    //
-    // For each team t and each points x:
-    //  - treat other teams independently as being <x, =x, >x
-    //  - DP over counts (g,e) of >x and =x among others
-    //  - if t has x, its positions are g+1 .. g+e+1 uniformly
     // ------------------------------------------------------------
     function computePositionProbabilities(finalPMFByTeam) {
       const teams = Object.keys(finalPMFByTeam);
@@ -321,60 +316,54 @@ nav: false
 
         const c = new Float64Array(Pmax + 1);
         let s = 0;
-        for (let i=0;i<=Pmax;i++) { s += padded[i]; c[i] = s; }
+        for (let i = 0; i <= Pmax; i++) { s += padded[i]; c[i] = s; }
         cdf[t] = c;
       }
 
-      // out[t] is Float64Array positions 1..N (index 1 used)
       const out = {};
-      for (const t of teams) out[t] = new Float64Array(N + 1);
+      for (const t of teams) out[t] = new Float64Array(N + 1); // positions 1..N
 
       for (const t of teams) {
         const others = teams.filter(u => u !== t);
 
-        for (let x=0; x<=Pmax; x++) {
+        for (let x = 0; x <= Pmax; x++) {
           const pi = pmf[t][x];
           if (pi === 0) continue;
 
-          // build category probs for others
-          const a = new Float64Array(N-1); // >x
-          const b = new Float64Array(N-1); // =x
-          const c = new Float64Array(N-1); // <x
+          const a = new Float64Array(N - 1); // > x
+          const b = new Float64Array(N - 1); // = x
+          const c = new Float64Array(N - 1); // < x
 
-          for (let j=0;j<others.length;j++) {
+          for (let j = 0; j < others.length; j++) {
             const u = others[j];
             a[j] = 1.0 - cdf[u][x];
             b[j] = pmf[u][x];
             c[j] = cdf[u][x] - pmf[u][x];
           }
 
-          // dp[g*(N)+e] in a flat array for speed
           const dim = N;
           let dp = new Float64Array(dim * dim);
-          dp[0*dim + 0] = 1.0;
+          dp[0 * dim + 0] = 1.0;
 
-          for (let j=0; j<others.length; j++) {
+          for (let j = 0; j < others.length; j++) {
             const ndp = new Float64Array(dim * dim);
             const pgt = a[j], peq = b[j], plt = c[j];
 
-            // g ranges 0..j; e ranges 0..(j-g)
-            for (let g=0; g<=j; g++) {
-              for (let e=0; e<=j-g; e++) {
-                const v = dp[g*dim + e];
+            for (let g = 0; g <= j; g++) {
+              for (let e = 0; e <= j - g; e++) {
+                const v = dp[g * dim + e];
                 if (v === 0) continue;
-
-                ndp[g*dim + e]     += v * plt;
-                ndp[(g+1)*dim + e] += v * pgt;
-                ndp[g*dim + (e+1)] += v * peq;
+                ndp[g * dim + e]       += v * plt;
+                ndp[(g + 1) * dim + e] += v * pgt;
+                ndp[g * dim + (e + 1)] += v * peq;
               }
             }
             dp = ndp;
           }
 
-          // allocate mass across positions
-          for (let g=0; g<N; g++) {
-            for (let e=0; e<N-g; e++) {
-              const v = dp[g*dim + e];
+          for (let g = 0; g < N; g++) {
+            for (let e = 0; e < N - g; e++) {
+              const v = dp[g * dim + e];
               if (v === 0) continue;
 
               const mass = pi * v;
@@ -382,41 +371,33 @@ nav: false
               const share = mass / tieSize;
               const startPos = g + 1;
               const endPos = g + e + 1;
-              for (let pos=startPos; pos<=endPos; pos++) out[t][pos] += share;
+              for (let pos = startPos; pos <= endPos; pos++) out[t][pos] += share;
             }
           }
         }
 
-        // renormalise numeric drift
+        // normalise numerical drift
         let s = 0;
-        for (let pos=1; pos<=N; pos++) s += out[t][pos];
-        if (s > 0) for (let pos=1; pos<=N; pos++) out[t][pos] /= s;
+        for (let pos = 1; pos <= N; pos++) s += out[t][pos];
+        if (s > 0) for (let pos = 1; pos <= N; pos++) out[t][pos] /= s;
       }
 
       return out;
     }
 
     // ------------------------------------------------------------
-    // Build “most likely team per position” table
+    // Formatting & rendering: Team × Position probability matrix
     // ------------------------------------------------------------
-    function mostLikelyTeamPerPosition(posProbs) {
-      const teams = Object.keys(posProbs);
-      const N = teams.length;
-
-      const rows = [];
-      for (let pos=1; pos<=N; pos++) {
-        let bestTeam = null;
-        let bestP = -1;
-        for (const t of teams) {
-          const p = posProbs[t][pos];
-          if (p > bestP) { bestP = p; bestTeam = t; }
-        }
-        rows.push({ Pos: pos, Team: bestTeam, Prob: bestP });
-      }
-      return rows;
+    function formatPctCell(p) {
+      if (!Number.isFinite(p) || p <= 0) return "0%";
+      const pct = Math.round(100 * p);
+      if (pct === 0) return "<1%";
+      return `${pct}%`;
     }
 
-    function renderTierTable(container, tier, divisionName, seasonStr, rows) {
+    function renderTeamPositionMatrix(container, tier, divisionName, seasonStr, teams, posProbs) {
+      const N = teams.length;
+
       const block = document.createElement("div");
       block.className = "tier-block";
 
@@ -430,38 +411,49 @@ nav: false
       meta.textContent = `Season: ${seasonStr}`;
       block.appendChild(meta);
 
+      // predicted order: sort by expected position
+      const expectedPos = teams.map(t => {
+        let ep = 0;
+        for (let pos = 1; pos <= N; pos++) ep += pos * (posProbs[t][pos] || 0);
+        return { team: t, ep };
+      }).sort((a, b) => a.ep - b.ep);
+
+      const scroll = document.createElement("div");
+      scroll.className = "table-scroll";
+
       const table = document.createElement("table");
       table.className = "probTable";
-      table.id = `probTableTier${tier}`;
+      table.id = `probMatrixTier${tier}`;
 
       const thead = document.createElement("thead");
-      thead.innerHTML = `
-        <tr>
-          <th style="width:55px; text-align:center;">POS</th>
-          <th>TEAM</th>
-          <th style="width:90px; text-align:right;">PROB</th>
-        </tr>
-      `;
+      const headCells = [];
+      headCells.push(`<th>TEAM</th>`);
+      for (let pos = 1; pos <= N; pos++) headCells.push(`<th>${pos}</th>`);
+      thead.innerHTML = `<tr>${headCells.join("")}</tr>`;
       table.appendChild(thead);
 
       const tbody = document.createElement("tbody");
-      for (const r of rows) {
+      for (const row of expectedPos) {
+        const t = row.team;
         const tr = document.createElement("tr");
-        const probPct = (100 * r.Prob);
-        tr.innerHTML = `
-          <td class="pos-column">${r.Pos}</td>
-          <td class="team-column">${r.Team || ""}</td>
-          <td class="prob-column">${probPct.toFixed(1)}%</td>
-        `;
+
+        const cells = [];
+        cells.push(`<td>${t}</td>`);
+        for (let pos = 1; pos <= N; pos++) {
+          const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
+          cells.push(`<td>${formatPctCell(p)}</td>`);
+        }
+        tr.innerHTML = cells.join("");
         tbody.appendChild(tr);
       }
       table.appendChild(tbody);
 
-      block.appendChild(table);
+      scroll.appendChild(table);
+      block.appendChild(scroll);
 
       const note = document.createElement("div");
       note.className = "smallnote";
-      note.textContent = "Probabilities are exact under the model assumptions (independent team totals; random tie-break on points; remaining fixtures inferred from unplayed home/away pairings).";
+      note.textContent = "Cells show the probability of finishing in each position (rounded to whole %; values that round to 0 but are non-zero show as <1%).";
       block.appendChild(note);
 
       container.appendChild(block);
@@ -499,6 +491,7 @@ nav: false
 
           for (const tier of TIERS) {
             logStatus(`Tier ${tier}: filtering…`);
+
             const seasonTier = data.filter(r =>
               String(r.Season) === String(latestSeason) &&
               String(r.Tier) === String(tier)
@@ -521,32 +514,43 @@ nav: false
             const teamSet = new Set();
             for (const r of played) { teamSet.add(r.HomeTeam); teamSet.add(r.AwayTeam); }
             const teams = Array.from(teamSet).sort();
-            logStatus(`Tier ${tier}: teams = ${teams.length}`);
+            const N = teams.length;
+            logStatus(`Tier ${tier}: teams = ${N}`);
+
+            if (N < 2) {
+              logStatus(`Tier ${tier}: not enough teams to compute.`);
+              logStatus("");
+              continue;
+            }
 
             // points so far
             const pts = computePointsSoFar(played);
 
             // latest elos
             const elos = latestElosByScanningBackwards(seasonTier, teams);
+            const missingElo = teams.filter(t => !Number.isFinite(elos[t]));
+            if (missingElo.length) {
+              logStatus(`Tier ${tier}: warning: missing Elo for ${missingElo.length} teams (they will have fewer inferred fixtures counted).`);
+            }
 
             // remaining fixtures inferred
             const remaining = inferRemainingFixturesDoubleRoundRobin(played, teams);
             logStatus(`Tier ${tier}: remaining inferred fixtures = ${remaining.length}`);
 
-            // build per-team fixture probs (team perspective)
+            // per-team remaining match probabilities
             const fixturesForTeam = {};
             for (const t of teams) fixturesForTeam[t] = [];
 
-            for (const [h,a] of remaining) {
+            for (const [h, a] of remaining) {
               const eH = elos[h], eA = elos[a];
               if (!Number.isFinite(eH) || !Number.isFinite(eA)) continue;
 
-              const [pH,pD,pA] = matchProbabilities(eH, eA, seasonStartYear, 0.9);
-              fixturesForTeam[h].push([pH, pD, pA]);
-              fixturesForTeam[a].push([pA, pD, pH]);
+              const [pH, pD, pA] = matchProbabilities(eH, eA, seasonStartYear, 0.9);
+              fixturesForTeam[h].push([pH, pD, pA]); // home perspective
+              fixturesForTeam[a].push([pA, pD, pH]); // away perspective
             }
 
-            // final PMFs
+            // final points PMFs
             let maxRem = 0;
             for (const t of teams) maxRem = Math.max(maxRem, fixturesForTeam[t].length);
 
@@ -555,19 +559,16 @@ nav: false
 
             const finalPMFByTeam = {};
             for (const t of teams) {
-              const pmfAdded = teamAddedPointsPMF(fixturesForTeam[t]);
-              finalPMFByTeam[t] = shiftPMF(pmfAdded, pts[t] || 0, PfinalMax);
+              const added = teamAddedPointsPMF(fixturesForTeam[t]);
+              finalPMFByTeam[t] = shiftPMF(added, pts[t] || 0, PfinalMax);
             }
 
-            // position probabilities
-            logStatus(`Tier ${tier}: computing position probabilities…`);
+            logStatus(`Tier ${tier}: computing position probabilities (this may take a moment)…`);
             const posProbs = computePositionProbabilities(finalPMFByTeam);
 
-            // build “most likely team per position” table rows
-            const ml = mostLikelyTeamPerPosition(posProbs);
+            // Render full matrix (Team × Position)
+            renderTeamPositionMatrix(tablesDiv, tier, divisionName, latestSeason, teams, posProbs);
 
-            // render
-            renderTierTable(tablesDiv, tier, divisionName, latestSeason, ml);
             logStatus(`Tier ${tier}: done.`);
             logStatus("");
           }
