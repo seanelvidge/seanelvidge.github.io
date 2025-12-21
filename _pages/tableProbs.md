@@ -92,7 +92,7 @@ nav: false
       text-align: center !important;
     }
 
-    /* Team cell (YOUR updated styling) */
+    /* Team cell (white background, dark text) */
     .team-cell {
       background-color: #ffffff !important;
       color: #333 !important;
@@ -120,7 +120,16 @@ nav: false
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-	  color: #333 !important
+      color: #333 !important; /* keep constant across theme toggles */
+    }
+
+    /* If theme styles links, lock those too */
+    .team-cell a,
+    .team-cell a:visited,
+    .team-cell a:hover,
+    .team-cell a:active {
+      color: #333 !important;
+      text-decoration: none !important;
     }
 
     /* Max cell full red */
@@ -151,14 +160,25 @@ nav: false
     }
     .btn:hover { background: #f3f3f3; }
 
+    .toggle-btn { margin-left: auto; }
+
     .smallnote { color: #666; font-size: 0.9em; margin-top: 6px; }
+
+    /* View toggling */
+    .view-mobile .full-matrix-wrap { display: none; }
+    .view-mobile .mobile-summary-wrap { display: block; }
+
+    .view-full .full-matrix-wrap { display: block; }
+    .view-full .mobile-summary-wrap { display: none; }
+
+    /* Mobile table can be narrower */
+    .mobile-summary-wrap .probTable { min-width: 520px; table-layout: auto; }
+    .mobile-summary-wrap .probTable thead th.teamHead { width: 180px; }
   </style>
 </head>
 
 <body>
-  <div class="meta">
-    Position probabilities for the season. Remaining fixtures are inferred, assuming team strenghts remain constant.
-  </div>
+Position probabilities for the season. Remaining fixtures are inferred, assuming team strenghts remain constant.
 
   <div id="status" class="status">Loading…</div>
   <div id="tables"></div>
@@ -181,7 +201,14 @@ nav: false
     }
 
     // ------------------------------------------------------------
-    // Load team logos
+    // Small-screen detection
+    // ------------------------------------------------------------
+    function isSmallScreen() {
+      return window.matchMedia && window.matchMedia("(max-width: 720px)").matches;
+    }
+
+    // ------------------------------------------------------------
+    // Load team logos (same pattern as your other pages)
     // ------------------------------------------------------------
     function loadTeamLogos() {
       return fetch(LOGO_CSV_URL)
@@ -198,17 +225,15 @@ nav: false
     }
 
     // ------------------------------------------------------------
-    // Load point deductions/additions
-    //
-    // Returns a dict keyed by Season string -> dict(team -> totalPtsAdjustment)
-    // Uses Pts_deducted as a signed number (positive = deduction, negative = addition).
+    // Load point deductions/additions (signed)
+    // Returns: window.pointAdjustmentsBySeason[season][team] = total adjustment
     // ------------------------------------------------------------
     function loadPointDeductions() {
       return fetch(DEDUCT_CSV_URL)
         .then(res => res.text())
         .then(text => {
           const rows = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
-          const seasonMap = {}; // season -> {team: adj}
+          const seasonMap = {};
           rows.forEach(r => {
             const season = String(r.Season || "").trim();
             const team = String(r.Team || "").trim();
@@ -257,6 +282,22 @@ nav: false
       const p = arr.map(v => clamp(+v, floor, 1 - floor));
       const s = p.reduce((a, b) => a + b, 0);
       return p.map(v => v / s);
+    }
+
+    // Table cell formatting:
+    // - true zero => "-"
+    // - non-zero but rounds to 0 => "<1%"
+    function formatPctCell(p) {
+      if (!Number.isFinite(p) || p <= 0) return "-";
+      const pct = Math.round(100 * p);
+      if (pct === 0) return "<1%";
+      if (pct === 100) return ">99%";
+      return `${pct}%`;
+    }
+
+    // Same formatting for mobile summary cells
+    function pctIntOrTinyOrDash(p) {
+      return formatPctCell(p);
     }
 
     // ------------------------------------------------------------
@@ -330,7 +371,6 @@ nav: false
       for (const t of teams) {
         pts[t] += getSeasonPointAdjustment(seasonStr, t);
       }
-
       return pts;
     }
 
@@ -496,24 +536,19 @@ nav: false
     }
 
     // ------------------------------------------------------------
-    // Shading + logos + download image
+    // Shading + logos
     // ------------------------------------------------------------
-    function formatPctCell(p) {
-      if (!Number.isFinite(p) || p <= 0) return "-";
-      const pct = Math.round(100 * p);
-      if (pct === 0) return "<1%";
-	  if (pct === 100) return ">99%";
-      return `${pct}%`;
-    }
-
     function applyRowHeat(td, p, maxP) {
+      // Keep "-" and "<1%" white (i.e. anything that rounds to 0 or is <=0)
       if (!Number.isFinite(p) || p <= 0 || !Number.isFinite(maxP) || maxP <= 0) return;
-      if (Math.round(100 * p) === 0) return; // <1% stays white
+      if (Math.round(100 * p) === 0) return;
 
       const ratio = clamp(p / maxP, 0, 1);
       const alpha = 0.10 + 0.90 * ratio;
       td.style.backgroundColor = `rgba(178, 24, 43, ${alpha})`;
-      td.style.color = (alpha > 0.55) ? "#fff" : "";
+
+      // For higher alpha, white text; otherwise let default stand
+      if (alpha > 0.55) td.style.color = "#fff";
       td.style.fontWeight = (ratio > 0.80) ? "800" : "600";
     }
 
@@ -523,7 +558,38 @@ nav: false
       return logos[key] || "";
     }
 
-    async function downloadBlockAsImage(blockElem, filenameBase) {
+    // ------------------------------------------------------------
+    // Mobile summary rows: Team | 1 | Top6 | Bottom3
+    // ------------------------------------------------------------
+    function buildMobileSummaryRows(teams, posProbs) {
+      const N = teams.length;
+      const topK = Math.min(6, N);
+      const bottomK = Math.min(3, N);
+
+      const ordered = teams.map(t => {
+        let ep = 0;
+        for (let pos = 1; pos <= N; pos++) ep += pos * (posProbs[t][pos] || 0);
+        return { team: t, ep };
+      }).sort((a,b) => a.ep - b.ep);
+
+      return ordered.map(o => {
+        const t = o.team;
+        const p1 = posProbs[t][1] || 0;
+
+        let top6 = 0;
+        for (let pos = 1; pos <= topK; pos++) top6 += (posProbs[t][pos] || 0);
+
+        let bottom3 = 0;
+        for (let pos = N - bottomK + 1; pos <= N; pos++) bottom3 += (posProbs[t][pos] || 0);
+
+        return { team: t, p1, top6, bottom3 };
+      });
+    }
+
+    // ------------------------------------------------------------
+    // Download as image: ALWAYS capture the full matrix element
+    // ------------------------------------------------------------
+    async function downloadElementAsImage(elementToCapture, filenameBase) {
       const temp = document.createElement("div");
       temp.style.position = "fixed";
       temp.style.left = "-9999px";
@@ -532,9 +598,10 @@ nav: false
       temp.style.backgroundColor = "#ffffff";
       temp.style.width = "fit-content";
 
-      const clone = blockElem.cloneNode(true);
-      const btns = clone.querySelectorAll("button");
-      btns.forEach(b => b.remove());
+      const clone = elementToCapture.cloneNode(true);
+      clone.querySelectorAll("button").forEach(b => b.remove());
+      clone.style.display = "block";
+
       temp.appendChild(clone);
       document.body.appendChild(temp);
 
@@ -566,53 +633,39 @@ nav: false
     }
 
     // ------------------------------------------------------------
-    // Render
+    // Rendering: full matrix + mobile summary with toggle
     // ------------------------------------------------------------
     function renderTeamPositionMatrix(container, divisionName, seasonStr, teams, posProbs) {
       const N = teams.length;
 
       const block = document.createElement("div");
       block.className = "tier-block";
+      block.classList.add(isSmallScreen() ? "view-mobile" : "view-full");
 
       const h = document.createElement("h2");
       h.className = "tier-title";
       h.textContent = `${divisionName}`;
       block.appendChild(h);
 
-      const controls = document.createElement("div");
-      controls.className = "controls-row";
-
-      // const meta = document.createElement("div");
-      // meta.className = "meta";
-      // meta.textContent = `Season: ${seasonStr}`;
-      // controls.appendChild(meta);
-
-      const dlBtn = document.createElement("button");
-      dlBtn.className = "btn";
-      dlBtn.type = "button";
-      dlBtn.textContent = "Download table as image";
-      dlBtn.addEventListener("click", () => {
-        const base = `position-odds-${seasonStr}-${divisionName}`;
-        downloadBlockAsImage(block, base);
-      });
-      controls.appendChild(dlBtn);
-
-      block.appendChild(controls);
-
+      // Row ordering for both views: expected position
       const expectedPos = teams.map(t => {
         let ep = 0;
         for (let pos = 1; pos <= N; pos++) ep += pos * (posProbs[t][pos] || 0);
         return { team: t, ep };
       }).sort((a, b) => a.ep - b.ep);
 
-      const bleed = document.createElement("div");
-      bleed.className = "full-bleed";
+      // ===== Full matrix wrap (created early so download can always target it) =====
+      const fullMatrixWrap = document.createElement("div");
+      fullMatrixWrap.className = "full-matrix-wrap";
 
-      const scroll = document.createElement("div");
-      scroll.className = "table-scroll";
+      const fullBleed = document.createElement("div");
+      fullBleed.className = "full-bleed";
 
-      const table = document.createElement("table");
-      table.className = "probTable";
+      const fullScroll = document.createElement("div");
+      fullScroll.className = "table-scroll";
+
+      const fullTable = document.createElement("table");
+      fullTable.className = "probTable";
 
       const thead = document.createElement("thead");
       const headCells = [];
@@ -620,7 +673,7 @@ nav: false
       headCells.push(`<th class="teamHead">TEAM</th>`);
       for (let pos = 1; pos <= N; pos++) headCells.push(`<th>${pos}</th>`);
       thead.innerHTML = `<tr>${headCells.join("")}</tr>`;
-      table.appendChild(thead);
+      fullTable.appendChild(thead);
 
       const tbody = document.createElement("tbody");
 
@@ -628,6 +681,7 @@ nav: false
       for (const row of expectedPos) {
         const t = row.team;
 
+        // max probability in row (before rounding)
         let maxP = 0;
         for (let pos = 1; pos <= N; pos++) {
           const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
@@ -689,10 +743,139 @@ nav: false
         rank += 1;
       }
 
-      table.appendChild(tbody);
-      scroll.appendChild(table);
-      bleed.appendChild(scroll);
-      block.appendChild(bleed);
+      fullTable.appendChild(tbody);
+      fullScroll.appendChild(fullTable);
+      fullBleed.appendChild(fullScroll);
+      fullMatrixWrap.appendChild(fullBleed);
+
+      // ===== Mobile summary wrap =====
+      const mobileWrap = document.createElement("div");
+      mobileWrap.className = "mobile-summary-wrap";
+
+      const mobBleed = document.createElement("div");
+      mobBleed.className = "full-bleed";
+
+      const mobScroll = document.createElement("div");
+      mobScroll.className = "table-scroll";
+
+      const mobTable = document.createElement("table");
+      mobTable.className = "probTable";
+
+      mobTable.innerHTML = `
+        <thead>
+          <tr>
+            <th class="teamHead">TEAM</th>
+            <th>1</th>
+            <th>TOP6</th>
+            <th>BOTTOM3</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      `;
+
+      const mobBody = mobTable.querySelector("tbody");
+      const mobRows = buildMobileSummaryRows(teams, posProbs);
+
+      for (const r of mobRows) {
+        const tr = document.createElement("tr");
+
+        const tdTeam = document.createElement("td");
+        tdTeam.className = "team-cell";
+
+        const wrap = document.createElement("div");
+        wrap.className = "team-wrap";
+
+        const logoUrl = getLogoUrl(r.team);
+        if (logoUrl) {
+          const img = document.createElement("img");
+          img.className = "team-logo";
+          img.src = logoUrl;
+          img.alt = r.team;
+          img.loading = "lazy";
+          img.setAttribute("crossorigin", "anonymous");
+          img.onerror = () => { img.style.display = "none"; };
+          wrap.appendChild(img);
+        } else {
+          const ph = document.createElement("div");
+          ph.className = "team-logo";
+          wrap.appendChild(ph);
+        }
+
+        const name = document.createElement("div");
+        name.className = "team-name";
+        name.textContent = r.team;
+        wrap.appendChild(name);
+
+        tdTeam.appendChild(wrap);
+
+        const td1 = document.createElement("td");
+        td1.textContent = pctIntOrTinyOrDash(r.p1);
+
+        const tdTop = document.createElement("td");
+        tdTop.textContent = pctIntOrTinyOrDash(r.top6);
+
+        const tdBot = document.createElement("td");
+        tdBot.textContent = pctIntOrTinyOrDash(r.bottom3);
+
+        tr.appendChild(tdTeam);
+        tr.appendChild(td1);
+        tr.appendChild(tdTop);
+        tr.appendChild(tdBot);
+
+        mobBody.appendChild(tr);
+      }
+
+      mobScroll.appendChild(mobTable);
+      mobBleed.appendChild(mobScroll);
+      mobileWrap.appendChild(mobBleed);
+
+      // ===== Controls (download always uses fullMatrixWrap) =====
+      const controls = document.createElement("div");
+      controls.className = "controls-row";
+
+      //const meta = document.createElement("div");
+      //meta.className = "meta";
+      //meta.textContent = `Season: ${seasonStr}`;
+      //controls.appendChild(meta);
+
+      const dlBtn = document.createElement("button");
+      dlBtn.className = "btn";
+      dlBtn.type = "button";
+      dlBtn.textContent = "Download table as image";
+      dlBtn.addEventListener("click", () => {
+        const base = `position-odds-${seasonStr}-${divisionName}`;
+        downloadElementAsImage(fullMatrixWrap, base);
+      });
+      controls.appendChild(dlBtn);
+
+      const toggleBtn = document.createElement("button");
+      toggleBtn.className = "btn toggle-btn";
+      toggleBtn.type = "button";
+
+      function syncToggleText() {
+        toggleBtn.textContent = block.classList.contains("view-mobile")
+          ? "Show full table"
+          : "Show mobile view";
+      }
+      syncToggleText();
+
+      toggleBtn.addEventListener("click", () => {
+        if (block.classList.contains("view-mobile")) {
+          block.classList.remove("view-mobile");
+          block.classList.add("view-full");
+        } else {
+          block.classList.remove("view-full");
+          block.classList.add("view-mobile");
+        }
+        syncToggleText();
+      });
+      controls.appendChild(toggleBtn);
+
+      block.appendChild(controls);
+
+      // Append both views
+      block.appendChild(fullMatrixWrap);
+      block.appendChild(mobileWrap);
 
       const note = document.createElement("div");
       note.className = "smallnote";
@@ -708,18 +891,16 @@ nav: false
     document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("status").textContent = "";
 
-      logStatus("Calculating probabilities...");
-	  // logStatus("Fetching team logos…");
+      //logStatus("Fetching team logos…");
       await loadTeamLogos();
-      // logStatus(`Team logos loaded: ${Object.keys(window.teamLogos || {}).length}`);
+      //logStatus(`Team logos loaded: ${Object.keys(window.teamLogos || {}).length}`);
 
-      // logStatus("Fetching point deductions/additions…");
+      //logStatus("Fetching point deductions/additions…");
       await loadPointDeductions();
-      const nSeasons = Object.keys(window.pointAdjustmentsBySeason || {}).length;
-      // logStatus(`Point adjustments loaded for seasons: ${nSeasons}`);
-      // logStatus("");
+      //logStatus(`Point adjustment seasons loaded: ${Object.keys(window.pointAdjustmentsBySeason || {}).length}`);
+      //logStatus("");
 
-      // logStatus("Fetching match CSV…");
+      //logStatus("Fetching match CSV…");
 
       Papa.parse(CSV_URL, {
         download: true,
@@ -729,19 +910,20 @@ nav: false
         complete: (results) => {
           const data = results.data || [];
           if (!data.length) { logStatus("No rows loaded."); return; }
-          // logStatus(`Loaded rows: ${data.length}`);
+          //logStatus(`Loaded rows: ${data.length}`);
 
+          // Latest season from last row
           const last = data[data.length - 1];
           const latestSeason = last.Season;
           const seasonStartYear = seasonStartYearFromSeasonStr(latestSeason);
-          // logStatus(`Latest season (last row): ${latestSeason}`);
-          // logStatus(`Season start year: ${seasonStartYear}`);
-          // logStatus("");
+          //logStatus(`Latest season (last row): ${latestSeason}`);
+          //logStatus(`Season start year: ${seasonStartYear}`);
+          //logStatus("");
 
           const tablesDiv = document.getElementById("tables");
 
           for (const tier of TIERS) {
-            // logStatus(`Tier ${tier}: filtering…`);
+            //logStatus(`Tier ${tier}: filtering…`);
 
             const seasonTier = data.filter(r =>
               String(r.Season) === String(latestSeason) &&
@@ -749,8 +931,8 @@ nav: false
             );
 
             if (!seasonTier.length) {
-              // logStatus(`Tier ${tier}: no rows found for ${latestSeason}.`);
-              // logStatus("");
+              logStatus(`Tier ${tier}: no rows found for ${latestSeason}.`);
+              logStatus("");
               continue;
             }
 
@@ -758,13 +940,13 @@ nav: false
             const divisionName = divisionSet.size ? Array.from(divisionSet)[0] : `Tier ${tier}`;
 
             const played = seasonTier.filter(r => r.Result === "H" || r.Result === "D" || r.Result === "A");
-            // logStatus(`Tier ${tier}: played matches = ${played.length}`);
+            //logStatus(`Tier ${tier}: played matches = ${played.length}`);
 
             const teamSet = new Set();
             for (const r of played) { teamSet.add(r.HomeTeam); teamSet.add(r.AwayTeam); }
             const teams = Array.from(teamSet).sort();
             const N = teams.length;
-            // logStatus(`Tier ${tier}: teams = ${N}`);
+            //logStatus(`Tier ${tier}: teams = ${N}`);
             if (N < 2) { logStatus(`Tier ${tier}: not enough teams.`); logStatus(""); continue; }
 
             // points so far INCLUDING deductions/additions
@@ -773,7 +955,7 @@ nav: false
             const elos = latestElosByScanningBackwards(seasonTier, teams);
 
             const remaining = inferRemainingFixturesDoubleRoundRobin(played, teams);
-            // logStatus(`Tier ${tier}: remaining inferred fixtures = ${remaining.length}`);
+            //logStatus(`Tier ${tier}: remaining inferred fixtures = ${remaining.length}`);
 
             const fixturesForTeam = {};
             for (const t of teams) fixturesForTeam[t] = [];
@@ -799,16 +981,16 @@ nav: false
               finalPMFByTeam[t] = shiftPMF(added, pts[t] || 0, PfinalMax);
             }
 
-            // logStatus(`Tier ${tier}: computing position probabilities…`);
+            //logStatus(`Tier ${tier}: computing position probabilities…`);
             const posProbs = computePositionProbabilities(finalPMFByTeam);
 
             renderTeamPositionMatrix(tablesDiv, divisionName, latestSeason, teams, posProbs);
 
-            // logStatus(`Tier ${tier}: done.`);
-            // logStatus("");
+            //logStatus(`Tier ${tier}: done.`);
+            //logStatus("");
           }
 
-          // logStatus("Complete.");
+          //logStatus("Complete.");
         },
         error: (err) => {
           console.error(err);
