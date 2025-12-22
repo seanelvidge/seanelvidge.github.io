@@ -1,6 +1,6 @@
 ---
 layout: post
-title: From Fixtures to Futures. How We Calculate League Position Probabilities
+title: From Fixtures to Futures, how we calculate league position probabilities
 date: 2025-12-22 19:30:00
 description: The methodology behind how we calculate the probabilities of where the different teams in the English football league will end up.
 tags: football mathematics
