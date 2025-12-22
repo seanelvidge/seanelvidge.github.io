@@ -1,8 +1,8 @@
 ---
 layout: post
-title: From Fixtures to Futures, how we calculate league position probabilities
+title: How we Calculate League Position Probabilities
 date: 2025-12-22 19:30:00
-description: The methodology behind how we calculate the probabilities of where the different teams in the English football league will end up.
+description: The methodology behind how I calculate the probabilities of where the different teams in the English football league will end up.
 tags: football mathematics
 related_posts: true
 thumbnail: assets/img/position-odds-2025-2026-EFL_Championship.png
