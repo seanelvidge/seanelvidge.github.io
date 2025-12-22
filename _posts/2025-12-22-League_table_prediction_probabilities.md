@@ -19,11 +19,12 @@ On the [predicted league tables](https://seanelvidge.com/tableProbs) page of thi
 This post explains how those tables are built, what assumptions sit underneath them, and, importantly, what they don't claim to do.
 
 ## Estimating the future
+
 For each remaining fixture, we estimate the probability of:
 
- - a home win,
- - a draw,
- - an away win.
+- a home win,
+- a draw,
+- an away win.
 
 These probabilities come from my [rating model](https://seanelvidge.com/articles/2025/Football_team_rankings/) that combines:
 
