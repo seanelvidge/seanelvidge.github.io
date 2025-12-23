@@ -39,7 +39,7 @@ If so, underdogs might perform better than expected.
 
 ## How to Measure "Underdog Performance"?
 
-To test this we need a [very large dataset of football results](https://seanelvidge.com/articles/2024/All_England_football_league_results/) and a way to [quantify which team was stronger *before* the match](https://seanelvidge.com/articles/2025/Football_team_rankings/) was played.
+To test this we need a [very large dataset of football results](https://seanelvidge.com/articles/2024/All_England_football_league_results/) and a way to [quantify which team was stronger _before_ the match](https://seanelvidge.com/articles/2025/Football_team_rankings/) was played.
 
 In the team strength database a higher values means a stronger team.
 
@@ -101,18 +101,18 @@ Stronger teams’ points and goal differences in December are statistically indi
 
 In short:
 
->  Neither underdogs nor favourites show any meaningful change in performance during December.
+> Neither underdogs nor favourites show any meaningful change in performance during December.
 
 ## A More Formal Statistical Model
 
 To be thorough, I fitted a regression model of underdog points:
 
 $$
-\text{pts} = \beta_0 
-+ \beta_1\,\text{December} 
-+ \beta_2\,\text{Home} 
-+ C(\text{Tier}) 
-+ C(\text{Season}) 
+\text{pts} = \beta_0
++ \beta_1\,\text{December}
++ \beta_2\,\text{Home}
++ C(\text{Tier})
++ C(\text{Season})
 + \varepsilon .
 $$
 
@@ -138,7 +138,7 @@ In science many ideas do not survive contact with real data. They're plausible, 
 
 That does not make the work wasted.
 
-It makes it *honest*.
+It makes it honest.
 
 ## The Academic Problem With Negative Results
 
