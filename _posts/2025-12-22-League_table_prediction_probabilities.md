@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How we Calculate League Position Probabilities
+title: How to Calculate League Position Probabilities
 date: 2025-12-22 19:30:00
 description: The methodology behind how I calculate the probabilities of where the different teams in the English football league will end up.
 tags: football mathematics
