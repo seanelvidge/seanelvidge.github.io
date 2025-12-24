@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Christmas Day Football - The Lost Tradition
-date: 2025-12-24 19:30:00
+date: 2025-12-25 09:00:00
 description: It's been exactly 60 years since the last English league match was played on Christmas Day. Here’s a look back at how Christmas Day football began, what made it special, and why it came to an end.
 tags: football
 related_posts: true
@@ -25,8 +25,7 @@ Holiday scheduling quirks added to the charm. Tranmere once lost 4–1 on Christ
 Christmas Day 1914 was particularly notable. Despite the shadow of World War I, nine First Division matches went ahead, drawing a combined crowd of around 173,000. Football was still seen as a morale-booster, and a newspaper at the time declared that to millions:
 
 > Christmas without football would not be Christmas at all.
-
-> [Essex Newsman, 21 December, 1945](https://www.britishnewspaperarchive.co.uk/viewer/bl/0000530/19451221/019/0003)
+[Essex Newsman, 21 December, 1945](https://www.britishnewspaperarchive.co.uk/viewer/bl/0000530/19451221/019/0003)
 
 And across the Channel that same day, one of football's most poignant and enduring moments occurred. British and German troops along the Western Front took part in the famous 1914 Christmas Truce. In the frozen fields of Flanders, soldiers from both sides briefly set down their arms and came together to sing carols, exchange gifts, and even play informal matches in No Man's Land.
 
@@ -42,11 +41,12 @@ And for Coventry fans: our own Ken Satchwell scored the last ever Football Leagu
 
 60 years ago today, in 1965, Blackpool beat Blackburn Rovers 4–2 in front of just over 20,000 fans. Young Alan Ball, not yet a World Cup winner, scored one of the goals. The weather was chilly but the game was lively, and the matchday programme was wrapped in festive green and tangerine.
 
-<div class="row mt-3">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/Blackpool-Xmas-Day-programme.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
-    </div>
-</div>
+{% include figure.liquid
+   loading="eager"
+   path="assets/img/Blackpool-Xmas-Day-programme.jpg"
+   class="img-fluid rounded z-depth-1"
+   style="width:30%;"
+   zoomable=true %}
 
 That game became, quietly, the last of its kind.
 
