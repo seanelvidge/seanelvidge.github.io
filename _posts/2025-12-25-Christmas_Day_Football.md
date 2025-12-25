@@ -8,7 +8,7 @@ related_posts: true
 thumbnail: assets/img/Blackpool-Xmas-Day-programme.jpg
 ---
 
-It’s been exactly 60 years since the last English league match was played on Christmas Day. On 25 December 1965, Blackpool hosted Blackburn Rovers in a festive Lancashire derby that would become the final flicker of a long-standing tradition. While Boxing Day remains a staple of the football calendar, the idea of heading to the ground after unwrapping presents has quietly faded into the past. Here’s a look back at how Christmas Day football began, what made it special, and why it came to an end.
+It's been exactly 60 years since the last English league match was played on Christmas Day. On 25 December 1965, Blackpool hosted Blackburn Rovers in a festive Lancashire derby that would become the final flicker of a long-standing tradition. While Boxing Day remains a staple of the football calendar, the idea of heading to the ground after unwrapping presents has quietly faded into the past. Here’s a look back at how Christmas Day football began, what made it special, and why it came to an end.
 
 ## Victorian Beginnings
 
