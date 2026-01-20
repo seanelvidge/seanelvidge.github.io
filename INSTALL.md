@@ -89,6 +89,19 @@ $ bundle exec jekyll serve --lsi
 
 To see the template running, open your browser and go to `http://localhost:4000`. You should see a copy of the theme's [demo website](https://alshedivat.github.io/al-folio/). Now, feel free to customize the theme however you like. After you are done, remember to **commit** your final changes.
 
+### Local dev helper
+
+This repo includes a convenience script that uses `.venv`, installs Python deps, and runs Jekyll locally:
+
+```bash
+$ ./bin/local-dev
+```
+
+Notes for Ubuntu 20.04:
+
+- `mini_racer` can be problematic on older compilers. The script uses `Gemfile.local` to avoid that and rely on Node for a JS runtime.
+- If you see C++20 compiler errors, install a newer compiler (e.g. `gcc-10`/`g++-10`).
+
 ## Deployment
 
 Deploying your website to [GitHub Pages](https://pages.github.com/) is the most popular option.
