@@ -1,6 +1,7 @@
 ## Installing
 
 For installation details please refer to [INSTALL.md](INSTALL.md).
+For local development, see the "Local dev helper" section there.
 
 ## Customizing
 
