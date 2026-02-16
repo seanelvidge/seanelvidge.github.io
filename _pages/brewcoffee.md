@@ -118,6 +118,7 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
       <select id="processing" name="processing">
         <option value="">Select Processing</option>
         <option value="Washed">Washed (Wet) Process</option>
+		<option value="Monsooned">Monsooned</option>
         <option value="Natural">Natural (Dry) Process</option>
         <option value="Honey White">Honey Process – White</option>
         <option value="Honey Yellow">Honey Process – Yellow</option>
@@ -379,28 +380,42 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
       }
 
       // ---- Processing Method Adjustments ----
-	  if (processing !== "") {
-		  // Natural, Honey, Carbonic, and Anaerobic methods retain more sugars, needing longer bloom.
-		  if (processing === "Natural" || processing.includes("Honey") || processing === "Carbonic" || processing === "Anaerobic") {
-			bloomRatio = Math.max(bloomRatio + 0.5, 2.5);   // Ensure sufficient water for degassing.
-			bloomTime = Math.max(bloomTime + 5, 45);      // Extend bloom time.
-			pulses = Math.min(pulses+1, 6);           // Increase pulses to control uneven extraction.
-		  } else if (processing === "Washed" || processing === "Double Fermentation" || processing === "Wet-Hulled") {
-			bloomRatio -= 0.5 // Math.min(bloomRatio - 0.5, 2.0);   // Cleaner beans need less bloom.
-			bloomTime -= 5 // Math.min(bloomTime, 30);      // Shorter bloom time.
-			pulses = Math.max(pulses-1, 2);           // Fewer pulses.
-		  }
-		  // Grind settings for processing is in different groups
-		  if (processing === "Washed" || processing.includes("White") || processing.includes("Yellow") || processing.includes("Fermentation") || processing === "Carbonic") {
-			grind -= 4;      // Clean and bright flavor profiles benefit from a slower extraction.
-		  } else if (processing.includes("Red") || processing.includes("Black") || processing === "Pulped Natural") {
-			  grind -= 2;    // Balances sweetness and body while ensuring clarity.
-		  } else if (processing === "Natural") {
-			  grind += 2;    // Naturally processed coffees have more body and fruitiness, which can become muddled if over-extracted.
-		  } else if (processing === "Wet-Hulled") {
-			  grind += 4;    // Heavy-bodied and earthy coffees can become too bitter if over-extracted.
-		  }
-		}
+	if (processing !== "") {
+	
+	  // Natural, Honey, Carbonic, and Anaerobic methods retain more sugars, needing longer bloom.
+	  if (processing === "Natural" || processing.includes("Honey") || processing === "Carbonic" || processing === "Anaerobic") {
+	    bloomRatio = Math.max(bloomRatio + 0.5, 2.5);   // Ensure sufficient water for degassing.
+	    bloomTime  = Math.max(bloomTime  + 5, 45);      // Extend bloom time.
+	    pulses     = Math.min(pulses + 1, 6);           // Increase pulses to control uneven extraction.
+	
+	  } else if (processing === "Washed" || processing === "Double Fermentation" || processing === "Wet-Hulled") {
+	    bloomRatio -= 0.5;                              // Cleaner beans need less bloom.
+	    bloomTime  -= 5;                                // Shorter bloom time.
+	    pulses      = Math.max(pulses - 1, 2);           // Fewer pulses.
+	
+	  // Monsooned: more porous / lower density / “aged” character -> easier to extract, less need for degassing,
+	  // prefer gentler temps + more, smaller pulses for control.
+	  } else if (processing === "Monsooned" || processing.includes("Monsoon")) {
+	    bloomRatio = Math.max(bloomRatio + 0.5, 2.5);    // Slightly higher bloom ratio to fully wet/saturate porous beans.
+	    bloomTime  = Math.max(bloomTime - 5, 30);        // Slightly shorter bloom time (typically less trapped CO₂).
+	    pulses     = Math.min(pulses + 1, 6);            // More pulses (smaller pours) to avoid over-extracting early.
+	    bloomTemp  -= 2;                                 // Slightly lower bloom temperature for control.
+	    pulseTemp  -= 2;                                 // Slightly lower temperatures for each pulse.
+	  }
+	
+	  // Grind settings for processing is in different groups
+	  if (processing === "Washed" || processing.includes("White") || processing.includes("Yellow") || processing.includes("Fermentation") || processing === "Carbonic") {
+	    grind -= 4;      // Clean and bright flavor profiles benefit from a slower extraction.
+	  } else if (processing.includes("Red") || processing.includes("Black") || processing === "Pulped Natural") {
+	    grind -= 2;      // Balances sweetness and body while ensuring clarity.
+	  } else if (processing === "Natural") {
+	    grind += 2;      // Naturally processed coffees have more body and fruitiness, which can become muddled if over-extracted.
+	  } else if (processing === "Wet-Hulled") {
+	    grind += 4;      // Heavy-bodied and earthy coffees can become too bitter if over-extracted.
+	  } else if (processing === "Monsooned" || processing.includes("Monsoon")) {
+	    grind -= 2;      // More porous/easier extraction: slightly finer can help keep strength at gentler temps.
+	  }
+	}
 
       // ---- Roasting Level Adjustments ----
       // Roast profiles for grind size is also different
@@ -520,7 +535,12 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
             }
           }
 	}
-	      
+
+		// Adjust temps if Monsoon
+		if (processing === "Monsooned") {
+			pulseTemps = pulseTemps.map(t => t - 2);
+		}
+  
         // Further adjust pulse temperatures based on tasting notes.
         if (tastingNotes.some(note => ["Lemon", "Orange", "Grapefruit", "Lime", "Strawberry", "Blueberry", "Raspberry", "Blackberry", "Jasmine", "Lavender", "Rose"].includes(note))) {
           pulseTemps[0] += 1 // Math.max(pulseTemps[0], 96); // Boost first pulse for bright, fruity notes.
