@@ -400,7 +400,6 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
 	    bloomTime  = Math.max(bloomTime - 5, 30);        // Slightly shorter bloom time (typically less trapped CO₂).
 	    pulses     = Math.min(pulses + 1, 6);            // More pulses (smaller pours) to avoid over-extracting early.
 	    bloomTemp  -= 2;                                 // Slightly lower bloom temperature for control.
-	    pulseTemp  -= 2;                                 // Slightly lower temperatures for each pulse.
 	  }
 	
 	  // Grind settings for processing is in different groups
