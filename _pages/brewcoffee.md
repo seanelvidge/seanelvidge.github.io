@@ -118,7 +118,7 @@ Tool for generating coffee reciepes using a pulsed pour-over method (primarily d
       <select id="processing" name="processing">
         <option value="">Select Processing</option>
         <option value="Washed">Washed (Wet) Process</option>
-		<option value="Monsooned">Monsooned</option>
+    	<option value="Monsooned">Monsooned</option>
         <option value="Natural">Natural (Dry) Process</option>
         <option value="Honey White">Honey Process – White</option>
         <option value="Honey Yellow">Honey Process – Yellow</option>
