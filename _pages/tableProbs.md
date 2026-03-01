@@ -314,13 +314,26 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
     // Table cell formatting:
     // - true zero => "-"
     // - non-zero but rounds to 0 => "<1%"
+	// - true 100% is "100%"
     function formatPctCell(p) {
-      if (!Number.isFinite(p) || p <= 0) return "-";
-      const pct = Math.round(100 * p);
-      if (pct === 0) return "<1%";
-      if (pct === 100) return ">99%";
-      return `${pct}%`;
-    }
+	  if (!Number.isFinite(p)) return "-";
+	
+	  // Exactly 0
+	  if (p === 0) return "-";
+	
+	  // Exactly 1 (i.e. 100%)
+	  if (p === 1) return "100%";
+	
+	  const pct = Math.round(100 * p);
+	
+	  // Rounds to 0 but not actually 0
+	  if (pct === 0) return "<1%";
+	
+	  // Rounds to 100 but not actually 1
+	  if (pct === 100) return ">99%";
+	
+	  return `${pct}%`;
+	}
 
     // Same formatting for mobile summary cells
     function pctIntOrTinyOrDash(p) {
