@@ -4,10 +4,8 @@ const fs = require("fs");
 const path = require("path");
 const Papa = require("papaparse");
 
-const CSV_URL =
-  "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
-const DEDUCT_CSV_URL =
-  "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv";
+const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
+const DEDUCT_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv";
 const TIERS = [1, 2, 3, 4];
 
 const SIMS = Number.parseInt(process.env.SIMS || "100000", 10);
@@ -276,10 +274,7 @@ async function fetchText(url) {
 }
 
 async function main() {
-  const [csvText, deductText] = await Promise.all([
-    fetchText(CSV_URL),
-    fetchText(DEDUCT_CSV_URL),
-  ]);
+  const [csvText, deductText] = await Promise.all([fetchText(CSV_URL), fetchText(DEDUCT_CSV_URL)]);
 
   const rows = Papa.parse(csvText, {
     header: true,
@@ -315,17 +310,13 @@ async function main() {
   };
 
   for (const tier of TIERS) {
-    const seasonTier = rows.filter(
-      (r) => String(r.Season) === String(latestSeason) && String(r.Tier) === String(tier)
-    );
+    const seasonTier = rows.filter((r) => String(r.Season) === String(latestSeason) && String(r.Tier) === String(tier));
     if (!seasonTier.length) continue;
 
     const divisionSet = new Set(seasonTier.map((r) => r.Division).filter(Boolean));
     const divisionName = divisionSet.size ? Array.from(divisionSet)[0] : `Tier ${tier}`;
 
-    const played = seasonTier.filter(
-      (r) => r.Result === "H" || r.Result === "D" || r.Result === "A"
-    );
+    const played = seasonTier.filter((r) => r.Result === "H" || r.Result === "D" || r.Result === "A");
 
     const teamSet = new Set();
     for (const r of played) {
@@ -353,13 +344,7 @@ async function main() {
 
     const basePoints = teams.map((t) => pts[t] || 0);
     const seedKey = `${latestSeason}|${tier}|${teams.length}|${fixtures.length}|${SIMS}`;
-    const posProbs = computePositionProbabilitiesMC(
-      teams,
-      basePoints,
-      fixtures,
-      SIMS,
-      seedKey
-    );
+    const posProbs = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
 
     const remainingCounts = new Array(teams.length).fill(0);
     for (const f of fixtures) {
