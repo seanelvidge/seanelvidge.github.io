@@ -456,120 +456,85 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
     }
 
     // ------------------------------------------------------------
-    // DP: team added-points distribution (sum of {0,1,3})
+    // Monte Carlo position probabilities (random tie-break on points)
     // ------------------------------------------------------------
-    function teamAddedPointsPMF(fixtures) {
-      const Pmax = 3 * fixtures.length;
-      let pmf = new Float64Array(Pmax + 1);
-      pmf[0] = 1.0;
-
-      for (const f of fixtures) {
-        const pW = f[0], pD = f[1], pL = f[2];
-        const next = new Float64Array(Pmax + 1);
-
-        for (let i = 0; i < pmf.length; i++) next[i] += pmf[i] * pL;
-        for (let i = 0; i < pmf.length - 1; i++) next[i + 1] += pmf[i] * pD;
-        for (let i = 0; i < pmf.length - 3; i++) next[i + 3] += pmf[i] * pW;
-
-        pmf = next;
+    function hashStringToSeed(str) {
+      let h = 1779033703 ^ str.length;
+      for (let i = 0; i < str.length; i++) {
+        h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+        h = (h << 13) | (h >>> 19);
       }
-
-      let s = 0;
-      for (let i = 0; i < pmf.length; i++) s += pmf[i];
-      if (s > 0) for (let i = 0; i < pmf.length; i++) pmf[i] /= s;
-
-      return pmf;
+      return () => {
+        h = Math.imul(h ^ (h >>> 16), 2246822507);
+        h = Math.imul(h ^ (h >>> 13), 3266489909);
+        return (h ^= h >>> 16) >>> 0;
+      };
     }
 
-    function shiftPMF(pmfAdded, bankPoints, PfinalMax) {
-      const out = new Float64Array(PfinalMax + 1);
-      const start = bankPoints;
-      const end = Math.min(PfinalMax + 1, bankPoints + pmfAdded.length);
-      for (let i = start; i < end; i++) out[i] = pmfAdded[i - start];
-      return out;
+    function mulberry32(seed) {
+      return function () {
+        let t = seed += 0x6D2B79F5;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
     }
 
-    // ------------------------------------------------------------
-    // Position probabilities (random tie-break on points)
-    // ------------------------------------------------------------
-    function computePositionProbabilities(finalPMFByTeam) {
-      const teams = Object.keys(finalPMFByTeam);
+    function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedKey) {
       const N = teams.length;
-      const Pmax = Math.max(...teams.map(t => finalPMFByTeam[t].length)) - 1;
+      const counts = {};
+      for (const t of teams) counts[t] = new Float64Array(N + 1);
 
-      const pmf = {};
-      const cdf = {};
-      for (const t of teams) {
-        const p = finalPMFByTeam[t];
-        const padded = new Float64Array(Pmax + 1);
-        padded.set(p);
-        pmf[t] = padded;
+      const seedFn = hashStringToSeed(seedKey);
+      const rng = mulberry32(seedFn());
 
-        const c = new Float64Array(Pmax + 1);
-        let s = 0;
-        for (let i = 0; i <= Pmax; i++) { s += padded[i]; c[i] = s; }
-        cdf[t] = c;
-      }
+      const pts0 = new Float64Array(N);
+      for (let i = 0; i < N; i++) pts0[i] = basePoints[i];
 
-      const out = {};
-      for (const t of teams) out[t] = new Float64Array(N + 1);
+      const indices = new Array(N);
+      for (let i = 0; i < N; i++) indices[i] = i;
 
-      for (const t of teams) {
-        const others = teams.filter(u => u !== t);
+      for (let s = 0; s < sims; s++) {
+        const pts = pts0.slice();
 
-        for (let x = 0; x <= Pmax; x++) {
-          const pi = pmf[t][x];
-          if (pi === 0) continue;
-
-          const a = new Float64Array(N - 1);
-          const b = new Float64Array(N - 1);
-          const c = new Float64Array(N - 1);
-
-          for (let j = 0; j < others.length; j++) {
-            const u = others[j];
-            a[j] = 1.0 - cdf[u][x];
-            b[j] = pmf[u][x];
-            c[j] = cdf[u][x] - pmf[u][x];
-          }
-
-          const dim = N;
-          let dp = new Float64Array(dim * dim);
-          dp[0] = 1.0;
-
-          for (let j = 0; j < others.length; j++) {
-            const ndp = new Float64Array(dim * dim);
-            const pgt = a[j], peq = b[j], plt = c[j];
-
-            for (let g = 0; g <= j; g++) {
-              for (let e = 0; e <= j - g; e++) {
-                const v = dp[g * dim + e];
-                if (v === 0) continue;
-                ndp[g * dim + e]       += v * plt;
-                ndp[(g + 1) * dim + e] += v * pgt;
-                ndp[g * dim + (e + 1)] += v * peq;
-              }
-            }
-            dp = ndp;
-          }
-
-          for (let g = 0; g < N; g++) {
-            for (let e = 0; e < N - g; e++) {
-              const v = dp[g * dim + e];
-              if (v === 0) continue;
-
-              const mass = pi * v;
-              const tieSize = e + 1;
-              const share = mass / tieSize;
-              const startPos = g + 1;
-              const endPos = g + e + 1;
-              for (let pos = startPos; pos <= endPos; pos++) out[t][pos] += share;
-            }
+        for (let i = 0; i < fixtures.length; i++) {
+          const f = fixtures[i];
+          const r = rng();
+          if (r < f.pH) {
+            pts[f.h] += 3;
+          } else if (r < f.pH + f.pD) {
+            pts[f.h] += 1;
+            pts[f.a] += 1;
+          } else {
+            pts[f.a] += 3;
           }
         }
 
-        let s = 0;
-        for (let pos = 1; pos <= N; pos++) s += out[t][pos];
-        if (s > 0) for (let pos = 1; pos <= N; pos++) out[t][pos] /= s;
+        indices.sort((i, j) => pts[j] - pts[i]);
+        let start = 0;
+        while (start < N) {
+          let end = start + 1;
+          while (end < N && pts[indices[end]] === pts[indices[start]]) end++;
+          for (let i = end - 1; i > start; i--) {
+            const j = start + Math.floor(rng() * (i - start + 1));
+            const tmp = indices[i];
+            indices[i] = indices[j];
+            indices[j] = tmp;
+          }
+          start = end;
+        }
+
+        for (let pos = 1; pos <= N; pos++) {
+          const teamIdx = indices[pos - 1];
+          counts[teams[teamIdx]][pos] += 1;
+        }
+      }
+
+      const out = {};
+      for (const t of teams) {
+        const arr = new Float64Array(N + 1);
+        for (let pos = 1; pos <= N; pos++) arr[pos] = counts[t][pos] / sims;
+        out[t] = arr;
       }
 
       return out;
@@ -1037,32 +1002,23 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
             const remaining = inferRemainingFixturesDoubleRoundRobin(played, teams);
             //logStatus(`Tier ${tier}: remaining inferred fixtures = ${remaining.length}`);
 
-            const fixturesForTeam = {};
-            for (const t of teams) fixturesForTeam[t] = [];
+            const teamIndex = new Map();
+            for (let i = 0; i < teams.length; i++) teamIndex.set(teams[i], i);
 
+            const fixtures = [];
             for (const [h, a] of remaining) {
               const eH = elos[h], eA = elos[a];
               if (!Number.isFinite(eH) || !Number.isFinite(eA)) continue;
 
               const [pH, pD, pA] = matchProbabilities(eH, eA, seasonStartYear, 0.9);
-              fixturesForTeam[h].push([pH, pD, pA]);
-              fixturesForTeam[a].push([pA, pD, pH]);
+              fixtures.push({ h: teamIndex.get(h), a: teamIndex.get(a), pH, pD, pA });
             }
 
-            let maxRem = 0;
-            for (const t of teams) maxRem = Math.max(maxRem, fixturesForTeam[t].length);
-
-            const maxPtsSoFar = Math.max(...teams.map(t => pts[t] || 0));
-            const PfinalMax = maxPtsSoFar + 3 * maxRem;
-
-            const finalPMFByTeam = {};
-            for (const t of teams) {
-              const added = teamAddedPointsPMF(fixturesForTeam[t]);
-              finalPMFByTeam[t] = shiftPMF(added, pts[t] || 0, PfinalMax);
-            }
-
-            //logStatus(`Tier ${tier}: computing position probabilities…`);
-            const posProbs = computePositionProbabilities(finalPMFByTeam);
+            const basePoints = teams.map(t => pts[t] || 0);
+            const SIMS = 20000;
+            //logStatus(`Tier ${tier}: simulating ${SIMS} seasons…`);
+            const seedKey = `${latestSeason}|${tier}|${teams.length}|${fixtures.length}`;
+            const posProbs = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
 
             renderTeamPositionMatrix(tablesDiv, divisionName, latestSeason, teams, posProbs);
 
