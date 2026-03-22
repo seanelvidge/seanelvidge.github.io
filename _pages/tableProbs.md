@@ -188,6 +188,7 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
     // Config
     // ------------------------------------------------------------
     const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
+    const PRECOMPUTED_URL = "{{ '/assets/data/tableProbs.json' | relative_url }}";
     const LOGO_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamLogos.csv";
     const DEDUCT_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv";
 	const SHORTNAME_CSV_URL =
@@ -312,32 +313,33 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
     }
 
     // Table cell formatting:
-    // - true zero => "-"
-    // - non-zero but rounds to 0 => "<1%"
-	// - true 100% is "100%"
-    function formatPctCell(p) {
-	  if (!Number.isFinite(p)) return "-";
-	
-	  // Exactly 0
-	  if (p === 0) return "-";
-	
-	  // Exactly 1 (i.e. 100%)
-	  if (p === 1) return "100%";
-	
-	  const pct = Math.round(100 * p);
-	
-	  // Rounds to 0 but not actually 0
-	  if (pct === 0) return "<1%";
-	
-	  // Rounds to 100 but not actually 1
-	  if (pct === 100) return ">99%";
-	
-	  return `${pct}%`;
-	}
+    // - impossible => "-"
+    // - zero but possible => "<1%"
+    // - true 100% is "100%"
+    function formatPctCell(p, impossible = false) {
+      if (impossible) return "-";
+      if (!Number.isFinite(p)) return "-";
+
+      // Exactly 0 but still possible
+      if (p === 0) return "<1%";
+
+      // Exactly 1 (i.e. 100%)
+      if (p === 1) return "100%";
+
+      const pct = Math.round(100 * p);
+
+      // Rounds to 0 but not actually 0
+      if (pct === 0) return "<1%";
+
+      // Rounds to 100 but not actually 1
+      if (pct === 100) return ">99%";
+
+      return `${pct}%`;
+    }
 
     // Same formatting for mobile summary cells
     function pctIntOrTinyOrDash(p) {
-      return formatPctCell(p);
+      return formatPctCell(p, false);
     }
 
     // ------------------------------------------------------------
@@ -540,6 +542,44 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
       return out;
     }
 
+
+    function computeImpossiblePositions(teams, basePoints, remainingCounts) {
+      const N = teams.length;
+      const minPts = new Float64Array(N);
+      const maxPts = new Float64Array(N);
+
+      for (let i = 0; i < N; i++) {
+        minPts[i] = basePoints[i];
+        maxPts[i] = basePoints[i] + 3 * remainingCounts[i];
+      }
+
+      const out = {};
+      for (let i = 0; i < N; i++) {
+        const t = teams[i];
+        const impossible = new Array(N + 1).fill(false);
+
+        let guaranteedAbove = 0;
+        let possibleAbove = 0;
+        for (let j = 0; j < N; j++) {
+          if (j === i) continue;
+          if (minPts[j] > maxPts[i]) guaranteedAbove++;
+          if (maxPts[j] >= minPts[i]) possibleAbove++;
+        }
+
+        for (let pos = 1; pos <= N; pos++) {
+          if (pos <= guaranteedAbove) {
+            impossible[pos] = true;
+          } else if (possibleAbove < pos - 1) {
+            impossible[pos] = true;
+          }
+        }
+
+        out[t] = impossible;
+      }
+
+      return out;
+    }
+
     // ------------------------------------------------------------
     // Shading + logos
     // ------------------------------------------------------------
@@ -678,7 +718,7 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
     // ------------------------------------------------------------
     // Rendering: full matrix + mobile summary with toggle
     // ------------------------------------------------------------
-    function renderTeamPositionMatrix(container, divisionName, seasonStr, teams, posProbs) {
+    function renderTeamPositionMatrix(container, divisionName, seasonStr, teams, posProbs, impossibleByTeam) {
       const N = teams.length;
 
       const block = document.createElement("div");
@@ -770,13 +810,16 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
 
         for (let pos = 1; pos <= N; pos++) {
           const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
+          const impossible = Boolean(impossibleByTeam && impossibleByTeam[t] && impossibleByTeam[t][pos]);
           const td = document.createElement("td");
-          td.textContent = formatPctCell(p);
+          td.textContent = formatPctCell(p, impossible);
 
-          if (p === maxP && maxP > 0) {
-            td.classList.add("max-cell");
-          } else {
-            applyRowHeat(td, p, maxP);
+          if (!impossible) {
+            if (p === maxP && maxP > 0) {
+              td.classList.add("max-cell");
+            } else {
+              applyRowHeat(td, p, maxP);
+            }
           }
 
           tr.appendChild(td);
@@ -852,7 +895,8 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
         tdTeam.appendChild(wrap);
 
         const td1 = document.createElement("td");
-        td1.textContent = pctIntOrTinyOrDash(r.p1);
+        const imp1 = Boolean(impossibleByTeam && impossibleByTeam[r.team] && impossibleByTeam[r.team][1]);
+        td1.textContent = formatPctCell(r.p1, imp1);
 
         const tdTop = document.createElement("td");
         tdTop.textContent = pctIntOrTinyOrDash(r.top6);
@@ -928,6 +972,29 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
       container.appendChild(block);
     }
 
+
+    function renderFromPrecomputed(data) {
+      if (!data || !data.season || !Array.isArray(data.tiers)) return false;
+
+      const tablesDiv = document.getElementById("tables");
+      for (const tierData of data.tiers) {
+        const teams = Array.isArray(tierData.teams) ? tierData.teams : [];
+        if (!teams.length) continue;
+
+        const posProbs = {};
+        for (const t of teams) {
+          const arr = (tierData.posProbs && tierData.posProbs[t]) ? tierData.posProbs[t] : [];
+          posProbs[t] = Float64Array.from(arr);
+        }
+
+        const divisionName = tierData.division || `Tier ${tierData.tier || ""}`.trim();
+        const impossibleByTeam = tierData.impossible || {};
+        renderTeamPositionMatrix(tablesDiv, divisionName, data.season, teams, posProbs, impossibleByTeam);
+      }
+
+      return true;
+    }
+
     // ------------------------------------------------------------
     // Main
     // ------------------------------------------------------------
@@ -944,6 +1011,16 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
       await loadPointDeductions();
       //logStatus(`Point adjustment seasons loaded: ${Object.keys(window.pointAdjustmentsBySeason || {}).length}`);
       //logStatus("");
+
+      try {
+        const res = await fetch(PRECOMPUTED_URL, { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          if (renderFromPrecomputed(data)) return;
+        }
+      } catch (err) {
+        // Fallback to live calculations
+      }
 
       //logStatus("Fetching match CSV…");
 
@@ -1020,7 +1097,14 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
             const seedKey = `${latestSeason}|${tier}|${teams.length}|${fixtures.length}`;
             const posProbs = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
 
-            renderTeamPositionMatrix(tablesDiv, divisionName, latestSeason, teams, posProbs);
+            const remainingCounts = new Array(teams.length).fill(0);
+            for (const f of fixtures) {
+              remainingCounts[f.h] += 1;
+              remainingCounts[f.a] += 1;
+            }
+            const impossibleByTeam = computeImpossiblePositions(teams, basePoints, remainingCounts);
+
+            renderTeamPositionMatrix(tablesDiv, divisionName, latestSeason, teams, posProbs, impossibleByTeam);
 
             //logStatus(`Tier ${tier}: done.`);
             //logStatus("");
