@@ -190,7 +190,7 @@ nav: false
     .example-modal__inner {
       background: #fff;
       border-radius: 12px;
-      width: min(1100px, 92vw);
+      width: min(960px, 92vw);
       max-height: 80vh;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
@@ -247,9 +247,10 @@ nav: false
     }
 
     .example-match {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       padding: 6px 8px;
       border: 1px solid #e6e6e6;
       border-radius: 8px;
@@ -263,8 +264,9 @@ nav: false
       padding: 2px 6px;
       border-radius: 6px;
       background: #f0f0f0;
-      min-width: 46px;
+      min-width: 72px;
       text-align: center;
+      white-space: nowrap;
     }
 
     .example-match__meta {
@@ -299,6 +301,8 @@ nav: false
     .example-vs {
       color: #666;
       font-weight: 700;
+      text-align: center;
+      min-width: 24px;
     }
 
     .clickable-cell { cursor: pointer; }
