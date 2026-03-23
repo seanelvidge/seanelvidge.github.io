@@ -190,7 +190,7 @@ nav: false
     .example-modal__inner {
       background: #fff;
       border-radius: 12px;
-      width: min(860px, 92vw);
+      width: min(780px, 92vw);
       max-height: 80vh;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
@@ -277,14 +277,14 @@ nav: false
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
       width: 100%;
     }
 
     .example-team {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       min-width: 0;
     }
 
@@ -296,13 +296,14 @@ nav: false
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      max-width: 140px;
     }
 
     .example-vs {
       color: #666;
       font-weight: 700;
       text-align: center;
-      min-width: 24px;
+      min-width: 16px;
     }
 
     .clickable-cell { cursor: pointer; }
