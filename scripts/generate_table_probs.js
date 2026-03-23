@@ -306,6 +306,7 @@ async function main() {
     generated_at: new Date().toISOString(),
     sims: SIMS,
     season: latestSeason,
+    last_result_date: rows[rows.length - 1].Date || "",
     tiers: [],
   };
 

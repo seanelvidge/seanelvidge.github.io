@@ -178,9 +178,11 @@ nav: false
 </head>
 
 <body>
-Position probabilities for the season. Remaining fixtures are inferred, assuming team strenghts remain constant.
+Position probabilities for the season.
 
-  <div id="status" class="status">Loading…</div>
+<div class="meta">Based on 100k Monte Carlo simulations of the remaining fixtures, assuming team strengths remain constant.</div>
+<div class="meta" id="asof-date"></div>
+
   <div id="tables"></div>
 
   <script>
@@ -200,6 +202,7 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
     // ------------------------------------------------------------
     function logStatus(msg) {
       const el = document.getElementById("status");
+      if (!el) return;
       el.textContent += (el.textContent.endsWith("\n") || el.textContent === "" ? "" : "\n") + msg;
     }
 
@@ -304,6 +307,14 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
 
     function clamp(x, lo, hi) {
       return Math.max(lo, Math.min(hi, x));
+    }
+
+    function formatAsOfDate(dateStr) {
+      const s = String(dateStr || "").trim();
+      if (!s) return "";
+      const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (m) return `${m[3]}/${m[2]}/${m[1]}`;
+      return s;
     }
 
     function safeProbs(arr, floor = 1e-3) {
@@ -606,7 +617,7 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
     // ------------------------------------------------------------
     // Mobile summary rows: Team | 1 | Top6 | Bottom3
     // ------------------------------------------------------------
-    function buildMobileSummaryRows(teams, posProbs) {
+    function buildMobileSummaryRows(teams, posProbs, impossibleByTeam) {
       const N = teams.length;
       const topK = Math.min(6, N);
       const bottomK = Math.min(3, N);
@@ -620,14 +631,23 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
       return ordered.map(o => {
         const t = o.team;
         const p1 = posProbs[t][1] || 0;
+        const imp = (impossibleByTeam && impossibleByTeam[t]) ? impossibleByTeam[t] : [];
 
         let top6 = 0;
-        for (let pos = 1; pos <= topK; pos++) top6 += (posProbs[t][pos] || 0);
+        let top6AllImpossible = true;
+        for (let pos = 1; pos <= topK; pos++) {
+          top6 += (posProbs[t][pos] || 0);
+          if (!imp[pos]) top6AllImpossible = false;
+        }
 
         let bottom3 = 0;
-        for (let pos = N - bottomK + 1; pos <= N; pos++) bottom3 += (posProbs[t][pos] || 0);
+        let bottom3AllImpossible = true;
+        for (let pos = N - bottomK + 1; pos <= N; pos++) {
+          bottom3 += (posProbs[t][pos] || 0);
+          if (!imp[pos]) bottom3AllImpossible = false;
+        }
 
-        return { team: t, p1, top6, bottom3 };
+        return { team: t, p1, top6, bottom3, imp1: !!imp[1], top6AllImpossible, bottom3AllImpossible };
       });
     }
 
@@ -860,7 +880,7 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
       `;
 
       const mobBody = mobTable.querySelector("tbody");
-      const mobRows = buildMobileSummaryRows(teams, posProbs);
+      const mobRows = buildMobileSummaryRows(teams, posProbs, impossibleByTeam);
 
       for (const r of mobRows) {
         const tr = document.createElement("tr");
@@ -899,10 +919,10 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
         td1.textContent = formatPctCell(r.p1, imp1);
 
         const tdTop = document.createElement("td");
-        tdTop.textContent = pctIntOrTinyOrDash(r.top6);
+        tdTop.textContent = formatPctCell(r.top6, r.top6AllImpossible);
 
         const tdBot = document.createElement("td");
-        tdBot.textContent = pctIntOrTinyOrDash(r.bottom3);
+        tdBot.textContent = formatPctCell(r.bottom3, r.bottom3AllImpossible);
 
         tr.appendChild(tdTeam);
         tr.appendChild(td1);
@@ -977,6 +997,11 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
       if (!data || !data.season || !Array.isArray(data.tiers)) return false;
 
       const tablesDiv = document.getElementById("tables");
+      const asof = document.getElementById("asof-date");
+      if (asof && data.last_result_date) {
+        asof.textContent = `Table based on results up to and including ${formatAsOfDate(data.last_result_date)}.`;
+      }
+
       for (const tierData of data.tiers) {
         const teams = Array.isArray(tierData.teams) ? tierData.teams : [];
         if (!teams.length) continue;
@@ -999,9 +1024,6 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
     // Main
     // ------------------------------------------------------------
     document.addEventListener("DOMContentLoaded", async () => {
-      document.getElementById("status").textContent = "";
-
-      logStatus("Calculating tables...");
       await loadTeamLogos();
       //logStatus(`Team logos loaded: ${Object.keys(window.teamLogos || {}).length}`);
 	  
@@ -1038,6 +1060,10 @@ Position probabilities for the season. Remaining fixtures are inferred, assuming
           const last = data[data.length - 1];
           const latestSeason = last.Season;
           const seasonStartYear = seasonStartYearFromSeasonStr(latestSeason);
+          const asof = document.getElementById("asof-date");
+          if (asof && last.Date) {
+            asof.textContent = `Table based on results up to and including ${formatAsOfDate(last.Date)}.`;
+          }
           //logStatus(`Latest season (last row): ${latestSeason}`);
           //logStatus(`Season start year: ${seasonStartYear}`);
           //logStatus("");
