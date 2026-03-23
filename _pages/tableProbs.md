@@ -341,6 +341,7 @@ Position probabilities for the season.
     window.tableProbsExamples = {};
     window.tableProbsFixtures = {};
     window.tableProbsTeams = {};
+    window.tableProbsBasePoints = {};
 
     // ------------------------------------------------------------
     // Status logging
@@ -1000,7 +1001,14 @@ Position probabilities for the season.
       const teams = window.tableProbsTeams[key] || [];
       const fixtures = window.tableProbsFixtures[key] || [];
       const examples = window.tableProbsExamples[key] || {};
-      const results = examples[team] ? examples[team][pos] : null;
+      let results = examples[team] ? examples[team][pos] : null;
+      if (!results) {
+        results = findExampleOnDemand(divisionName, seasonStr, team, pos);
+        if (results) {
+          if (!examples[team]) examples[team] = {};
+          examples[team][pos] = results;
+        }
+      }
 
       const modal = document.getElementById("example-modal");
       const title = document.getElementById("example-modal-title");
@@ -1012,7 +1020,7 @@ Position probabilities for the season.
 
       if (!results || !fixtures.length || !teams.length) {
         const p = document.createElement("div");
-        p.textContent = "No example outcome was found in the simulations for this position.";
+        p.textContent = "No example outcome was found for this position after additional simulations.";
         body.appendChild(p);
       } else {
         const perTeam = buildExampleData(teams, fixtures, results);
@@ -1068,6 +1076,72 @@ Position probabilities for the season.
 
       modal.classList.add("open");
       modal.setAttribute("aria-hidden", "false");
+    }
+
+
+    function simulateExample(teams, fixtures, basePoints, rng) {
+      const N = teams.length;
+      const pts = new Float64Array(N);
+      for (let i = 0; i < N; i++) pts[i] = basePoints[i] || 0;
+
+      const results = new Uint8Array(fixtures.length);
+      for (let i = 0; i < fixtures.length; i++) {
+        const f = fixtures[i];
+        const r = rng();
+        const pH = f[2], pD = f[3];
+        if (r < pH) {
+          pts[f[0]] += 3;
+          results[i] = 0;
+        } else if (r < pH + pD) {
+          pts[f[0]] += 1;
+          pts[f[1]] += 1;
+          results[i] = 1;
+        } else {
+          pts[f[1]] += 3;
+          results[i] = 2;
+        }
+      }
+
+      const indices = new Array(N);
+      for (let i = 0; i < N; i++) indices[i] = i;
+      indices.sort((i, j) => pts[j] - pts[i]);
+
+      let start = 0;
+      while (start < N) {
+        let end = start + 1;
+        while (end < N && pts[indices[end]] === pts[indices[start]]) end++;
+        for (let i = end - 1; i > start; i--) {
+          const j = start + Math.floor(rng() * (i - start + 1));
+          const tmp = indices[i];
+          indices[i] = indices[j];
+          indices[j] = tmp;
+        }
+        start = end;
+      }
+
+      return { indices, results: Array.from(results) };
+    }
+
+    function findExampleOnDemand(divisionName, seasonStr, team, pos) {
+      const key = `${seasonStr}|${divisionName}`;
+      const teams = window.tableProbsTeams[key] || [];
+      const fixtures = window.tableProbsFixtures[key] || [];
+      const basePoints = window.tableProbsBasePoints[key] || [];
+      if (!teams.length || !fixtures.length) return null;
+
+      const teamIndex = teams.indexOf(team);
+      if (teamIndex < 0) return null;
+
+      const seedKey = `${key}|${team}|${pos}|ondemand`;
+      const seedFn = hashStringToSeed(seedKey);
+      const rng = mulberry32(seedFn());
+
+      const maxTries = 20000;
+      for (let i = 0; i < maxTries; i++) {
+        const sim = simulateExample(teams, fixtures, basePoints, rng);
+        if (sim.indices[pos - 1] === teamIndex) return sim.results;
+      }
+      return null;
     }
 
     function setupExampleModal() {
@@ -1381,6 +1455,7 @@ Position probabilities for the season.
         window.tableProbsFixtures[key] = tierData.fixtures || [];
         window.tableProbsExamples[key] = tierData.examples || {};
         window.tableProbsTeams[key] = teams;
+        window.tableProbsBasePoints[key] = tierData.basePoints || [];
 
         renderTeamPositionMatrix(tablesDiv, divisionName, data.season, teams, posProbs, impossibleByTeam);
       }
@@ -1506,6 +1581,7 @@ Position probabilities for the season.
             window.tableProbsFixtures[key] = fixturePairs;
             window.tableProbsExamples[key] = simResult.examples || {};
             window.tableProbsTeams[key] = teams;
+            window.tableProbsBasePoints[key] = basePoints;
 
             renderTeamPositionMatrix(tablesDiv, divisionName, latestSeason, teams, posProbs, impossibleByTeam);
 

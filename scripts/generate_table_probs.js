@@ -139,6 +139,80 @@ function mulberry32(seed) {
   };
 }
 
+
+function fillMissingExamples(teams, fixtures, basePoints, examples, possibleByTeam, seedKey) {
+  const N = teams.length;
+  const missing = new Set();
+  for (const t of teams) {
+    const poss = possibleByTeam[t] || [];
+    for (let pos = 1; pos <= N; pos++) {
+      if (poss[pos] && !(examples[t] && examples[t][pos])) missing.add(`${t}|||${pos}`);
+    }
+  }
+
+  if (!missing.size) return examples;
+
+  const maxExtra = Number.parseInt(process.env.EXAMPLE_MAX_SIMS || "200000", 10);
+  const batch = 5000;
+  let done = 0;
+
+  while (missing.size > 0 && done < maxExtra) {
+    const seedFn = hashStringToSeed(`${seedKey}|extra|${done}`);
+    const rng = mulberry32(seedFn());
+
+    for (let s = 0; s < batch && done < maxExtra; s++, done++) {
+      const pts = new Float64Array(N);
+      for (let i = 0; i < N; i++) pts[i] = basePoints[i] || 0;
+
+      const results = new Uint8Array(fixtures.length);
+      for (let i = 0; i < fixtures.length; i++) {
+        const f = fixtures[i];
+        const r = rng();
+        if (r < f.pH) {
+          pts[f.h] += 3;
+          results[i] = 0;
+        } else if (r < f.pH + f.pD) {
+          pts[f.h] += 1;
+          pts[f.a] += 1;
+          results[i] = 1;
+        } else {
+          pts[f.a] += 3;
+          results[i] = 2;
+        }
+      }
+
+      const indices = new Array(N);
+      for (let i = 0; i < N; i++) indices[i] = i;
+      indices.sort((i, j) => pts[j] - pts[i]);
+
+      let start = 0;
+      while (start < N) {
+        let end = start + 1;
+        while (end < N && pts[indices[end]] === pts[indices[start]]) end++;
+        for (let i = end - 1; i > start; i--) {
+          const j = start + Math.floor(rng() * (i - start + 1));
+          const tmp = indices[i];
+          indices[i] = indices[j];
+          indices[j] = tmp;
+        }
+        start = end;
+      }
+
+      for (let pos = 1; pos <= N; pos++) {
+        const teamName = teams[indices[pos - 1]];
+        const key = `${teamName}|||${pos}`;
+        if (missing.has(key)) {
+          if (!examples[teamName]) examples[teamName] = {};
+          examples[teamName][pos] = Array.from(results);
+          missing.delete(key);
+        }
+      }
+    }
+  }
+
+  return examples;
+}
+
 function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedKey) {
   const N = teams.length;
   const counts = {};
@@ -359,7 +433,7 @@ async function main() {
     const seedKey = `${latestSeason}|${tier}|${teams.length}|${fixtures.length}|${SIMS}`;
     const simResult = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
     const posProbs = simResult.posProbs;
-    const examples = simResult.examples;
+    let examples = simResult.examples;
 
     const remainingCounts = new Array(teams.length).fill(0);
     for (const f of fixtures) {
@@ -368,15 +442,22 @@ async function main() {
     }
     const impossible = computeImpossiblePositions(teams, basePoints, remainingCounts);
 
+    const possible = {};
+    for (const t of teams) {
+      possible[t] = (impossible[t] || []).map((v) => !v);
+    }
+    examples = fillMissingExamples(teams, fixtures, basePoints, examples, possible, seedKey);
+
     const posProbsPlain = {};
     for (const t of teams) posProbsPlain[t] = Array.from(posProbs[t] || []);
 
-    const fixturePairs = fixtures.map((f) => [f.h, f.a]);
+    const fixturePairs = fixtures.map((f) => [f.h, f.a, f.pH, f.pD, f.pA]);
 
     out.tiers.push({
       tier,
       division: divisionName,
       teams,
+      basePoints,
       fixtures: fixturePairs,
       posProbs: posProbsPlain,
       examples,
