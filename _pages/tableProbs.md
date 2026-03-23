@@ -482,8 +482,8 @@ Position probabilities for the season.
       if (impossible) return "-";
       if (!Number.isFinite(p)) return "-";
 
-      // Exactly 0 but still possible
-      if (p === 0) return "<1%";
+      // Exactly 0 but still possible (no simulation hit)
+      if (p === 0) return "0%";
 
       // Exactly 1 (i.e. 100%)
       if (p === 1) return "100%";
