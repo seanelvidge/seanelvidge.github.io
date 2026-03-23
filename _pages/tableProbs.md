@@ -191,7 +191,7 @@ nav: false
       background: #fff;
       border-radius: 12px;
       width: min(1100px, 92vw);
-      max-height: 88vh;
+      max-height: 80vh;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
       display: flex;
@@ -269,6 +269,36 @@ nav: false
 
     .example-match__meta {
       color: #555;
+    }
+
+    .example-match__teams {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .example-team {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .example-team--away {
+      justify-content: flex-end;
+    }
+
+    .example-team-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .example-vs {
+      color: #666;
+      font-weight: 700;
     }
 
     .clickable-cell { cursor: pointer; }
@@ -928,19 +958,39 @@ Position probabilities for the season.
 
       const result = document.createElement("div");
       result.className = "example-match__result";
-      result.textContent = entry.isHome ? `${entry.result} (H)` : `${entry.result} (A)`;
+      if (entry.result === "W") result.textContent = entry.isHome ? "Home Win" : "Away Win";
+      else if (entry.result === "D") result.textContent = "Draw";
+      else result.textContent = entry.isHome ? "Home Lose" : "Away Lose";
 
-      const text = document.createElement("div");
-      text.className = "example-match__meta";
-      text.textContent = `${entry.home} vs ${entry.away} • ${entry.points} pts`;
+      const teamsRow = document.createElement("div");
+      teamsRow.className = "example-match__teams";
 
-      row.appendChild(homeImg);
-      row.appendChild(document.createTextNode(entry.home));
-      row.appendChild(document.createTextNode(" vs "));
-      row.appendChild(document.createTextNode(entry.away));
-      row.appendChild(awayImg);
+      const homeWrap = document.createElement("div");
+      homeWrap.className = "example-team";
+      const homeName = document.createElement("div");
+      homeName.className = "example-team-name";
+      homeName.textContent = entry.home;
+      homeWrap.appendChild(homeImg);
+      homeWrap.appendChild(homeName);
+
+      const awayWrap = document.createElement("div");
+      awayWrap.className = "example-team example-team--away";
+      const awayName = document.createElement("div");
+      awayName.className = "example-team-name";
+      awayName.textContent = entry.away;
+      awayWrap.appendChild(awayName);
+      awayWrap.appendChild(awayImg);
+
+      const vs = document.createElement("div");
+      vs.className = "example-vs";
+      vs.textContent = "vs";
+
+      teamsRow.appendChild(homeWrap);
+      teamsRow.appendChild(vs);
+      teamsRow.appendChild(awayWrap);
+
+      row.appendChild(teamsRow);
       row.appendChild(result);
-      row.appendChild(text);
 
       return row;
     }
@@ -962,7 +1012,7 @@ Position probabilities for the season.
 
       if (!results || !fixtures.length || !teams.length) {
         const p = document.createElement("div");
-        p.textContent = "No example outcome available for this position.";
+        p.textContent = "No example outcome was found in the simulations for this position.";
         body.appendChild(p);
       } else {
         const perTeam = buildExampleData(teams, fixtures, results);
@@ -979,7 +1029,9 @@ Position probabilities for the season.
         selLogo.setAttribute("crossorigin", "anonymous");
         selLogo.onerror = () => { selLogo.style.display = "none"; };
         selHeader.appendChild(selLogo);
-        selHeader.appendChild(document.createTextNode(`${team} (example results)`));
+
+        const totalPts = (perTeam[team] || []).reduce((sum, e) => sum + (e.points || 0), 0);
+        selHeader.appendChild(document.createTextNode(`${team} (${totalPts} pts)`));
         selected.appendChild(selHeader);
 
         for (const entry of perTeam[team] || []) {
@@ -1002,7 +1054,8 @@ Position probabilities for the season.
           logo.setAttribute("crossorigin", "anonymous");
           logo.onerror = () => { logo.style.display = "none"; };
           header.appendChild(logo);
-          header.appendChild(document.createTextNode(t));
+          const totalPts = (perTeam[t] || []).reduce((sum, e) => sum + (e.points || 0), 0);
+          header.appendChild(document.createTextNode(`${t} (${totalPts} pts)`));
           section.appendChild(header);
 
           for (const entry of perTeam[t] || []) {
