@@ -285,6 +285,17 @@ Position probabilities for the season.
 
   <div id="tables"></div>
 
+
+  <div id="example-modal" class="example-modal" aria-hidden="true">
+    <div class="example-modal__inner">
+      <div class="example-modal__header">
+        <div id="example-modal-title" class="example-modal__title"></div>
+        <button id="example-modal-close" class="example-modal__close" type="button">Close</button>
+      </div>
+      <div id="example-modal-body" class="example-modal__body"></div>
+    </div>
+  </div>
+
   <script>
     // ------------------------------------------------------------
     // Config
