@@ -475,15 +475,15 @@ Position probabilities for the season.
     }
 
     // Table cell formatting:
-    // - impossible => "-"
-    // - zero but possible => "<1%"
+    // - impossible or zero-hit => "-"
+    // - non-zero but rounds to 0 => "<1%"
     // - true 100% is "100%"
     function formatPctCell(p, impossible = false) {
       if (impossible) return "-";
       if (!Number.isFinite(p)) return "-";
 
-      // Exactly 0 but still possible (no simulation hit)
-      if (p === 0) return "0%";
+      // Only show values observed in simulations
+      if (p === 0) return "-";
 
       // Exactly 1 (i.e. 100%)
       if (p === 1) return "100%";
