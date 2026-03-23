@@ -144,6 +144,9 @@ function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedK
   const counts = {};
   for (const t of teams) counts[t] = new Float64Array(N + 1);
 
+  const examples = {};
+  for (const t of teams) examples[t] = {};
+
   const seedFn = hashStringToSeed(seedKey);
   const rng = mulberry32(seedFn());
 
@@ -155,17 +158,21 @@ function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedK
 
   for (let s = 0; s < sims; s++) {
     const pts = pts0.slice();
+    const results = new Uint8Array(fixtures.length);
 
     for (let i = 0; i < fixtures.length; i++) {
       const f = fixtures[i];
       const r = rng();
       if (r < f.pH) {
         pts[f.h] += 3;
+        results[i] = 0;
       } else if (r < f.pH + f.pD) {
         pts[f.h] += 1;
         pts[f.a] += 1;
+        results[i] = 1;
       } else {
         pts[f.a] += 3;
+        results[i] = 2;
       }
     }
 
@@ -185,7 +192,12 @@ function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedK
 
     for (let pos = 1; pos <= N; pos++) {
       const teamIdx = indices[pos - 1];
-      counts[teams[teamIdx]][pos] += 1;
+      const teamName = teams[teamIdx];
+      counts[teamName][pos] += 1;
+
+      if (!examples[teamName][pos]) {
+        examples[teamName][pos] = Array.from(results);
+      }
     }
   }
 
@@ -196,7 +208,7 @@ function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedK
     out[t] = arr;
   }
 
-  return out;
+  return { posProbs: out, examples };
 }
 
 function computeImpossiblePositions(teams, basePoints, remainingCounts) {
@@ -345,7 +357,9 @@ async function main() {
 
     const basePoints = teams.map((t) => pts[t] || 0);
     const seedKey = `${latestSeason}|${tier}|${teams.length}|${fixtures.length}|${SIMS}`;
-    const posProbs = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
+    const simResult = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
+    const posProbs = simResult.posProbs;
+    const examples = simResult.examples;
 
     const remainingCounts = new Array(teams.length).fill(0);
     for (const f of fixtures) {
@@ -355,13 +369,17 @@ async function main() {
     const impossible = computeImpossiblePositions(teams, basePoints, remainingCounts);
 
     const posProbsPlain = {};
-    for (const t of teams) posProbsPlain[t] = Array.from(posProbs[t]);
+    for (const t of teams) posProbsPlain[t] = Array.from(posProbs[t] || []);
+
+    const fixturePairs = fixtures.map((f) => [f.h, f.a]);
 
     out.tiers.push({
       tier,
       division: divisionName,
       teams,
+      fixtures: fixturePairs,
       posProbs: posProbsPlain,
+      examples,
       impossible,
     });
   }

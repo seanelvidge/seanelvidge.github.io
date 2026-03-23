@@ -174,6 +174,106 @@ nav: false
     /* Mobile table can be narrower */
     .mobile-summary-wrap .probTable { min-width: 260px; table-layout: auto; }
     .mobile-summary-wrap .probTable thead th.teamHead { width: 120px; }
+  
+    .example-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .example-modal.open { display: flex; }
+
+    .example-modal__inner {
+      background: #fff;
+      border-radius: 12px;
+      width: min(1100px, 92vw);
+      max-height: 88vh;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .example-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e6e6e6;
+      background: #f7f7f7;
+    }
+
+    .example-modal__title {
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .example-modal__close {
+      border: 1px solid #cfcfcf;
+      background: #fff;
+      border-radius: 8px;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .example-modal__body {
+      padding: 12px 16px;
+      overflow: auto;
+    }
+
+    .example-section {
+      margin-bottom: 16px;
+    }
+
+    .example-team-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      margin: 8px 0;
+    }
+
+    .example-team-logo {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.06);
+    }
+
+    .example-match {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border: 1px solid #e6e6e6;
+      border-radius: 8px;
+      margin: 6px 0;
+      background: #fff;
+      font-size: 12px;
+    }
+
+    .example-match__result {
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #f0f0f0;
+      min-width: 46px;
+      text-align: center;
+    }
+
+    .example-match__meta {
+      color: #555;
+    }
+
+    .clickable-cell { cursor: pointer; }
+    .clickable-cell:hover { outline: 2px solid rgba(59, 95, 208, 0.4); }
+
   </style>
 </head>
 
@@ -196,6 +296,10 @@ Position probabilities for the season.
 	const SHORTNAME_CSV_URL =
     "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamActivePeriods.csv";
     const TIERS = [1, 2, 3, 4];
+
+    window.tableProbsExamples = {};
+    window.tableProbsFixtures = {};
+    window.tableProbsTeams = {};
 
     // ------------------------------------------------------------
     // Status logging
@@ -498,6 +602,9 @@ Position probabilities for the season.
       const counts = {};
       for (const t of teams) counts[t] = new Float64Array(N + 1);
 
+      const examples = {};
+      for (const t of teams) examples[t] = {};
+
       const seedFn = hashStringToSeed(seedKey);
       const rng = mulberry32(seedFn());
 
@@ -509,17 +616,21 @@ Position probabilities for the season.
 
       for (let s = 0; s < sims; s++) {
         const pts = pts0.slice();
+        const results = new Uint8Array(fixtures.length);
 
         for (let i = 0; i < fixtures.length; i++) {
           const f = fixtures[i];
           const r = rng();
           if (r < f.pH) {
             pts[f.h] += 3;
+            results[i] = 0;
           } else if (r < f.pH + f.pD) {
             pts[f.h] += 1;
             pts[f.a] += 1;
+            results[i] = 1;
           } else {
             pts[f.a] += 3;
+            results[i] = 2;
           }
         }
 
@@ -539,7 +650,12 @@ Position probabilities for the season.
 
         for (let pos = 1; pos <= N; pos++) {
           const teamIdx = indices[pos - 1];
-          counts[teams[teamIdx]][pos] += 1;
+          const teamName = teams[teamIdx];
+          counts[teamName][pos] += 1;
+
+          if (!examples[teamName][pos]) {
+            examples[teamName][pos] = Array.from(results);
+          }
         }
       }
 
@@ -550,7 +666,7 @@ Position probabilities for the season.
         out[t] = arr;
       }
 
-      return out;
+      return { posProbs: out, examples };
     }
 
 
@@ -735,6 +851,179 @@ Position probabilities for the season.
 	}
 
 
+
+    function buildExampleData(teams, fixtures, results) {
+      const perTeam = {};
+      for (const t of teams) perTeam[t] = [];
+
+      for (let i = 0; i < fixtures.length; i++) {
+        const pair = fixtures[i];
+        if (!pair) continue;
+        const h = teams[pair[0]];
+        const a = teams[pair[1]];
+        const code = results[i];
+
+        const homeResult = code === 0 ? "W" : code === 1 ? "D" : "L";
+        const awayResult = code === 2 ? "W" : code === 1 ? "D" : "L";
+
+        const homePoints = code === 0 ? 3 : code === 1 ? 1 : 0;
+        const awayPoints = code === 2 ? 3 : code === 1 ? 1 : 0;
+
+        perTeam[h].push({
+          opponent: a,
+          isHome: true,
+          result: homeResult,
+          points: homePoints,
+          home: h,
+          away: a,
+          code,
+        });
+        perTeam[a].push({
+          opponent: h,
+          isHome: false,
+          result: awayResult,
+          points: awayPoints,
+          home: h,
+          away: a,
+          code,
+        });
+      }
+
+      return perTeam;
+    }
+
+    function createMatchRow(entry) {
+      const row = document.createElement("div");
+      row.className = "example-match";
+
+      const homeLogo = getLogoUrl(entry.home);
+      const awayLogo = getLogoUrl(entry.away);
+
+      const homeImg = document.createElement("img");
+      homeImg.className = "team-logo";
+      homeImg.src = homeLogo;
+      homeImg.alt = entry.home;
+      homeImg.loading = "lazy";
+      homeImg.setAttribute("crossorigin", "anonymous");
+      homeImg.onerror = () => { homeImg.style.display = "none"; };
+
+      const awayImg = document.createElement("img");
+      awayImg.className = "team-logo";
+      awayImg.src = awayLogo;
+      awayImg.alt = entry.away;
+      awayImg.loading = "lazy";
+      awayImg.setAttribute("crossorigin", "anonymous");
+      awayImg.onerror = () => { awayImg.style.display = "none"; };
+
+      const result = document.createElement("div");
+      result.className = "example-match__result";
+      result.textContent = entry.isHome ? `${entry.result} (H)` : `${entry.result} (A)`;
+
+      const text = document.createElement("div");
+      text.className = "example-match__meta";
+      text.textContent = `${entry.home} vs ${entry.away} • ${entry.points} pts`;
+
+      row.appendChild(homeImg);
+      row.appendChild(document.createTextNode(entry.home));
+      row.appendChild(document.createTextNode(" vs "));
+      row.appendChild(document.createTextNode(entry.away));
+      row.appendChild(awayImg);
+      row.appendChild(result);
+      row.appendChild(text);
+
+      return row;
+    }
+
+    function showExampleModal(divisionName, seasonStr, team, pos) {
+      const key = `${seasonStr}|${divisionName}`;
+      const teams = window.tableProbsTeams[key] || [];
+      const fixtures = window.tableProbsFixtures[key] || [];
+      const examples = window.tableProbsExamples[key] || {};
+      const results = examples[team] ? examples[team][pos] : null;
+
+      const modal = document.getElementById("example-modal");
+      const title = document.getElementById("example-modal-title");
+      const body = document.getElementById("example-modal-body");
+      if (!modal || !title || !body) return;
+
+      title.textContent = `${team} finishing ${pos} in ${divisionName} (${seasonStr})`;
+      body.innerHTML = "";
+
+      if (!results || !fixtures.length || !teams.length) {
+        const p = document.createElement("div");
+        p.textContent = "No example outcome available for this position.";
+        body.appendChild(p);
+      } else {
+        const perTeam = buildExampleData(teams, fixtures, results);
+
+        const selected = document.createElement("div");
+        selected.className = "example-section";
+        const selHeader = document.createElement("div");
+        selHeader.className = "example-team-header";
+        const selLogo = document.createElement("img");
+        selLogo.className = "example-team-logo";
+        selLogo.src = getLogoUrl(team);
+        selLogo.alt = team;
+        selLogo.loading = "lazy";
+        selLogo.setAttribute("crossorigin", "anonymous");
+        selLogo.onerror = () => { selLogo.style.display = "none"; };
+        selHeader.appendChild(selLogo);
+        selHeader.appendChild(document.createTextNode(`${team} (example results)`));
+        selected.appendChild(selHeader);
+
+        for (const entry of perTeam[team] || []) {
+          selected.appendChild(createMatchRow(entry));
+        }
+        body.appendChild(selected);
+
+        const others = teams.filter(t => t !== team).sort();
+        for (const t of others) {
+          const section = document.createElement("div");
+          section.className = "example-section";
+
+          const header = document.createElement("div");
+          header.className = "example-team-header";
+          const logo = document.createElement("img");
+          logo.className = "example-team-logo";
+          logo.src = getLogoUrl(t);
+          logo.alt = t;
+          logo.loading = "lazy";
+          logo.setAttribute("crossorigin", "anonymous");
+          logo.onerror = () => { logo.style.display = "none"; };
+          header.appendChild(logo);
+          header.appendChild(document.createTextNode(t));
+          section.appendChild(header);
+
+          for (const entry of perTeam[t] || []) {
+            section.appendChild(createMatchRow(entry));
+          }
+
+          body.appendChild(section);
+        }
+      }
+
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function setupExampleModal() {
+      const modal = document.getElementById("example-modal");
+      const closeBtn = document.getElementById("example-modal-close");
+      if (!modal || !closeBtn) return;
+
+      closeBtn.addEventListener("click", () => {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+      });
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.classList.remove("open");
+          modal.setAttribute("aria-hidden", "true");
+        }
+      });
+    }
+
     // ------------------------------------------------------------
     // Rendering: full matrix + mobile summary with toggle
     // ------------------------------------------------------------
@@ -835,6 +1124,16 @@ Position probabilities for the season.
           td.textContent = formatPctCell(p, impossible);
 
           if (!impossible) {
+            td.classList.add("clickable-cell");
+            td.dataset.team = t;
+            td.dataset.pos = String(pos);
+            td.dataset.division = divisionName;
+            td.dataset.season = seasonStr;
+
+            td.addEventListener("click", () => {
+              showExampleModal(divisionName, seasonStr, t, pos);
+            });
+
             if (p === maxP && maxP > 0) {
               td.classList.add("max-cell");
             } else {
@@ -1014,6 +1313,11 @@ Position probabilities for the season.
 
         const divisionName = tierData.division || `Tier ${tierData.tier || ""}`.trim();
         const impossibleByTeam = tierData.impossible || {};
+        const key = `${data.season}|${divisionName}`;
+        window.tableProbsFixtures[key] = tierData.fixtures || [];
+        window.tableProbsExamples[key] = tierData.examples || {};
+        window.tableProbsTeams[key] = teams;
+
         renderTeamPositionMatrix(tablesDiv, divisionName, data.season, teams, posProbs, impossibleByTeam);
       }
 
@@ -1031,6 +1335,8 @@ Position probabilities for the season.
 
       //logStatus("Fetching point deductions/additions…");
       await loadPointDeductions();
+
+      setupExampleModal();
       //logStatus(`Point adjustment seasons loaded: ${Object.keys(window.pointAdjustmentsBySeason || {}).length}`);
       //logStatus("");
 
@@ -1121,7 +1427,8 @@ Position probabilities for the season.
             const SIMS = 20000;
             //logStatus(`Tier ${tier}: simulating ${SIMS} seasons…`);
             const seedKey = `${latestSeason}|${tier}|${teams.length}|${fixtures.length}`;
-            const posProbs = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
+            const simResult = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
+            const posProbs = simResult.posProbs;
 
             const remainingCounts = new Array(teams.length).fill(0);
             for (const f of fixtures) {
@@ -1129,6 +1436,12 @@ Position probabilities for the season.
               remainingCounts[f.a] += 1;
             }
             const impossibleByTeam = computeImpossiblePositions(teams, basePoints, remainingCounts);
+
+            const fixturePairs = fixtures.map(f => [f.h, f.a]);
+            const key = `${latestSeason}|${divisionName}`;
+            window.tableProbsFixtures[key] = fixturePairs;
+            window.tableProbsExamples[key] = simResult.examples || {};
+            window.tableProbsTeams[key] = teams;
 
             renderTeamPositionMatrix(tablesDiv, divisionName, latestSeason, teams, posProbs, impossibleByTeam);
 
