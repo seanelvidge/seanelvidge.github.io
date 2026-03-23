@@ -8,7 +8,7 @@ const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-
 const DEDUCT_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv";
 const TIERS = [1, 2, 3, 4];
 
-const SIMS = Number.parseInt(process.env.SIMS || "10000000", 10);
+const SIMS = Number.parseInt(process.env.SIMS || "1000000", 10);
 const OUT_PATH = path.join(process.cwd(), "assets", "data", "tableProbs.json");
 
 const ELO_PER_NAT_LOGIT = 400.0 / Math.log(10.0);
@@ -207,6 +207,77 @@ function fillMissingExamples(teams, fixtures, basePoints, examples, possibleByTe
           missing.delete(key);
         }
       }
+    }
+  }
+
+  return examples;
+}
+
+
+function buildDeterministicResults(teams, fixtures, targetIndex, mode) {
+  const results = new Uint8Array(fixtures.length);
+
+  for (let i = 0; i < fixtures.length; i++) {
+    const f = fixtures[i];
+    const h = f.h;
+    const a = f.a;
+
+    if (h === targetIndex || a === targetIndex) {
+      const targetIsHome = h === targetIndex;
+      if (mode === "win") {
+        results[i] = targetIsHome ? 0 : 2;
+      } else {
+        results[i] = targetIsHome ? 2 : 0;
+      }
+      continue;
+    }
+
+    // For other fixtures, pick the most likely outcome.
+    const pH = f.pH;
+    const pD = f.pD;
+    const pA = f.pA;
+    if (pH >= pD && pH >= pA) results[i] = 0;
+    else if (pD >= pH && pD >= pA) results[i] = 1;
+    else results[i] = 2;
+  }
+
+  return Array.from(results);
+}
+
+function rankFromResults(teams, fixtures, basePoints, results) {
+  const N = teams.length;
+  const pts = new Float64Array(N);
+  for (let i = 0; i < N; i++) pts[i] = basePoints[i] || 0;
+
+  for (let i = 0; i < fixtures.length; i++) {
+    const f = fixtures[i];
+    const code = results[i];
+    if (code === 0) pts[f.h] += 3;
+    else if (code === 1) { pts[f.h] += 1; pts[f.a] += 1; }
+    else pts[f.a] += 3;
+  }
+
+  const indices = new Array(N);
+  for (let i = 0; i < N; i++) indices[i] = i;
+  indices.sort((i, j) => {
+    if (pts[j] !== pts[i]) return pts[j] - pts[i];
+    return teams[i].localeCompare(teams[j]);
+  });
+
+  return indices;
+}
+
+function addExtremeExamples(teams, fixtures, basePoints, examples, possibleByTeam) {
+  for (let i = 0; i < teams.length; i++) {
+    for (const mode of ["win", "lose"]) {
+      const results = buildDeterministicResults(teams, fixtures, i, mode);
+      const ranking = rankFromResults(teams, fixtures, basePoints, results);
+      const pos = ranking.indexOf(i) + 1;
+      if (pos < 1) continue;
+      const teamName = teams[i];
+      if (possibleByTeam && possibleByTeam[teamName] && !possibleByTeam[teamName][pos]) continue;
+      if (!examples[teamName]) examples[teamName] = {};
+      if (!examples[teamName][pos]) examples[teamName][pos] = results;
     }
   }
 
@@ -446,6 +517,8 @@ async function main() {
     for (const t of teams) {
       possible[t] = (impossible[t] || []).map((v) => !v);
     }
+
+    examples = addExtremeExamples(teams, fixtures, basePoints, examples, possible);
     examples = fillMissingExamples(teams, fixtures, basePoints, examples, possible, seedKey);
 
     const posProbsPlain = {};

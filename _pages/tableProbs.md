@@ -315,7 +315,7 @@ nav: false
 <body>
 Position probabilities for the season.
 
-<div class="meta">Based on 10,000,000 Monte Carlo simulations of the remaining fixtures, assuming team strengths remain constant.</div>
+<div class="meta">Based on 1,000,000 Monte Carlo simulations of the remaining fixtures, assuming team strengths remain constant.</div>
 <div class="meta" id="asof-date"></div>
 
   <div id="tables"></div>
