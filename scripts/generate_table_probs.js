@@ -8,7 +8,7 @@ const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-
 const DEDUCT_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv";
 const TIERS = [1, 2, 3, 4];
 
-const SIMS = Number.parseInt(process.env.SIMS || "1000000", 10);
+const SIMS = Number.parseInt(process.env.SIMS || "10000000", 10);
 const OUT_PATH = path.join(process.cwd(), "assets", "data", "tableProbs.json");
 
 const ELO_PER_NAT_LOGIT = 400.0 / Math.log(10.0);

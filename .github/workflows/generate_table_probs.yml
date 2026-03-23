@@ -27,7 +27,7 @@ jobs:
       - name: Generate table probabilities
         run: node scripts/generate_table_probs.js
         env:
-          SIMS: "1000000"
+          SIMS: "10000000"
 
       - name: Commit and push if changed
         run: |
