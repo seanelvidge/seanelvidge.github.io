@@ -190,7 +190,7 @@ nav: false
     .example-modal__inner {
       background: #fff;
       border-radius: 12px;
-      width: min(960px, 92vw);
+      width: min(860px, 92vw);
       max-height: 80vh;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
@@ -1006,7 +1006,7 @@ Position probabilities for the season.
       const fixtures = window.tableProbsFixtures[key] || [];
       const examples = window.tableProbsExamples[key] || {};
       let results = examples[team] ? examples[team][pos] : null;
-      if (!results) {
+      if (!results || results.length !== fixtures.length) {
         results = findExampleOnDemand(divisionName, seasonStr, team, pos);
         if (results) {
           if (!examples[team]) examples[team] = {};
@@ -1580,7 +1580,7 @@ Position probabilities for the season.
             }
             const impossibleByTeam = computeImpossiblePositions(teams, basePoints, remainingCounts);
 
-            const fixturePairs = fixtures.map(f => [f.h, f.a]);
+            const fixturePairs = fixtures.map(f => [f.h, f.a, f.pH, f.pD, f.pA]);
             const key = `${latestSeason}|${divisionName}`;
             window.tableProbsFixtures[key] = fixturePairs;
             window.tableProbsExamples[key] = simResult.examples || {};
