@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 const fs = require("fs");
 const path = require("path");
+const { Worker } = require("worker_threads");
 const Papa = require("papaparse");
 const lpSolver = require("javascript-lp-solver");
 
@@ -578,6 +579,40 @@ function solvePositionWithILP(teams, fixtures, basePoints, targetIndex, targetPo
   return results;
 }
 
+function solvePositionWithILPWithTimeout(teams, fixtures, basePoints, targetIndex, targetPos, timeoutMs) {
+  return new Promise((resolve) => {
+    const workerPath = path.join(__dirname, "ilp_worker.js");
+    const worker = new Worker(workerPath);
+    let settled = false;
+
+    const timer = Number.isFinite(timeoutMs) && timeoutMs > 0 ? setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      worker.terminate();
+      resolve({ status: "timeout", res: null });
+    }, timeoutMs) : null;
+
+    worker.on("message", (msg) => {
+      if (settled) return;
+      settled = true;
+      if (timer) clearTimeout(timer);
+      worker.terminate();
+      if (msg && msg.ok) resolve({ status: "ok", res: msg.res || null });
+      else resolve({ status: "error", res: null, error: msg && msg.error });
+    });
+
+    worker.on("error", (err) => {
+      if (settled) return;
+      settled = true;
+      if (timer) clearTimeout(timer);
+      worker.terminate();
+      resolve({ status: "error", res: null, error: String(err && err.message ? err.message : err) });
+    });
+
+    worker.postMessage({ teams, fixtures, basePoints, targetIndex, targetPos });
+  });
+}
+
 function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedKey) {
   const N = teams.length;
   const counts = {};
@@ -820,6 +855,8 @@ async function main() {
     if (!Number.isFinite(ilpMax) || ilpMax <= 0) ilpMax = Number.POSITIVE_INFINITY;
     let ilpSeconds = Number.parseFloat(process.env.ILP_MAX_SECONDS || "900");
     if (!Number.isFinite(ilpSeconds) || ilpSeconds <= 0) ilpSeconds = Number.POSITIVE_INFINITY;
+    let ilpCaseSeconds = Number.parseFloat(process.env.ILP_CASE_SECONDS || "90");
+    if (!Number.isFinite(ilpCaseSeconds) || ilpCaseSeconds <= 0) ilpCaseSeconds = Number.POSITIVE_INFINITY;
     let ilpCount = 0;
     const missing = [];
     for (let ti = 0; ti < teams.length; ti++) {
@@ -846,9 +883,16 @@ async function main() {
       const team = teams[ti];
       console.log(`ILP case ${ilpCount + 1}/${ilpTarget}: ${team} @ ${pos}`);
       const caseStart = Date.now();
-      const res = solvePositionWithILP(teams, fixtures, basePoints, ti, pos);
+      const timeoutMs = ilpCaseSeconds * 1000;
+      const solveResult = await solvePositionWithILPWithTimeout(teams, fixtures, basePoints, ti, pos, timeoutMs);
+      if (solveResult.status === "timeout") {
+        console.log(`ILP case timeout after ${ilpCaseSeconds}s: ${team} @ ${pos}`);
+      } else if (solveResult.status === "error") {
+        console.log(`ILP case error: ${team} @ ${pos} (${solveResult.error || "unknown"})`);
+      }
+      const res = solveResult.res;
       const caseElapsed = Date.now() - caseStart;
-      ilpTimings.push({ team, pos, ms: caseElapsed, feasible: !!res });
+      ilpTimings.push({ team, pos, ms: caseElapsed, feasible: !!res, status: solveResult.status });
       if (res) {
         if (!examples[team]) examples[team] = {};
         examples[team][pos] = res;
@@ -873,7 +917,8 @@ async function main() {
       console.log("ILP slowest cases:");
       for (const t of topTimings) {
         const secs = (t.ms / 1000).toFixed(2);
-        console.log(`  ${t.team} @ ${t.pos}: ${secs}s (${t.feasible ? 'feasible' : 'infeasible'})`);
+        const status = t.status || (t.feasible ? 'feasible' : 'infeasible');
+        console.log(`  ${t.team} @ ${t.pos}: ${secs}s (${status})`);
       }
     }
 

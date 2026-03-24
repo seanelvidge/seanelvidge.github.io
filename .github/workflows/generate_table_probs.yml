@@ -30,6 +30,7 @@ jobs:
           SIMS: "1000000"
           ILP_MAX_CASES: "100"
           ILP_MAX_SECONDS: "2400"
+          ILP_CASE_SECONDS: "90"
 
       - name: Commit and push if changed
         run: |
