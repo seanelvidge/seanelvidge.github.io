@@ -818,6 +818,8 @@ async function main() {
     examples = reverseSearchExamples(teams, fixtures, basePoints, examples, possible, seedKey);
     let ilpMax = Number.parseInt(process.env.ILP_MAX_CASES || "1000", 10);
     if (!Number.isFinite(ilpMax) || ilpMax <= 0) ilpMax = Number.POSITIVE_INFINITY;
+    let ilpSeconds = Number.parseFloat(process.env.ILP_MAX_SECONDS || "900");
+    if (!Number.isFinite(ilpSeconds) || ilpSeconds <= 0) ilpSeconds = Number.POSITIVE_INFINITY;
     let ilpCount = 0;
     const missing = [];
     for (let ti = 0; ti < teams.length; ti++) {
@@ -832,9 +834,14 @@ async function main() {
 
     const ilpStart = Date.now();
     const ilpTarget = Math.min(missing.length, Number.isFinite(ilpMax) ? ilpMax : missing.length);
-    console.log(`ILP: ${missing.length} missing cases, max ${Number.isFinite(ilpMax) ? ilpMax : 'unlimited'}`);
+    console.log(`ILP: ${missing.length} missing cases, max ${Number.isFinite(ilpMax) ? ilpMax : 'unlimited'}, budget ${Number.isFinite(ilpSeconds) ? ilpSeconds + 's' : 'unlimited'}`);
     for (const [ti, pos] of missing) {
       if (ilpCount >= ilpMax) break;
+      const elapsedSeconds = (Date.now() - ilpStart) / 1000;
+      if (elapsedSeconds >= ilpSeconds) {
+        console.log(`ILP budget reached after ${elapsedSeconds.toFixed(1)}s, stopping early.`);
+        break;
+      }
       const team = teams[ti];
       const res = solvePositionWithILP(teams, fixtures, basePoints, ti, pos);
       if (res) {
