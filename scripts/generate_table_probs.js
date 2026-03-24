@@ -281,6 +281,8 @@ function addExtremeExamples(teams, fixtures, basePoints, examples, possibleByTea
     }
   }
 
+  return examples;
+}
 
 function sampleSeasonWithTilt(teams, fixtures, basePoints, rng, targetIndex, tiltMode) {
   const N = teams.length;
@@ -403,9 +405,6 @@ function fillMissingExamplesImportance(teams, fixtures, basePoints, examples, po
       }
     }
   }
-
-  return examples;
-}
 
   return examples;
 }
