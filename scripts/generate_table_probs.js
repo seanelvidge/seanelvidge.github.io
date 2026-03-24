@@ -281,6 +281,132 @@ function addExtremeExamples(teams, fixtures, basePoints, examples, possibleByTea
     }
   }
 
+
+function sampleSeasonWithTilt(teams, fixtures, basePoints, rng, targetIndex, tiltMode) {
+  const N = teams.length;
+  const pts = new Float64Array(N);
+  for (let i = 0; i < N; i++) pts[i] = basePoints[i] || 0;
+
+  const results = new Uint8Array(fixtures.length);
+
+  for (let i = 0; i < fixtures.length; i++) {
+    const f = fixtures[i];
+    let pH = f.pH;
+    let pD = f.pD;
+    let pA = f.pA;
+
+    if (targetIndex !== null && (f.h === targetIndex || f.a === targetIndex)) {
+      const targetIsHome = f.h === targetIndex;
+      let winBoost = 1.0;
+      let drawBoost = 1.0;
+      let loseBoost = 1.0;
+      if (tiltMode === "up") {
+        winBoost = 2.0;
+        drawBoost = 1.0;
+        loseBoost = 0.5;
+      } else if (tiltMode === "down") {
+        winBoost = 0.5;
+        drawBoost = 1.0;
+        loseBoost = 2.0;
+      }
+
+      if (targetIsHome) {
+        pH *= winBoost;
+        pD *= drawBoost;
+        pA *= loseBoost;
+      } else {
+        pH *= loseBoost;
+        pD *= drawBoost;
+        pA *= winBoost;
+      }
+
+      const s = pH + pD + pA;
+      pH /= s;
+      pD /= s;
+      pA /= s;
+    }
+
+    const r = rng();
+    if (r < pH) {
+      pts[f.h] += 3;
+      results[i] = 0;
+    } else if (r < pH + pD) {
+      pts[f.h] += 1;
+      pts[f.a] += 1;
+      results[i] = 1;
+    } else {
+      pts[f.a] += 3;
+      results[i] = 2;
+    }
+  }
+
+  const indices = new Array(N);
+  for (let i = 0; i < N; i++) indices[i] = i;
+  indices.sort((i, j) => pts[j] - pts[i]);
+
+  let start = 0;
+  while (start < N) {
+    let end = start + 1;
+    while (end < N && pts[indices[end]] === pts[indices[start]]) end++;
+    for (let i = end - 1; i > start; i--) {
+      const j = start + Math.floor(rng() * (i - start + 1));
+      const tmp = indices[i];
+      indices[i] = indices[j];
+      indices[j] = tmp;
+    }
+    start = end;
+  }
+
+  return { indices, results: Array.from(results) };
+}
+
+function fillMissingExamplesImportance(teams, fixtures, basePoints, examples, possibleByTeam, seedKey) {
+  const N = teams.length;
+  const missing = new Set();
+  for (const t of teams) {
+    const poss = possibleByTeam[t] || [];
+    for (let pos = 1; pos <= N; pos++) {
+      if (poss[pos] && !(examples[t] && examples[t][pos])) missing.add(`${t}|||${pos}`);
+    }
+  }
+  if (!missing.size) return examples;
+
+  const maxExtra = Number.parseInt(process.env.IMPORTANCE_MAX_SIMS || "200000", 10);
+  const perTeamBatch = 5000;
+  const tiltModes = ["up", "down", "neutral"];
+
+  for (let ti = 0; ti < teams.length && missing.size > 0; ti++) {
+    const team = teams[ti];
+    const teamMissing = new Set();
+    for (let pos = 1; pos <= N; pos++) {
+      const key = `${team}|||${pos}`;
+      if (missing.has(key)) teamMissing.add(pos);
+    }
+    if (!teamMissing.size) continue;
+
+    let done = 0;
+    for (const mode of tiltModes) {
+      if (!teamMissing.size) break;
+      const seedFn = hashStringToSeed(`${seedKey}|importance|${team}|${mode}`);
+      const rng = mulberry32(seedFn());
+
+      for (let s = 0; s < perTeamBatch && done < maxExtra; s++, done++) {
+        const sim = sampleSeasonWithTilt(teams, fixtures, basePoints, rng, ti, mode === "neutral" ? null : ti);
+        const pos = sim.indices.indexOf(ti) + 1;
+        if (teamMissing.has(pos)) {
+          if (!examples[team]) examples[team] = {};
+          examples[team][pos] = sim.results;
+          teamMissing.delete(pos);
+          missing.delete(`${team}|||${pos}`);
+          if (!teamMissing.size) break;
+        }
+      }
+    }
+  }
+
+  return examples;
+}
+
   return examples;
 }
 
@@ -520,6 +646,7 @@ async function main() {
 
     examples = addExtremeExamples(teams, fixtures, basePoints, examples, possible);
     examples = fillMissingExamples(teams, fixtures, basePoints, examples, possible, seedKey);
+    examples = fillMissingExamplesImportance(teams, fixtures, basePoints, examples, possible, seedKey);
 
     const posProbsPlain = {};
     for (const t of teams) posProbsPlain[t] = Array.from(posProbs[t] || []);
