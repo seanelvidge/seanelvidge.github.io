@@ -613,6 +613,35 @@ function solvePositionWithILPWithTimeout(teams, fixtures, basePoints, targetInde
   });
 }
 
+function computePointsFromResults(teams, fixtures, basePoints, results) {
+  const pts = new Float64Array(teams.length);
+  for (let i = 0; i < teams.length; i++) pts[i] = basePoints[i];
+  for (let i = 0; i < fixtures.length; i++) {
+    const f = fixtures[i];
+    const r = results[i];
+    if (r === 0) {
+      pts[f.h] += 3;
+    } else if (r === 1) {
+      pts[f.h] += 1;
+      pts[f.a] += 1;
+    } else {
+      pts[f.a] += 3;
+    }
+  }
+  return pts;
+}
+
+function validateExampleRank(teams, fixtures, basePoints, results, targetIndex, targetPos) {
+  if (!results || results.length !== fixtures.length) return false;
+  const pts = computePointsFromResults(teams, fixtures, basePoints, results);
+  const indices = new Array(teams.length);
+  for (let i = 0; i < teams.length; i++) indices[i] = i;
+  indices.sort((a, b) => pts[b] - pts[a]);
+  const pos = indices.indexOf(targetIndex) + 1;
+  return pos === targetPos;
+}
+
+
 function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedKey) {
   const N = teams.length;
   const counts = {};
@@ -894,8 +923,12 @@ async function main() {
       const caseElapsed = Date.now() - caseStart;
       ilpTimings.push({ team, pos, ms: caseElapsed, feasible: !!res, status: solveResult.status });
       if (res) {
-        if (!examples[team]) examples[team] = {};
-        examples[team][pos] = res;
+        if (validateExampleRank(teams, fixtures, basePoints, res, ti, pos)) {
+          if (!examples[team]) examples[team] = {};
+          examples[team][pos] = res;
+        } else {
+          console.log(`ILP example failed rank check: ${team} @ ${pos}`);
+        }
       } else if (impossible[team]) {
         // Verified infeasible with full fixture constraints.
         impossible[team][pos] = true;
