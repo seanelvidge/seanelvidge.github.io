@@ -409,6 +409,45 @@ function fillMissingExamplesImportance(teams, fixtures, basePoints, examples, po
   return examples;
 }
 
+
+function reverseSearchExamples(teams, fixtures, basePoints, examples, possibleByTeam, seedKey) {
+  const N = teams.length;
+  const maxTries = Number.parseInt(process.env.REVERSE_MAX_TRIES || "30000", 10);
+
+  for (let ti = 0; ti < teams.length; ti++) {
+    const team = teams[ti];
+    const poss = possibleByTeam[team] || [];
+
+    for (let targetPos = 1; targetPos <= N; targetPos++) {
+      if (!poss[targetPos]) continue;
+      if (examples[team] && examples[team][targetPos]) continue;
+
+      const seedFn = hashStringToSeed(`${seedKey}|reverse|${team}|${targetPos}`);
+      const rng = mulberry32(seedFn());
+      let tilt = targetPos <= Math.ceil(N / 2) ? "up" : "down";
+
+      for (let attempt = 0; attempt < maxTries; attempt++) {
+        const sim = sampleSeasonWithTilt(teams, fixtures, basePoints, rng, ti, tilt);
+        const pos = sim.indices.indexOf(ti) + 1;
+        if (pos === targetPos) {
+          if (!examples[team]) examples[team] = {};
+          examples[team][targetPos] = sim.results;
+          break;
+        }
+
+        // adapt tilt based on current rank
+        if (pos < targetPos) {
+          tilt = "down";
+        } else if (pos > targetPos) {
+          tilt = "up";
+        }
+      }
+    }
+  }
+
+  return examples;
+}
+
 function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedKey) {
   const N = teams.length;
   const counts = {};
@@ -646,6 +685,7 @@ async function main() {
     examples = addExtremeExamples(teams, fixtures, basePoints, examples, possible);
     examples = fillMissingExamples(teams, fixtures, basePoints, examples, possible, seedKey);
     examples = fillMissingExamplesImportance(teams, fixtures, basePoints, examples, possible, seedKey);
+    examples = reverseSearchExamples(teams, fixtures, basePoints, examples, possible, seedKey);
 
     const posProbsPlain = {};
     for (const t of teams) posProbsPlain[t] = Array.from(posProbs[t] || []);
