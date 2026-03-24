@@ -1266,7 +1266,7 @@ Position probabilities for the season.
           const td = document.createElement("td");
           td.textContent = formatPctCell(p, impossible);
 
-          if (!impossible) {
+          if (!impossible && p > 0) {
             td.classList.add("clickable-cell");
             td.dataset.team = t;
             td.dataset.pos = String(pos);
