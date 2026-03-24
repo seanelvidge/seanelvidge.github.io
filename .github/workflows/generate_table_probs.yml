@@ -28,7 +28,7 @@ jobs:
         run: node scripts/generate_table_probs.js
         env:
           SIMS: "1000000"
-          ILP_MAX_CASES: "0"
+          ILP_MAX_CASES: "100"
 
       - name: Commit and push if changed
         run: |
