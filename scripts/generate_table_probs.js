@@ -844,6 +844,7 @@ async function main() {
         break;
       }
       const team = teams[ti];
+      console.log(`ILP case ${ilpCount + 1}/${ilpTarget}: ${team} @ ${pos}`);
       const caseStart = Date.now();
       const res = solvePositionWithILP(teams, fixtures, basePoints, ti, pos);
       const caseElapsed = Date.now() - caseStart;
