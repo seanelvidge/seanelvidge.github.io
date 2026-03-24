@@ -90,7 +90,7 @@ function solvePositionWithILP(teams, fixtures, basePoints, targetIndex, targetPo
 
     addVar(g, { [diff_ge]: -M });
     addVar(l, { [diff_le]: M });
-    addVar(e, { [diff_eq_hi]: -M, [diff_eq_lo]: M });
+    addVar(e, { [diff_eq_hi]: M, [diff_eq_lo]: -M });
 
     for (const [v, coef] of Object.entries(ptCoeffs[j])) {
       addVar(v, { [diff_ge]: coef, [diff_le]: coef, [diff_eq_hi]: coef, [diff_eq_lo]: coef });
