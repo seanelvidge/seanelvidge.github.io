@@ -830,6 +830,9 @@ async function main() {
       }
     }
 
+    const ilpStart = Date.now();
+    const ilpTarget = Math.min(missing.length, Number.isFinite(ilpMax) ? ilpMax : missing.length);
+    console.log(`ILP: ${missing.length} missing cases, max ${Number.isFinite(ilpMax) ? ilpMax : 'unlimited'}`);
     for (const [ti, pos] of missing) {
       if (ilpCount >= ilpMax) break;
       const team = teams[ti];
@@ -843,6 +846,13 @@ async function main() {
         if (possible[team]) possible[team][pos] = false;
       }
       ilpCount += 1;
+      if (ilpCount % 10 == 0) {
+        const elapsed = (Date.now() - ilpStart) / 1000;
+        const rate = elapsed > 0 ? ilpCount / elapsed : 0;
+        const remaining = Math.max(ilpTarget - ilpCount, 0);
+        const eta = rate > 0 ? remaining / rate : 0;
+        console.log(`ILP progress: ${ilpCount}/${ilpTarget} (elapsed ${elapsed.toFixed(1)}s, eta ${eta.toFixed(1)}s)`);
+      }
     }
 
     const posProbsPlain = {};
