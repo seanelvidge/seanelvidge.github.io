@@ -834,6 +834,7 @@ async function main() {
 
     const ilpStart = Date.now();
     const ilpTarget = Math.min(missing.length, Number.isFinite(ilpMax) ? ilpMax : missing.length);
+    const ilpTimings = [];
     console.log(`ILP: ${missing.length} missing cases, max ${Number.isFinite(ilpMax) ? ilpMax : 'unlimited'}, budget ${Number.isFinite(ilpSeconds) ? ilpSeconds + 's' : 'unlimited'}`);
     for (const [ti, pos] of missing) {
       if (ilpCount >= ilpMax) break;
@@ -843,7 +844,10 @@ async function main() {
         break;
       }
       const team = teams[ti];
+      const caseStart = Date.now();
       const res = solvePositionWithILP(teams, fixtures, basePoints, ti, pos);
+      const caseElapsed = Date.now() - caseStart;
+      ilpTimings.push({ team, pos, ms: caseElapsed, feasible: !!res });
       if (res) {
         if (!examples[team]) examples[team] = {};
         examples[team][pos] = res;
@@ -859,6 +863,16 @@ async function main() {
         const remaining = Math.max(ilpTarget - ilpCount, 0);
         const eta = rate > 0 ? remaining / rate : 0;
         console.log(`ILP progress: ${ilpCount}/${ilpTarget} (elapsed ${elapsed.toFixed(1)}s, eta ${eta.toFixed(1)}s)`);
+      }
+    }
+
+    ilpTimings.sort((a, b) => b.ms - a.ms);
+    const topTimings = ilpTimings.slice(0, 10);
+    if (topTimings.length) {
+      console.log("ILP slowest cases:");
+      for (const t of topTimings) {
+        const secs = (t.ms / 1000).toFixed(2);
+        console.log(`  ${t.team} @ ${t.pos}: ${secs}s (${t.feasible ? 'feasible' : 'infeasible'})`);
       }
     }
 
