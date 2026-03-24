@@ -479,12 +479,12 @@ Position probabilities for the season.
     // - possible but not observed => ""
     // - non-zero but rounds to 0 => "<1%"
     // - true 100% is "100%"
-    function formatPctCell(p, impossible = false) {
+    function formatPctCell(p, impossible = false, hasExample = false) {
       if (impossible) return "-";
       if (!Number.isFinite(p)) return "-";
 
       // Possible but not observed in simulations
-      if (p === 0) return "";
+      if (p === 0) return hasExample ? "<1%" : "";
 
       // Exactly 1 (i.e. 100%)
       if (p === 1) return "100%";
@@ -1173,6 +1173,8 @@ Position probabilities for the season.
     // ------------------------------------------------------------
     function renderTeamPositionMatrix(container, divisionName, seasonStr, teams, posProbs, impossibleByTeam) {
       const N = teams.length;
+      const examplesKey = `${seasonStr}|${divisionName}`;
+      const examplesByTeam = (window.tableProbsExamples && window.tableProbsExamples[examplesKey]) || {};
 
       const block = document.createElement("div");
       block.className = "tier-block";
@@ -1264,10 +1266,11 @@ Position probabilities for the season.
         for (let pos = 1; pos <= N; pos++) {
           const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
           const impossible = Boolean(impossibleByTeam && impossibleByTeam[t] && impossibleByTeam[t][pos]);
+          const hasExample = Boolean(examplesByTeam[t] && examplesByTeam[t][pos]);
           const td = document.createElement("td");
-          td.textContent = formatPctCell(p, impossible);
+          td.textContent = formatPctCell(p, impossible, hasExample);
 
-          if (!impossible && p > 0) {
+          if (!impossible && (p > 0 || hasExample)) {
             td.classList.add("clickable-cell");
             td.dataset.team = t;
             td.dataset.pos = String(pos);
@@ -1280,7 +1283,7 @@ Position probabilities for the season.
 
             if (p === maxP && maxP > 0) {
               td.classList.add("max-cell");
-            } else {
+            } else if (p > 0) {
               applyRowHeat(td, p, maxP);
             }
           }
