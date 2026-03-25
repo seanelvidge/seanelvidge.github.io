@@ -488,7 +488,7 @@ Position probabilities for the season.
       if (p === 0) {
         if (hasExample) return "<1%";
         if (hadTimeout) return "<<1%";
-        return "";
+        return "<<1%";
       }
 
       // Exactly 1 (i.e. 100%)
