@@ -344,6 +344,7 @@ Position probabilities for the season.
     const TIERS = [1, 2, 3, 4];
 
     window.tableProbsExamples = {};
+    window.tableProbsIlpTimeouts = {};
     window.tableProbsFixtures = {};
     window.tableProbsTeams = {};
     window.tableProbsBasePoints = {};
@@ -479,12 +480,16 @@ Position probabilities for the season.
     // - possible but not observed => ""
     // - non-zero but rounds to 0 => "<1%"
     // - true 100% is "100%"
-    function formatPctCell(p, impossible = false, hasExample = false) {
+    function formatPctCell(p, impossible = false, hasExample = false, hadTimeout = false) {
       if (impossible) return "-";
       if (!Number.isFinite(p)) return "-";
 
       // Possible but not observed in simulations
-      if (p === 0) return hasExample ? "<1%" : "";
+      if (p === 0) {
+        if (hasExample) return "<1%";
+        if (hadTimeout) return "<<1%";
+        return "";
+      }
 
       // Exactly 1 (i.e. 100%)
       if (p === 1) return "100%";
@@ -1026,7 +1031,13 @@ Position probabilities for the season.
 
       if (!results || !fixtures.length || !teams.length) {
         const p = document.createElement("div");
-        p.textContent = "No example outcome was found for this position after additional simulations.";
+        const timeouts = (window.tableProbsIlpTimeouts && window.tableProbsIlpTimeouts[key]) || {};
+        const hadTimeout = Boolean(timeouts[team] && timeouts[team][pos]);
+        if (hadTimeout) {
+          p.textContent = "Whilst this is mathematically possible the probability is vanishingly small, and within 1,000,000 simulations no exact example was found.";
+        } else {
+          p.textContent = "No example outcome was found for this position after additional simulations.";
+        }
         body.appendChild(p);
       } else {
         const perTeam = buildExampleData(teams, fixtures, results);
@@ -1175,6 +1186,7 @@ Position probabilities for the season.
       const N = teams.length;
       const examplesKey = `${seasonStr}|${divisionName}`;
       const examplesByTeam = (window.tableProbsExamples && window.tableProbsExamples[examplesKey]) || {};
+      const timeoutsByTeam = (window.tableProbsIlpTimeouts && window.tableProbsIlpTimeouts[examplesKey]) || {};
 
       const block = document.createElement("div");
       block.className = "tier-block";
@@ -1267,10 +1279,11 @@ Position probabilities for the season.
           const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
           const impossible = Boolean(impossibleByTeam && impossibleByTeam[t] && impossibleByTeam[t][pos]);
           const hasExample = Boolean(examplesByTeam[t] && examplesByTeam[t][pos]);
+          const hadTimeout = Boolean(timeoutsByTeam[t] && timeoutsByTeam[t][pos]);
           const td = document.createElement("td");
-          td.textContent = formatPctCell(p, impossible, hasExample);
+          td.textContent = formatPctCell(p, impossible, hasExample, hadTimeout);
 
-          if (!impossible && (p > 0 || hasExample)) {
+          if (!impossible && (p > 0 || hasExample || hadTimeout)) {
             td.classList.add("clickable-cell");
             td.dataset.team = t;
             td.dataset.pos = String(pos);
@@ -1463,6 +1476,8 @@ Position probabilities for the season.
         const key = `${data.season}|${divisionName}`;
         window.tableProbsFixtures[key] = tierData.fixtures || [];
         window.tableProbsExamples[key] = tierData.examples || {};
+        window.tableProbsIlpTimeouts = window.tableProbsIlpTimeouts || {};
+        window.tableProbsIlpTimeouts[key] = tierData.ilpTimeouts || {};
         window.tableProbsTeams[key] = teams;
         window.tableProbsBasePoints[key] = tierData.basePoints || [];
 
@@ -1589,6 +1604,8 @@ Position probabilities for the season.
             const key = `${latestSeason}|${divisionName}`;
             window.tableProbsFixtures[key] = fixturePairs;
             window.tableProbsExamples[key] = simResult.examples || {};
+            window.tableProbsIlpTimeouts = window.tableProbsIlpTimeouts || {};
+            window.tableProbsIlpTimeouts[key] = simResult.ilpTimeouts || {};
             window.tableProbsTeams[key] = teams;
             window.tableProbsBasePoints[key] = basePoints;
 

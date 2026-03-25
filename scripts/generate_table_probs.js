@@ -863,6 +863,7 @@ async function main() {
     const simResult = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
     const posProbs = simResult.posProbs;
     let examples = simResult.examples;
+    const ilpTimeouts = {};
 
     const remainingCounts = new Array(teams.length).fill(0);
     for (const f of fixtures) {
@@ -888,6 +889,7 @@ async function main() {
     if (!Number.isFinite(ilpCaseSeconds) || ilpCaseSeconds <= 0) ilpCaseSeconds = Number.POSITIVE_INFINITY;
     let ilpCount = 0;
     const missing = [];
+    for (const t of teams) ilpTimeouts[t] = {};
     for (let ti = 0; ti < teams.length; ti++) {
       const team = teams[ti];
       const poss = possible[team] || [];
@@ -916,6 +918,7 @@ async function main() {
       const solveResult = await solvePositionWithILPWithTimeout(teams, fixtures, basePoints, ti, pos, timeoutMs);
       if (solveResult.status === "timeout") {
         console.log(`ILP case timeout after ${ilpCaseSeconds}s: ${team} @ ${pos}`);
+        if (ilpTimeouts[team]) ilpTimeouts[team][pos] = true;
       } else if (solveResult.status === "error") {
         console.log(`ILP case error: ${team} @ ${pos} (${solveResult.error || "unknown"})`);
       }
@@ -929,7 +932,7 @@ async function main() {
         } else {
           console.log(`ILP example failed rank check: ${team} @ ${pos}`);
         }
-      } else if (impossible[team]) {
+      } else if (impossible[team] && solveResult.status === "ok") {
         // Verified infeasible with full fixture constraints.
         impossible[team][pos] = true;
         if (possible[team]) possible[team][pos] = false;
@@ -969,6 +972,7 @@ async function main() {
       posProbs: posProbsPlain,
       examples,
       impossible,
+      ilpTimeouts,
     });
   }
 
