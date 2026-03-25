@@ -1033,7 +1033,8 @@ Position probabilities for the season.
         const p = document.createElement("div");
         const timeouts = (window.tableProbsIlpTimeouts && window.tableProbsIlpTimeouts[key]) || {};
         const hadTimeout = Boolean(timeouts[team] && timeouts[team][pos]);
-        if (hadTimeout) {
+        const cellP = typeof pos === "number" ? (window.tableProbsLastP || 0) : 0;
+        if (hadTimeout || cellP === 0) {
           p.textContent = "Whilst this is mathematically possible the probability is vanishingly small, and within 1,000,000 simulations no exact example was found.";
         } else {
           p.textContent = "No example outcome was found for this position after additional simulations.";
@@ -1283,14 +1284,16 @@ Position probabilities for the season.
           const td = document.createElement("td");
           td.textContent = formatPctCell(p, impossible, hasExample, hadTimeout);
 
-          if (!impossible && (p > 0 || hasExample || hadTimeout)) {
+          if (!impossible) {
             td.classList.add("clickable-cell");
             td.dataset.team = t;
             td.dataset.pos = String(pos);
             td.dataset.division = divisionName;
             td.dataset.season = seasonStr;
+            td.dataset.p = String(p);
 
             td.addEventListener("click", () => {
+              window.tableProbsLastP = p;
               showExampleModal(divisionName, seasonStr, t, pos);
             });
 
