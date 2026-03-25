@@ -15,16 +15,67 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check CSV freshness
+        id: freshness
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv
+          import json
+          import os
+          import urllib.request
+
+          CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv"
+          JSON_PATH = os.path.join("assets", "data", "tableProbs.json")
+
+          def latest_csv_date():
+            with urllib.request.urlopen(CSV_URL) as resp:
+              text = resp.read().decode("utf-8", errors="ignore")
+            reader = csv.reader(text.splitlines())
+            header = next(reader, None)
+            if not header:
+              return ""
+            try:
+              date_idx = header.index("Date")
+            except ValueError:
+              return ""
+            last_date = ""
+            for row in reader:
+              if not row:
+                continue
+              if len(row) > date_idx and row[date_idx]:
+                last_date = row[date_idx]
+            return last_date
+
+          def last_json_date():
+            if not os.path.exists(JSON_PATH):
+              return ""
+            with open(JSON_PATH, "r", encoding="utf-8") as f:
+              data = json.load(f)
+            return data.get("last_result_date", "") or ""
+
+          csv_date = latest_csv_date()
+          json_date = last_json_date()
+          should_run = bool(csv_date) and csv_date != json_date
+          if not json_date:
+            should_run = True
+          print(f"run={'true' if should_run else 'false'}")
+          print(f"csv_date={csv_date}")
+          print(f"json_date={json_date}")
+          PY
+
       - name: Setup Node
+        if: steps.freshness.outputs.run == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
 
       - name: Install dependencies
+        if: steps.freshness.outputs.run == 'true'
         run: npm ci
 
       - name: Generate table probabilities
+        if: steps.freshness.outputs.run == 'true'
         run: node scripts/generate_table_probs.js
         env:
           SIMS: "1000000"
@@ -33,6 +84,7 @@ jobs:
           ILP_CASE_SECONDS: "90"
 
       - name: Commit and push if changed
+        if: steps.freshness.outputs.run == 'true'
         run: |
           if git diff --quiet; then
             echo "No changes to commit."
