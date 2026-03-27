@@ -225,6 +225,7 @@ nav: false
     .example-modal__body {
       padding: 12px 16px;
       overflow: auto;
+      color: #111;
     }
 
     .example-section {
@@ -1189,6 +1190,20 @@ Position probabilities for the season.
       const examplesByTeam = (window.tableProbsExamples && window.tableProbsExamples[examplesKey]) || {};
       const timeoutsByTeam = (window.tableProbsIlpTimeouts && window.tableProbsIlpTimeouts[examplesKey]) || {};
 
+      function isMiddleImpossible(teamName, pos) {
+        const arr = (impossibleByTeam && impossibleByTeam[teamName]) || [];
+        if (!arr[pos]) return false;
+        let leftPossible = false;
+        for (let i = pos - 1; i >= 1; i--) {
+          if (!arr[i]) { leftPossible = true; break; }
+        }
+        if (!leftPossible) return false;
+        for (let i = pos + 1; i <= N; i++) {
+          if (!arr[i]) return true;
+        }
+        return false;
+      }
+
       const block = document.createElement("div");
       block.className = "tier-block";
       block.classList.add(isSmallScreen() ? "view-mobile" : "view-full");
@@ -1278,7 +1293,8 @@ Position probabilities for the season.
 
         for (let pos = 1; pos <= N; pos++) {
           const p = (posProbs[t] && posProbs[t][pos]) ? posProbs[t][pos] : 0;
-          const impossible = Boolean(impossibleByTeam && impossibleByTeam[t] && impossibleByTeam[t][pos]);
+          let impossible = Boolean(impossibleByTeam && impossibleByTeam[t] && impossibleByTeam[t][pos]);
+          if (impossible && isMiddleImpossible(t, pos)) impossible = false;
           const hasExample = Boolean(examplesByTeam[t] && examplesByTeam[t][pos]);
           const hadTimeout = Boolean(timeoutsByTeam[t] && timeoutsByTeam[t][pos]);
           const td = document.createElement("td");
