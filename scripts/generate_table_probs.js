@@ -141,7 +141,6 @@ function mulberry32(seed) {
   };
 }
 
-
 function fillMissingExamples(teams, fixtures, basePoints, examples, possibleByTeam, seedKey) {
   const N = teams.length;
   const missing = new Set();
@@ -215,7 +214,6 @@ function fillMissingExamples(teams, fixtures, basePoints, examples, possibleByTe
   return examples;
 }
 
-
 function buildDeterministicResults(teams, fixtures, targetIndex, mode) {
   const results = new Uint8Array(fixtures.length);
 
@@ -255,8 +253,11 @@ function rankFromResults(teams, fixtures, basePoints, results) {
     const f = fixtures[i];
     const code = results[i];
     if (code === 0) pts[f.h] += 3;
-    else if (code === 1) { pts[f.h] += 1; pts[f.a] += 1; }
-    else pts[f.a] += 3;
+    else if (code === 1) {
+      pts[f.h] += 1;
+      pts[f.a] += 1;
+    } else pts[f.a] += 3;
+  }
   }
 
   const indices = new Array(N);
@@ -411,7 +412,6 @@ function fillMissingExamplesImportance(teams, fixtures, basePoints, examples, po
   return examples;
 }
 
-
 function reverseSearchExamples(teams, fixtures, basePoints, examples, possibleByTeam, seedKey) {
   const N = teams.length;
   const maxTries = Number.parseInt(process.env.REVERSE_MAX_TRIES || "30000", 10);
@@ -450,7 +450,6 @@ function reverseSearchExamples(teams, fixtures, basePoints, examples, possibleBy
   return examples;
 }
 
-
 function solvePositionWithILP(teams, fixtures, basePoints, targetIndex, targetPos) {
   const model = {
     optimize: "obj",
@@ -470,7 +469,7 @@ function solvePositionWithILP(teams, fixtures, basePoints, targetIndex, targetPo
   const maxBase = Math.max(...basePoints);
   const minBase = Math.min(...basePoints);
   const maxRem = Math.max(...remainingCounts);
-  const M = (maxBase + 3 * maxRem) - minBase;
+  const M = maxBase + 3 * maxRem - minBase;
 
   function addVar(name, coeffs) {
     if (!model.variables[name]) model.variables[name] = { obj: 0 };
@@ -585,12 +584,15 @@ function solvePositionWithILPWithTimeout(teams, fixtures, basePoints, targetInde
     const worker = new Worker(workerPath);
     let settled = false;
 
-    const timer = Number.isFinite(timeoutMs) && timeoutMs > 0 ? setTimeout(() => {
-      if (settled) return;
-      settled = true;
-      worker.terminate();
-      resolve({ status: "timeout", res: null });
-    }, timeoutMs) : null;
+    const timer =
+      Number.isFinite(timeoutMs) && timeoutMs > 0
+        ? setTimeout(() => {
+            if (settled) return;
+            settled = true;
+            worker.terminate();
+            resolve({ status: "timeout", res: null });
+          }, timeoutMs)
+        : null;
 
     worker.on("message", (msg) => {
       if (settled) return;
@@ -640,7 +642,6 @@ function validateExampleRank(teams, fixtures, basePoints, results, targetIndex, 
   const pos = indices.indexOf(targetIndex) + 1;
   return pos === targetPos;
 }
-
 
 function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedKey) {
   const N = teams.length;
@@ -903,7 +904,11 @@ async function main() {
     const ilpStart = Date.now();
     const ilpTarget = Math.min(missing.length, Number.isFinite(ilpMax) ? ilpMax : missing.length);
     const ilpTimings = [];
-    console.log(`ILP: ${missing.length} missing cases, max ${Number.isFinite(ilpMax) ? ilpMax : 'unlimited'}, budget ${Number.isFinite(ilpSeconds) ? ilpSeconds + 's' : 'unlimited'}`);
+    console.log(
+      `ILP: ${missing.length} missing cases, max ${Number.isFinite(ilpMax) ? ilpMax : "unlimited"}, budget ${
+        Number.isFinite(ilpSeconds) ? ilpSeconds + "s" : "unlimited"
+      }`
+    );
     for (const [ti, pos] of missing) {
       if (ilpCount >= ilpMax) break;
       const elapsedSeconds = (Date.now() - ilpStart) / 1000;
@@ -953,7 +958,7 @@ async function main() {
       console.log("ILP slowest cases:");
       for (const t of topTimings) {
         const secs = (t.ms / 1000).toFixed(2);
-        const status = t.status || (t.feasible ? 'feasible' : 'infeasible');
+        const status = t.status || (t.feasible ? "feasible" : "infeasible");
         console.log(`  ${t.team} @ ${t.pos}: ${secs}s (${status})`);
       }
     }
