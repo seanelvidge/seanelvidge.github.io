@@ -321,7 +321,6 @@ Position probabilities for the season.
 
   <div id="tables"></div>
 
-
   <div id="example-modal" class="example-modal" aria-hidden="true">
     <div class="example-modal__inner">
       <div class="example-modal__header">
