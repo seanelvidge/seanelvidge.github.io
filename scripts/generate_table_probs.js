@@ -1,2 +1,992 @@
 #!/usr/bin/env node
-function seasonStartYearFromSeasonStr(e){const t=String(e||"").match(/^(\d{4})\s*\/\s*(\d{4})$/);if(t)return Number.parseInt(t[1],10);const n=String(e||"").match(/(\d{4})/);return n?Number.parseInt(n[1],10):(new Date).getFullYear()}function clamp(e,t,n){return Math.max(t,Math.min(n,e))}function safeProbs(e,t=.001){const n=e.map(e=>clamp(+e,t,1-t)),o=n.reduce((e,t)=>e+t,0);return n.map(e=>e/o)}function eloToSkill(e,t=.9,n=1e3,o=2,s=0){return(e-n)/(ELO_PER_NAT_LOGIT*t*o)+s}function eraProbsFromYear(e){const t=-.141579*(e-1888)+60.5636,n=.075714*(e-1888)+19.4769,o=.065851*(e-1888)+19.9608,s=Math.max(t,.001),r=Math.max(o,.001),a=Math.max(n,.001),i=s+r+a;return[s/i,r/i,a/i]}function deltaBaseAndKappa(e){const[t,n,o]=eraProbsFromYear(e),s=.5*Math.log(t/o);return[s,n/(1-n)*2*Math.cosh(s)]}function predictProbs(e,t,n,o=1){const[s,r]=deltaBaseAndKappa(n),a=o*(e-t)+s,i=Math.exp(a),l=Math.exp(-a),c=i+l+r;return[i/c,r/c,l/c]}function matchProbabilities(e,t,n,o=.9){const s=.997;return safeProbs(predictProbs(s*eloToSkill(e,o)+(1-s),s*eloToSkill(t,o)+(1-s),n,o),.001)}function latestElosByScanningBackwards(e,t){const n=new Set(t),o={};for(let t=e.length-1;t>=0&&0!==n.size;t--){const s=e[t],r=s.HomeTeam,a=s.AwayTeam;if(n.has(r)){const e=Number.parseFloat(s.HomeRank_after);Number.isFinite(e)&&(o[r]=e,n.delete(r))}if(n.has(a)){const e=Number.parseFloat(s.AwayRank_after);Number.isFinite(e)&&(o[a]=e,n.delete(a))}}return o}function inferRemainingFixturesDoubleRoundRobin(e,t){const n=new Set;for(const t of e)n.add(`${t.HomeTeam}|||${t.AwayTeam}`);const o=[];for(const e of t)for(const s of t){if(e===s)continue;const t=`${e}|||${s}`;n.has(t)||o.push([e,s])}return o}function hashStringToSeed(e){let t=1779033703^e.length;for(let n=0;n<e.length;n++)t=Math.imul(t^e.charCodeAt(n),3432918353),t=t<<13|t>>>19;return()=>(t=Math.imul(t^t>>>16,2246822507),t=Math.imul(t^t>>>13,3266489909),(t^=t>>>16)>>>0)}function mulberry32(e){return function(){let t=e+=1831565813;return t=Math.imul(t^t>>>15,1|t),t^=t+Math.imul(t^t>>>7,61|t),((t^t>>>14)>>>0)/4294967296}}function fillMissingExamples(e,t,n,o,s,r){const a=e.length,i=new Set;for(const t of e){const e=s[t]||[];for(let n=1;n<=a;n++)!e[n]||o[t]&&o[t][n]||i.add(`${t}|||${n}`)}if(!i.size)return o;const l=Number.parseInt(process.env.EXAMPLE_MAX_SIMS||"200000",10),c=5e3;let m=0;for(;i.size>0&&m<l;){const s=mulberry32(hashStringToSeed(`${r}|extra|${m}`)());for(let r=0;r<c&&m<l;r++,m++){const r=new Float64Array(a);for(let e=0;e<a;e++)r[e]=n[e]||0;const l=new Uint8Array(t.length);for(let e=0;e<t.length;e++){const n=t[e],o=s();o<n.pH?(r[n.h]+=3,l[e]=0):o<n.pH+n.pD?(r[n.h]+=1,r[n.a]+=1,l[e]=1):(r[n.a]+=3,l[e]=2)}const c=new Array(a);for(let e=0;e<a;e++)c[e]=e;c.sort((e,t)=>r[t]-r[e]);let m=0;for(;m<a;){let e=m+1;for(;e<a&&r[c[e]]===r[c[m]];)e++;for(let t=e-1;t>m;t--){const e=m+Math.floor(s()*(t-m+1)),n=c[t];c[t]=c[e],c[e]=n}m=e}for(let t=1;t<=a;t++){const n=e[c[t-1]],s=`${n}|||${t}`;i.has(s)&&(o[n]||(o[n]={}),o[n][t]=Array.from(l),i.delete(s))}}}return o}function buildDeterministicResults(e,t,n,o){const s=new Uint8Array(t.length);for(let e=0;e<t.length;e++){const r=t[e],a=r.h,i=r.a;if(a===n||i===n){const t=a===n;s[e]="win"===o?t?0:2:t?2:0;continue}const l=r.pH,c=r.pD,m=r.pA;s[e]=l>=c&&l>=m?0:c>=l&&c>=m?1:2}return Array.from(s)}function rankFromResults(e,t,n,o){const s=e.length,r=new Float64Array(s);for(let e=0;e<s;e++)r[e]=n[e]||0;for(let e=0;e<t.length;e++){const n=t[e],s=o[e];0===s?r[n.h]+=3:1===s?(r[n.h]+=1,r[n.a]+=1):r[n.a]+=3}const a=new Array(s);for(let e=0;e<s;e++)a[e]=e;return a.sort((t,n)=>r[n]!==r[t]?r[n]-r[t]:e[t].localeCompare(e[n])),a}function addExtremeExamples(e,t,n,o,s){for(let r=0;r<e.length;r++)for(const a of["win","lose"]){const i=buildDeterministicResults(e,t,r,a),l=rankFromResults(e,t,n,i).indexOf(r)+1;if(l<1)continue;const c=e[r];s&&s[c]&&!s[c][l]||(o[c]||(o[c]={}),o[c][l]||(o[c][l]=i))}return o}function sampleSeasonWithTilt(e,t,n,o,s,r){const a=e.length,i=new Float64Array(a);for(let e=0;e<a;e++)i[e]=n[e]||0;const l=new Uint8Array(t.length);for(let e=0;e<t.length;e++){const n=t[e];let a=n.pH,c=n.pD,m=n.pA;if(null!==s&&(n.h===s||n.a===s)){let e=1,t=1,o=1;"up"===r?(e=2,t=1,o=.5):"down"===r&&(e=.5,t=1,o=2),n.h===s?(a*=e,c*=t,m*=o):(a*=o,c*=t,m*=e);const i=a+c+m;a/=i,c/=i,m/=i}const f=o();f<a?(i[n.h]+=3,l[e]=0):f<a+c?(i[n.h]+=1,i[n.a]+=1,l[e]=1):(i[n.a]+=3,l[e]=2)}const c=new Array(a);for(let e=0;e<a;e++)c[e]=e;c.sort((e,t)=>i[t]-i[e]);let m=0;for(;m<a;){let e=m+1;for(;e<a&&i[c[e]]===i[c[m]];)e++;for(let t=e-1;t>m;t--){const e=m+Math.floor(o()*(t-m+1)),n=c[t];c[t]=c[e],c[e]=n}m=e}return{indices:c,results:Array.from(l)}}function fillMissingExamplesImportance(e,t,n,o,s,r){const a=e.length,i=new Set;for(const t of e){const e=s[t]||[];for(let n=1;n<=a;n++)!e[n]||o[t]&&o[t][n]||i.add(`${t}|||${n}`)}if(!i.size)return o;const l=Number.parseInt(process.env.IMPORTANCE_MAX_SIMS||"200000",10),c=5e3,m=["up","down","neutral"];for(let s=0;s<e.length&&i.size>0;s++){const f=e[s],u=new Set;for(let e=1;e<=a;e++){const t=`${f}|||${e}`;i.has(t)&&u.add(e)}if(!u.size)continue;let h=0;for(const a of m){if(!u.size)break;const m=mulberry32(hashStringToSeed(`${r}|importance|${f}|${a}`)());for(let r=0;r<c&&h<l;r++,h++){const r=sampleSeasonWithTilt(e,t,n,m,s,"neutral"===a?null:s),l=r.indices.indexOf(s)+1;if(u.has(l)&&(o[f]||(o[f]={}),o[f][l]=r.results,u.delete(l),i.delete(`${f}|||${l}`),!u.size))break}}}return o}function reverseSearchExamples(e,t,n,o,s,r){const a=e.length,i=Number.parseInt(process.env.REVERSE_MAX_TRIES||"30000",10);for(let l=0;l<e.length;l++){const c=e[l],m=s[c]||[];for(let s=1;s<=a;s++){if(!m[s])continue;if(o[c]&&o[c][s])continue;const f=mulberry32(hashStringToSeed(`${r}|reverse|${c}|${s}`)());let u=s<=Math.ceil(a/2)?"up":"down";for(let r=0;r<i;r++){const r=sampleSeasonWithTilt(e,t,n,f,l,u),a=r.indices.indexOf(l)+1;if(a===s){o[c]||(o[c]={}),o[c][s]=r.results;break}a<s?u="down":a>s&&(u="up")}}}return o}function solvePositionWithILP(e,t,n,o,s){function r(e,t){i.variables[e]||(i.variables[e]={obj:0});for(const[n,o]of Object.entries(t))i.variables[e][n]=(i.variables[e][n]||0)+o}function a(e){const n={};for(let o=0;o<t.length;o++){const s=t[o];s.h===e?(n[`m${o}_H`]=(n[`m${o}_H`]||0)+3,n[`m${o}_D`]=(n[`m${o}_D`]||0)+1):s.a===e&&(n[`m${o}_A`]=(n[`m${o}_A`]||0)+3,n[`m${o}_D`]=(n[`m${o}_D`]||0)+1)}return n}const i={optimize:"obj",opType:"max",constraints:{},variables:{},binaries:{}};i.constraints.obj={max:0};const l=new Array(e.length).fill(0);for(const e of t)l[e.h]+=1,l[e.a]+=1;const c=Math.max(...n),m=Math.min(...n),f=c+3*Math.max(...l)-m;for(let e=0;e<t.length;e++){const t=`m${e}_H`,n=`m${e}_D`,o=`m${e}_A`;i.constraints[`m${e}_sum`]={min:1,max:1},r(t,{[`m${e}_sum`]:1}),r(n,{[`m${e}_sum`]:1}),r(o,{[`m${e}_sum`]:1}),i.binaries[t]=1,i.binaries[n]=1,i.binaries[o]=1}const u=e.map((e,t)=>a(t));for(let t=0;t<e.length;t++){if(t===o)continue;const e=`g_${t}`,s=`l_${t}`,a=`e_${t}`;i.binaries[e]=1,i.binaries[s]=1,i.binaries[a]=1,i.constraints[`cmp_sum_${t}`]={min:1,max:1},r(e,{[`cmp_sum_${t}`]:1}),r(s,{[`cmp_sum_${t}`]:1}),r(a,{[`cmp_sum_${t}`]:1});const l=`diff_ge_${t}`,c=`diff_le_${t}`,m=`diff_eq_hi_${t}`,h=`diff_eq_lo_${t}`;i.constraints[l]={min:1-f},i.constraints[c]={max:-1+f},i.constraints[m]={max:f},i.constraints[h]={min:-f},r(e,{[l]:-f}),r(s,{[c]:f}),r(a,{[m]:f,[h]:-f});for(const[e,n]of Object.entries(u[t]))r(e,{[l]:n,[c]:n,[m]:n,[h]:n});for(const[e,t]of Object.entries(u[o]))r(e,{[l]:-t,[c]:-t,[m]:-t,[h]:-t});const p=n[t]-n[o];i.constraints[l].min=1-f-p,i.constraints[c].max=-1+f-p,i.constraints[m].max=f-p,i.constraints[h].min=-f-p}i.constraints.g_sum_max={max:s-1},i.constraints.ge_sum_min={min:s-1};for(let t=0;t<e.length;t++)t!==o&&(r(`g_${t}`,{g_sum_max:1,ge_sum_min:1}),r(`e_${t}`,{ge_sum_min:1}));const h=lpSolver.Solve(i);if(!h.feasible)return null;const p=[];for(let e=0;e<t.length;e++){const t=`m${e}_D`;1===h[`m${e}_H`]?p[e]=0:1===h[t]?p[e]=1:p[e]=2}return p}function solvePositionWithILPWithTimeout(e,t,n,o,s,r){return new Promise(a=>{const i=path.join(__dirname,"ilp_worker.js"),l=new Worker(i);let c=!1;const m=Number.isFinite(r)&&r>0?setTimeout(()=>{c||(c=!0,l.terminate(),a({status:"timeout",res:null}))},r):null;l.on("message",e=>{c||(c=!0,m&&clearTimeout(m),l.terminate(),e&&e.ok?a({status:"ok",res:e.res||null}):a({status:"error",res:null,error:e&&e.error}))}),l.on("error",e=>{c||(c=!0,m&&clearTimeout(m),l.terminate(),a({status:"error",res:null,error:String(e&&e.message?e.message:e)}))}),l.postMessage({teams:e,fixtures:t,basePoints:n,targetIndex:o,targetPos:s})})}function computePointsFromResults(e,t,n,o){const s=new Float64Array(e.length);for(let t=0;t<e.length;t++)s[t]=n[t];for(let e=0;e<t.length;e++){const n=t[e],r=o[e];0===r?s[n.h]+=3:1===r?(s[n.h]+=1,s[n.a]+=1):s[n.a]+=3}return s}function validateExampleRank(e,t,n,o,s,r){if(!o||o.length!==t.length)return!1;const a=computePointsFromResults(e,t,n,o),i=new Array(e.length);for(let t=0;t<e.length;t++)i[t]=t;i.sort((e,t)=>a[t]-a[e]);return i.indexOf(s)+1===r}function computePositionProbabilitiesMC(e,t,n,o,s){const r=e.length,a={};for(const t of e)a[t]=new Float64Array(r+1);const i={};for(const t of e)i[t]={};const l=mulberry32(hashStringToSeed(s)()),c=new Float64Array(r);for(let e=0;e<r;e++)c[e]=t[e];const m=new Array(r);for(let e=0;e<r;e++)m[e]=e;for(let t=0;t<o;t++){const t=c.slice(),o=new Uint8Array(n.length);for(let e=0;e<n.length;e++){const s=n[e],r=l();r<s.pH?(t[s.h]+=3,o[e]=0):r<s.pH+s.pD?(t[s.h]+=1,t[s.a]+=1,o[e]=1):(t[s.a]+=3,o[e]=2)}m.sort((e,n)=>t[n]-t[e]);let s=0;for(;s<r;){let e=s+1;for(;e<r&&t[m[e]]===t[m[s]];)e++;for(let t=e-1;t>s;t--){const e=s+Math.floor(l()*(t-s+1)),n=m[t];m[t]=m[e],m[e]=n}s=e}for(let t=1;t<=r;t++){const n=e[m[t-1]];a[n][t]+=1,i[n][t]||(i[n][t]=Array.from(o))}}const f={};for(const t of e){const e=new Float64Array(r+1);for(let n=1;n<=r;n++)e[n]=a[t][n]/o;f[t]=e}return{posProbs:f,examples:i}}function computeImpossiblePositions(e,t,n){const o=e.length,s=new Float64Array(o),r=new Float64Array(o);for(let e=0;e<o;e++)s[e]=t[e],r[e]=t[e]+3*n[e];const a={};for(let t=0;t<o;t++){const n=e[t],i=new Array(o+1).fill(!1);let l=0,c=0;for(let e=0;e<o;e++)e!==t&&(s[e]>r[t]&&l++,r[e]>=s[t]&&c++);for(let e=1;e<=o;e++)(e<=l||c<e-1)&&(i[e]=!0);a[n]=i}return a}function computePointsSoFar(e,t,n){const o=new Set;for(const t of e)o.add(t.HomeTeam),o.add(t.AwayTeam);const s={};for(const e of o)s[e]=0;for(const t of e){const e=t.HomeTeam,n=t.AwayTeam,o=String(t.Result||"");"H"===o?s[e]+=3:"A"===o?s[n]+=3:"D"===o&&(s[e]+=1,s[n]+=1)}const r=t[String(n||"").trim()]||{};for(const e of o)Number.isFinite(r[e])&&(s[e]+=r[e]);return s}async function fetchText(e){const t=await fetch(e);if(!t.ok)throw new Error(`Failed to fetch ${e}: ${t.status}`);return t.text()}async function main(){const[e,t]=await Promise.all([fetchText(CSV_URL),fetchText(DEDUCT_CSV_URL)]),n=Papa.parse(e,{header:!0,skipEmptyLines:!0}).data;if(!n.length)throw new Error("No CSV rows loaded.");const o=n[n.length-1].Season,s=seasonStartYearFromSeasonStr(o),r=Papa.parse(t,{header:!0,skipEmptyLines:!0}).data,a={};for(const e of r){const t=String(e.Season||"").trim(),n=String(e.Team||"").trim();if(!t||!n)continue;const o=Number.parseFloat(e.Pts_deducted);Number.isFinite(o)&&0!==o&&(a[t]||(a[t]={}),a[t][n]||(a[t][n]=0),a[t][n]-=o)}const i={generated_at:(new Date).toISOString(),sims:SIMS,season:o,last_result_date:n[n.length-1].Date||"",tiers:[]};for(const e of TIERS){const t=n.filter(t=>String(t.Season)===String(o)&&String(t.Tier)===String(e));if(!t.length)continue;const r=new Set(t.map(e=>e.Division).filter(Boolean)),l=r.size?Array.from(r)[0]:`Tier ${e}`,c=t.filter(e=>"H"===e.Result||"D"===e.Result||"A"===e.Result),m=new Set;for(const e of c)m.add(e.HomeTeam),m.add(e.AwayTeam);const f=Array.from(m).sort();if(f.length<2)continue;const u=computePointsSoFar(c,a,o),h=latestElosByScanningBackwards(t,f),p=inferRemainingFixturesDoubleRoundRobin(c,f),g=new Map;for(let e=0;e<f.length;e++)g.set(f[e],e);const d=[];for(const[e,t]of p){const n=h[e],o=h[t];if(!Number.isFinite(n)||!Number.isFinite(o))continue;const[r,a,i]=matchProbabilities(n,o,s,.9);d.push({h:g.get(e),a:g.get(t),pH:r,pD:a,pA:i})}const b=f.map(e=>u[e]||0),_=`${o}|${e}|${f.length}|${d.length}|${SIMS}`,S=computePositionProbabilitiesMC(f,b,d,SIMS,_),$=S.posProbs;let w=S.examples;const A={},P=new Array(f.length).fill(0);for(const e of d)P[e.h]+=1,P[e.a]+=1;const T=computeImpossiblePositions(f,b,P),x={};for(const e of f)x[e]=(T[e]||[]).map(e=>!e);w=addExtremeExamples(f,d,b,w,x),w=fillMissingExamples(f,d,b,w,x,_),w=fillMissingExamplesImportance(f,d,b,w,x,_),w=reverseSearchExamples(f,d,b,w,x,_);let I=Number.parseInt(process.env.ILP_MAX_CASES||"1000",10);(!Number.isFinite(I)||I<=0)&&(I=Number.POSITIVE_INFINITY);let y=Number.parseFloat(process.env.ILP_MAX_SECONDS||"900");(!Number.isFinite(y)||y<=0)&&(y=Number.POSITIVE_INFINITY);let F=Number.parseFloat(process.env.ILP_CASE_SECONDS||"90");(!Number.isFinite(F)||F<=0)&&(F=Number.POSITIVE_INFINITY);let M=0;const E=[];for(const e of f)A[e]={};for(let e=0;e<f.length;e++){const t=f[e],n=x[t]||[];for(let o=1;o<=f.length;o++)n[o]&&(w[t]&&w[t][o]||E.push([e,o]))}const N=Date.now(),D=Math.min(E.length,Number.isFinite(I)?I:E.length),R=[];console.log(`ILP: ${E.length} missing cases, max ${Number.isFinite(I)?I:"unlimited"}, budget ${Number.isFinite(y)?y+"s":"unlimited"}`);for(const[e,t]of E){if(M>=I)break;const n=(Date.now()-N)/1e3;if(n>=y){console.log(`ILP budget reached after ${n.toFixed(1)}s, stopping early.`);break}const o=f[e];console.log(`ILP case ${M+1}/${D}: ${o} @ ${t}`);const s=Date.now(),r=1e3*F,a=await solvePositionWithILPWithTimeout(f,d,b,e,t,r);"timeout"===a.status?(console.log(`ILP case timeout after ${F}s: ${o} @ ${t}`),A[o]&&(A[o][t]=!0)):"error"===a.status&&console.log(`ILP case error: ${o} @ ${t} (${a.error||"unknown"})`);const i=a.res,l=Date.now()-s;if(R.push({team:o,pos:t,ms:l,feasible:!!i,status:a.status}),i?validateExampleRank(f,d,b,i,e,t)?(w[o]||(w[o]={}),w[o][t]=i):console.log(`ILP example failed rank check: ${o} @ ${t}`):T[o]&&"ok"===a.status&&(T[o][t]=!0,x[o]&&(x[o][t]=!1)),M+=1,M%10==0){const e=(Date.now()-N)/1e3,t=e>0?M/e:0,n=Math.max(D-M,0),o=t>0?n/t:0;console.log(`ILP progress: ${M}/${D} (elapsed ${e.toFixed(1)}s, eta ${o.toFixed(1)}s)`)}}R.sort((e,t)=>t.ms-e.ms);const k=R.slice(0,10);if(k.length){console.log("ILP slowest cases:");for(const e of k){const t=(e.ms/1e3).toFixed(2),n=e.status||(e.feasible?"feasible":"infeasible");console.log(`  ${e.team} @ ${e.pos}: ${t}s (${n})`)}}const v={};for(const e of f)v[e]=Array.from($[e]||[]);const L=d.map(e=>[e.h,e.a,e.pH,e.pD,e.pA]);i.tiers.push({tier:e,division:l,teams:f,basePoints:b,fixtures:L,posProbs:v,examples:w,impossible:T,ilpTimeouts:A})}fs.mkdirSync(path.dirname(OUT_PATH),{recursive:!0}),fs.writeFileSync(OUT_PATH,JSON.stringify(i)),console.log(`Wrote ${OUT_PATH}`)}const fs=require("fs"),path=require("path"),{Worker:Worker}=require("worker_threads"),Papa=require("papaparse"),lpSolver=require("javascript-lp-solver"),CSV_URL="https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv",DEDUCT_CSV_URL="https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv",TIERS=[1,2,3,4],SIMS=Number.parseInt(process.env.SIMS||"1000000",10),OUT_PATH=path.join(process.cwd(),"assets","data","tableProbs.json"),ELO_PER_NAT_LOGIT=400/Math.log(10);main().catch(e=>{console.error(e),process.exit(1)});
+/* eslint-disable no-console */
+const fs = require("fs");
+const path = require("path");
+const { Worker } = require("worker_threads");
+const Papa = require("papaparse");
+const lpSolver = require("javascript-lp-solver");
+
+const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
+const DEDUCT_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv";
+const TIERS = [1, 2, 3, 4];
+
+const SIMS = Number.parseInt(process.env.SIMS || "1000000", 10);
+const OUT_PATH = path.join(process.cwd(), "assets", "data", "tableProbs.json");
+
+const ELO_PER_NAT_LOGIT = 400.0 / Math.log(10.0);
+
+function seasonStartYearFromSeasonStr(seasonStr) {
+  const m = String(seasonStr || "").match(/^(\d{4})\s*\/\s*(\d{4})$/);
+  if (m) return Number.parseInt(m[1], 10);
+  const m2 = String(seasonStr || "").match(/(\d{4})/);
+  return m2 ? Number.parseInt(m2[1], 10) : new Date().getFullYear();
+}
+
+function clamp(x, lo, hi) {
+  return Math.max(lo, Math.min(hi, x));
+}
+
+function safeProbs(arr, floor = 1e-3) {
+  const p = arr.map((v) => clamp(+v, floor, 1 - floor));
+  const s = p.reduce((a, b) => a + b, 0);
+  return p.map((v) => v / s);
+}
+
+function eloToSkill(elo, beta = 0.9, base = 1000.0, mult = 2.0, offset = 0.0) {
+  const S = ELO_PER_NAT_LOGIT * beta * mult;
+  return (elo - base) / S + offset;
+}
+
+function eraProbsFromYear(year) {
+  const h = (year - 1888) * -0.141579 + 60.5636;
+  const a = (year - 1888) * 0.075714 + 19.4769;
+  const d = (year - 1888) * 0.065851 + 19.9608;
+  const pH = Math.max(h, 0.001);
+  const pD = Math.max(d, 0.001);
+  const pA = Math.max(a, 0.001);
+  const s = pH + pD + pA;
+  return [pH / s, pD / s, pA / s];
+}
+
+function deltaBaseAndKappa(year) {
+  const [pH, pD, pA] = eraProbsFromYear(year);
+  const DeltaBase = 0.5 * Math.log(pH / pA);
+  const kappa = (pD / (1 - pD)) * 2.0 * Math.cosh(DeltaBase);
+  return [DeltaBase, kappa];
+}
+
+function predictProbs(sH, sA, year, beta = 1.0) {
+  const [DeltaBase, kappa] = deltaBaseAndKappa(year);
+  const DeltaStar = beta * (sH - sA) + DeltaBase;
+  const u = Math.exp(DeltaStar);
+  const v = Math.exp(-DeltaStar);
+  const Den = u + v + kappa;
+  const pH = u / Den;
+  const pA = v / Den;
+  const pD = kappa / Den;
+  return [pH, pD, pA];
+}
+
+function matchProbabilities(homeElo, awayElo, seasonStartYear, beta = 0.9) {
+  const sH = eloToSkill(homeElo, beta);
+  const sA = eloToSkill(awayElo, beta);
+  const rho = 0.997;
+  const xH = rho * sH + (1 - rho);
+  const xA = rho * sA + (1 - rho);
+  const p = predictProbs(xH, xA, seasonStartYear, beta);
+  return safeProbs(p, 1e-3);
+}
+
+function latestElosByScanningBackwards(seasonTierRows, teams) {
+  const need = new Set(teams);
+  const elo = {};
+  for (let i = seasonTierRows.length - 1; i >= 0; i--) {
+    if (need.size === 0) break;
+    const r = seasonTierRows[i];
+    const ht = r.HomeTeam;
+    const at = r.AwayTeam;
+
+    if (need.has(ht)) {
+      const v = Number.parseFloat(r.HomeRank_after);
+      if (Number.isFinite(v)) {
+        elo[ht] = v;
+        need.delete(ht);
+      }
+    }
+    if (need.has(at)) {
+      const v = Number.parseFloat(r.AwayRank_after);
+      if (Number.isFinite(v)) {
+        elo[at] = v;
+        need.delete(at);
+      }
+    }
+  }
+  return elo;
+}
+
+function inferRemainingFixturesDoubleRoundRobin(playedRows, teams) {
+  const playedPairs = new Set();
+  for (const r of playedRows) playedPairs.add(`${r.HomeTeam}|||${r.AwayTeam}`);
+
+  const rem = [];
+  for (const h of teams) {
+    for (const a of teams) {
+      if (h === a) continue;
+      const key = `${h}|||${a}`;
+      if (!playedPairs.has(key)) rem.push([h, a]);
+    }
+  }
+  return rem;
+}
+
+function hashStringToSeed(str) {
+  let h = 1779033703 ^ str.length;
+  for (let i = 0; i < str.length; i++) {
+    h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+    h = (h << 13) | (h >>> 19);
+  }
+  return () => {
+    h = Math.imul(h ^ (h >>> 16), 2246822507);
+    h = Math.imul(h ^ (h >>> 13), 3266489909);
+    return (h ^= h >>> 16) >>> 0;
+  };
+}
+
+function mulberry32(seed) {
+  return function () {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function fillMissingExamples(teams, fixtures, basePoints, examples, possibleByTeam, seedKey) {
+  const N = teams.length;
+  const missing = new Set();
+  for (const t of teams) {
+    const poss = possibleByTeam[t] || [];
+    for (let pos = 1; pos <= N; pos++) {
+      if (poss[pos] && !(examples[t] && examples[t][pos])) missing.add(`${t}|||${pos}`);
+    }
+  }
+
+  if (!missing.size) return examples;
+
+  const maxExtra = Number.parseInt(process.env.EXAMPLE_MAX_SIMS || "200000", 10);
+  const batch = 5000;
+  let done = 0;
+
+  while (missing.size > 0 && done < maxExtra) {
+    const seedFn = hashStringToSeed(`${seedKey}|extra|${done}`);
+    const rng = mulberry32(seedFn());
+
+    for (let s = 0; s < batch && done < maxExtra; s++, done++) {
+      const pts = new Float64Array(N);
+      for (let i = 0; i < N; i++) pts[i] = basePoints[i] || 0;
+
+      const results = new Uint8Array(fixtures.length);
+      for (let i = 0; i < fixtures.length; i++) {
+        const f = fixtures[i];
+        const r = rng();
+        if (r < f.pH) {
+          pts[f.h] += 3;
+          results[i] = 0;
+        } else if (r < f.pH + f.pD) {
+          pts[f.h] += 1;
+          pts[f.a] += 1;
+          results[i] = 1;
+        } else {
+          pts[f.a] += 3;
+          results[i] = 2;
+        }
+      }
+
+      const indices = new Array(N);
+      for (let i = 0; i < N; i++) indices[i] = i;
+      indices.sort((i, j) => pts[j] - pts[i]);
+
+      let start = 0;
+      while (start < N) {
+        let end = start + 1;
+        while (end < N && pts[indices[end]] === pts[indices[start]]) end++;
+        for (let i = end - 1; i > start; i--) {
+          const j = start + Math.floor(rng() * (i - start + 1));
+          const tmp = indices[i];
+          indices[i] = indices[j];
+          indices[j] = tmp;
+        }
+        start = end;
+      }
+
+      for (let pos = 1; pos <= N; pos++) {
+        const teamName = teams[indices[pos - 1]];
+        const key = `${teamName}|||${pos}`;
+        if (missing.has(key)) {
+          if (!examples[teamName]) examples[teamName] = {};
+          examples[teamName][pos] = Array.from(results);
+          missing.delete(key);
+        }
+      }
+    }
+  }
+
+  return examples;
+}
+
+function buildDeterministicResults(teams, fixtures, targetIndex, mode) {
+  const results = new Uint8Array(fixtures.length);
+
+  for (let i = 0; i < fixtures.length; i++) {
+    const f = fixtures[i];
+    const h = f.h;
+    const a = f.a;
+
+    if (h === targetIndex || a === targetIndex) {
+      const targetIsHome = h === targetIndex;
+      if (mode === "win") {
+        results[i] = targetIsHome ? 0 : 2;
+      } else {
+        results[i] = targetIsHome ? 2 : 0;
+      }
+      continue;
+    }
+
+    // For other fixtures, pick the most likely outcome.
+    const pH = f.pH;
+    const pD = f.pD;
+    const pA = f.pA;
+    if (pH >= pD && pH >= pA) results[i] = 0;
+    else if (pD >= pH && pD >= pA) results[i] = 1;
+    else results[i] = 2;
+  }
+
+  return Array.from(results);
+}
+
+function rankFromResults(teams, fixtures, basePoints, results) {
+  const N = teams.length;
+  const pts = new Float64Array(N);
+  for (let i = 0; i < N; i++) pts[i] = basePoints[i] || 0;
+
+  for (let i = 0; i < fixtures.length; i++) {
+    const f = fixtures[i];
+    const code = results[i];
+    if (code === 0) pts[f.h] += 3;
+    else if (code === 1) {
+      pts[f.h] += 1;
+      pts[f.a] += 1;
+    } else pts[f.a] += 3;
+  }
+  }
+
+  const indices = new Array(N);
+  for (let i = 0; i < N; i++) indices[i] = i;
+  indices.sort((i, j) => {
+    if (pts[j] !== pts[i]) return pts[j] - pts[i];
+    return teams[i].localeCompare(teams[j]);
+  });
+
+  return indices;
+}
+
+function addExtremeExamples(teams, fixtures, basePoints, examples, possibleByTeam) {
+  for (let i = 0; i < teams.length; i++) {
+    for (const mode of ["win", "lose"]) {
+      const results = buildDeterministicResults(teams, fixtures, i, mode);
+      const ranking = rankFromResults(teams, fixtures, basePoints, results);
+      const pos = ranking.indexOf(i) + 1;
+      if (pos < 1) continue;
+      const teamName = teams[i];
+      if (possibleByTeam && possibleByTeam[teamName] && !possibleByTeam[teamName][pos]) continue;
+      if (!examples[teamName]) examples[teamName] = {};
+      if (!examples[teamName][pos]) examples[teamName][pos] = results;
+    }
+  }
+
+  return examples;
+}
+
+function sampleSeasonWithTilt(teams, fixtures, basePoints, rng, targetIndex, tiltMode) {
+  const N = teams.length;
+  const pts = new Float64Array(N);
+  for (let i = 0; i < N; i++) pts[i] = basePoints[i] || 0;
+
+  const results = new Uint8Array(fixtures.length);
+
+  for (let i = 0; i < fixtures.length; i++) {
+    const f = fixtures[i];
+    let pH = f.pH;
+    let pD = f.pD;
+    let pA = f.pA;
+
+    if (targetIndex !== null && (f.h === targetIndex || f.a === targetIndex)) {
+      const targetIsHome = f.h === targetIndex;
+      let winBoost = 1.0;
+      let drawBoost = 1.0;
+      let loseBoost = 1.0;
+      if (tiltMode === "up") {
+        winBoost = 2.0;
+        drawBoost = 1.0;
+        loseBoost = 0.5;
+      } else if (tiltMode === "down") {
+        winBoost = 0.5;
+        drawBoost = 1.0;
+        loseBoost = 2.0;
+      }
+
+      if (targetIsHome) {
+        pH *= winBoost;
+        pD *= drawBoost;
+        pA *= loseBoost;
+      } else {
+        pH *= loseBoost;
+        pD *= drawBoost;
+        pA *= winBoost;
+      }
+
+      const s = pH + pD + pA;
+      pH /= s;
+      pD /= s;
+      pA /= s;
+    }
+
+    const r = rng();
+    if (r < pH) {
+      pts[f.h] += 3;
+      results[i] = 0;
+    } else if (r < pH + pD) {
+      pts[f.h] += 1;
+      pts[f.a] += 1;
+      results[i] = 1;
+    } else {
+      pts[f.a] += 3;
+      results[i] = 2;
+    }
+  }
+
+  const indices = new Array(N);
+  for (let i = 0; i < N; i++) indices[i] = i;
+  indices.sort((i, j) => pts[j] - pts[i]);
+
+  let start = 0;
+  while (start < N) {
+    let end = start + 1;
+    while (end < N && pts[indices[end]] === pts[indices[start]]) end++;
+    for (let i = end - 1; i > start; i--) {
+      const j = start + Math.floor(rng() * (i - start + 1));
+      const tmp = indices[i];
+      indices[i] = indices[j];
+      indices[j] = tmp;
+    }
+    start = end;
+  }
+
+  return { indices, results: Array.from(results) };
+}
+
+function fillMissingExamplesImportance(teams, fixtures, basePoints, examples, possibleByTeam, seedKey) {
+  const N = teams.length;
+  const missing = new Set();
+  for (const t of teams) {
+    const poss = possibleByTeam[t] || [];
+    for (let pos = 1; pos <= N; pos++) {
+      if (poss[pos] && !(examples[t] && examples[t][pos])) missing.add(`${t}|||${pos}`);
+    }
+  }
+  if (!missing.size) return examples;
+
+  const maxExtra = Number.parseInt(process.env.IMPORTANCE_MAX_SIMS || "200000", 10);
+  const perTeamBatch = 5000;
+  const tiltModes = ["up", "down", "neutral"];
+
+  for (let ti = 0; ti < teams.length && missing.size > 0; ti++) {
+    const team = teams[ti];
+    const teamMissing = new Set();
+    for (let pos = 1; pos <= N; pos++) {
+      const key = `${team}|||${pos}`;
+      if (missing.has(key)) teamMissing.add(pos);
+    }
+    if (!teamMissing.size) continue;
+
+    let done = 0;
+    for (const mode of tiltModes) {
+      if (!teamMissing.size) break;
+      const seedFn = hashStringToSeed(`${seedKey}|importance|${team}|${mode}`);
+      const rng = mulberry32(seedFn());
+
+      for (let s = 0; s < perTeamBatch && done < maxExtra; s++, done++) {
+        const sim = sampleSeasonWithTilt(teams, fixtures, basePoints, rng, ti, mode === "neutral" ? null : ti);
+        const pos = sim.indices.indexOf(ti) + 1;
+        if (teamMissing.has(pos)) {
+          if (!examples[team]) examples[team] = {};
+          examples[team][pos] = sim.results;
+          teamMissing.delete(pos);
+          missing.delete(`${team}|||${pos}`);
+          if (!teamMissing.size) break;
+        }
+      }
+    }
+  }
+
+  return examples;
+}
+
+function reverseSearchExamples(teams, fixtures, basePoints, examples, possibleByTeam, seedKey) {
+  const N = teams.length;
+  const maxTries = Number.parseInt(process.env.REVERSE_MAX_TRIES || "30000", 10);
+
+  for (let ti = 0; ti < teams.length; ti++) {
+    const team = teams[ti];
+    const poss = possibleByTeam[team] || [];
+
+    for (let targetPos = 1; targetPos <= N; targetPos++) {
+      if (!poss[targetPos]) continue;
+      if (examples[team] && examples[team][targetPos]) continue;
+
+      const seedFn = hashStringToSeed(`${seedKey}|reverse|${team}|${targetPos}`);
+      const rng = mulberry32(seedFn());
+      let tilt = targetPos <= Math.ceil(N / 2) ? "up" : "down";
+
+      for (let attempt = 0; attempt < maxTries; attempt++) {
+        const sim = sampleSeasonWithTilt(teams, fixtures, basePoints, rng, ti, tilt);
+        const pos = sim.indices.indexOf(ti) + 1;
+        if (pos === targetPos) {
+          if (!examples[team]) examples[team] = {};
+          examples[team][targetPos] = sim.results;
+          break;
+        }
+
+        // adapt tilt based on current rank
+        if (pos < targetPos) {
+          tilt = "down";
+        } else if (pos > targetPos) {
+          tilt = "up";
+        }
+      }
+    }
+  }
+
+  return examples;
+}
+
+function solvePositionWithILP(teams, fixtures, basePoints, targetIndex, targetPos) {
+  const model = {
+    optimize: "obj",
+    opType: "max",
+    constraints: {},
+    variables: {},
+    binaries: {},
+  };
+
+  model.constraints["obj"] = { max: 0 };
+
+  const remainingCounts = new Array(teams.length).fill(0);
+  for (const f of fixtures) {
+    remainingCounts[f.h] += 1;
+    remainingCounts[f.a] += 1;
+  }
+  const maxBase = Math.max(...basePoints);
+  const minBase = Math.min(...basePoints);
+  const maxRem = Math.max(...remainingCounts);
+  const M = maxBase + 3 * maxRem - minBase;
+
+  function addVar(name, coeffs) {
+    if (!model.variables[name]) model.variables[name] = { obj: 0 };
+    for (const [cname, val] of Object.entries(coeffs)) {
+      model.variables[name][cname] = (model.variables[name][cname] || 0) + val;
+    }
+  }
+
+  for (let i = 0; i < fixtures.length; i++) {
+    const vH = `m${i}_H`;
+    const vD = `m${i}_D`;
+    const vA = `m${i}_A`;
+
+    model.constraints[`m${i}_sum`] = { min: 1, max: 1 };
+    addVar(vH, { [`m${i}_sum`]: 1 });
+    addVar(vD, { [`m${i}_sum`]: 1 });
+    addVar(vA, { [`m${i}_sum`]: 1 });
+
+    model.binaries[vH] = 1;
+    model.binaries[vD] = 1;
+    model.binaries[vA] = 1;
+  }
+
+  function pointsCoeffs(teamIndex) {
+    const coeffs = {};
+    for (let i = 0; i < fixtures.length; i++) {
+      const f = fixtures[i];
+      if (f.h === teamIndex) {
+        coeffs[`m${i}_H`] = (coeffs[`m${i}_H`] || 0) + 3;
+        coeffs[`m${i}_D`] = (coeffs[`m${i}_D`] || 0) + 1;
+      } else if (f.a === teamIndex) {
+        coeffs[`m${i}_A`] = (coeffs[`m${i}_A`] || 0) + 3;
+        coeffs[`m${i}_D`] = (coeffs[`m${i}_D`] || 0) + 1;
+      }
+    }
+    return coeffs;
+  }
+
+  const ptCoeffs = teams.map((_, idx) => pointsCoeffs(idx));
+
+  for (let j = 0; j < teams.length; j++) {
+    if (j === targetIndex) continue;
+    const g = `g_${j}`;
+    const l = `l_${j}`;
+    const e = `e_${j}`;
+
+    model.binaries[g] = 1;
+    model.binaries[l] = 1;
+    model.binaries[e] = 1;
+
+    model.constraints[`cmp_sum_${j}`] = { min: 1, max: 1 };
+    addVar(g, { [`cmp_sum_${j}`]: 1 });
+    addVar(l, { [`cmp_sum_${j}`]: 1 });
+    addVar(e, { [`cmp_sum_${j}`]: 1 });
+
+    const diff_ge = `diff_ge_${j}`;
+    const diff_le = `diff_le_${j}`;
+    const diff_eq_hi = `diff_eq_hi_${j}`;
+    const diff_eq_lo = `diff_eq_lo_${j}`;
+
+    model.constraints[diff_ge] = { min: 1 - M };
+    model.constraints[diff_le] = { max: -1 + M };
+    model.constraints[diff_eq_hi] = { max: M };
+    model.constraints[diff_eq_lo] = { min: -M };
+
+    addVar(g, { [diff_ge]: -M });
+    addVar(l, { [diff_le]: M });
+    addVar(e, { [diff_eq_hi]: M, [diff_eq_lo]: -M });
+
+    for (const [v, coef] of Object.entries(ptCoeffs[j])) {
+      addVar(v, { [diff_ge]: coef, [diff_le]: coef, [diff_eq_hi]: coef, [diff_eq_lo]: coef });
+    }
+    for (const [v, coef] of Object.entries(ptCoeffs[targetIndex])) {
+      addVar(v, { [diff_ge]: -coef, [diff_le]: -coef, [diff_eq_hi]: -coef, [diff_eq_lo]: -coef });
+    }
+
+    const baseDiff = basePoints[j] - basePoints[targetIndex];
+    model.constraints[diff_ge].min = 1 - M - baseDiff;
+    model.constraints[diff_le].max = -1 + M - baseDiff;
+    model.constraints[diff_eq_hi].max = M - baseDiff;
+    model.constraints[diff_eq_lo].min = -M - baseDiff;
+  }
+
+  model.constraints["g_sum_max"] = { max: targetPos - 1 };
+  model.constraints["ge_sum_min"] = { min: targetPos - 1 };
+
+  for (let j = 0; j < teams.length; j++) {
+    if (j === targetIndex) continue;
+    addVar(`g_${j}`, { g_sum_max: 1, ge_sum_min: 1 });
+    addVar(`e_${j}`, { ge_sum_min: 1 });
+  }
+
+  const res = lpSolver.Solve(model);
+  if (!res.feasible) return null;
+
+  const results = [];
+  for (let i = 0; i < fixtures.length; i++) {
+    const vH = `m${i}_H`;
+    const vD = `m${i}_D`;
+    const vA = `m${i}_A`;
+    if (res[vH] === 1) results[i] = 0;
+    else if (res[vD] === 1) results[i] = 1;
+    else results[i] = 2;
+  }
+
+  return results;
+}
+
+function solvePositionWithILPWithTimeout(teams, fixtures, basePoints, targetIndex, targetPos, timeoutMs) {
+  return new Promise((resolve) => {
+    const workerPath = path.join(__dirname, "ilp_worker.js");
+    const worker = new Worker(workerPath);
+    let settled = false;
+
+    const timer =
+      Number.isFinite(timeoutMs) && timeoutMs > 0
+        ? setTimeout(() => {
+            if (settled) return;
+            settled = true;
+            worker.terminate();
+            resolve({ status: "timeout", res: null });
+          }, timeoutMs)
+        : null;
+
+    worker.on("message", (msg) => {
+      if (settled) return;
+      settled = true;
+      if (timer) clearTimeout(timer);
+      worker.terminate();
+      if (msg && msg.ok) resolve({ status: "ok", res: msg.res || null });
+      else resolve({ status: "error", res: null, error: msg && msg.error });
+    });
+
+    worker.on("error", (err) => {
+      if (settled) return;
+      settled = true;
+      if (timer) clearTimeout(timer);
+      worker.terminate();
+      resolve({ status: "error", res: null, error: String(err && err.message ? err.message : err) });
+    });
+
+    worker.postMessage({ teams, fixtures, basePoints, targetIndex, targetPos });
+  });
+}
+
+function computePointsFromResults(teams, fixtures, basePoints, results) {
+  const pts = new Float64Array(teams.length);
+  for (let i = 0; i < teams.length; i++) pts[i] = basePoints[i];
+  for (let i = 0; i < fixtures.length; i++) {
+    const f = fixtures[i];
+    const r = results[i];
+    if (r === 0) {
+      pts[f.h] += 3;
+    } else if (r === 1) {
+      pts[f.h] += 1;
+      pts[f.a] += 1;
+    } else {
+      pts[f.a] += 3;
+    }
+  }
+  return pts;
+}
+
+function validateExampleRank(teams, fixtures, basePoints, results, targetIndex, targetPos) {
+  if (!results || results.length !== fixtures.length) return false;
+  const pts = computePointsFromResults(teams, fixtures, basePoints, results);
+  const indices = new Array(teams.length);
+  for (let i = 0; i < teams.length; i++) indices[i] = i;
+  indices.sort((a, b) => pts[b] - pts[a]);
+  const pos = indices.indexOf(targetIndex) + 1;
+  return pos === targetPos;
+}
+
+function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedKey) {
+  const N = teams.length;
+  const counts = {};
+  for (const t of teams) counts[t] = new Float64Array(N + 1);
+
+  const examples = {};
+  for (const t of teams) examples[t] = {};
+
+  const seedFn = hashStringToSeed(seedKey);
+  const rng = mulberry32(seedFn());
+
+  const pts0 = new Float64Array(N);
+  for (let i = 0; i < N; i++) pts0[i] = basePoints[i];
+
+  const indices = new Array(N);
+  for (let i = 0; i < N; i++) indices[i] = i;
+
+  for (let s = 0; s < sims; s++) {
+    const pts = pts0.slice();
+    const results = new Uint8Array(fixtures.length);
+
+    for (let i = 0; i < fixtures.length; i++) {
+      const f = fixtures[i];
+      const r = rng();
+      if (r < f.pH) {
+        pts[f.h] += 3;
+        results[i] = 0;
+      } else if (r < f.pH + f.pD) {
+        pts[f.h] += 1;
+        pts[f.a] += 1;
+        results[i] = 1;
+      } else {
+        pts[f.a] += 3;
+        results[i] = 2;
+      }
+    }
+
+    indices.sort((i, j) => pts[j] - pts[i]);
+    let start = 0;
+    while (start < N) {
+      let end = start + 1;
+      while (end < N && pts[indices[end]] === pts[indices[start]]) end++;
+      for (let i = end - 1; i > start; i--) {
+        const j = start + Math.floor(rng() * (i - start + 1));
+        const tmp = indices[i];
+        indices[i] = indices[j];
+        indices[j] = tmp;
+      }
+      start = end;
+    }
+
+    for (let pos = 1; pos <= N; pos++) {
+      const teamIdx = indices[pos - 1];
+      const teamName = teams[teamIdx];
+      counts[teamName][pos] += 1;
+
+      if (!examples[teamName][pos]) {
+        examples[teamName][pos] = Array.from(results);
+      }
+    }
+  }
+
+  const out = {};
+  for (const t of teams) {
+    const arr = new Float64Array(N + 1);
+    for (let pos = 1; pos <= N; pos++) arr[pos] = counts[t][pos] / sims;
+    out[t] = arr;
+  }
+
+  return { posProbs: out, examples };
+}
+
+function computeImpossiblePositions(teams, basePoints, remainingCounts) {
+  const N = teams.length;
+  const minPts = new Float64Array(N);
+  const maxPts = new Float64Array(N);
+
+  for (let i = 0; i < N; i++) {
+    minPts[i] = basePoints[i];
+    maxPts[i] = basePoints[i] + 3 * remainingCounts[i];
+  }
+
+  const out = {};
+  for (let i = 0; i < N; i++) {
+    const t = teams[i];
+    const impossible = new Array(N + 1).fill(false);
+
+    let guaranteedAbove = 0;
+    let possibleAbove = 0;
+    for (let j = 0; j < N; j++) {
+      if (j === i) continue;
+      if (minPts[j] > maxPts[i]) guaranteedAbove++;
+      if (maxPts[j] >= minPts[i]) possibleAbove++;
+    }
+
+    for (let pos = 1; pos <= N; pos++) {
+      if (pos <= guaranteedAbove) {
+        impossible[pos] = true;
+      } else if (possibleAbove < pos - 1) {
+        impossible[pos] = true;
+      }
+    }
+
+    out[t] = impossible;
+  }
+
+  return out;
+}
+
+function computePointsSoFar(playedRows, adjustments, seasonStr) {
+  const teams = new Set();
+  for (const r of playedRows) {
+    teams.add(r.HomeTeam);
+    teams.add(r.AwayTeam);
+  }
+
+  const pts = {};
+  for (const t of teams) pts[t] = 0;
+
+  for (const r of playedRows) {
+    const ht = r.HomeTeam;
+    const at = r.AwayTeam;
+    const res = String(r.Result || "");
+    if (res === "H") pts[ht] += 3;
+    else if (res === "A") pts[at] += 3;
+    else if (res === "D") {
+      pts[ht] += 1;
+      pts[at] += 1;
+    }
+  }
+
+  const season = String(seasonStr || "").trim();
+  const bySeason = adjustments[season] || {};
+  for (const t of teams) {
+    if (Number.isFinite(bySeason[t])) pts[t] += bySeason[t];
+  }
+
+  return pts;
+}
+
+async function fetchText(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
+  return res.text();
+}
+
+async function main() {
+  const [csvText, deductText] = await Promise.all([fetchText(CSV_URL), fetchText(DEDUCT_CSV_URL)]);
+
+  const rows = Papa.parse(csvText, {
+    header: true,
+    skipEmptyLines: true,
+  }).data;
+
+  if (!rows.length) throw new Error("No CSV rows loaded.");
+  const latestSeason = rows[rows.length - 1].Season;
+  const seasonStartYear = seasonStartYearFromSeasonStr(latestSeason);
+
+  const deductRows = Papa.parse(deductText, {
+    header: true,
+    skipEmptyLines: true,
+  }).data;
+
+  const adjustments = {};
+  for (const r of deductRows) {
+    const season = String(r.Season || "").trim();
+    const team = String(r.Team || "").trim();
+    if (!season || !team) continue;
+    const pts = Number.parseFloat(r.Pts_deducted);
+    if (!Number.isFinite(pts) || pts === 0) continue;
+    if (!adjustments[season]) adjustments[season] = {};
+    if (!adjustments[season][team]) adjustments[season][team] = 0;
+    adjustments[season][team] -= pts;
+  }
+
+  const out = {
+    generated_at: new Date().toISOString(),
+    sims: SIMS,
+    season: latestSeason,
+    last_result_date: rows[rows.length - 1].Date || "",
+    tiers: [],
+  };
+
+  for (const tier of TIERS) {
+    const seasonTier = rows.filter((r) => String(r.Season) === String(latestSeason) && String(r.Tier) === String(tier));
+    if (!seasonTier.length) continue;
+
+    const divisionSet = new Set(seasonTier.map((r) => r.Division).filter(Boolean));
+    const divisionName = divisionSet.size ? Array.from(divisionSet)[0] : `Tier ${tier}`;
+
+    const played = seasonTier.filter((r) => r.Result === "H" || r.Result === "D" || r.Result === "A");
+
+    const teamSet = new Set();
+    for (const r of played) {
+      teamSet.add(r.HomeTeam);
+      teamSet.add(r.AwayTeam);
+    }
+    const teams = Array.from(teamSet).sort();
+    if (teams.length < 2) continue;
+
+    const pts = computePointsSoFar(played, adjustments, latestSeason);
+    const elos = latestElosByScanningBackwards(seasonTier, teams);
+    const remaining = inferRemainingFixturesDoubleRoundRobin(played, teams);
+
+    const teamIndex = new Map();
+    for (let i = 0; i < teams.length; i++) teamIndex.set(teams[i], i);
+
+    const fixtures = [];
+    for (const [h, a] of remaining) {
+      const eH = elos[h];
+      const eA = elos[a];
+      if (!Number.isFinite(eH) || !Number.isFinite(eA)) continue;
+      const [pH, pD, pA] = matchProbabilities(eH, eA, seasonStartYear, 0.9);
+      fixtures.push({ h: teamIndex.get(h), a: teamIndex.get(a), pH, pD, pA });
+    }
+
+    const basePoints = teams.map((t) => pts[t] || 0);
+    const seedKey = `${latestSeason}|${tier}|${teams.length}|${fixtures.length}|${SIMS}`;
+    const simResult = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
+    const posProbs = simResult.posProbs;
+    let examples = simResult.examples;
+    const ilpTimeouts = {};
+
+    const remainingCounts = new Array(teams.length).fill(0);
+    for (const f of fixtures) {
+      remainingCounts[f.h] += 1;
+      remainingCounts[f.a] += 1;
+    }
+    const impossible = computeImpossiblePositions(teams, basePoints, remainingCounts);
+
+    const possible = {};
+    for (const t of teams) {
+      possible[t] = (impossible[t] || []).map((v) => !v);
+    }
+
+    examples = addExtremeExamples(teams, fixtures, basePoints, examples, possible);
+    examples = fillMissingExamples(teams, fixtures, basePoints, examples, possible, seedKey);
+    examples = fillMissingExamplesImportance(teams, fixtures, basePoints, examples, possible, seedKey);
+    examples = reverseSearchExamples(teams, fixtures, basePoints, examples, possible, seedKey);
+    let ilpMax = Number.parseInt(process.env.ILP_MAX_CASES || "1000", 10);
+    if (!Number.isFinite(ilpMax) || ilpMax <= 0) ilpMax = Number.POSITIVE_INFINITY;
+    let ilpSeconds = Number.parseFloat(process.env.ILP_MAX_SECONDS || "900");
+    if (!Number.isFinite(ilpSeconds) || ilpSeconds <= 0) ilpSeconds = Number.POSITIVE_INFINITY;
+    let ilpCaseSeconds = Number.parseFloat(process.env.ILP_CASE_SECONDS || "90");
+    if (!Number.isFinite(ilpCaseSeconds) || ilpCaseSeconds <= 0) ilpCaseSeconds = Number.POSITIVE_INFINITY;
+    let ilpCount = 0;
+    const missing = [];
+    for (const t of teams) ilpTimeouts[t] = {};
+    for (let ti = 0; ti < teams.length; ti++) {
+      const team = teams[ti];
+      const poss = possible[team] || [];
+      for (let pos = 1; pos <= teams.length; pos++) {
+        if (!poss[pos]) continue;
+        if (examples[team] && examples[team][pos]) continue;
+        missing.push([ti, pos]);
+      }
+    }
+
+    const ilpStart = Date.now();
+    const ilpTarget = Math.min(missing.length, Number.isFinite(ilpMax) ? ilpMax : missing.length);
+    const ilpTimings = [];
+    console.log(
+      `ILP: ${missing.length} missing cases, max ${Number.isFinite(ilpMax) ? ilpMax : "unlimited"}, budget ${
+        Number.isFinite(ilpSeconds) ? ilpSeconds + "s" : "unlimited"
+      }`
+    );
+    for (const [ti, pos] of missing) {
+      if (ilpCount >= ilpMax) break;
+      const elapsedSeconds = (Date.now() - ilpStart) / 1000;
+      if (elapsedSeconds >= ilpSeconds) {
+        console.log(`ILP budget reached after ${elapsedSeconds.toFixed(1)}s, stopping early.`);
+        break;
+      }
+      const team = teams[ti];
+      console.log(`ILP case ${ilpCount + 1}/${ilpTarget}: ${team} @ ${pos}`);
+      const caseStart = Date.now();
+      const timeoutMs = ilpCaseSeconds * 1000;
+      const solveResult = await solvePositionWithILPWithTimeout(teams, fixtures, basePoints, ti, pos, timeoutMs);
+      if (solveResult.status === "timeout") {
+        console.log(`ILP case timeout after ${ilpCaseSeconds}s: ${team} @ ${pos}`);
+        if (ilpTimeouts[team]) ilpTimeouts[team][pos] = true;
+      } else if (solveResult.status === "error") {
+        console.log(`ILP case error: ${team} @ ${pos} (${solveResult.error || "unknown"})`);
+      }
+      const res = solveResult.res;
+      const caseElapsed = Date.now() - caseStart;
+      ilpTimings.push({ team, pos, ms: caseElapsed, feasible: !!res, status: solveResult.status });
+      if (res) {
+        if (validateExampleRank(teams, fixtures, basePoints, res, ti, pos)) {
+          if (!examples[team]) examples[team] = {};
+          examples[team][pos] = res;
+        } else {
+          console.log(`ILP example failed rank check: ${team} @ ${pos}`);
+        }
+      } else if (impossible[team] && solveResult.status === "ok") {
+        // Verified infeasible with full fixture constraints.
+        impossible[team][pos] = true;
+        if (possible[team]) possible[team][pos] = false;
+      }
+      ilpCount += 1;
+      if (ilpCount % 10 == 0) {
+        const elapsed = (Date.now() - ilpStart) / 1000;
+        const rate = elapsed > 0 ? ilpCount / elapsed : 0;
+        const remaining = Math.max(ilpTarget - ilpCount, 0);
+        const eta = rate > 0 ? remaining / rate : 0;
+        console.log(`ILP progress: ${ilpCount}/${ilpTarget} (elapsed ${elapsed.toFixed(1)}s, eta ${eta.toFixed(1)}s)`);
+      }
+    }
+
+    ilpTimings.sort((a, b) => b.ms - a.ms);
+    const topTimings = ilpTimings.slice(0, 10);
+    if (topTimings.length) {
+      console.log("ILP slowest cases:");
+      for (const t of topTimings) {
+        const secs = (t.ms / 1000).toFixed(2);
+        const status = t.status || (t.feasible ? "feasible" : "infeasible");
+        console.log(`  ${t.team} @ ${t.pos}: ${secs}s (${status})`);
+      }
+    }
+
+    const posProbsPlain = {};
+    for (const t of teams) posProbsPlain[t] = Array.from(posProbs[t] || []);
+
+    const fixturePairs = fixtures.map((f) => [f.h, f.a, f.pH, f.pD, f.pA]);
+
+    out.tiers.push({
+      tier,
+      division: divisionName,
+      teams,
+      basePoints,
+      fixtures: fixturePairs,
+      posProbs: posProbsPlain,
+      examples,
+      impossible,
+      ilpTimeouts,
+    });
+  }
+
+  fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
+  fs.writeFileSync(OUT_PATH, JSON.stringify(out));
+  console.log(`Wrote ${OUT_PATH}`);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
