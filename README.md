@@ -7,18 +7,6 @@ For local development, see the "Local dev helper" section there.
 
 For customization details please refer to [CUSTOMIZE.md](CUSTOMIZE.md).
 
-## Features
-
-#### Photos, Audio, Video and more
-
-Photo formatting is made simple using [Bootstrap's grid system](https://getbootstrap.com/docs/4.4/layout/grid/). Easily create beautiful grids within your blog posts and project pages, also with support for [video](https://alshedivat.github.io/al-folio/blog/2023/videos/) and [audio](https://alshedivat.github.io/al-folio/blog/2023/audios/) embeds:
-
-<p align="center">
-  <a href="https://alshedivat.github.io/al-folio/projects/1_project/">
-    <img src="readme_preview/photos-screenshot.png" width="75%">
-  </a>
-</p>
-
 ---
 
 ### Other features
