@@ -268,7 +268,6 @@ function rankFromResults(teams, fixtures, basePoints, results) {
   });
 
   return indices;
-}
 
 function addExtremeExamples(teams, fixtures, basePoints, examples, possibleByTeam) {
   for (let i = 0; i < teams.length; i++) {
