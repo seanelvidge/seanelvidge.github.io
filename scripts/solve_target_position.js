@@ -3,10 +3,8 @@
 const Papa = require("papaparse");
 const solver = require("javascript-lp-solver");
 
-const CSV_URL =
-  "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
-const DEDUCT_CSV_URL =
-  "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv";
+const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
+const DEDUCT_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv";
 
 const targetTeam = process.argv[2];
 const targetPos = Number.parseInt(process.argv[3] || "0", 10);
@@ -158,11 +156,14 @@ function buildSolverModel(teams, fixtures, basePoints, targetIndex, targetPos) {
   model.constraints["obj"] = { max: 0 };
 
   const remainingCounts = new Array(teams.length).fill(0);
-  for (const f of fixtures) { remainingCounts[f.h] += 1; remainingCounts[f.a] += 1; }
+  for (const f of fixtures) {
+    remainingCounts[f.h] += 1;
+    remainingCounts[f.a] += 1;
+  }
   const maxBase = Math.max(...basePoints);
   const minBase = Math.min(...basePoints);
   const maxRem = Math.max(...remainingCounts);
-  const M = (maxBase + 3 * maxRem) - (minBase);
+  const M = maxBase + 3 * maxRem - minBase;
 
   function addVar(name, coeffs) {
     if (!model.variables[name]) model.variables[name] = { obj: 0 };
@@ -244,9 +245,8 @@ function buildSolverModel(teams, fixtures, basePoints, targetIndex, targetPos) {
     for (const [v, coef] of Object.entries(ptCoeffs[targetIndex])) {
       addVar(v, { [diff_ge]: -coef, [diff_le]: -coef, [diff_eq_hi]: -coef, [diff_eq_lo]: -coef });
     }
-
-      }
-
+  }
+  
   model.constraints["g_sum_max"] = { max: targetPos - 1 };
   model.constraints["ge_sum_min"] = { min: targetPos - 1 };
 
@@ -286,9 +286,7 @@ async function main() {
     adjustments[season][team] -= pts;
   }
 
-  const seasonTier = rows.filter(
-    (r) => String(r.Season) === String(latestSeason) && String(r.Tier) === String(targetTier)
-  );
+  const seasonTier = rows.filter((r) => String(r.Season) === String(latestSeason) && String(r.Tier) === String(targetTier));
   const played = seasonTier.filter((r) => r.Result === "H" || r.Result === "D" || r.Result === "A");
   const teamSet = new Set();
   for (const r of played) {
