@@ -258,16 +258,16 @@ function rankFromResults(teams, fixtures, basePoints, results) {
       pts[f.a] += 1;
     } else pts[f.a] += 3;
   }
-  }
+}
 
-  const indices = new Array(N);
-  for (let i = 0; i < N; i++) indices[i] = i;
-  indices.sort((i, j) => {
-    if (pts[j] !== pts[i]) return pts[j] - pts[i];
-    return teams[i].localeCompare(teams[j]);
-  });
+const indices = new Array(N);
+for (let i = 0; i < N; i++) indices[i] = i;
+indices.sort((i, j) => {
+  if (pts[j] !== pts[i]) return pts[j] - pts[i];
+  return teams[i].localeCompare(teams[j]);
+});
 
-  return indices;
+return indices;
 
 function addExtremeExamples(teams, fixtures, basePoints, examples, possibleByTeam) {
   for (let i = 0; i < teams.length; i++) {
