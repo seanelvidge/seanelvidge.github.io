@@ -22,7 +22,7 @@ function solvePositionWithILP(teams, fixtures, basePoints, targetIndex, targetPo
   const maxBase = Math.max(...basePoints);
   const minBase = Math.min(...basePoints);
   const maxRem = Math.max(...remainingCounts);
-  const M = (maxBase + 3 * maxRem) - minBase;
+  const M = maxBase + 3 * maxRem - minBase;
 
   function addVar(name, coeffs) {
     if (!model.variables[name]) model.variables[name] = { obj: 0 };
