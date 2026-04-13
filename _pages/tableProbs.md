@@ -13,9 +13,29 @@ nav: false
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <style>
+    .table-probs-page {
+      --table-probs-muted-text: var(--global-text-color-light);
+      --table-probs-surface: #ffffff;
+      --table-probs-surface-alt: #f7f7f7;
+      --table-probs-border: #e6e6e6;
+      --table-probs-text: #111111;
+      --table-probs-soft-text: #555555;
+      --table-probs-chip-bg: #f0f0f0;
+    }
+
+    html[data-theme="dark"] .table-probs-page {
+      --table-probs-muted-text: #d3d7dc;
+      --table-probs-surface: var(--global-card-bg-color);
+      --table-probs-surface-alt: #2b3137;
+      --table-probs-border: var(--global-divider-color);
+      --table-probs-text: var(--global-text-color);
+      --table-probs-soft-text: #c8ced6;
+      --table-probs-chip-bg: #343a40;
+    }
+
     .tier-block { margin: 18px 0 34px 0; }
     .tier-title { margin: 6px 0 10px 0; }
-    .meta { color: #444; font-size: 0.95em; margin: 4px 0 10px 0; }
+    .meta { color: var(--table-probs-muted-text); font-size: 0.95em; margin: 4px 0 10px 0; }
 
     .status {
       padding: 10px 12px;
@@ -162,7 +182,7 @@ nav: false
 
     .toggle-btn { margin-left: auto; }
 
-    .smallnote { color: #666; font-size: 0.9em; margin-top: 6px; }
+    .smallnote { color: var(--table-probs-muted-text); font-size: 0.9em; margin-top: 6px; }
 
     /* View toggling */
     .view-mobile .full-matrix-wrap { display: none; }
@@ -188,7 +208,8 @@ nav: false
     .example-modal.open { display: flex; }
 
     .example-modal__inner {
-      background: #fff;
+      background: var(--table-probs-surface);
+      color: var(--table-probs-text);
       border-radius: 12px;
       width: min(700px, 90vw);
       max-height: 80vh;
@@ -203,29 +224,32 @@ nav: false
       align-items: center;
       justify-content: space-between;
       padding: 12px 16px;
-      border-bottom: 1px solid #e6e6e6;
-      background: #f7f7f7;
+      border-bottom: 1px solid var(--table-probs-border);
+      background: var(--table-probs-surface-alt);
     }
 
     .example-modal__title {
       font-weight: 800;
       font-size: 14px;
+      color: var(--table-probs-text);
     }
 
     .example-modal__close {
-      border: 1px solid #cfcfcf;
-      background: #fff;
+      border: 1px solid var(--table-probs-border);
+      background: var(--table-probs-surface);
       border-radius: 8px;
       padding: 4px 8px;
       cursor: pointer;
       font-weight: 700;
       font-size: 12px;
+      color: var(--table-probs-text);
     }
 
     .example-modal__body {
       padding: 12px 16px;
       overflow: auto;
-      color: #111;
+      color: var(--table-probs-text);
+      background: var(--table-probs-surface);
     }
 
     .example-section {
@@ -253,10 +277,10 @@ nav: false
       align-items: center;
       gap: 10px;
       padding: 6px 8px;
-      border: 1px solid #e6e6e6;
+      border: 1px solid var(--table-probs-border);
       border-radius: 8px;
       margin: 6px 0;
-      background: #fff;
+      background: var(--table-probs-surface-alt);
       font-size: 12px;
     }
 
@@ -264,14 +288,15 @@ nav: false
       font-weight: 800;
       padding: 2px 6px;
       border-radius: 6px;
-      background: #f0f0f0;
+      background: var(--table-probs-chip-bg);
+      color: var(--table-probs-text);
       min-width: 72px;
       text-align: center;
       white-space: nowrap;
     }
 
     .example-match__meta {
-      color: #555;
+      color: var(--table-probs-soft-text);
     }
 
     .example-match__teams {
@@ -301,7 +326,7 @@ nav: false
     }
 
     .example-vs {
-      color: #666;
+      color: var(--table-probs-soft-text);
       font-weight: 700;
       text-align: center;
       min-width: 12px;
@@ -314,6 +339,7 @@ nav: false
 </head>
 
 <body>
+<div class="table-probs-page">
 Position probabilities for the season.
 
 <div class="meta">Based on 1,000,000 Monte Carlo simulations of the remaining fixtures, assuming team strengths remain constant.</div>
@@ -330,6 +356,7 @@ Position probabilities for the season.
       <div id="example-modal-body" class="example-modal__body"></div>
     </div>
   </div>
+</div>
 
   <script>
     // ------------------------------------------------------------
