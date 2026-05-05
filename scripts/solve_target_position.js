@@ -246,7 +246,7 @@ function buildSolverModel(teams, fixtures, basePoints, targetIndex, targetPos) {
       addVar(v, { [diff_ge]: -coef, [diff_le]: -coef, [diff_eq_hi]: -coef, [diff_eq_lo]: -coef });
     }
   }
-  
+
   model.constraints["g_sum_max"] = { max: targetPos - 1 };
   model.constraints["ge_sum_min"] = { min: targetPos - 1 };
 
