@@ -51,8 +51,8 @@ jobs:
 
       # Fix 2: only scan the built site output, not vendor/bundle etc.
       - name: Link Checker 🔗
-        uses: lycheeverse/lychee-action@v1.9.0
+        uses: lycheeverse/lychee-action@v2
         with:
           fail: true
           # only check local links in the generated site
-          args: --offline --verbose --no-progress "_site/**/*.html"
+          args: --offline --verbose --no-progress --root-dir "${{ github.workspace }}/_site" "_site/**/*.html"
