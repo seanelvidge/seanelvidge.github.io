@@ -10,7 +10,7 @@ thumbnail: assets/img/mathsonamug/mathsonamug_8.jpeg
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
         <figure>
-            {% include figure.liquid loading="eager" path="assets/img/mathsonamug/mathsonamug_8.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+            {% include figure.liquid loading="eager" path="assets/img/mathsonamug/mathsonamug_8.jpeg" class="img-fluid rounded z-depth-1" zoomable=true %}
         </figure>
     </div>
 </div>

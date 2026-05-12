@@ -55,4 +55,4 @@ jobs:
         with:
           fail: true
           # only check local links in the generated site
-          args: --offline --verbose --no-progress --root-dir "${{ github.workspace }}/_site" "_site/**/*.html"
+          args: --offline --verbose --no-progress --root-dir "${{ github.workspace }}/_site" --fallback-extensions html "_site/**/*.html"

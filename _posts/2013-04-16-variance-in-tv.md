@@ -76,19 +76,19 @@ How I Met Your Mother:
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/himym-viewing-figures.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid loading="eager" path="assets/img/himym-viewing-figures.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/himym-data-minus-trend.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid loading="eager" path="assets/img/himym-data-minus-trend.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 	<div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/himym-IMFS.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid loading="eager" path="assets/img/himym-IMFS.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 	<div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/himym-emd-composition.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid loading="eager" path="assets/img/himym-emd-composition.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 	<div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/himym-noise.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid loading="eager" path="assets/img/himym-noise.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 </div>
 
@@ -96,19 +96,19 @@ Desperate Housewives:
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/dh-viewing-figures.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid loading="eager" path="assets/img/dh-viewing-figures.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/dh-data-minus-trend.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid loading="eager" path="assets/img/dh-data-minus-trend.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 	<div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/dh-IMFs.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid loading="eager" path="assets/img/dh-IMFs.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 	<div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/dh-emd_composition.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid loading="eager" path="assets/img/dh-emd_composition.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 	<div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/dh-noise_in_viewers.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid loading="eager" path="assets/img/dh-noise_in_viewers.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 </div>
 

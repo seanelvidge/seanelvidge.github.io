@@ -19,7 +19,7 @@ Using my database of all English league results since 1888 (available [here](htt
 </div>
 <img
   id="fallbackImage1"
-  src="assets/img/home_advantage_trend_fallback.png"
+  src="{{ '/assets/img/home_advantage_trend_fallback.png' | relative_url }}"
   alt="Fallback image for home, draw, away % win"
   style="display: none; max-width: 100%;"
 />
@@ -44,7 +44,7 @@ It would be easy to assume that this trend is confined to the top tier of Englis
 </div>
 <img
   id="fallbackImage2"
-  src="assets/img/home_advantage_trend_fallback_by_division.png"
+  src="{{ '/assets/img/home_advantage_trend_fallback_by_division.png' | relative_url }}"
   alt="Fallback image for home win % by division"
   style="display: none; max-width: 100%;"
 />
