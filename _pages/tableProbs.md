@@ -364,6 +364,7 @@ Position probabilities for the season.
     // ------------------------------------------------------------
     const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv";
     const PRECOMPUTED_URL = "{{ '/assets/data/tableProbs.json' | relative_url }}";
+    const SEASON_CONFIG_URL = "{{ '/assets/data/tableProbsSeasonConfig.json' | relative_url }}";
     const LOGO_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamLogos.csv";
     const DEDUCT_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglishTeamPointDeductions.csv";
 	const SHORTNAME_CSV_URL =
@@ -479,6 +480,54 @@ Position probabilities for the season.
       return m2 ? parseInt(m2[1], 10) : (new Date()).getFullYear();
     }
 
+    function compareSeasons(a, b) {
+      const ay = seasonStartYearFromSeasonStr(a);
+      const by = seasonStartYearFromSeasonStr(b);
+      if (ay !== by) return ay - by;
+      return String(a || "").localeCompare(String(b || ""));
+    }
+
+    function normalizeSeasonConfig(config) {
+      if (!config || !config.season || !Array.isArray(config.tiers)) return null;
+      return {
+        season: String(config.season).trim(),
+        tiers: config.tiers.map(tierData => ({
+          tier: parseInt(tierData.tier, 10),
+          division: String(tierData.division || `Tier ${tierData.tier || ""}`).trim(),
+          teams: Array.isArray(tierData.teams)
+            ? tierData.teams.map(t => String(t || "").trim()).filter(Boolean).sort()
+            : []
+        })).filter(tierData => Number.isFinite(tierData.tier) && tierData.teams.length >= 2)
+      };
+    }
+
+    function shouldUseSeasonConfig(config, latestCsvSeason) {
+      return !!config && compareSeasons(config.season, latestCsvSeason) >= 0;
+    }
+
+    function loadSeasonConfig() {
+      return fetch(SEASON_CONFIG_URL, { cache: "no-store" })
+        .then(res => res.ok ? res.json() : null)
+        .then(normalizeSeasonConfig)
+        .catch(() => null);
+    }
+
+    function teamsFromRows(rows) {
+      const teamSet = new Set();
+      for (const r of rows) {
+        if (r.HomeTeam) teamSet.add(r.HomeTeam);
+        if (r.AwayTeam) teamSet.add(r.AwayTeam);
+      }
+      return Array.from(teamSet).sort();
+    }
+
+    function latestDatedRow(rows) {
+      for (let i = rows.length - 1; i >= 0; i--) {
+        if (rows[i] && rows[i].Date) return rows[i];
+      }
+      return null;
+    }
+
     function toFloat(x, fallback = NaN) {
       const v = parseFloat(x);
       return Number.isFinite(v) ? v : fallback;
@@ -590,8 +639,8 @@ Position probabilities for the season.
     // ------------------------------------------------------------
     // Points so far (with point deductions/additions applied)
     // ------------------------------------------------------------
-    function computePointsSoFar(playedRows, seasonStr) {
-      const teams = new Set();
+    function computePointsSoFar(playedRows, seasonStr, knownTeams = []) {
+      const teams = new Set(knownTeams);
       for (const r of playedRows) { teams.add(r.HomeTeam); teams.add(r.AwayTeam); }
       const pts = {};
       for (const t of teams) pts[t] = 0;
@@ -1558,6 +1607,7 @@ Position probabilities for the season.
         // Fallback to live calculations
       }
 
+      const seasonConfig = await loadSeasonConfig();
       //logStatus("Fetching match CSV…");
 
       Papa.parse(CSV_URL, {
@@ -1570,51 +1620,55 @@ Position probabilities for the season.
           if (!data.length) { logStatus("No rows loaded."); return; }
           //logStatus(`Loaded rows: ${data.length}`);
 
-          // Latest season from last row
+          // Latest season from last row, unless a current/newer season config exists.
           const last = data[data.length - 1];
-          const latestSeason = last.Season;
+          const latestCsvSeason = last.Season;
+          const activeSeasonConfig = shouldUseSeasonConfig(seasonConfig, latestCsvSeason) ? seasonConfig : null;
+          const latestSeason = activeSeasonConfig ? activeSeasonConfig.season : latestCsvSeason;
           const seasonStartYear = seasonStartYearFromSeasonStr(latestSeason);
+          const seasonRows = data.filter(r => String(r.Season) === String(latestSeason));
+          const resultBasisRow = latestDatedRow(seasonRows) || latestDatedRow(data) || last;
           const asof = document.getElementById("asof-date");
-          if (asof && last.Date) {
-            asof.textContent = `Table based on results up to and including ${formatAsOfDate(last.Date)}.`;
+          if (asof && resultBasisRow.Date) {
+            asof.textContent = `Table based on results up to and including ${formatAsOfDate(resultBasisRow.Date)}.`;
           }
           //logStatus(`Latest season (last row): ${latestSeason}`);
           //logStatus(`Season start year: ${seasonStartYear}`);
           //logStatus("");
 
           const tablesDiv = document.getElementById("tables");
+          const configuredTiers = new Map();
+          if (activeSeasonConfig) {
+            activeSeasonConfig.tiers.forEach(tierData => configuredTiers.set(String(tierData.tier), tierData));
+          }
 
           for (const tier of TIERS) {
             //logStatus(`Tier ${tier}: filtering…`);
 
-            const seasonTier = data.filter(r =>
-              String(r.Season) === String(latestSeason) &&
-              String(r.Tier) === String(tier)
-            );
+            const seasonTier = seasonRows.filter(r => String(r.Tier) === String(tier));
+            const tierConfig = configuredTiers.get(String(tier));
 
-            if (!seasonTier.length) {
+            if (!seasonTier.length && !tierConfig) {
               logStatus(`Tier ${tier}: no rows found for ${latestSeason}.`);
               logStatus("");
               continue;
             }
 
             const divisionSet = new Set(seasonTier.map(r => r.Division).filter(Boolean));
-            const divisionName = divisionSet.size ? Array.from(divisionSet)[0] : `Tier ${tier}`;
+            const divisionName = tierConfig ? tierConfig.division : (divisionSet.size ? Array.from(divisionSet)[0] : `Tier ${tier}`);
 
             const played = seasonTier.filter(r => r.Result === "H" || r.Result === "D" || r.Result === "A");
             //logStatus(`Tier ${tier}: played matches = ${played.length}`);
 
-            const teamSet = new Set();
-            for (const r of played) { teamSet.add(r.HomeTeam); teamSet.add(r.AwayTeam); }
-            const teams = Array.from(teamSet).sort();
+            const teams = tierConfig ? tierConfig.teams : teamsFromRows(played.length ? played : seasonTier);
             const N = teams.length;
             //logStatus(`Tier ${tier}: teams = ${N}`);
             if (N < 2) { logStatus(`Tier ${tier}: not enough teams.`); logStatus(""); continue; }
 
             // points so far INCLUDING deductions/additions
-            const pts = computePointsSoFar(played, latestSeason);
+            const pts = computePointsSoFar(played, latestSeason, teams);
 
-            const elos = latestElosByScanningBackwards(seasonTier, teams);
+            const elos = latestElosByScanningBackwards(data, teams);
 
             const remaining = inferRemainingFixturesDoubleRoundRobin(played, teams);
             //logStatus(`Tier ${tier}: remaining inferred fixtures = ${remaining.length}`);

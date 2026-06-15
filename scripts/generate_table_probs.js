@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const { Worker } = require("worker_threads");
 const Papa = require("papaparse");
 const lpSolver = require("javascript-lp-solver");
@@ -11,7 +12,9 @@ const DEDUCT_CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-fo
 const TIERS = [1, 2, 3, 4];
 
 const SIMS = Number.parseInt(process.env.SIMS || "1000000", 10);
-const OUT_PATH = path.join(process.cwd(), "assets", "data", "tableProbs.json");
+const OUT_PATH = process.env.TABLE_PROBS_OUT || path.join(process.cwd(), "assets", "data", "tableProbs.json");
+const DEFAULT_SEASON_CONFIG_PATH = path.join(process.cwd(), "assets", "data", "tableProbsSeasonConfig.json");
+const SEASON_CONFIG_PATH = process.env.TABLE_PROBS_SEASON_CONFIG || DEFAULT_SEASON_CONFIG_PATH;
 
 const ELO_PER_NAT_LOGIT = 400.0 / Math.log(10.0);
 
@@ -20,6 +23,76 @@ function seasonStartYearFromSeasonStr(seasonStr) {
   if (m) return Number.parseInt(m[1], 10);
   const m2 = String(seasonStr || "").match(/(\d{4})/);
   return m2 ? Number.parseInt(m2[1], 10) : new Date().getFullYear();
+}
+
+function compareSeasons(a, b) {
+  const ay = seasonStartYearFromSeasonStr(a);
+  const by = seasonStartYearFromSeasonStr(b);
+  if (ay !== by) return ay - by;
+  return String(a || "").localeCompare(String(b || ""));
+}
+
+function fileSha256(filePath) {
+  return crypto.createHash("sha256").update(fs.readFileSync(filePath)).digest("hex");
+}
+
+function readSeasonConfig() {
+  if (!fs.existsSync(SEASON_CONFIG_PATH)) return null;
+
+  const rawText = fs.readFileSync(SEASON_CONFIG_PATH, "utf8");
+  const raw = JSON.parse(rawText);
+  const season = String(raw.season || "").trim();
+  if (!season) throw new Error(`${SEASON_CONFIG_PATH} must include a season.`);
+  if (!Array.isArray(raw.tiers)) throw new Error(`${SEASON_CONFIG_PATH} must include a tiers array.`);
+
+  const tiers = raw.tiers.map((tierData) => {
+    const tier = Number.parseInt(tierData.tier, 10);
+    if (!Number.isFinite(tier)) throw new Error("Each season config tier must include a numeric tier.");
+    const division = String(tierData.division || `Tier ${tier}`).trim();
+    if (!Array.isArray(tierData.teams)) throw new Error(`Season config tier ${tier} must include a teams array.`);
+    const teams = tierData.teams.map((team) => String(team || "").trim()).filter(Boolean).sort();
+    const duplicates = teams.filter((team, idx) => teams.indexOf(team) !== idx);
+    if (duplicates.length) throw new Error(`Duplicate teams in season config tier ${tier}: ${duplicates.join(", ")}`);
+    if (teams.length < 2) throw new Error(`Season config tier ${tier} needs at least two teams.`);
+    return { tier, division, teams };
+  });
+
+  const globalTeams = new Map();
+  for (const tierData of tiers) {
+    for (const team of tierData.teams) {
+      if (globalTeams.has(team)) {
+        throw new Error(`Team appears in multiple season config tiers: ${team}`);
+      }
+      globalTeams.set(team, tierData.tier);
+    }
+  }
+
+  return {
+    season,
+    tiers,
+    hash: fileSha256(SEASON_CONFIG_PATH),
+    path: SEASON_CONFIG_PATH,
+  };
+}
+
+function shouldUseSeasonConfig(config, latestCsvSeason) {
+  return !!config && compareSeasons(config.season, latestCsvSeason) >= 0;
+}
+
+function teamsFromRows(rows) {
+  const teamSet = new Set();
+  for (const r of rows) {
+    if (r.HomeTeam) teamSet.add(r.HomeTeam);
+    if (r.AwayTeam) teamSet.add(r.AwayTeam);
+  }
+  return Array.from(teamSet).sort();
+}
+
+function latestDatedRow(rows) {
+  for (let i = rows.length - 1; i >= 0; i--) {
+    if (rows[i] && rows[i].Date) return rows[i];
+  }
+  return null;
 }
 
 function clamp(x, lo, hi) {
@@ -751,8 +824,8 @@ function computeImpossiblePositions(teams, basePoints, remainingCounts) {
   return out;
 }
 
-function computePointsSoFar(playedRows, adjustments, seasonStr) {
-  const teams = new Set();
+function computePointsSoFar(playedRows, adjustments, seasonStr, knownTeams = []) {
+  const teams = new Set(knownTeams);
   for (const r of playedRows) {
     teams.add(r.HomeTeam);
     teams.add(r.AwayTeam);
@@ -790,6 +863,7 @@ async function fetchText(url) {
 
 async function main() {
   const [csvText, deductText] = await Promise.all([fetchText(CSV_URL), fetchText(DEDUCT_CSV_URL)]);
+  const seasonConfig = readSeasonConfig();
 
   const rows = Papa.parse(csvText, {
     header: true,
@@ -797,8 +871,17 @@ async function main() {
   }).data;
 
   if (!rows.length) throw new Error("No CSV rows loaded.");
-  const latestSeason = rows[rows.length - 1].Season;
+  const latestCsvSeason = rows[rows.length - 1].Season;
+  const activeSeasonConfig = shouldUseSeasonConfig(seasonConfig, latestCsvSeason) ? seasonConfig : null;
+  const latestSeason = activeSeasonConfig ? activeSeasonConfig.season : latestCsvSeason;
   const seasonStartYear = seasonStartYearFromSeasonStr(latestSeason);
+  const seasonRows = rows.filter((r) => String(r.Season) === String(latestSeason));
+  const resultBasisRow = latestDatedRow(seasonRows) || latestDatedRow(rows) || {};
+  const configuredTiers = new Map();
+  if (activeSeasonConfig) {
+    for (const tierData of activeSeasonConfig.tiers) configuredTiers.set(String(tierData.tier), tierData);
+    console.log(`Using season config ${activeSeasonConfig.path} for ${activeSeasonConfig.season}`);
+  }
 
   const deductRows = Papa.parse(deductText, {
     header: true,
@@ -821,29 +904,34 @@ async function main() {
     generated_at: new Date().toISOString(),
     sims: SIMS,
     season: latestSeason,
-    last_result_date: rows[rows.length - 1].Date || "",
+    last_result_date: resultBasisRow.Date || "",
+    csv_latest_season: latestCsvSeason,
+    season_config_hash: activeSeasonConfig ? activeSeasonConfig.hash : "",
     tiers: [],
   };
 
   for (const tier of TIERS) {
-    const seasonTier = rows.filter((r) => String(r.Season) === String(latestSeason) && String(r.Tier) === String(tier));
-    if (!seasonTier.length) continue;
+    const seasonTier = seasonRows.filter((r) => String(r.Tier) === String(tier));
+    const tierConfig = configuredTiers.get(String(tier));
+    if (!seasonTier.length && !tierConfig) continue;
 
     const divisionSet = new Set(seasonTier.map((r) => r.Division).filter(Boolean));
-    const divisionName = divisionSet.size ? Array.from(divisionSet)[0] : `Tier ${tier}`;
+    const divisionName = tierConfig
+      ? tierConfig.division
+      : divisionSet.size
+        ? Array.from(divisionSet)[0]
+        : `Tier ${tier}`;
 
     const played = seasonTier.filter((r) => r.Result === "H" || r.Result === "D" || r.Result === "A");
-
-    const teamSet = new Set();
-    for (const r of played) {
-      teamSet.add(r.HomeTeam);
-      teamSet.add(r.AwayTeam);
-    }
-    const teams = Array.from(teamSet).sort();
+    const teams = tierConfig ? tierConfig.teams : teamsFromRows(played.length ? played : seasonTier);
     if (teams.length < 2) continue;
 
-    const pts = computePointsSoFar(played, adjustments, latestSeason);
-    const elos = latestElosByScanningBackwards(seasonTier, teams);
+    const pts = computePointsSoFar(played, adjustments, latestSeason, teams);
+    const elos = latestElosByScanningBackwards(rows, teams);
+    const missingElos = teams.filter((t) => !Number.isFinite(elos[t]));
+    if (missingElos.length) {
+      throw new Error(`No historical Elo/rank found for tier ${tier}: ${missingElos.join(", ")}`);
+    }
     const remaining = inferRemainingFixturesDoubleRoundRobin(played, teams);
 
     const teamIndex = new Map();
@@ -882,7 +970,8 @@ async function main() {
     examples = fillMissingExamplesImportance(teams, fixtures, basePoints, examples, possible, seedKey);
     examples = reverseSearchExamples(teams, fixtures, basePoints, examples, possible, seedKey);
     let ilpMax = Number.parseInt(process.env.ILP_MAX_CASES || "1000", 10);
-    if (!Number.isFinite(ilpMax) || ilpMax <= 0) ilpMax = Number.POSITIVE_INFINITY;
+    if (!Number.isFinite(ilpMax)) ilpMax = 1000;
+    if (ilpMax < 0) ilpMax = Number.POSITIVE_INFINITY;
     let ilpSeconds = Number.parseFloat(process.env.ILP_MAX_SECONDS || "900");
     if (!Number.isFinite(ilpSeconds) || ilpSeconds <= 0) ilpSeconds = Number.POSITIVE_INFINITY;
     let ilpCaseSeconds = Number.parseFloat(process.env.ILP_CASE_SECONDS || "90");
