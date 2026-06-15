@@ -48,13 +48,13 @@ stickers are still missing. In the next pack of $$k$$ stickers, suppose exactly 
 So the number of packs that contain exactly $$r$$ new stickers is:
 
 $$
-{{N-m}\choose r}{m\choose {k-r}}.
+\binom{N-m}{r}\binom{m}{k-r}.
 $$
 
 Since all possible packs are equally likely, the probability of getting exactly $$r$$ new stickers is:
 
 $$
-p_{m,r} = \frac{{{N-m}\choose r}{m\choose {k-r}}}{{N\choose k}},
+p_{m,r} = \frac{\binom{N-m}{r}\binom{m}{k-r}}{\binom{N}{k}},
 $$
 
 where invalid binomial terms are treated as zero. Then, the possible values of $$r$$ are:
