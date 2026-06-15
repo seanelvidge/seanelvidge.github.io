@@ -38,7 +38,7 @@ and in our specific case the goal is to compute $$E_0$$ because we start with ze
 
 $$
 N-m
-$$ 
+$$
 
 stickers are still missing. In the next pack of $$k$$ stickers, suppose exactly $$r$$ of them are new stickers. To get exactly $$r$$ new stickers:
 
