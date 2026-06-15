@@ -50,7 +50,10 @@ function readSeasonConfig() {
     if (!Number.isFinite(tier)) throw new Error("Each season config tier must include a numeric tier.");
     const division = String(tierData.division || `Tier ${tier}`).trim();
     if (!Array.isArray(tierData.teams)) throw new Error(`Season config tier ${tier} must include a teams array.`);
-    const teams = tierData.teams.map((team) => String(team || "").trim()).filter(Boolean).sort();
+    const teams = tierData.teams
+      .map((team) => String(team || "").trim())
+      .filter(Boolean)
+      .sort();
     const duplicates = teams.filter((team, idx) => teams.indexOf(team) !== idx);
     if (duplicates.length) throw new Error(`Duplicate teams in season config tier ${tier}: ${duplicates.join(", ")}`);
     if (teams.length < 2) throw new Error(`Season config tier ${tier} needs at least two teams.`);
@@ -916,11 +919,7 @@ async function main() {
     if (!seasonTier.length && !tierConfig) continue;
 
     const divisionSet = new Set(seasonTier.map((r) => r.Division).filter(Boolean));
-    const divisionName = tierConfig
-      ? tierConfig.division
-      : divisionSet.size
-        ? Array.from(divisionSet)[0]
-        : `Tier ${tier}`;
+    const divisionName = tierConfig ? tierConfig.division : divisionSet.size ? Array.from(divisionSet)[0] : `Tier ${tier}`;
 
     const played = seasonTier.filter((r) => r.Result === "H" || r.Result === "D" || r.Result === "A");
     const teams = tierConfig ? tierConfig.teams : teamsFromRows(played.length ? played : seasonTier);
