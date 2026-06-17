@@ -5,7 +5,7 @@ date: 2026-06-17 22:00:00
 description: What does a geomagnetic storm sound like? Not metaphorically. Literally.
 tags: spaceWeather mathematics
 related_posts: true
-thumbnail: assets/sonification/May_Storm_20240505-20240515.pdf
+thumbnail: assets/img/May_Storm_20240505-20240515.jpg
 ---
 
 What does a geomagnetic storm sound like?
@@ -18,13 +18,11 @@ That is what this blog post is all about. About how we turn space weather events
 
 ## The May 2024 Superstorm
 
-<div class="row mt-3">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/sonification/May_Storm_20240505-20240515.pdf" class="img-fluid rounded z-depth-1" zoomable=true %}
-    </div>
-</div>
+{% include video.liquid path="/assets/sonification/May_Storm_20240505-20240515.pdf" width="100%" height="700"
+  class="rounded z-depth-1" title="May 2024 storm score" %}
 
 {% include audio.liquid path="/assets/sonification/May_Storm_20240505-20240515.mp3" controls=true %}
+(Click play and listen along whilst you read the rest of the post explaining where the music comes from)
 
 ## A storm, compressed into the hands of a pianist
 
