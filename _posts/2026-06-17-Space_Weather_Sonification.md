@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Space Weather - The Musical
-date: 2026-06-17 23:30:00
+date: 2026-06-17 23:00:00
 description: What does a geomagnetic storm sound like? Not metaphorically. Literally.
 tags: spaceWeather mathematics
 related_posts: true
