@@ -12,9 +12,9 @@ What does a geomagnetic storm sound like?
 
 Not metaphorically. Literally.
 
-Imagine taking the indices we use to drive our models of near-Earth space (solar radio flux, sunspot number, geomagnetic activity, ring-current disturbance) and translating it into a piece of music. Not a vague "space-inspired" soundtrack, but a deterministic piano score where every pitch, rhythm, chord, tempo change and accent is driven by real space weather indices.
+Imagine taking the indices we use to drive our models of near-Earth space (solar radio flux, sunspot number, geomagnetic activity, ring-current disturbance) and translating it into a piece of music. This isn't a "space-inspired" soundtrack, but a deterministic piano score where every pitch, rhythm, chord, tempo change and accent is driven by real space weather indices.
 
-That is what this blog post is all about. About how we turn space weather events into a two-hand piano piece. The result is not random sonification. It is a structured musical translation of the space environment, built so that the data can be heard as musical behaviour.
+That is what this blog post is all about. About how we turn space weather events into piano music. The result is a structured musical translation of the space environment, built so that the data can be heard.
 
 ## The May 2024 Superstorm
 
@@ -28,7 +28,7 @@ That is what this blog post is all about. About how we turn space weather events
 
 The example above uses data from May 5th to 15th 2024. This 10-day window captures the period around the major May 2024 geomagnetic storm — an event of intense aurora, severe geomagnetic activity and unusually (at least in recent times) dynamic near-Earth conditions.
 
-Musically, the whole piece is placed onto a fixed daily grid:
+Musically, the piece is placed onto a fixed daily grid:
 
 - one day becomes four bars;
 - each bar is in 6/4;
@@ -36,27 +36,27 @@ Musically, the whole piece is placed onto a fixed daily grid:
 - one hour corresponds to one quarter-note beat;
 - thirty minutes corresponds to half a beat.
 
-So however expressive the notes become (more details below), the structure remains anchored in time. Every layer realigns at midnight. Each day occupies takes up the same "musical space", allowing the changing behaviour of the Sun-Earth system to become clear through changes in texture, pitch, rhythm and intensity.
+So however expressive the notes become (more details below), the structure remains anchored in time. Every layer of space weather indices realigns at midnight. Each day takes up the same "musical space", allowing the changing behaviour of the Sun-Earth system to become clear through changes in texture, pitch, rhythm and intensity.
 
-## Five indices, five different jobs
+## Five indices, five jobs
 
 Here we use five space weather indices, and each are given a different job to do in defining the music:
 
 - F10.7: the adjusted solar radio flux, controls the harmonic root in the left hand.
-- Sunspot number: adds density to the left-hand. When the sunspot number is sufficiently high, we add an octave root.
+- Sunspot number: adds 'density' to the left-hand. When the sunspot number is sufficiently high, we add an octave root.
 - Hp30: drives the right-hand melody. Because Hp30 is available every 30 minutes, it provides a natural melodic line.
 - Kp: controls the broad rhythmic regime. Quiet geomagnetic periods lead to slower figures; storm periods create denser patterns.
-- Dst: as it becomes more negative, the music becomes more forceful through dynamics, accents, tempo and additional texture.
+- Dst: as it becomes more negative, the music becomes more forceful through dynamics, accents and tempo.
 
-Crucially these roles are not decorative. Each index is mapped into a particular part of the musical language. Solar activity shapes harmony. Geomagnetic activity shapes motion. Storm intensity shapes tension.
+I was keen to use as many indices as possible to give the music as much 'texture' as I could do - entirely deterministically. I have tried to make solar activity shape harmony, geomagnetic activity shape motion and storm intensity shape tension.
 
-## The right hand: Hp30 as melody
+## The right hand melody: Hp30
 
-The right hand is most active. It uses a pitch drawn from F# minor (my favourite), ranging from F#4 to E6. Each Hp30 value is normalised and mapped to one of fourteen pitches.
+The right hand is the most active. It uses a pitch drawn from F# minor (my favourite), ranging from F#4 to E6. Each Hp30 value is normalised and mapped to one of fourteen pitches.
 
-This means that higher geomagnetic activity tends to push the melody upward. But the mapping is not purely absolute. The script blends fixed normalisation with local normalisation. In other words, it cares both about how large Hp30 is on a physical scale and how large it is relative to the other values in the selected date range. That choice matters musically because without some local normalisation, quiet periods can become flat and uninteresting. Without fixed normalisation, tiny changes during a quiet day might be exaggerated. The blended approach preserves both scientific scale and musical expressiveness.
+This means that higher geomagnetic activity tends to push the melody upward. But the mapping is not absolute. To create the score we do some local normalisation, i.e. we care both about how large Hp30 is on a physical scale and how large it is relative to the other values in the selected date range. This was needed so that even quite periods (geomagnetically) stay interesting.
 
-The Kp is used to define the rhythm:
+The Kp (a logarithmic scale from 0 to 9) is used to define the rhythm:
 
 - below Kp 5, the rhythm is relatively slow;
 - from Kp 5 to 7, the rhythm becomes more active;
@@ -64,13 +64,13 @@ The Kp is used to define the rhythm:
 
 But the exact rhythm inside each hour also responds to local movement in Hp30 and Dst. If Hp30 jumps within the hour, or if Dst changes sharply from one hour to the next, the right hand becomes more animated. A quiet Kp period is therefore not forced to be dull if the other data are still moving.
 
-## The left hand: solar harmony and storm tension
+## The left hand: harmony and tension
 
-The left hand provides the harmonic frame. It chooses roots from an ordered set:
+The left hand provides the harmonic 'frame' of the piece. It chooses roots from an ordered set:
 
 F#, A, B, C#, D, E, G#.
 
-These are not arranged chromatically. They are arranged to give useful harmonies inside the F# minor world we're working in.
+These are not arranged chromatically but arranged to give useful harmonies inside the F# minor world we're working in.
 
 Each day has four bars, and each bar receives one harmonic root. F10.7 selects the base root. Then the day's pattern of F10.7 and sunspot-number change determines how the four roots move. If solar activity and sunspots are both rising, the harmony tends to climb. If both are falling, it descends. If they disagree, the progression takes a mixed path.
 
@@ -80,15 +80,13 @@ Dst and Kp then decide how much weight the left hand carries. In low-tension per
 
 ## Tempo, dynamics and accents
 
-The score also has some performance notes in it. Each day receives a tempo marking. The base tempo is 76 bpm, but solar activity, Hp30 activity, Dst storm depth and Kp activity can all push the tempo upward. The result is clipped between 60 and 116 bpm, so the music remains playable (at least to my limits!) and controlled.
+The score also has some performance notes in it. Whilst the overall tempo of the piece remains constant throughout, average note length is (slightly) determined by solar activity, Hp30, Dst, and Kp can all push the tempo upward (having an impact of making the piece feel like the speed is changing, but only really ranges from about 60 to 120 bpm so remains playable (at least to my limits!).
 
-We use four dynamic levels: p, mp, mf and f. This allows for clear changes in intensity without going over the top. Accents appear when the normalised activity is high enough. Staccato is added to the shortest right-hand notes. During intense storm intervals, the music becomes not just higher or faster, but sharper and more articulated.
+We also use four dynamic levels: p, mp, mf and f. This allows for clear changes in intensity without going over the top. Accents appear when the normalised activity is high enough. Staccato is added to the shortest right-hand notes. During intense storm intervals, the music becomes not just higher or faster, but sharper and more articulated.
 
 ## Why this is more than sonification
 
-Many data-to-music projects work by assigning one variable to pitch and another to volume. That can be effective, but it often produces a thin musical result. This piano mapping is more ambitious.
-
-It treats the space weather system as a set of interacting musical responsibilities:
+Many data-to-music projects work by assigning one variable to pitch and another to volume. That can be effective, but it often produces a thin musical result. This piano mapping is a little more ambitious. It treats the space weather system as a set of interacting musical lines:
 
 - long-timescale solar conditions become harmony;
 - short-timescale geomagnetic changes become melody;
@@ -103,7 +101,7 @@ This is also all deterministic. Given the same date range then the same notes, r
 
 {% include audio.liquid path="/assets/sonification/May_Storm_20240505-20240515.mp3" controls=true %}
 
-In quiet moments, the music has space. The left hand can hold long chords while the right hand moves slowly through the scale. As activity increases, the melody becomes more agile. Rhythms subdivide. The tempo rises. Accents appear. The left hand gains pulse. The storm becomes audible not as noise, but as structure under pressure.
+In calm moments of the space environment, the music has 'space'. The left hand can hold long chords while the right hand moves slowly through the scale. As activity increases, the melody becomes more agile. Rhythms subdivide. The tempo rises. Accents appear. The left hand gains pulse. The storm becomes audible not as noise, but as structure.
 
 That is the most compelling aspect of the approach. Space weather is often communicated through plots, maps, alerts and indices. Those are essential. But music offers a different route into the same system. It lets us hear change, pressure, release, escalation and recovery.
 
