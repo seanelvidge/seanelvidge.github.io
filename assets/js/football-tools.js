@@ -12,7 +12,7 @@
       typeof value === "number" ? value : FootballRankingsData.parseDate(value)
     );
 
-  async function csv(file, columns, large = false) {
+  async function csv(file, columns, large = false, normalise = large) {
     if (!window.Papa) throw new Error("The data reader could not load. Check your connection and reload the page.");
     const response = await fetch(base + file, { signal: AbortSignal.timeout(90000) });
     if (!response.ok) throw new Error(`Could not load ${file} (${response.status}). Please try again.`);
@@ -30,10 +30,10 @@
             parser.abort();
             return;
           }
-          const chunk = large ? FootballResultsData.normaliseMatches(result.data) : result.data;
+          const chunk = normalise ? FootballResultsData.normaliseMatches(result.data) : result.data;
           for (const row of chunk) rows.push(row);
         },
-        complete: () => resolve(large ? rows.sort((a, b) => a.timestamp - b.timestamp) : rows),
+        complete: () => resolve(normalise ? rows.sort((a, b) => a.timestamp - b.timestamp) : rows),
         error: reject,
       });
     });
@@ -149,6 +149,7 @@
   window.FootballTools = {
     element,
     date,
+    csv,
     load,
     options,
     matchName,

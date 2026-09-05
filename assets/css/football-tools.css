@@ -445,7 +445,8 @@ form .football-actions {
     grid-column: 1;
     grid-row: 2;
   }
-  #h2h-swap {
+  #h2h-swap,
+  #match-swap {
     grid-column: 2;
     grid-row: 1 / 3;
     align-self: center;
