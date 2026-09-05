@@ -251,12 +251,11 @@ That is about 2.4% per season, or one six-or-more-goal haul every 42 Premier Lea
 |    30 seasons |                                       51.2% |
 |    40 seasons |                                       61.5% |
 
-
 On this model, the first Premier League double hat-trick becomes roughly a coin-flip proposition over the next 30 seasons, assuming the future resembles the historical period.
 
 ## Uncertainty
 
-The uncertainty is substantial because the upper tail is informed by only 37 four-goal hauls, five five-goal hauls and no six-goal hauls. A parametric bootstrap from the fitted grouped distribution gives an indicative 95% interval for $$P(K\ge 6\vert K>0)$$ of approximately $$1.5\times 10^{-5}$$ to $$4.2\times 10^{-5}$$. This corresponds to a rate between roughly one six-or-more haul every 27 to 75 seasons. 
+The uncertainty is substantial because the upper tail is informed by only 37 four-goal hauls, five five-goal hauls and no six-goal hauls. A parametric bootstrap from the fitted grouped distribution gives an indicative 95% interval for $$P(K\ge 6\vert K>0)$$ of approximately $$1.5\times 10^{-5}$$ to $$4.2\times 10^{-5}$$. This corresponds to a rate between roughly one six-or-more haul every 27 to 75 seasons.
 
 # Discussion
 
