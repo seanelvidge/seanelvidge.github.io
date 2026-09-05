@@ -4,7 +4,7 @@ title: Hard Rock Cafes
 description: A map of the Hard Rock Cafes which I have visited, and which I need to visit.
 img: assets/img/hrc_may25.png
 redirect: /hrc
-importance: 9
+importance: 12
 ---
 
 pass
