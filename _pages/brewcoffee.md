@@ -104,11 +104,6 @@ tags: coffee
       <section aria-labelledby="coffee-notes-heading">
         <h2 id="coffee-notes-heading">Tasting notes</h2>
         <p class="rankings-note">Choose any notes from the bag, or “Other” in the closest family. Tap a selected chip to remove it.</p>
-        <details class="coffee-note-help">
-          <summary>How the tasting notes are used</summary>
-          <p class="rankings-note">Each recipe rule applies once, however many matching notes you select. Different traits can still combine: citrus can contribute both fruity and acidity adjustments. “Other” uses the broad family rule without assuming a more specific flavour.</p>
-          <p class="rankings-note">New earthy, roasted, fermented and spiced presets use a gentle finish: 1°C less on the final pulse. This shares the existing sweet-note adjustment, so the reductions do not add together. These are experimental starting points—taste the result and adjust.</p>
-        </details>
         <div class="football-field"><label for="coffee-note-search">Find a tasting note</label><input id="coffee-note-search" type="search" placeholder="e.g. chocolate, lemon, caramel" autocomplete="off" aria-controls="coffee-note-groups"></div>
         <div class="coffee-selection-heading"><span id="coffee-note-count" class="rankings-note" role="status">No notes selected</span><button id="coffee-clear-notes" class="rankings-button" type="button" hidden>Clear notes</button></div>
         <div id="coffee-selected-notes" class="coffee-selected-notes"></div>
