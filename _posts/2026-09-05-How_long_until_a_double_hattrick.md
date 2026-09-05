@@ -46,7 +46,7 @@ Roughly speaking, moving from one scoring level to the next happens about one ti
 * about 10.2% as many four-goal performances as hat-tricks;
 * and about 13.5% as many five-goal performances as four-goal performances.
 
-That does **not** mean that somebody who has already scored five has a 10–13% chance of immediately scoring a sixth. These are frequencies across complete player performances, not probabilities during an individual match.
+That does not mean that somebody who has already scored five has a 10–13% chance of immediately scoring a sixth. These are frequencies across complete player performances, not probabilities during an individual match.
 
 But it does suggest something useful: the number of extreme scoring performances falls away rapidly, while the fall-off is reasonably regular.
 
@@ -62,9 +62,9 @@ A Poisson model in its simplest form assumes a single underlying scoring rate. B
 
 A centre-back playing for a relegation-threatened team does not have the same scoring prospects as Erling Haaland playing up front for Manchester City. The same player can have very different prospects from one match to another depending on the opposition, minutes played, penalties, red cards, tactics and simply how the match develops.
 
-So rather than assuming a single scoring rate, we can imagine **lots of different scoring rates mixed together**.
+So rather than assuming a single scoring rate, we can imagine lots of different scoring rates mixed together.
 
-Mathematically, doing this in a particular natural way leads to something called a **negative binomial distribution**.
+Mathematically, doing this in a particular natural way leads to something called a [negative binomial distribution](https://en.wikipedia.org/wiki/Negative_binomial_distribution).
 
 The name is much less important than the idea. We are saying:
 
@@ -89,7 +89,7 @@ Fitting the model to the observed one-, two-, three-, four- and five-goal perfor
 
 The agreement is perhaps better than I would have expected.
 
-Most importantly, the model predicts that by now we should have seen about **0.83 performances with six or more goals**.
+Most importantly, the model predicts that by now we should have seen about 0.83 performances with six or more goals.
 
 At first sight that might sound as though we are overdue one. After all, 0.83 is getting fairly close to 1.
 
@@ -105,7 +105,7 @@ So there is about a **44% probability that the Premier League would still have h
 
 That is the result I find most interesting.
 
-**The fact that nobody has scored six Premier League goals in a match is not particularly surprising.**
+The fact that nobody has scored six Premier League goals in a match is not particularly surprising.
 
 There was almost a fifty-fifty chance that we would still be waiting.
 
@@ -121,7 +121,7 @@ $$
 
 that a Premier League scoring performance contains six or more goals.
 
-That is about **one in every 36,900 occasions on which a player scores in a match**.
+That is about one in every 36,900 occasions on which a player scores in a match.
 
 A modern 380-match Premier League season produces roughly 880 scoring player-performances. That translates into about a
 
@@ -142,17 +142,17 @@ It is more useful to look at the cumulative probability:
 | 30 seasons |                                     **51%** |
 | 40 seasons |                                         62% |
 
-On this model, therefore, there is roughly a **one-in-two chance that somebody scores six or more goals in a Premier League match within the next 30 seasons**.
+On this model, therefore, there is roughly a one-in-two chance that somebody scores six or more goals in a Premier League match within the next 30 seasons.
 
 There is, of course, considerable uncertainty in that number. We are trying to estimate the frequency of something that has never actually happened, using only five five-goal performances and 37 four-goal performances to tell us about the very far end of the distribution.
 
-A reasonable uncertainty range puts the average rate at somewhere between approximately **one every 27 seasons and one every 75 seasons**.
+A reasonable uncertainty range puts the average rate at somewhere between approximately one every 27 seasons and one every 75 seasons.
 
 But the qualitative conclusion does not really change.
 
 ## Not overdue — but not unimaginable
 
-This is a useful example of the distinction between an event being **unobserved** and an event being **surprisingly absent**.
+This is a useful example of the distinction between an event being unobserved and an event being surprisingly absent.
 
 Nobody has ever scored six in a Premier League match. That makes it historically exceptional, but it does not mean something statistically peculiar has happened.
 
