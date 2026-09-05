@@ -117,8 +117,8 @@ with observed categories $$k=1,\ldots,5$$ and the grouped tail $$k\ge 6$$ with z
 The maximum likelihood estimates of the zero-truncated negative binomial are:
 
 $$
-\hat{r} &=& 0.4767,\\
-\hat{p} &=& 0.1434,
+\hat{r} = 0.4767,\\
+\hat{p} = 0.1434,
 $$
 
 and the corresponding zero probability in the truncated distribution is
