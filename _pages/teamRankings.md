@@ -26,6 +26,7 @@ tags: football
   <div class="rankings-chart-panel">
     <div class="rankings-toolbar" role="group" aria-label="Chart controls">
       <span id="rankings-period" class="rankings-note">Full history</span>
+      <button type="button" id="rankings-touch" class="rankings-button" aria-pressed="false" disabled>Explore chart</button>
       <button type="button" id="rankings-zoom-in" class="rankings-button" aria-label="Zoom in on the time axis" disabled>Zoom in</button>
       <button type="button" id="rankings-zoom-out" class="rankings-button" aria-label="Zoom out on the time axis" disabled>Zoom out</button>
       <button type="button" id="rankings-reset" class="rankings-button" disabled>Full history</button>
@@ -35,7 +36,7 @@ tags: football
       <div id="rankings-empty" class="rankings-empty">Add a team above to explore its history.</div>
     </div>
   </div>
-  <p id="rankings-help" class="rankings-note">Hover or tap for a rating and date. Drag to pan; pinch or Ctrl + scroll to zoom. Click a team’s name below the search box to hide or show its line.</p>
+  <p id="rankings-help" class="rankings-note">Hover or tap for a rating and date. On touch screens, swipe to scroll the page; choose “Explore chart” to pan and pinch, then “Scroll page” when finished. With a mouse, drag to pan or Ctrl + scroll to zoom. Click a team’s name to hide or show its line.</p>
 
   <section id="rankings-records" class="rankings-records" aria-labelledby="rankings-records-title" hidden>
     <h2 id="rankings-records-title">Highs &amp; lows</h2>

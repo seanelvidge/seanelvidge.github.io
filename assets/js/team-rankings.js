@@ -14,6 +14,21 @@
   let records, fullStart, fullEnd, chart, focus;
   let colourWarning = "";
   let teams = [];
+  const touchLayout = window.matchMedia("(pointer: coarse), (max-width: 600px)");
+  let touchExploring = false;
+
+  function updateTouchMode() {
+    const gestures = !touchLayout.matches || touchExploring;
+    byId("touch").hidden = !touchLayout.matches;
+    byId("touch").textContent = touchExploring ? "Scroll page" : "Explore chart";
+    byId("touch").setAttribute("aria-pressed", String(touchExploring));
+    if (!chart) return;
+    chart.options.plugins.zoom.pan.enabled = gestures;
+    chart.options.plugins.zoom.zoom.pinch.enabled = gestures;
+    chart.update("none");
+    // Override the touch-action set by Hammer after it updates its recognisers.
+    chart.canvas.style.setProperty("touch-action", gestures ? "none" : "pan-y", "important");
+  }
 
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -149,11 +164,11 @@
           },
           zoom: {
             limits: { x: { min: fullStart, max: fullEnd, minRange: 30 * FootballRankingsData.DAY } },
-            pan: { enabled: true, mode: "x", onPanComplete: fitView },
+            pan: { enabled: !touchLayout.matches, mode: "x", onPanComplete: fitView },
             zoom: {
               mode: "x",
               wheel: { enabled: true, modifierKey: "ctrl" },
-              pinch: { enabled: true },
+              pinch: { enabled: !touchLayout.matches },
               onZoomComplete: fitView,
             },
           },
@@ -175,6 +190,7 @@
       },
     });
     updateTheme();
+    updateTouchMode();
   }
 
   function fitView() {
@@ -377,6 +393,15 @@
     fitView();
   });
   new MutationObserver(updateTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  byId("touch").addEventListener("click", () => {
+    touchExploring = !touchExploring;
+    updateTouchMode();
+  });
+  touchLayout.addEventListener("change", () => {
+    touchExploring = false;
+    updateTouchMode();
+  });
+  updateTouchMode();
 
   async function load() {
     byId("retry").hidden = true;
@@ -403,7 +428,7 @@
           selected.set(team, { ...FootballRankingsData.chooseStyle(metadata.get(team), [...selected.values()]), visible: true });
       }
       render();
-      for (const id of ["team", "add", "reset", "zoom-in", "zoom-out"]) byId(id).disabled = false;
+      for (const id of ["team", "add", "reset", "zoom-in", "zoom-out", "touch"]) byId(id).disabled = false;
       feedback.textContent = `${teams.length} teams available. Type a name to add it to the plot.`;
       byId("data-note").textContent = `Recorded ratings: ${formatDate(summary.start)} – ${formatDate(
         summary.end
