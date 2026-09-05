@@ -14,7 +14,7 @@ Andrew Cole did it for Manchester United against Ipswich in 1995. Alan Shearer f
 
 But nobody has ever scored six.
 
-A hat-trick is sufficiently common that we normally see several every season. Four goals in a match is unusual, but hardly unprecedented. Five is exceptional. Six — the *double hat-trick* — has still never happened in the Premier League.
+A hat-trick is sufficiently common that we normally see several every season. Four goals in a match is unusual, but hardly unprecedented. Five is exceptional. Six — the _double hat-trick_ — has still never happened in the Premier League.
 
 That raises an obvious question:
 
@@ -41,10 +41,10 @@ There is already quite a striking pattern here.
 
 Roughly speaking, moving from one scoring level to the next happens about one time in ten:
 
-* about 10.5% as many braces as single-goal performances;
-* about 12.6% as many hat-tricks as braces;
-* about 10.2% as many four-goal performances as hat-tricks;
-* and about 13.5% as many five-goal performances as four-goal performances.
+- about 10.5% as many braces as single-goal performances;
+- about 12.6% as many hat-tricks as braces;
+- about 10.2% as many four-goal performances as hat-tricks;
+- and about 13.5% as many five-goal performances as four-goal performances.
 
 That does not mean that somebody who has already scored five has a 10–13% chance of immediately scoring a sixth. These are frequencies across complete player performances, not probabilities during an individual match.
 
@@ -95,7 +95,7 @@ At first sight that might sound as though we are overdue one. After all, 0.83 is
 
 But expected values do not work quite like that.
 
-If an event occurs randomly with an expected count of 0.83 over some period, the probability of seeing *none at all* is approximately
+If an event occurs randomly with an expected count of 0.83 over some period, the probability of seeing _none at all_ is approximately
 
 $$
 P(0)=e^{-0.83}\approx0.44.
