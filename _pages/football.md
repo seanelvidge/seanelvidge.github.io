@@ -8,9 +8,9 @@ seo:
   type: CollectionPage
 ---
 
-Football supplies an almost unlimited collection of questions that can be tested with data. Does home advantage change over time? Is 40 points enough to avoid relegation? And is a club's “bogey ground” really more than a memorable run of bad results?
+Football supplies an almost unlimited collection of questions that can be tested with data. Does home advantage change over time? Is 40 points enough to avoid relegation? And is a club's "bogey ground" really more than a memorable run of bad results?
 
-This is the starting point for my football statistics: the underlying results database, tools for exploring it, and selected articles explaining what the numbers can—and cannot—tell us.
+This is the starting point for my football statistics: the underlying results database, tools for exploring it, and selected articles explaining what the numbers can, and cannot, tell us.
 
 <div class="topic-callout" markdown="1">
 ## Start with the English football results database
@@ -31,13 +31,6 @@ My [English football league results dataset]({% post_url 2024-12-28-All_England_
 
 These tools use **league matches**, not a complete record of domestic cups, European competitions or friendlies.
 
-## Rivalries in the records
-
-These pages are regenerated from the results CSV during the site's automatic updates. Their records are readable even without JavaScript, with the data date shown and links to explore the latest database:
-
-- [Manchester United vs Liverpool: league head-to-head record]({{ '/football/manchester-united-vs-liverpool/' | relative_url }})
-- [Arsenal vs Tottenham: league head-to-head record]({{ '/football/arsenal-vs-tottenham/' | relative_url }})
-
 ## Questions worth testing
 
 - [How many points avoid Premier League relegation?]({% post_url 2025-11-08-40_points_to_avoid_relegation %}) — test the familiar 40-point benchmark against historical seasons.
@@ -49,5 +42,18 @@ These pages are regenerated from the results CSV during the site's automatic upd
 ## How the models work
 
 Start with [Bayesian football team-strength ratings]({% post_url 2025-12-15-Football_team_rankings %}), then follow the step from individual matches to [league-position probabilities]({% post_url 2025-12-22-League_table_prediction_probabilities %}). For the underlying ideas, visit [mathematics and statistics]({{ '/mathematics/' | relative_url }}).
+
+## Rivalries in the records
+
+As an example use of some of the data on this site, the links below highlight results for some of the major rivalries in the English football league:
+
+- [Manchester United vs Liverpool (The Northwest Derby): league head-to-head record]({{ '/football/manchester-united-vs-liverpool/' | relative_url }})
+- [Arsenal vs Tottenham (North London Derby): league head-to-head record]({{ '/football/arsenal-vs-tottenham/' | relative_url }})
+- [Manchester City vs Manchester United (Manchester Derby): league head-to-head record]({{ '/football/mancity-vs-manutd/' | relative_url }})
+- [Liverpool vs Everton (Merseyside Derby): league head-to-head record]({{ '/football/liverpool-vs-everton/' | relative_url }})
+- [Newcastle United vs Sunderland (Tyne-Wear Derby): league head-to-head record]({{ '/football/newcastle-vs-sunderland/' | relative_url }})
+- [Coventry City vs Leicester City (M69 Derby): league head-to-head record]({{ '/football/coventry-vs-leicester/' | relative_url }})
+
+(for a list of other [road name related derbies...]({% post_url 2024-01-15-The_M69_Derby %}))
 
 [Browse every football article]({{ '/articles/tag/football/' | relative_url }}).
