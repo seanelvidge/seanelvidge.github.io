@@ -34,6 +34,12 @@ test("snapshots share the H2H calculations, preserve tied records and exclude un
   assert.equal(record.recent[0].date, "2026-01-04");
   assert.equal(result.database_through, "2026-01-04");
   assert.equal(result.rivalries["arsenal-vs-tottenham"].played, 2);
+  assert.deepEqual(record.win_history, [
+    ["2026-01-01", 1, 2, 0, 0, 1],
+    ["2026-01-02", 0, 1, 1, 0, 1],
+    ["2026-01-03", 0, 0, 2, 0, 2],
+    ["2026-01-04", 0, 1, 0, 1, 2],
+  ]);
   assert.match(result.source_sha256, /^[a-f0-9]{64}$/);
 });
 
@@ -53,6 +59,16 @@ test("saved records contain only the selected rivalries and internally consisten
     assert.ok(record.latest.date <= saved.as_of);
     assert.ok(record.premier.played <= record.played);
     assert.ok(record.recent.length <= 10);
+    assert.equal(record.win_history.length, record.played);
+    assert.deepEqual(record.win_history.at(-1).slice(4), record.wins);
+    assert.equal(record.win_history[0][0], record.first.date);
+    assert.equal(record.win_history.at(-1)[0], record.latest.date);
+    const cumulative = [0, 0];
+    for (const [date, home, homeGoals, awayGoals, firstWins, secondWins] of record.win_history) {
+      assert.ok(date <= saved.as_of);
+      if (homeGoals !== awayGoals) cumulative[homeGoals > awayGoals ? home : 1 - home]++;
+      assert.deepEqual([firstWins, secondWins], cumulative);
+    }
     record.biggest.forEach((biggest, team) =>
       biggest.matches.forEach((m) => {
         const margin = m.home === record.teams[team] ? m.home_goals - m.away_goals : m.away_goals - m.home_goals;
@@ -101,6 +117,7 @@ test("automatic refresh fetches only the first-party results CSV and updates eve
   assert.deepEqual(derby.wins, [1, 2]);
   assert.equal(derby.biggest[1].margin, 4);
   assert.equal(derby.latest.date, "2026-01-05");
+  assert.deepEqual(derby.win_history.at(-1), ["2026-01-05", 1, 4, 0, 1, 2]);
   assert.deepEqual(fs.readdirSync(directory), ["football_rivalries.json"]);
 });
 

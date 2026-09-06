@@ -96,6 +96,7 @@ tags: football
 <script defer src="{{ '/assets/js/team-rankings-data.js' | relative_url }}"></script>
 <script defer src="{{ '/assets/js/football-results-data.js' | relative_url }}"></script>
 <script defer src="{{ '/assets/js/football-tools.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/football-win-history.js' | relative_url }}"></script>
 <script defer src="{{ '/assets/js/football-h2h.js' | relative_url }}"></script>
 
 <section class="tool-guide" markdown="1" aria-label="About this football tool">

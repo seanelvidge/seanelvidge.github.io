@@ -5,6 +5,8 @@ layout: page
 {% assign record = snapshot.rivalries[page.rivalry] %}
 {% assign first_team = record.teams[0] %}
 {% assign second_team = record.teams[1] %}
+<link rel="stylesheet" href="{{ '/assets/css/team-rankings.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/football-tools.css' | relative_url }}">
 <p class="rivalry-intro">
   {{ first_team }} and {{ second_team }} have {{ record.played }} recorded league meetings in this database, from
   <time datetime="{{ record.first.date }}">{{ record.first.date | date: '%-d %B %Y' }}</time> to
@@ -57,6 +59,28 @@ layout: page
   {{ record.latest.home_goals }}–{{ record.latest.away_goals }}
   {{ record.latest.away }} on {{ record.latest.date | date: '%-d %B %Y' }}.
 </p>
+
+<section class="team-rankings football-tool rivalry-wins-chart" id="rivalry-wins" aria-labelledby="rivalry-wins-title">
+  <div class="football-panel">
+    <h2 id="rivalry-wins-title">Wins over time</h2>
+    <p class="rankings-note">
+      Cumulative league wins. Hover or tap to see a match; click a team's name to hide or show its line. Swipe vertically to scroll the page.
+    </p>
+    <p class="rankings-note" id="rivalry-chart-status" role="status">
+      The chart requires JavaScript and its chart libraries. All statistics and recent results remain available below.
+    </p>
+    <div class="football-history-chart" id="rivalry-chart-display" hidden>
+      <canvas
+        id="rivalry-history"
+        role="img"
+        aria-label="Cumulative wins across {{ record.played }} league meetings. {{ first_team | escape }}: {{ record.wins[0] }} wins; {{ second_team | escape }}: {{ record.wins[1] }} wins."
+      ></canvas>
+    </div>
+  </div>
+</section>
+<script type="application/json" id="rivalry-chart-data">
+  {"teams": {{ record.teams | jsonify | replace: '<', '\u003c' }}, "rows": {{ record.win_history | jsonify | replace: '<', '\u003c' }}}
+</script>
 
 <h2>Home and away records</h2>
 <div class="rivalry-table-scroll">
@@ -159,14 +183,10 @@ layout: page
   <a href="{{ '/teamRankings' | relative_url }}">compare team-strength ratings over time</a>.
 </p>
 
-<h2>Data and method</h2>
-<p>
-  Calculated from Sean Elvidge's <a href="{% post_url 2024-12-28-All_England_football_league_results %}">English football league results database</a>,
-  using the same win, draw, goal and winning-margin calculations as the interactive tool. All match records, totals and summaries on this page come
-  from that CSV alone; no other website is queried for results or commentary. Corrections and later fixtures in the database are included when the
-  page is regenerated.
-</p>
-<p>
-  <a href="{{ snapshot.source }}">Download the current results CSV</a> ·
-  <a href="{{ '/football/' | relative_url }}">More football statistics and data</a>
-</p>
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js"></script>
+<script defer src="{{ '/assets/js/team-rankings-data.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/football-tools.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/football-win-history.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/rivalry-chart.js' | relative_url }}"></script>

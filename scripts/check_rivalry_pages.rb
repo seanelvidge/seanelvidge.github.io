@@ -20,6 +20,12 @@ snapshot.fetch("rivalries").each do |slug, record|
   check.call(dates == [snapshot.fetch("as_of"), snapshot.fetch("database_through")], "#{slug}: data dates are stale")
   check.call(!doc.text.include?("most watched") && !doc.text.include?("dated reference"), "#{slug}: old editorial/snapshot copy remains")
   check.call(doc.css("h1").length == 1, "#{slug}: missing/duplicate page title")
+  check.call(doc.css("h2").none? { |heading| heading.text == "Data and method" }, "#{slug}: removed Data and method section remains")
+  check.call(doc.at_css("#rivalry-history")&.[]("aria-label")&.include?(record["played"].to_s), "#{slug}: accessible chart missing")
+  chart = JSON.parse(doc.at_css("#rivalry-chart-data")&.text || "{}")
+  check.call(chart["teams"] == record["teams"] && chart["rows"] == record["win_history"], "#{slug}: chart data differs from CSV record")
+  check.call(chart["rows"]&.length == record["played"] && chart["rows"]&.last&.last(2) == record["wins"], "#{slug}: chart totals differ from table")
+  check.call(doc.css("script[src]").any? { |script| script["src"].include?("football-win-history.js") }, "#{slug}: shared chart script missing")
 
   tables = doc.css(".rivalry-table")
   check.call(tables.length == 3, "#{slug}: record tables missing")

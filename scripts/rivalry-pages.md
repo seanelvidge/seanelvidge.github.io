@@ -25,10 +25,13 @@ The live refresh only accepts the hard-coded first-party CSV URL and rejects red
 
 These are automatically regenerated league records, not live scores or all-competition records. The preselected H2H links remain available for interactive exploration.
 
+The “Wins over time” chart shares its Chart.js configuration with the H2H tool. Its compact `win_history` rows (date, home-team index, home goals, away goals, first-team wins, second-team wins) are generated from the same CSV and embedded in the HTML, keeping the chart and tables in sync without a browser-side CSV download. It uses contrasting fallback colours so no additional club-data source is required. Hover/tap shows each score; legend clicks toggle a line, and vertical touch scrolling remains available. If scripts cannot load, the page's records remain readable.
+
 Checks:
 
 ```sh
 node --test scripts/rivalry_snapshots.test.js
+node --test scripts/football_win_history.test.js
 bundle exec ruby scripts/check_rivalry_pages.rb _site
 ```
 

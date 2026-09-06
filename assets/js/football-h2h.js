@@ -133,66 +133,16 @@
       },
       options: { ...common(), indexAxis: "y", scales: { x: { ...axis("Matches"), beginAtZero: true }, y: axis("") } },
     });
-    const options = common();
-    options.plugins.legend.display = true;
-    options.plugins.tooltip = {
-      callbacks: {
-        title: (items) => {
-          const m = items[0]?.raw.match;
-          return m ? `${UI.date(m.Date)} · ${m.HomeTeam} ${m.hGoal}–${m.aGoal} ${m.AwayTeam}` : "";
-        },
-        label: (context) => `${context.dataset.label}: ${context.parsed.y} wins`,
-      },
-    };
-    const history = new Chart(el("history"), {
-      type: "line",
-      plugins: [
-        {
-          id: "clubLineContrast",
-          beforeDatasetDraw(chart) {
-            chart.ctx.save();
-            chart.ctx.shadowColor = UI.theme(el("tool")).text;
-            chart.ctx.shadowBlur = 2;
-          },
-          afterDatasetDraw(chart) {
-            chart.ctx.restore();
-          },
-        },
-      ],
-      data: {
-        datasets: teams.map((team, i) => ({
-          label: team,
-          data: stats.history[i],
-          borderColor: styles[i].colour,
-          backgroundColor: styles[i].colour,
-          borderDash: styles[i].dash,
-          borderWidth: 2.5,
-          // Chart.js "before" holds the previous total until the next match date.
-          stepped: "before",
-          pointRadius: stats.meetings.length === 1 ? 4 : 0,
-          pointHoverRadius: 5,
-          pointHitRadius: 10,
-        })),
-      },
-      options: {
-        ...options,
-        parsing: false,
-        interaction: { mode: "index", intersect: false },
-        onResize(chart, size) {
-          chart.options.scales.x.ticks.maxTicksLimit = Math.max(3, Math.floor(size.width / 110));
-        },
-        scales: {
-          x: {
-            ...axis("Year"),
-            type: "time",
-            adapters: { date: { zone: "utc" } },
-            time: { minUnit: "day", displayFormats: { year: "yyyy", month: "MMM yyyy", day: "d MMM yyyy" } },
-            ticks: { maxTicksLimit: 5, maxRotation: 0, autoSkipPadding: 16 },
-          },
-          y: { ...axis("Cumulative wins"), beginAtZero: true },
-        },
-      },
-    });
+    const history = new Chart(
+      el("history"),
+      FootballWinHistory.config({
+        teams,
+        history: stats.history,
+        styles,
+        theme: () => UI.theme(el("tool")),
+        date: UI.date,
+      })
+    );
     charts = [outcomes, history];
     updateTheme();
     el("outcomes").setAttribute("aria-label", `${teams[0]}: ${stats.wins[0]} wins. ${stats.draws} draws. ${teams[1]}: ${stats.wins[1]} wins.`);

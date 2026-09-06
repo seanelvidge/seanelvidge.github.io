@@ -66,6 +66,16 @@ function snapshot(csv, asOf) {
             biggest: stats.biggest.map((record) => ({ margin: record.margin, matches: record.matches.map(compact) })),
             premier: { played: premier.meetings.length, wins: premier.wins, draws: premier.draws },
             recent: stats.meetings.slice(-10).reverse().map(compact),
+            // Embed only this pair's matches and CSV-derived cumulative totals.
+            // The browser never needs to download the full database to plot them.
+            win_history: stats.meetings.map((match, i) => [
+              match.Date,
+              teams.indexOf(match.HomeTeam),
+              match.hGoal,
+              match.aGoal,
+              stats.history[0][i].y,
+              stats.history[1][i].y,
+            ]),
           },
         ];
       })
