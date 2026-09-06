@@ -23,7 +23,7 @@ pagination:
 
 {% if paginator.page == nil or paginator.page == 1 %}
 <header class="home-intro">
-  <p>I am [Professor of Space Environment at the University of Birmingham](https://www.birmingham.ac.uk/staff/profiles/eese/elvidge-sean) and am Head of the [Space Environment and Radio Engineering (SERENE)](https://serene.bham.ac.uk) research group, statistician and occasional analyst of things that probably didn’t require analysing.</p>
+  <p>Welcome to my website, I am Professor of Space Environment at the University of Birmingham, Head of the SERENE research group, statistician and occasional analyst of things that probably didn’t require analysing.</p>
   <p>Here you will find articles, datasets and interactive tools covering <em>football statistics</em>, <em>mathematics</em>, <em>space weather</em> and assorted quantitative curiosities.</p>
   {% include topic-links.liquid %}
 </header>
