@@ -58,9 +58,11 @@ tags: football
 <section class="tool-guide" markdown="1" aria-label="About this football tool">
 
 ## Football match outcome probabilities
+
 Estimate the chances of a home win, draw or away win using each team's latest recorded strength rating. Home and away are different roles: swapping the clubs changes the home-advantage contribution. The three probabilities sum to 100% before display rounding.
 
 ### How the calculation works
+
 The calculator uses my [Bayesian football team-strength model]({% post_url 2025-12-15-Football_team_rankings %}) and the ranked version of the [English league results database]({% post_url 2024-12-28-All_England_football_league_results %}). Ratings are updated from league results; the probability calculation includes the current year's home-advantage adjustment. Read the [historical home-advantage analysis]({% post_url 2025-01-13-Home_advantage_in_English_football %}) for context.
 
 These are model estimates, not betting odds or guarantees. They do not account for current line-ups, injuries or every other match-specific factor. An inactive club uses its last recorded rating, so comparisons involving historical teams should be treated as illustrative.
