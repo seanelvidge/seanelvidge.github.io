@@ -44,7 +44,7 @@
         <ul class="navbar-nav ml-auto flex-nowrap">
           {% for nav_page in site.pages %}
             {% if nav_page.url == '/' or nav_page.url == '/index.html' %}
-              {% assign about_title = nav_page.nav_title | default: nav_page.title %} 
+              {% assign about_title = nav_page.nav_title | default: nav_page.title %}
             {% endif %}
           {% endfor %}
 
