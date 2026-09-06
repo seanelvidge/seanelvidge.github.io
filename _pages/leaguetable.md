@@ -92,12 +92,15 @@ tags: football
 <section class="tool-guide" markdown="1" aria-label="About this football tool">
 
 ## Historical English football league tables
+
 Reconstruct a league table from recorded match results for a season or an inclusive date range. Select a **tier** to follow a level of the pyramid through changes in competition names, or a **named division** to focus on that competition. Seasons use the full form, such as 2023/2024.
 
 ### What does the table calculate?
+
 The tool aggregates played, won, drawn and lost matches, goals for and against, and points. It accounts for historical two- or three-point wins, supported tie-breaking rules and the separate points-adjustment file. Relevant exceptions, including points-per-game standings, are explained alongside the output. A partial date range is a table of matches in that selection, not automatically an official end-of-season table.
 
 ### Coverage and example uses
+
 The [English league results dataset]({% post_url 2024-12-28-All_England_football_league_results %}) begins in 1888 and covers England's top four league tiers as they developed; the modern Premier League begins in 1992. Cup matches are not included. Corrections or missing administrative information can make a reconstruction differ from a published official table.
 
 Try [the 2023/2024 top-tier table]({{ '/leaguetable' | relative_url }}?season=2023%2F2024&amp;tier=1), compare home rivals with the [head-to-head tool]({{ '/h2h' | relative_url }}), or investigate [how many points have been needed to avoid relegation]({% post_url 2025-11-08-40_points_to_avoid_relegation %}). For forecasts rather than historical standings, use [league-position probabilities]({{ '/tableProbs' | relative_url }}).
