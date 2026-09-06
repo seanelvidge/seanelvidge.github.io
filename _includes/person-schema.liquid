@@ -1,0 +1,31 @@
+{% assign person_id = '/about/#person' | absolute_url %}
+{% assign person_url = '/about/' | absolute_url %}
+{% assign person_image = '/assets/img/prof_pic.jpg' | absolute_url %}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": {{ person_id | jsonify }},
+    "name": "Sean Elvidge",
+    "url": {{ person_url | jsonify }},
+    "image": {{ person_image | jsonify }},
+    "jobTitle": "Professor of Space Environment",
+    "worksFor": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of Birmingham",
+      "url": "https://www.birmingham.ac.uk/"
+    },
+    "affiliation": {
+      "@type": "Organization",
+      "name": "Space Environment and Radio Engineering (SERENE)",
+      "url": "https://serene.bham.ac.uk/"
+    },
+    "sameAs": [
+      "https://www.birmingham.ac.uk/staff/profiles/eese/elvidge-sean",
+      "https://research.birmingham.ac.uk/en/persons/sean-elvidge/",
+      "https://orcid.org/0000-0003-2846-0730",
+      "https://scholar.google.com/citations?user=sB-bxrIAAAAJ",
+      "https://www.linkedin.com/in/sean-elvidge-bb743248"
+    ]
+  }
+</script>

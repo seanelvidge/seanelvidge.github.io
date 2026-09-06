@@ -19,20 +19,21 @@ layout: default
     <h1 class="post-title">{{ page.title }}</h1>
     <p class="post-meta">
       {{ page.date | date: '%B %d, %Y' }}
-      {% if page.author %}• {{ page.author }}{% endif %}
+      • {% if page.author %}{{ page.author }}{% else %}<a href="{{ '/about/' | relative_url }}">Sean Elvidge</a>{% endif %}
+      {% if page.last_modified_at %} · Updated {{ page.last_modified_at | date: '%B %d, %Y' }}{% endif %}
       {% if page.meta %}• {{ page.meta }}{% endif %}
     </p>
     <p class="post-tags">
-      {% if url_beginning == '/blog/' %}
-        <a href="{{ year | prepend: '/blog/' | prepend: site.baseurl}}"> <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
+      {% if page.collection == 'posts' %}
+        <a href="{{ year | prepend: '/articles/' | relative_url }}"> <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
       {% else %}
         <i class="fa-solid fa-calendar fa-sm"></i> {{ year }}
       {% endif %}
       {% if tags != '' %}
         &nbsp; &middot; &nbsp;
         {% for tag in page.tags %}
-          {% if url_beginning == '/blog/' %}
-            <a href="{{ tag | slugify | prepend: '/blog/tag/' | prepend: site.baseurl}}"> <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }}</a>
+          {% if page.collection == 'posts' %}
+            <a href="{{ tag | slugify | prepend: '/articles/tag/' | relative_url }}"> <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }}</a>
             &nbsp;
           {% else %}
             <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }} &nbsp;
@@ -43,8 +44,8 @@ layout: default
       {% if categories != '' %}
         &nbsp; &middot; &nbsp;
         {% for category in page.categories %}
-          {% if url_beginning == '/blog/' %}
-            <a href="{{ category | slugify | prepend: '/blog/category/' | prepend: site.baseurl}}">
+          {% if page.collection == 'posts' %}
+            <a href="{{ category | slugify | prepend: '/articles/category/' | relative_url }}">
               <i class="fa-solid fa-tag fa-sm"></i> {{ category -}}
             </a>
             &nbsp;
@@ -67,6 +68,10 @@ layout: default
       {{ content }}
     </div>
   </article>
+
+  {% if page.tags contains 'football' or page.tags contains 'mathematics' or page.tags contains 'spaceWeather' %}
+    <div class="article-topic-link">{% include topic-links.liquid %}</div>
+  {% endif %}
 
   {% if page.related_publications %}
     <h2>References</h2>

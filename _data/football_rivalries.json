@@ -1,0 +1,388 @@
+{
+  "as_of": "2026-09-06",
+  "database_through": "2026-09-02",
+  "source": "https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeagueResults.csv",
+  "source_sha256": "f112afa22311817d41419fc35a256092794c927af734249dbce88e4d6279e095",
+  "rivalries": {
+    "manchester-united-vs-liverpool": {
+      "teams": ["Manchester United", "Liverpool"],
+      "played": 186,
+      "wins": [71, 62],
+      "draws": 53,
+      "goals": [251, 255],
+      "venue": [
+        {
+          "home": "Manchester United",
+          "played": 93,
+          "wins": [45, 19],
+          "draws": 29
+        },
+        {
+          "home": "Liverpool",
+          "played": 93,
+          "wins": [26, 43],
+          "draws": 24
+        }
+      ],
+      "first": {
+        "date": "1895-10-12",
+        "season": "1895/1896",
+        "home": "Liverpool",
+        "away": "Manchester United",
+        "home_goals": 7,
+        "away_goals": 1,
+        "division": "Football League Second Division",
+        "tier": "2"
+      },
+      "latest": {
+        "date": "2026-05-03",
+        "season": "2025/2026",
+        "home": "Manchester United",
+        "away": "Liverpool",
+        "home_goals": 3,
+        "away_goals": 2,
+        "division": "Premier League",
+        "tier": "1"
+      },
+      "biggest": [
+        {
+          "margin": 5,
+          "matches": [
+            {
+              "date": "1928-05-05",
+              "season": "1927/1928",
+              "home": "Manchester United",
+              "away": "Liverpool",
+              "home_goals": 6,
+              "away_goals": 1,
+              "division": "Football League First Division",
+              "tier": "1"
+            },
+            {
+              "date": "1946-09-11",
+              "season": "1946/1947",
+              "home": "Manchester United",
+              "away": "Liverpool",
+              "home_goals": 5,
+              "away_goals": 0,
+              "division": "Football League First Division",
+              "tier": "1"
+            }
+          ]
+        },
+        {
+          "margin": 7,
+          "matches": [
+            {
+              "date": "2023-03-05",
+              "season": "2022/2023",
+              "home": "Liverpool",
+              "away": "Manchester United",
+              "home_goals": 7,
+              "away_goals": 0,
+              "division": "Premier League",
+              "tier": "1"
+            }
+          ]
+        }
+      ],
+      "premier": {
+        "played": 68,
+        "wins": [31, 20],
+        "draws": 17
+      },
+      "recent": [
+        {
+          "date": "2026-05-03",
+          "season": "2025/2026",
+          "home": "Manchester United",
+          "away": "Liverpool",
+          "home_goals": 3,
+          "away_goals": 2,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2025-10-19",
+          "season": "2025/2026",
+          "home": "Liverpool",
+          "away": "Manchester United",
+          "home_goals": 1,
+          "away_goals": 2,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2025-01-05",
+          "season": "2024/2025",
+          "home": "Liverpool",
+          "away": "Manchester United",
+          "home_goals": 2,
+          "away_goals": 2,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2024-09-01",
+          "season": "2024/2025",
+          "home": "Manchester United",
+          "away": "Liverpool",
+          "home_goals": 0,
+          "away_goals": 3,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2024-04-07",
+          "season": "2023/2024",
+          "home": "Manchester United",
+          "away": "Liverpool",
+          "home_goals": 2,
+          "away_goals": 2,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2023-12-17",
+          "season": "2023/2024",
+          "home": "Liverpool",
+          "away": "Manchester United",
+          "home_goals": 0,
+          "away_goals": 0,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2023-03-05",
+          "season": "2022/2023",
+          "home": "Liverpool",
+          "away": "Manchester United",
+          "home_goals": 7,
+          "away_goals": 0,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2022-08-22",
+          "season": "2022/2023",
+          "home": "Manchester United",
+          "away": "Liverpool",
+          "home_goals": 2,
+          "away_goals": 1,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2022-04-19",
+          "season": "2021/2022",
+          "home": "Liverpool",
+          "away": "Manchester United",
+          "home_goals": 4,
+          "away_goals": 0,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2021-10-24",
+          "season": "2021/2022",
+          "home": "Manchester United",
+          "away": "Liverpool",
+          "home_goals": 0,
+          "away_goals": 5,
+          "division": "Premier League",
+          "tier": "1"
+        }
+      ]
+    },
+    "arsenal-vs-tottenham": {
+      "teams": ["Arsenal", "Tottenham Hotspur"],
+      "played": 178,
+      "wins": [75, 55],
+      "draws": 48,
+      "goals": [284, 242],
+      "venue": [
+        {
+          "home": "Arsenal",
+          "played": 89,
+          "wins": [47, 18],
+          "draws": 24
+        },
+        {
+          "home": "Tottenham Hotspur",
+          "played": 89,
+          "wins": [28, 37],
+          "draws": 24
+        }
+      ],
+      "first": {
+        "date": "1909-12-04",
+        "season": "1909/1910",
+        "home": "Arsenal",
+        "away": "Tottenham Hotspur",
+        "home_goals": 1,
+        "away_goals": 0,
+        "division": "Football League First Division",
+        "tier": "1"
+      },
+      "latest": {
+        "date": "2026-02-22",
+        "season": "2025/2026",
+        "home": "Tottenham Hotspur",
+        "away": "Arsenal",
+        "home_goals": 1,
+        "away_goals": 4,
+        "division": "Premier League",
+        "tier": "1"
+      },
+      "biggest": [
+        {
+          "margin": 6,
+          "matches": [
+            {
+              "date": "1935-03-06",
+              "season": "1934/1935",
+              "home": "Tottenham Hotspur",
+              "away": "Arsenal",
+              "home_goals": 0,
+              "away_goals": 6,
+              "division": "Football League First Division",
+              "tier": "1"
+            }
+          ]
+        },
+        {
+          "margin": 5,
+          "matches": [
+            {
+              "date": "1911-12-25",
+              "season": "1911/1912",
+              "home": "Tottenham Hotspur",
+              "away": "Arsenal",
+              "home_goals": 5,
+              "away_goals": 0,
+              "division": "Football League First Division",
+              "tier": "1"
+            },
+            {
+              "date": "1983-04-04",
+              "season": "1982/1983",
+              "home": "Tottenham Hotspur",
+              "away": "Arsenal",
+              "home_goals": 5,
+              "away_goals": 0,
+              "division": "Football League First Division",
+              "tier": "1"
+            }
+          ]
+        }
+      ],
+      "premier": {
+        "played": 68,
+        "wins": [29, 15],
+        "draws": 24
+      },
+      "recent": [
+        {
+          "date": "2026-02-22",
+          "season": "2025/2026",
+          "home": "Tottenham Hotspur",
+          "away": "Arsenal",
+          "home_goals": 1,
+          "away_goals": 4,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2025-11-23",
+          "season": "2025/2026",
+          "home": "Arsenal",
+          "away": "Tottenham Hotspur",
+          "home_goals": 4,
+          "away_goals": 1,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2025-01-15",
+          "season": "2024/2025",
+          "home": "Arsenal",
+          "away": "Tottenham Hotspur",
+          "home_goals": 2,
+          "away_goals": 1,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2024-09-15",
+          "season": "2024/2025",
+          "home": "Tottenham Hotspur",
+          "away": "Arsenal",
+          "home_goals": 0,
+          "away_goals": 1,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2024-04-28",
+          "season": "2023/2024",
+          "home": "Tottenham Hotspur",
+          "away": "Arsenal",
+          "home_goals": 2,
+          "away_goals": 3,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2023-09-24",
+          "season": "2023/2024",
+          "home": "Arsenal",
+          "away": "Tottenham Hotspur",
+          "home_goals": 2,
+          "away_goals": 2,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2023-01-15",
+          "season": "2022/2023",
+          "home": "Tottenham Hotspur",
+          "away": "Arsenal",
+          "home_goals": 0,
+          "away_goals": 2,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2022-10-01",
+          "season": "2022/2023",
+          "home": "Arsenal",
+          "away": "Tottenham Hotspur",
+          "home_goals": 3,
+          "away_goals": 1,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2022-05-12",
+          "season": "2021/2022",
+          "home": "Tottenham Hotspur",
+          "away": "Arsenal",
+          "home_goals": 3,
+          "away_goals": 0,
+          "division": "Premier League",
+          "tier": "1"
+        },
+        {
+          "date": "2021-09-26",
+          "season": "2021/2022",
+          "home": "Arsenal",
+          "away": "Tottenham Hotspur",
+          "home_goals": 3,
+          "away_goals": 1,
+          "division": "Premier League",
+          "tier": "1"
+        }
+      ]
+    }
+  }
+}

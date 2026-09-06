@@ -13,7 +13,6 @@ giscus_comments: true
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Milestone Date Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;

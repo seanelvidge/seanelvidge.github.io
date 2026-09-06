@@ -2,16 +2,18 @@
 layout: post
 title: Waning Home Advantage in English League Football
 date: 2025-01-13 09:00:00
-description: An investigation in the trend of home advantage in English football
+description: How has home advantage changed in English football since 1888? Explore historical home-win, draw and away-win rates using the league results database.
 tags: football
 thumbnail: assets/img/home_advantage_trend_fallback.png
+image_alt: Home-win, draw and away-win percentages by English football season from 1888, showing the long-term decline in home wins.
+last_modified_at: 2026-09-06
 related_posts: true
 giscus_comments: true
 ---
 
 For generations, "home advantage" has been a tenet of sports. The roar of the crowd, the familiarity of the pitch, the comfort of the home dressing room – all give the home team an edge. This is particularly true in English football. However, a look at the data spanning over a century of English football reveals an interesting trend: the home advantage is shrinking.
 
-Using my database of all English league results since 1888 (available [here](https://github.com/seanelvidge/England-football-results), and described [here](https://seanelvidge.com/articles/2024/All_England_football_league_results/)) we can track the Home Win %, Draw %, and Away Win % from 1888 to the present day (at the time of writing, that is halfway through the 2024/2025 season, but the charts in this post should automatically update). The results are pretty clear:
+Using my [historical English league results database]({% post_url 2024-12-28-All_England_football_league_results %}) ([download the data on GitHub](https://github.com/seanelvidge/England-football-results)), we can track the Home Win %, Draw %, and Away Win % from 1888 to the present day (at the time of writing, that is halfway through the 2024/2025 season, but the charts in this post should automatically update). The results are pretty clear:
 
 <html>
 <div class="chart-container">
@@ -20,7 +22,7 @@ Using my database of all English league results since 1888 (available [here](htt
 <img
   id="fallbackImage1"
   src="{{ '/assets/img/home_advantage_trend_fallback.png' | relative_url }}"
-  alt="Fallback image for home, draw, away % win"
+  alt="Home-win, draw and away-win percentages by English football season from 1888, showing the long-term decline in home wins."
   style="display: none; max-width: 100%;"
 />
 <style>
@@ -45,7 +47,7 @@ It would be easy to assume that this trend is confined to the top tier of Englis
 <img
   id="fallbackImage2"
   src="{{ '/assets/img/home_advantage_trend_fallback_by_division.png' | relative_url }}"
-  alt="Fallback image for home win % by division"
+  alt="Home-win percentages over time for each of the top four tiers of English football."
   style="display: none; max-width: 100%;"
 />
 </html>
@@ -60,6 +62,8 @@ So, what's driving this shift away from home dominance? Several factors are like
 - Professionalization and Fitness: Players today are fitter, faster, and more technically skilled than ever before. This overall increase in athleticism can help away teams better cope with the pressures of playing in hostile environments, a trend seen across the footballing spectrum.
 
 ## The Future of Home Advantage
+
+This changing home advantage is an explicit input to my [Bayesian football team-strength model]({% post_url 2025-12-15-Football_team_rankings %}). Try the [match probability calculator]({{ '/matchProbs' | relative_url }}) to see its effect on a fixture, or compare a particular pair's historical home and away results with the [head-to-head tool]({{ '/h2h' | relative_url }}).
 
 Whilst home advantage may not be what it once was, it hasn't disappeared entirely. The support of the home crowd can still provide a boost, and familiarity with the surroundings can offer a slight edge. However, the trend is undeniable. The gap between home and away performance is narrowing, and the English Football League, across all its divisions, is becoming increasingly competitive on all fronts.
 

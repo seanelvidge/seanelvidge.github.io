@@ -9,7 +9,7 @@ related_posts: true
 giscus_comments: true
 ---
 
-I recently purchased a [Fellow Aiden Precision Coffee Maker](https://amzn.to/4j7ni2U) which is a pour over coffee brewer. Able to brew individual cups to whole batches this machine is fantastic, and gives you complete control of the recipe it uses. From the bloom time and temperature to the number of pulses and the ability to control the temperature of each individual pulse.
+I recently purchased a [Fellow Aiden Precision Coffee Maker](https://amzn.to/4j7ni2U){:rel="sponsored noopener"} which is a pour over coffee brewer. Able to brew individual cups to whole batches this machine is fantastic, and gives you complete control of the recipe it uses. From the bloom time and temperature to the number of pulses and the ability to control the temperature of each individual pulse.
 
 There are a number of default reciepes included and through the [Fellow Drops](https://fellowproducts.com/pages/fellow-drops) programme you can get a number of tuned recipes for those coffees. Whilst, at the end of the day, coffee all coems down to personal preference, and any provided reciepe will need fine tuning, there are some fundamentals which provide a good starting point. To try and capture that information I have made the following recipe generator:
 
@@ -181,6 +181,6 @@ Dark Roasts: Decrease temperature progressively from 91°C to 85°C to minimize 
 
 # Conclusion
 
-The [Fellow Aiden Precision Coffee Maker](https://amzn.to/4j7ni2U) is a great coffee brewer, giving you almost complete control of the brewing process. You can access the recipe generator here:
+The [Fellow Aiden Precision Coffee Maker](https://amzn.to/4j7ni2U){:rel="sponsored noopener"} is a great coffee brewer, giving you almost complete control of the brewing process. You can access the recipe generator here:
 
 [seanelvidge.com/brewcoffee](https://seanelvidge.com/brewcoffee)

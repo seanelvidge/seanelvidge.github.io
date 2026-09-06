@@ -1,0 +1,160 @@
+---
+layout: page
+---
+{% assign snapshot = site.data.football_rivalries %}
+{% assign record = snapshot.rivalries[page.rivalry] %}
+{% assign first_team = record.teams[0] %}
+{% assign second_team = record.teams[1] %}
+{{ content }}
+<p>
+  <strong>Scope:</strong> recorded English league matches only. Domestic cups, European competitions, friendlies and separate end-of-season test
+  matches are not included. Club names follow the database's historical naming conventions.
+</p>
+<p>
+  Snapshot calculated on <time datetime="{{ snapshot.as_of }}">{{ snapshot.as_of | date: '%-d %B %Y' }}</time>, from a database containing results
+  through {{ snapshot.database_through | date: '%-d %B %Y' }}. This page is a dated reference, not a live score service.
+</p>
+
+<h2>Overall league head-to-head record</h2>
+<p>
+  Across {{ record.played }} recorded league meetings, {{ first_team }} have {{ record.wins[0] }} wins, {{ second_team }} have
+  {{ record.wins[1] }} wins, and {{ record.draws }} matches have been drawn.
+</p>
+<table class="rivalry-table">
+  <caption>
+    All league meetings in this snapshot, at either club's home ground
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Measure</th>
+      <th scope="col">{{ first_team }}</th>
+      <th scope="col">{{ second_team }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Wins</th>
+      <td>{{ record.wins[0] }}</td>
+      <td>{{ record.wins[1] }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Goals scored</th>
+      <td>{{ record.goals[0] }}</td>
+      <td>{{ record.goals[1] }}</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  The first recorded league meeting in this dataset was {{ record.first.home }}
+  {{ record.first.home_goals }}–{{ record.first.away_goals }}
+  {{ record.first.away }} on {{ record.first.date | date: '%-d %B %Y' }} ({{ record.first.division }}). The latest included meeting was
+  {{ record.latest.home }}
+  {{ record.latest.home_goals }}–{{ record.latest.away_goals }}
+  {{ record.latest.away }} on {{ record.latest.date | date: '%-d %B %Y' }}.
+</p>
+
+<h2>Home and away records</h2>
+<div class="rivalry-table-scroll">
+  <table class="rivalry-table">
+    <caption>
+      Venue split: the win columns always refer to the named club, not the home or away side
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Home team</th>
+        <th scope="col">Played</th>
+        <th scope="col">{{ first_team }} wins</th>
+        <th scope="col">Draws</th>
+        <th scope="col">{{ second_team }} wins</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for venue in record.venue %}
+        <tr>
+          <th scope="row">{{ venue.home }}</th>
+          <td>{{ venue.played }}</td>
+          <td>{{ venue.wins[0] }}</td>
+          <td>{{ venue.draws }}</td>
+          <td>{{ venue.wins[1] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<p>
+  A home/away split is descriptive, not a forecast. Read about
+  <a href="{% post_url 2025-01-13-Home_advantage_in_English_football %}">how home advantage has changed in English football</a> before treating a
+  long-run record as a measure of today's teams.
+</p>
+
+<h2>Premier League era</h2>
+<p>
+  Restricting the record to top-tier league meetings from August 1992 gives {{ record.premier.played }} matches: {{ record.premier.wins[0] }}
+  {{ first_team }} wins, {{ record.premier.draws }} draws and {{ record.premier.wins[1] }}
+  {{ second_team }} wins. This is a subset of the all-history total, not an additional set of matches.
+</p>
+
+<h2>Biggest league wins</h2>
+{% for biggest in record.biggest %}
+  {% assign club = record.teams[forloop.index0] %}
+  <h3>{{ club }}: {{ biggest.margin }}-goal margin</h3>
+  <ul>
+    {% for match in biggest.matches %}
+      <li>
+        {{ match.home }}
+        {{ match.home_goals }}–{{ match.away_goals }}
+        {{ match.away }}, {{ match.date | date: '%-d %B %Y' }} ({{ match.division }}).
+      </li>
+    {% endfor %}
+  </ul>
+{% endfor %}
+<p>“Biggest” means the largest winning margin; every tied record in the dataset is listed.</p>
+
+<h2>Recent league results</h2>
+<table class="rivalry-table">
+  <caption>
+    The ten latest recorded league meetings, newest first; home team shown first
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Home</th>
+      <th scope="col">Score</th>
+      <th scope="col">Away</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for match in record.recent %}
+      <tr>
+        <td>
+          <time datetime="{{ match.date }}">{{ match.date | date: '%-d %b %Y' }}</time>
+        </td>
+        <td>{{ match.home }}</td>
+        <td>{{ match.home_goals }}–{{ match.away_goals }}</td>
+        <td>{{ match.away }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Explore the full match history</h2>
+<p>
+  <a href="{{ '/h2h' | relative_url }}?team1={{ first_team | url_encode }}&amp;team2={{ second_team | url_encode }}"
+    >Compare {{ first_team }} and {{ second_team }} in the interactive head-to-head tool</a
+  >
+  to see the current database, all recorded meetings, season/date filters and charts. You can also
+  <a href="{{ '/leaguetable' | relative_url }}">reconstruct the league table for a season</a> or
+  <a href="{{ '/teamRankings' | relative_url }}">compare team-strength ratings over time</a>.
+</p>
+
+<h2>Data and method</h2>
+<p>
+  Calculated from Sean Elvidge's <a href="{% post_url 2024-12-28-All_England_football_league_results %}">English football league results database</a>,
+  using the same win, draw, goal and winning-margin calculations as the interactive tool. The historical source for 1888–2016 is James P. Curley's
+  <a href="https://doi.org/10.5281/zenodo.13158">engsoccerdata</a>. These are records as represented in the dataset; corrections and later fixtures
+  may change the totals.
+</p>
+<p>
+  <a href="{{ snapshot.source }}">Download the current results CSV</a> ·
+  <a href="{{ '/football/' | relative_url }}">More football statistics and data</a>
+</p>

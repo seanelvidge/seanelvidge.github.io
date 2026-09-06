@@ -6,6 +6,7 @@ description: No player has scored six goals in a single Premier League match - h
 tags: football mathematics
 related_posts: true
 thumbnail: assets/img/topScorers.png
+image_decorative: true
 ---
 
 Five players have scored five goals in a single Premier League match.

@@ -5,6 +5,8 @@ date: 2024-10-11 14:31:00
 description: This week, across much of the world including the UK, the majestic aurora borealis, or Northern Lights, were once again visible to us.
 tags: spaceWeather
 thumbnail: assets/img/aurora.jpg
+image_alt: Aurora illuminating the night sky during a geomagnetic storm.
+last_modified_at: 2026-09-06
 related_posts: true
 ---
 
@@ -13,6 +15,8 @@ This was the second time this year they have been broadly visible across the UK,
 What has caused this sudden surge in activity? The answer lies in the Sun’s solar cycle, which is rapidly approaching the peak of its activity, and, just like waiting for a bus, after 20 years of relative calm, the UK has now seen two major solar storms in the space of six months.
 
 ## Solar Maximum: The Driver Behind the Lights
+
+The solar cycle helps explain when activity is more likely, but estimating the probability of an exceptionally large event needs a different statistical lens. My [introduction to extreme value theory]({% post_url 2019-06-01-Maths_on_a_Mug_8 %}) explains how we study the tails of the distribution, with examples from space weather research.
 
 At the heart of this increased auroral activity is the Sun itself. The Sun goes through cycles of roughly 11 years, moving from periods of quiet (solar minimum) to periods of high activity (solar maximum). We’re currently approaching solar maximum, and this is why we’re seeing more frequent and powerful solar storms.
 

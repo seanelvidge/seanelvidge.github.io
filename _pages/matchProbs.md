@@ -54,3 +54,19 @@ tags: football
 <script defer src="{{ '/assets/js/football-tools.js' | relative_url }}"></script>
 <script defer src="{{ '/assets/js/match-probabilities-data.js' | relative_url }}"></script>
 <script defer src="{{ '/assets/js/match-probabilities.js' | relative_url }}"></script>
+
+<section class="tool-guide" markdown="1" aria-label="About this football tool">
+
+## Football match outcome probabilities
+Estimate the chances of a home win, draw or away win using each team's latest recorded strength rating. Home and away are different roles: swapping the clubs changes the home-advantage contribution. The three probabilities sum to 100% before display rounding.
+
+### How the calculation works
+The calculator uses my [Bayesian football team-strength model]({% post_url 2025-12-15-Football_team_rankings %}) and the ranked version of the [English league results database]({% post_url 2024-12-28-All_England_football_league_results %}). Ratings are updated from league results; the probability calculation includes the current year's home-advantage adjustment. Read the [historical home-advantage analysis]({% post_url 2025-01-13-Home_advantage_in_English_football %}) for context.
+
+These are model estimates, not betting odds or guarantees. They do not account for current line-ups, injuries or every other match-specific factor. An inactive club uses its last recorded rating, so comparisons involving historical teams should be treated as illustrative.
+
+Try [Arsenal at home to Liverpool]({{ '/matchProbs' | relative_url }}?team1=Arsenal&amp;team2=Liverpool), then swap the venue. To understand how those strengths evolved, [plot team ratings over time]({{ '/teamRankings' | relative_url }}). To compare past results instead of predicted outcomes, use the [head-to-head calculator]({{ '/h2h' | relative_url }}).
+
+[More football models and statistics]({{ '/football/' | relative_url }}).
+
+</section>

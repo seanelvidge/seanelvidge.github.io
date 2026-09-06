@@ -97,3 +97,20 @@ tags: football
 <script defer src="{{ '/assets/js/football-results-data.js' | relative_url }}"></script>
 <script defer src="{{ '/assets/js/football-tools.js' | relative_url }}"></script>
 <script defer src="{{ '/assets/js/football-h2h.js' | relative_url }}"></script>
+
+<section class="tool-guide" markdown="1" aria-label="About this football tool">
+
+## English football head-to-head records
+This calculator compares two clubs using the [English football league results database]({% post_url 2024-12-28-All_England_football_league_results %}), which starts in 1888 and covers the top four league tiers as they developed. It counts wins, draws and goals from the recorded final scores, lists the largest winning margins, and lets you browse individual meetings.
+
+### Choose the period you want to compare
+Type two team names, then choose all history, a season, or an inclusive date range. “Premier League era only” limits dates to August 1992 onwards; it does **not** restrict the comparison to the top division. The charts describe the selected historical meetings, not the probability of the next result.
+
+### What is included?
+These are league records, not all-competitions totals: FA Cup, League Cup, European games and friendlies are not included. Clubs only appear for the periods represented in the database. The source's team-name conventions distinguish separate historical clubs.
+
+For worked examples with statistics available without JavaScript, read [Manchester United vs Liverpool's league record]({{ '/football/manchester-united-vs-liverpool/' | relative_url }}) or [Arsenal vs Tottenham's North London derby record]({{ '/football/arsenal-vs-tottenham/' | relative_url }}). For standings rather than meetings, use the [historical league-table generator]({{ '/leaguetable' | relative_url }}).
+
+[Explore all football data, tools and analyses]({{ '/football/' | relative_url }}).
+
+</section>

@@ -2,10 +2,12 @@
 layout: post
 title: 40 points to avoid relegation?
 date: 2025-11-08 23:04:00
-description: 40 points is the classic benchmark to avoid relegation from the Premier League, is this the right value?
+description: Are 40 points enough to avoid Premier League relegation? Compare historical survival thresholds and the probability of staying up at different points totals.
 tags: football mathematics
 related_posts: true
 thumbnail: assets/img/pts_avoid_relegation.png
+image_alt: Historical points needed to avoid top-flight relegation by season, compared with the 40-point benchmark.
+last_modified_at: 2026-09-06
 ---
 
 <html>
@@ -78,6 +80,8 @@ The above figure shows two, slightly different, CDFs, in blue across the whole d
 Now the 40 point value makes a lot more sense, as it gives a team over an 80% chance of staying in the division, now I prefer those odds!
 
 So, whilst there are plenty of posts online telling you that the 40 point target is a myth, I think, as pre-season target for teams, it is still a good one.
+
+These historical thresholds answer a different question from a team's prospects today. For current model estimates, explore the [league-position probability tool]({{ '/tableProbs' | relative_url }}) and its [forecast methodology]({% post_url 2025-12-22-League_table_prediction_probabilities %}). You can also download the [complete historical English league results database]({% post_url 2024-12-28-All_England_football_league_results %}) to try a different definition of survival.
 
 <!-- Load Chart.js once -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>

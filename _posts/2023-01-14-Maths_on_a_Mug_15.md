@@ -1,10 +1,13 @@
 ---
 layout: post
 title: Maths on a Mug 15
+description: An introduction to Bayes' theorem and conditional probability, using a worked example to explain why a positive test result can be misleading.
 date: 2023-01-14 12:00:00
 tags: mathematics MathsOnAMug
 related_posts: true
 thumbnail: assets/img/mathsonamug/mathsonamug_15.jpeg
+image_alt: Bayes' theorem printed on a mathematics mug.
+last_modified_at: 2026-09-06
 ---
 
 <div class="row mt-3">
@@ -15,7 +18,7 @@ thumbnail: assets/img/mathsonamug/mathsonamug_15.jpeg
     </div>
 </div>
 
-This is a "simple" [#MathsOnAMug](https://seanelvidge.github.io/articles/tag/mathsonamug/){:target="\_blank"}. Simple, but very important. This is [Bayes’ theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem){:target="\_blank"}:
+This is a "simple" [#MathsOnAMug](https://seanelvidge.com/articles/tag/mathsonamug/){:target="\_blank"}. Simple, but very important. This is [Bayes’ theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem){:target="\_blank"}:
 
 $$
 P(A|B)=P(B|A)P(A)P(B).
@@ -44,7 +47,9 @@ How we interpret Bayes’ theorem depends on how we interpret probability, a [Ba
 
 <hr>
 
+The same idea of updating beliefs with new evidence appears in my [Bayesian football team-strength model]({% post_url 2025-12-15-Football_team_rankings %}). For a sequential version of this process, see the [Kalman filter notes]({{ '/kalman' | relative_url }}), or explore more [probability and statistics articles]({{ '/mathematics/' | relative_url }}).
+
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/articles/2021/Maths_on_a_Mug_14/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.com/articles/2021/Maths_on_a_Mug_14/" style="text-decoration: none;">Previous Maths on a Mug</a>
     Next Maths on a Mug
 </div>

@@ -2,10 +2,12 @@
 layout: post
 title: Tracking Football Team Strengths with a Bayesian Kalman Model
 date: 2025-12-15 09:20:00
-description: The methodology behind my football team strength model.
+description: How a Bayesian extended Kalman filter estimates English football team strengths, uncertainty and match probabilities from historical league results.
 tags: football mathematics
 related_posts: true
 thumbnail: assets/img/football_rankings.png
+image_alt: Illustration of three teams' performance ratings changing over time.
+last_modified_at: 2026-09-06
 ---
 
 Not all football-rating systems are the same. Many of the public ones, like the excellent [ClubElo](http://clubelo.com/System), do a fine job of ranking teams using elegant updates. Win and your rating rises, lose and it falls; the amount you move depends on how "surprised" the model was.
@@ -17,6 +19,8 @@ Across the [full historical dataset](https://seanelvidge.com/articles/2024/All_E
 The rest of this post goes into the mathematical details of the ranking algorithm, but if you want to access the underlying data it is [available here](https://github.com/seanelvidge/England-football-results) (specifically the file [`EnglandLeagueResults_wRanks.csv`](https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv)).
 
 ## The Big Picture
+
+Try the model through the [interactive team rankings history]({{ '/teamRankings' | relative_url }}) or the [match win, draw and loss probability calculator]({{ '/matchProbs' | relative_url }}). For background on updating uncertain estimates, my [Bayes' theorem explainer]({% post_url 2023-01-14-Maths_on_a_Mug_15 %}) and [Kalman filter notes]({{ '/kalman' | relative_url }}) introduce the underlying ideas.
 
 Imagine every team has a hidden "true strength" $$s_i$$. Before a match, the home and away teams carry beliefs about their current strengths, each with an associated uncertainty. When they play, the result provides new information that updates those beliefs.
 
@@ -68,7 +72,7 @@ Predictive accuracy is measured using the [Brier score](https://en.wikipedia.org
 
 Internally, the filter operates on a latent "skill" scale roughly spanning $$-3$$ to $$+3$$. However for presentation, these values are mapped linearly onto an Elo-style scale, centred on 1000 points, with elite teams reaching 1800+ and lower-league teams clustering about a thousand points below. This transformation is purely cosmetic; all inference happens on the latent scale.
 
-# Part II — If You Dare Read On: The Mathematics
+## Part II — If You Dare Read On: The Mathematics
 
 ## 1. State Evolution ([Ornstein–Uhlenbeck](https://en.wikipedia.org/wiki/Ornstein%E2%80%93Uhlenbeck_process) Dynamics)
 

@@ -56,3 +56,20 @@ tags: football
 <script defer src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
 <script defer src="{{ '/assets/js/team-rankings-data.js' | relative_url }}"></script>
 <script defer src="{{ '/assets/js/team-rankings.js' | relative_url }}"></script>
+
+<section class="tool-guide" markdown="1" aria-label="About this football tool">
+
+## English football team-strength ratings since 1888
+Compare the rise and fall of clubs using their modelled strength after each recorded league match. Add several teams by typing their names, inspect points on the chart, and use the highest/lowest-rating cards to jump to notable periods.
+
+### A rating is not a league position
+The vertical axis is a **strength rating**, where a higher value means a stronger estimated team. It is not first place, second place and so on. The ratings come from the [Bayesian Kalman football model]({% post_url 2025-12-15-Football_team_rankings %}), not a simple count of recent wins.
+
+### Data coverage and interpretation
+The chart reads the post-match home and away ratings in [EnglandLeagueResults_wRanks.csv](https://github.com/seanelvidge/England-football-results/blob/main/EnglandLeagueResults_wRanks.csv). The underlying [English league results database]({% post_url 2024-12-28-All_England_football_league_results %}) begins in 1888; individual clubs appear only where they have recorded ratings. Gaps between points can reflect periods outside the covered leagues and do not imply additional observations.
+
+Use the [league-table generator]({{ '/leaguetable' | relative_url }}) for actual standings, or turn the latest strengths into [match outcome probabilities]({{ '/matchProbs' | relative_url }}). Comparisons over distant eras depend on the model and should not be interpreted as observed matches between those teams.
+
+[Explore football statistics and data]({{ '/football/' | relative_url }}).
+
+</section>

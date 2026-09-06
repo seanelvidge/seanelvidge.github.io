@@ -2,13 +2,17 @@
 layout: post
 title: How to Calculate League Position Probabilities
 date: 2025-12-22 19:30:00
-description: The methodology behind how I calculate the probabilities of where the different teams in the English football league will end up.
+description: How football team-strength ratings become league-position probabilities, explaining the original analytical approach and the current simulation-based tool.
 tags: football mathematics
 related_posts: true
 thumbnail: assets/img/position-odds-2025-2026-EFL_Championship.png
+image_alt: Heatmap of predicted finishing-position probabilities for the 2025/26 EFL Championship teams.
+last_modified_at: 2026-09-06
 ---
 
 By mid-season, football fans instinctively start doing probability in their heads.
+
+> **Update, 6 September 2026:** This article describes the original analytical approach. The [current league-position tool]({{ '/tableProbs' | relative_url }}) now uses seeded Monte Carlo simulations of the remaining fixtures, with fixed team strengths and random tie-breaks on points. Its estimates therefore have sampling uncertainty; the original discussion of exact probabilities below should not be read as a description of the current implementation.
 
 > If we win our next two, and they drop points away at… actually, hang on.
 

@@ -11,6 +11,8 @@ on:
       - main
     paths:
       - "assets/**"
+      - "_plugins/**"
+      - "_data/football_rivalries.json"
       - "**.html"
       - "**.js"
       - "**.liquid"
@@ -35,6 +37,8 @@ on:
       - main
     paths:
       - "assets/**"
+      - "_plugins/**"
+      - "_data/football_rivalries.json"
       - "**.html"
       - "**.js"
       - "**.liquid"

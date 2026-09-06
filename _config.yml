@@ -7,14 +7,23 @@ first_name: Sean
 middle_name:
 last_name: Elvidge
 email: s.elvidge@bham.ac.uk
-description:
+description: Articles, datasets and interactive tools by Sean Elvidge, covering football statistics, mathematics, probability and space weather.
+tagline: Football Statistics, Mathematics & Space Weather
+author:
+  name: Sean Elvidge
+  type: Person
+  url: https://seanelvidge.com/about/
+  twitter: seanelvidge
+twitter:
+  username: seanelvidge
+locale: en_GB
 footer_text: >
   Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
 keywords: sean elvidge, serene, space environment, serene, space weather, mathematics, football, statistics # add your own keywords or leave empty
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: ☀️ # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 
-url: https://seanelvidge.github.io # the base hostname & protocol for your site
+url: https://seanelvidge.com # the canonical hostname & protocol for your site
 baseurl: # the subpath of your site, e.g. /blog/. Leave blank for root
 last_updated: false # set to true if you want to display last updated in the footer
 impressum_path: # set to path to include impressum link in the footer, use the same path as permalink in a page, helps to conform with EU GDPR
@@ -56,9 +65,9 @@ max_width: 800px
 # -----------------------------------------------------------------------------
 # Display links to the page with a preview object on social media.
 # see https://schema.org/docs/faq.html for more information
-serve_og_meta: false # Include Open Graph meta tags in the HTML head
-serve_schema_org: false # Include Schema.org in the HTML head
-og_image: # The site-wide (default for all links) Open Graph preview image
+# Open Graph, Twitter cards and page/article JSON-LD are enabled by {% seo %}.
+# The old serve_og_meta / serve_schema_org template switches are no longer used.
+# Articles use their own image/thumbnail, not an unrelated site-wide photograph.
 
 # -----------------------------------------------------------------------------
 # Social integration
@@ -114,7 +123,7 @@ google_analytics: G-P1SXF6NWN8 # your Google Analytics measurement ID (format: G
 cronitor_analytics: # cronitor RUM analytics site ID (format: XXXXXXXXX)
 
 # For Google Search Console, see https://support.google.com/webmasters/answer/9008080?hl=en#meta_tag_verification&zippy=%2Chtml-tag
-google_site_verification: google-site-verification=J9rWPlgXVze59vdeyO_ELilvCiXVpNNXzZok9k6IupM # your google-site-verification ID (Google Search Console)
+google_site_verification: J9rWPlgXVze59vdeyO_ELilvCiXVpNNXzZok9k6IupM # verification token, without the google-site-verification= prefix
 bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 
 # -----------------------------------------------------------------------------
@@ -222,6 +231,10 @@ exclude:
   - README.md
   - readme_preview/
   - vendor
+  - docs/
+  - scripts/
+  - Gemfile.local
+  - Gemfile.local.lock
 keep_files:
   - CNAME
   - .nojekyll
@@ -334,7 +347,7 @@ enable_publication_thumbnails: true
 # These are the defaults
 external_links:
   enabled: true
-  rel: external nofollow noopener
+  rel: external noopener
   # Open external links in the current tab instead of a new one.
   target: _self
   exclude:

@@ -1,10 +1,13 @@
 ---
 layout: post
 title: Maths on a Mug 8
+description: Extreme value theory explained, from block maxima and peaks over threshold to estimating the probability of rare solar flares and geomagnetic storms.
 date: 2019-06-01 12:00:00
 tags: mathematics MathsOnAMug
 related_posts: true
 thumbnail: assets/img/mathsonamug/mathsonamug_8.jpeg
+image_alt: An extreme value theory formula printed on a mathematics mug.
+last_modified_at: 2026-09-06
 ---
 
 <div class="row mt-3">
@@ -81,7 +84,9 @@ There has been a lot of work on using EVT in space weather, on a wide range of t
 
 <hr>
 
+For the physical context behind these rare events, read [why major solar storms can arrive close together]({% post_url 2024-10-11-Solar_storms_are_like_buses %}). The [May 2024 storm sonification]({% post_url 2026-06-17-Space_Weather_Sonification %}) offers another way to explore the event through data; my [space weather hub]({{ '/space-weather/' | relative_url }}) brings together the explainers and research.
+
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="https://seanelvidge.github.io/articles/2018/Maths_on_a_Mug_7/" style="text-decoration: none;">Previous Maths on a Mug</a>
-    <a href="https://seanelvidge.github.io/articles/2019/Maths_on_a_Mug_9/" style="text-decoration: none;">Next Maths on a Mug</a>
+    <a href="https://seanelvidge.com/articles/2018/Maths_on_a_Mug_7/" style="text-decoration: none;">Previous Maths on a Mug</a>
+    <a href="https://seanelvidge.com/articles/2019/Maths_on_a_Mug_9/" style="text-decoration: none;">Next Maths on a Mug</a>
 </div>

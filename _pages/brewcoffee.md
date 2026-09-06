@@ -12,7 +12,7 @@ tags: coffee
 <link rel="stylesheet" href="{{ '/assets/css/brew-coffee.css' | relative_url }}">
 
 <div class="team-rankings football-tool coffee-tool" id="coffee-tool">
-  <p class="rankings-note">A starting point for pulsed pour-over brewing, primarily designed for the <a href="https://amzn.to/4j7ni2U">Fellow Aiden Precision Coffee Maker</a>. <a href="https://seanelvidge.com/articles/2025/Pour_over_brewing_recipe_generator/">Read about the methodology</a>.</p>
+  <p class="rankings-note">A starting point for pulsed pour-over brewing, primarily designed for the <a href="https://amzn.to/4j7ni2U" rel="sponsored noopener">Fellow Aiden Precision Coffee Maker</a>. <a href="https://seanelvidge.com/articles/2025/Pour_over_brewing_recipe_generator/">Read about the methodology</a>.</p>
   <form id="coffee-form" class="football-panel">
     <fieldset>
       <legend class="football-label">Roast level <span class="rankings-note">(required)</span></legend>

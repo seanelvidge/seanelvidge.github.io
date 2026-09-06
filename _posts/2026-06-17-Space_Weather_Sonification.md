@@ -2,10 +2,12 @@
 layout: post
 title: Space Weather - The Musical
 date: 2026-06-17 22:00:00
-description: What does a geomagnetic storm sound like? Not metaphorically. Literally.
+description: Listen to the May 2024 geomagnetic superstorm as a piano score, with pitch, rhythm and dynamics derived from real solar and geomagnetic indices.
 tags: spaceWeather mathematics
 related_posts: true
 thumbnail: assets/img/May_Storm_20240505-20240515.jpg
+image_alt: Opening bars of a piano score generated from space weather data during the May 2024 geomagnetic superstorm.
+last_modified_at: 2026-09-06
 ---
 
 What does a geomagnetic storm sound like?
@@ -17,6 +19,8 @@ Imagine taking the indices we use to drive our models of near-Earth space (solar
 That is what this blog post is all about. About how we turn space weather events into piano music. The result is a structured musical translation of the space environment, built so that the data can be heard.
 
 ## The May 2024 Superstorm
+
+For an introduction to the event's physical setting, see [solar storms and the solar cycle]({% post_url 2024-10-11-Solar_storms_are_like_buses %}). To explore how unusual storms are quantified, read the [extreme value theory explainer]({% post_url 2019-06-01-Maths_on_a_Mug_8 %}).
 
 {% include video.liquid path="/assets/sonification/May_Storm_20240505-20240515.pdf" width="100%" height="700"
   class="rounded z-depth-1" title="May 2024 storm score" %}

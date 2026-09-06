@@ -342,7 +342,7 @@ nav: false
 <div class="table-probs-page">
 Position probabilities for the season.
 
-<div class="meta">Based on 1,000,000 Monte Carlo simulations of the remaining fixtures, assuming team strengths remain constant.</div>
+<div class="meta">Based on seeded Monte Carlo simulations of the remaining fixtures, assuming team strengths remain constant.</div>
 <div class="meta" id="asof-date"></div>
 
   <div id="tables"></div>
@@ -1111,7 +1111,7 @@ Position probabilities for the season.
         const hadTimeout = Boolean(timeouts[team] && timeouts[team][pos]);
         const cellP = typeof pos === "number" ? (window.tableProbsLastP || 0) : 0;
         if (hadTimeout || cellP === 0) {
-          p.textContent = "Whilst this is mathematically possible the probability is vanishingly small, and within 1,000,000 simulations no exact example was found.";
+          p.textContent = "This position is mathematically possible, but no example was observed in the initial simulations.";
         } else {
           p.textContent = "No example outcome was found for this position after additional simulations.";
         }
@@ -1725,3 +1725,20 @@ Position probabilities for the season.
   </script>
 </body>
 </html>
+
+<section class="tool-guide" markdown="1" aria-label="About this football tool">
+
+## English football league-position probabilities
+This league table predictor estimates where clubs could finish by combining the current season's results, team-strength ratings and simulated remaining fixtures. Each row shows a distribution over finishing places, rather than one supposedly certain final position.
+
+### How the forecast is made
+The current tool uses seeded Monte Carlo simulations, with fixed team strengths and random tie-breaks on points. The [league-position methodology article]({% post_url 2025-12-22-League_table_prediction_probabilities %}) describes the original analytical approach and notes this change. Team strengths come from the [Bayesian football rating model]({% post_url 2025-12-15-Football_team_rankings %}), using the [historical English league results database]({% post_url 2024-12-28-All_England_football_league_results %}). The page displays the season and update information associated with the available forecast.
+
+Groups such as top six and bottom three summarise finishing-place probabilities; they are not a complete model of promotion, play-offs or competition-specific relegation rules. Simulation estimates are not guarantees, and small displayed probabilities may reflect rounding or the finite number of simulated seasons. Check the update information before treating a forecast as current.
+
+### Historical tables or predictions?
+Use this page for possible future finishes. Use the [historical league-table generator]({{ '/leaguetable' | relative_url }}) for standings reconstructed from matches already played. The article on [the 40-point relegation benchmark]({% post_url 2025-11-08-40_points_to_avoid_relegation %}) provides historical context for why survival is not tied to a universal points target.
+
+[More football analysis and tools]({{ '/football/' | relative_url }}).
+
+</section>

@@ -56,7 +56,7 @@ For the rest of this post we use a value of $$k=2$$.
 
 ### Results
 
-When I last wrote a post similar to this, Wayne Rooney had just [broke the England National team goal record with 50 goals](https://seanelvidge.github.io/articles/2015/Rooney-50/). Since then Kane has broke this record again (at the time of writing) with 69 goals. Using the above approach the updated top 10 of England goal scorers are (the "Ranking" is based on the weighted goals column):
+When I last wrote a post similar to this, Wayne Rooney had just [broke the England National team goal record with 50 goals](https://seanelvidge.com/articles/2015/Rooney-50/). Since then Kane has broke this record again (at the time of writing) with 69 goals. Using the above approach the updated top 10 of England goal scorers are (the "Ranking" is based on the weighted goals column):
 
 <style>
 table {
@@ -208,7 +208,7 @@ At the other end of the table we end up with a number of people (41) who (becaus
 
 Unfortuntaely Tammy Abraham's 3 goals for England were scored against very much weaker opposition in the form of Montenegro (England won 7-0 on 14/11/19), Andorra (England won 0-5 on 09/10/21) and San Marino (England won 0-10 on 15/11/21).
 
-If you want to have a look at the data you can access it all [here](https://seanelvidge.github.io/assets/files/england_elo_goal_data.csv)) (which also includes the "Adjusted Total" which weights Friendlies as 0.5 and "finals" as 2x (as per the description [here](https://seanelvidge.github.io/articles/2015/Rooney-50/)).
+If you want to have a look at the data you can access it all [here](https://seanelvidge.com/assets/files/england_elo_goal_data.csv)) (which also includes the "Adjusted Total" which weights Friendlies as 0.5 and "finals" as 2x (as per the description [here](https://seanelvidge.com/articles/2015/Rooney-50/)).
 
 ## Data
 

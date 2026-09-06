@@ -2,9 +2,11 @@
 layout: post
 title: All England football league results
 date: 2024-12-28 10:09:00
-description: A plain text set of all England football (soccer) league results from 1888 to present.
+description: Download English football league results from 1888 onwards as CSV, with historical scores, divisions and optional team-strength ratings, or explore the interactive tools.
 tags: football
 thumbnail: assets/img/england_league_results.png
+image_decorative: true
+last_modified_at: 2026-09-06
 related_posts: true
 giscus_comments: true
 ---
@@ -12,6 +14,15 @@ giscus_comments: true
 This article describes a plain text database of all England football (soccer) league results from 1888 to the present day (covering over 209,000 matches).
 
 You can access the latest database on its dedicated github page: [England-football-results](https://github.com/seanelvidge/England-football-results/tree/main)
+
+## Download the English football results CSV
+
+- [Download the match-results CSV](https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeagueResults.csv) for dates, seasons, clubs, scores and divisions.
+- [Download results with team-strength ratings](https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeagueResults_wRanks.csv) for the additional model estimates used by the [historical rankings chart]({{ '/teamRankings' | relative_url }}) and [match probability calculator]({{ '/matchProbs' | relative_url }}).
+
+The database covers English league football from 1888 onwards, as divisions were introduced and reorganised. It is not a record of every competition: FA Cup, League Cup, European fixtures and friendlies are outside its scope. A club's absence in a period can reflect time outside the covered leagues, rather than a missing season of football. The newest recorded match date, rather than today's date, determines the available coverage.
+
+## Coverage and columns
 
 The database is updated roughly every two days (although I am looking for approaches to speed this up) for the top four tiers in England: Premier League, EFL Championship, EFL League One and EFL League Two. The motivation for making the database is that I do a lot of statistical analysis on various bits and pieces in football (you can see some [here](https://seanelvidge.com/articles/tag/football/)), and not having an easy to read database really slows me down.
 
@@ -47,4 +58,8 @@ Hopefully there are lots of fun things you can do with this, please let me know 
 
 - You can use the form on this site to work out a league table for any given season and division or for any arbitrary date range, from 1888 to present (remembering before 1981 there was only [2 points for a win](https://en.wikipedia.org/wiki/Three_points_for_a_win) in English football): [https://seanelvidge.com/leaguetable](https://seanelvidge.com/leaguetable)
 - To find the Head-to-Head statistics of any two clubs who have played in the English Football League visit: [https://seanelvidge.com/h2h](https://seanelvidge.com/h2h)
-  - This url can have the team names passed directly into the url, e.g. to get the head-to-head statistics of Arsenal v Chelsea visit: [https://seanelvidge.com/h2h?team1=Arsenal&team2=Chelsea](https://seanelvidge.com/h2h?team1=Arsenal&team2=Chelsea)
+  - This url can have the team names passed directly into the url, e.g. to get the head-to-head statistics of Arsenal v Chelsea visit: [Arsenal vs Chelsea league head-to-head]({{ '/h2h' | relative_url }}?team1=Arsenal&team2=Chelsea).
+
+## Analyses using these results
+
+The same results underpin my work on [home advantage in English football]({% post_url 2025-01-13-Home_advantage_in_English_football %}), [points needed to avoid relegation]({% post_url 2025-11-08-40_points_to_avoid_relegation %}) and [Bayesian football team-strength ratings]({% post_url 2025-12-15-Football_team_rankings %}). For a worked comparison, see the [Manchester United vs Liverpool league record]({{ '/football/manchester-united-vs-liverpool/' | relative_url }}), or browse the [football statistics and data hub]({{ '/football/' | relative_url }}).

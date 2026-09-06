@@ -6,11 +6,15 @@ description: Can a football club actually have a statistically verifiable footba
 tags: football mathematics
 related_posts: true
 thumbnail: assets/img/bogey_team.png
+image_decorative: true
+last_modified_at: 2026-09-06
 ---
 
 Football supporters are never short of folklore. Some of it heroic, some of it tragic, and some of it mathematically suspicious. Among the more enduring tales is the _bogey ground_: that one venue where your club never quite manages to win, no matter how many times the fixture computer sends you there with fresh optimism, a new manager and a good run of form.
 
 But one question always pops up in the back of my mind when I hear this: When is a bogey ground actually a bogey ground, and when is it just a trick of small numbers?
+
+The records below come from my [historical English football league results database]({% post_url 2024-12-28-All_England_football_league_results %}). To investigate your own club's record, use the [football head-to-head calculator]({{ '/h2h' | relative_url }}?team1=Arsenal&team2=Fulham), including its home/away breakdown. These are league meetings, not all-competition records.
 
 Most fans instinctively understand the point. Losing your only ever visit to Carlisle does not make Brunton Park a cursed ground. A couple of failed trips to Luton are not evidence of eldritch forces at work. Yet, scattered across the long history of English league football, a few pairs of teams have met often enough, and still produced zero away wins, that bogey grounds become statistically real.
 

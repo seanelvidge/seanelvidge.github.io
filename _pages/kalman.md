@@ -2,11 +2,13 @@
 layout: page
 permalink: /kalman/
 title: Kalman Filters
-description: Some information about Kalman Filters
+description: Learn Ensemble Kalman filtering from Bayes' theorem, with tutorial notes, a visual explanation and a bouncing-ball Python modelling example.
 nav: false
 ---
 
 A lot of my work has, historically, been based around [(Ensemble) Kalman filters](https://en.wikipedia.org/wiki/Ensemble_Kalman_filter){:target="\_blank"}. On this page I have some resouces which I hope will help you get more to grips with them.
+
+For a first introduction to updating probabilities, start with [Bayes' theorem]({% post_url 2023-01-14-Maths_on_a_Mug_15 %}). For applications, see my [Bayesian football team-strength model]({% post_url 2025-12-15-Football_team_rankings %}) and [space-weather modelling resources]({{ '/space-weather/' | relative_url }}). More explanations are collected in the [mathematics and statistics hub]({{ '/mathematics/' | relative_url }}).
 
 The underlying mathematics can be a little opaque, so I have tried to visualize the process [here](https://www.ursi.org/Publications/RadioScienceLetters/Volume3/RSL21-0027-final.pdf){:target="\_blank"}.
 

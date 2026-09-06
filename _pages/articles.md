@@ -1,7 +1,9 @@
 ---
 layout: default
 permalink: /
-title: articles
+title: Sean Elvidge
+nav_title: articles
+description: Articles, datasets and interactive tools on football statistics, mathematics and space weather by Sean Elvidge, Professor of Space Environment.
 nav: true
 nav_order: 1
 search_exclude: true
@@ -19,16 +21,21 @@ pagination:
 
 <div class="post">
 
-<!-- {% assign blog_name_size = site.blog_name | size %} -->
-<!-- {% assign blog_description_size = site.blog_description | size %} -->
-
-{% if blog_name_size > 0 or blog_description_size > 0 %}
-
-<div class="header-bar">
-  <h2>{{ site.blog_name }}</h2> 
-  <h3>{{ site.blog_description }}</h3>
-</div>
- {% endif %}
+{% if paginator.page == nil or paginator.page == 1 %}
+<header class="home-intro">
+  <h1>Sean Elvidge</h1>
+  <p>Professor of Space Environment, statistician and occasional analyst of things that probably didn’t require analysing.</p>
+  <p>Articles, datasets and interactive tools covering <em>football statistics</em>, <em>mathematics</em>, <em>space weather</em> and assorted quantitative curiosities.</p>
+  {% include topic-links.liquid %}
+</header>
+<h2 class="recent-articles-heading">Recent articles</h2>
+{% else %}
+<header class="home-intro">
+  <h1>Articles — page {{ paginator.page }}</h1>
+  <p>More articles from Sean Elvidge’s archive.</p>
+  {% include topic-links.liquid %}
+</header>
+{% endif %}
 
 {% if site.display_tags or site.display_categories %}
 
@@ -174,7 +181,7 @@ pagination:
 </div>
 
   <div class="col-sm-3">
-    <img class="card-img" src="{{post.thumbnail | relative_url}}" style="object-fit: cover; height: 90%" alt="image">
+    <img class="card-img" src="{{ post.thumbnail | relative_url }}" style="object-fit: cover; height: 90%" alt="{% if post.image_decorative %}{% else %}{{ post.image_alt | default: post.title | escape }}{% endif %}" loading="lazy" decoding="async">
   </div>
 </div>
 {% endif %}

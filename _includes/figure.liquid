@@ -1,4 +1,8 @@
 {% assign img_path = include.path | remove: '.jpg' | remove: '.jpeg' | remove: '.png' | remove: '.tiff' | remove: '.gif' %}
+{% assign figure_alt = include.alt %}
+{% if figure_alt == nil and include.path == page.thumbnail and page.image_decorative != true %}
+  {% assign figure_alt = page.image_alt %}
+{% endif %}
 
 <figure
   {% if include.slot %}
@@ -54,9 +58,7 @@
           {% endif %}
         "
       {% endif %}
-      {% if include.alt %}
-        alt="{{ include.alt }}"
-      {% endif %}
+      alt="{{ figure_alt | default: '' | escape }}"
       {% if include.title %}
         title="{{ include.title }}"
       {% endif %}

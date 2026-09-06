@@ -2,10 +2,11 @@
 layout: post
 title: Google Trends for Solar Flares
 date: 2024-06-04 16:35:00
-description: Investigating the number of unique snowballs
+description: Comparing the rolling average of Google searches for solar flares with the solar cycle and the timing of peak sunspot numbers.
 tags: spaceWeather mathematics
 related_posts: true
 thumbnail: assets/img/xkcd_solarFlares.png
+image_alt: Rolling 12-month average of Google search interest in solar flares, with outliers removed.
 giscus_comments: true
 ---
 
