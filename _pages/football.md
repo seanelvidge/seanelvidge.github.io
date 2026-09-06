@@ -33,10 +33,10 @@ These tools use **league matches**, not a complete record of domestic cups, Euro
 
 ## Rivalries in the records
 
-These hand-picked pages contain readable, dated statistics even without JavaScript, with links to explore the latest data:
+These pages are regenerated from the results CSV during the site's automatic updates. Their records are readable even without JavaScript, with the data date shown and links to explore the latest database:
 
 - [Manchester United vs Liverpool: league head-to-head record]({{ '/football/manchester-united-vs-liverpool/' | relative_url }})
-- [Arsenal vs Tottenham: North London derby league record]({{ '/football/arsenal-vs-tottenham/' | relative_url }})
+- [Arsenal vs Tottenham: league head-to-head record]({{ '/football/arsenal-vs-tottenham/' | relative_url }})
 
 ## Questions worth testing
 

@@ -75,6 +75,18 @@ jobs:
         with:
           ruby-version: "3.2.2"
           bundler-cache: true
+      # This workflow already runs after the daily football-data workflow as well
+      # as on site changes. Generate readable HTML from the CSV on every build.
+      - name: Setup Node for rivalry records
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Generate rivalry records from the results CSV
+        run: |
+          npm ci
+          node --test scripts/rivalry_snapshots.test.js
+          node scripts/generate_rivalry_snapshots.js --refresh
       - name: Update _config.yml ⚙️
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -96,6 +108,8 @@ jobs:
           pip3 install --upgrade jupyter
           export JEKYLL_ENV=production
           bundle exec jekyll build
+      - name: Verify generated rivalry pages
+        run: bundle exec ruby scripts/check_rivalry_pages.rb _site
       - name: Purge unused CSS (Quick) 🧹
         run: |
           npm install -g purgecss

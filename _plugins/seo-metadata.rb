@@ -2,6 +2,23 @@
 require "jekyll-seo-tag"
 require "jekyll-archives"
 
+# Populate generated metadata before Liquid drops, the sitemap or SEO tag can
+# cache the page data. A per-page pre_render hook is too late for new fields.
+Jekyll::Hooks.register :site, :post_read do |site|
+  site.pages.each do |item|
+    data = item.data
+    next unless data["layout"] == "rivalry"
+    snapshot = site.data.fetch("football_rivalries")
+    record = snapshot.fetch("rivalries").fetch(data.fetch("rivalry"))
+    first_team, second_team = record.fetch("teams")
+    # Keep the visible page description, social metadata and sitemap date in sync
+    # with the CSV-derived record; no hand-maintained counts or update dates.
+    data["description"] = "#{first_team} vs #{second_team}: #{record.fetch('played')} recorded league meetings, " \
+      "#{record.fetch('wins')[0]} #{first_team} wins, #{record.fetch('draws')} draws and #{record.fetch('wins')[1]} #{second_team} wins."
+    data["last_modified_at"] = snapshot.fetch("as_of")
+  end
+end
+
 Jekyll::Hooks.register [:pages, :documents], :pre_render do |item|
   data = item.data
   post = item.is_a?(Jekyll::Document) && item.collection.label == "posts"

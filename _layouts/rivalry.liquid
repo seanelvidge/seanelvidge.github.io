@@ -5,14 +5,19 @@ layout: page
 {% assign record = snapshot.rivalries[page.rivalry] %}
 {% assign first_team = record.teams[0] %}
 {% assign second_team = record.teams[1] %}
-{{ content }}
+<p class="rivalry-intro">
+  {{ first_team }} and {{ second_team }} have {{ record.played }} recorded league meetings in this database, from
+  <time datetime="{{ record.first.date }}">{{ record.first.date | date: '%-d %B %Y' }}</time> to
+  <time datetime="{{ record.latest.date }}">{{ record.latest.date | date: '%-d %B %Y' }}</time>.
+</p>
 <p>
   <strong>Scope:</strong> recorded English league matches only. Domestic cups, European competitions, friendlies and separate end-of-season test
   matches are not included. Club names follow the database's historical naming conventions.
 </p>
-<p>
-  Snapshot calculated on <time datetime="{{ snapshot.as_of }}">{{ snapshot.as_of | date: '%-d %B %Y' }}</time>, from a database containing results
-  through {{ snapshot.database_through | date: '%-d %B %Y' }}. This page is a dated reference, not a live score service.
+<p class="rivalry-data-date">
+  Generated from the results CSV on <time datetime="{{ snapshot.as_of }}">{{ snapshot.as_of | date: '%-d %B %Y' }}</time>. The database contains
+  results through <time datetime="{{ snapshot.database_through }}">{{ snapshot.database_through | date: '%-d %B %Y' }}</time>. These records refresh
+  with the site's automatic updates; they are not live scores.
 </p>
 
 <h2>Overall league head-to-head record</h2>
@@ -97,23 +102,30 @@ layout: page
 <h2>Biggest league wins</h2>
 {% for biggest in record.biggest %}
   {% assign club = record.teams[forloop.index0] %}
-  <h3>{{ club }}: {{ biggest.margin }}-goal margin</h3>
-  <ul>
-    {% for match in biggest.matches %}
-      <li>
-        {{ match.home }}
-        {{ match.home_goals }}–{{ match.away_goals }}
-        {{ match.away }}, {{ match.date | date: '%-d %B %Y' }} ({{ match.division }}).
-      </li>
-    {% endfor %}
-  </ul>
+  {% if biggest.matches.size > 0 %}
+    <h3>{{ club }}: {{ biggest.margin }}-goal margin</h3>
+    <ul>
+      {% for match in biggest.matches %}
+        <li>
+          {{ match.home }}
+          {{ match.home_goals }}–{{ match.away_goals }}
+          {{ match.away }}, {{ match.date | date: '%-d %B %Y' }} ({{ match.division }}).
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <h3>{{ club }}</h3>
+    <p>No league wins recorded against {{ record.teams[forloop.rindex0] }} in this dataset.</p>
+  {% endif %}
 {% endfor %}
 <p>“Biggest” means the largest winning margin; every tied record in the dataset is listed.</p>
 
 <h2>Recent league results</h2>
 <table class="rivalry-table">
   <caption>
-    The ten latest recorded league meetings, newest first; home team shown first
+    The
+    {{ record.recent.size }}
+    latest recorded league meetings, newest first; home team shown first
   </caption>
   <thead>
     <tr>
@@ -150,9 +162,9 @@ layout: page
 <h2>Data and method</h2>
 <p>
   Calculated from Sean Elvidge's <a href="{% post_url 2024-12-28-All_England_football_league_results %}">English football league results database</a>,
-  using the same win, draw, goal and winning-margin calculations as the interactive tool. The historical source for 1888–2016 is James P. Curley's
-  <a href="https://doi.org/10.5281/zenodo.13158">engsoccerdata</a>. These are records as represented in the dataset; corrections and later fixtures
-  may change the totals.
+  using the same win, draw, goal and winning-margin calculations as the interactive tool. All match records, totals and summaries on this page come
+  from that CSV alone; no other website is queried for results or commentary. Corrections and later fixtures in the database are included when the
+  page is regenerated.
 </p>
 <p>
   <a href="{{ snapshot.source }}">Download the current results CSV</a> ·
