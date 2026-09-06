@@ -9,13 +9,10 @@ const { isDeepStrictEqual } = require("node:util");
 const Papa = require("papaparse");
 const D = require("../assets/js/football-results-data.js");
 const { parseDate } = require("../assets/js/team-rankings-data.js");
+const { readRivalryPages, PAGES_PATH } = require("./rivalry_pages.js");
 const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeagueResults.csv";
 const OUTPUT_PATH = path.join(__dirname, "../_data/football_rivalries.json");
-const PAIRS = [
-  { slug: "manchester-united-vs-liverpool", teams: ["Manchester United", "Liverpool"] },
-  { slug: "arsenal-vs-tottenham", teams: ["Arsenal", "Tottenham Hotspur"] },
-];
-function snapshot(csv, asOf) {
+function snapshot(csv, asOf, pairs = readRivalryPages()) {
   const timestamp = parseDate(asOf);
   if (!Number.isFinite(timestamp)) throw new Error("Use an explicit snapshot date in YYYY-MM-DD format.");
   const parsed = Papa.parse(csv, { header: true, skipEmptyLines: "greedy" });
@@ -40,9 +37,11 @@ function snapshot(csv, asOf) {
     source: CSV_URL,
     source_sha256: crypto.createHash("sha256").update(csv).digest("hex"),
     rivalries: Object.fromEntries(
-      PAIRS.map(({ slug, teams }) => {
+      pairs.map(({ slug, teams, source }) => {
         const stats = D.headToHead(matches, ...teams);
-        if (!stats.meetings.length) throw new Error("No meetings found for " + slug);
+        if (!stats.meetings.length) {
+          throw new Error(`${source || slug}: no completed league meetings found for ${teams.join(" vs ")}; check teams against the CSV names.`);
+        }
         const venue = teams.map((team) => {
           const subset = stats.meetings.filter((m) => m.HomeTeam === team);
           const s = D.headToHead(subset, ...teams);
@@ -83,13 +82,20 @@ function snapshot(csv, asOf) {
   };
 }
 
-async function refresh({ fetchImpl = globalThis.fetch, asOf = new Date().toISOString().slice(0, 10), outputPath = OUTPUT_PATH } = {}) {
+async function refresh({
+  fetchImpl = globalThis.fetch,
+  asOf = new Date().toISOString().slice(0, 10),
+  outputPath = OUTPUT_PATH,
+  pagesPath = PAGES_PATH,
+} = {}) {
+  // Validate page definitions before fetching, and discover new pages every run.
+  const pairs = readRivalryPages(pagesPath);
   // Do not follow redirects to a different data provider or continue with a failed
   // download. A failed refresh must stop deployment, preserving the live site.
   const response = await fetchImpl(CSV_URL, { redirect: "error", signal: AbortSignal.timeout(60000) });
   if (!response.ok) throw new Error(`Results CSV download failed (HTTP ${response.status}).`);
   const csv = await response.text();
-  const next = snapshot(csv, asOf);
+  const next = snapshot(csv, asOf, pairs);
   const previousText = fs.existsSync(outputPath) ? fs.readFileSync(outputPath, "utf8") : null;
   const previous = previousText ? JSON.parse(previousText) : null;
   if (previous) {
@@ -124,7 +130,9 @@ async function main() {
   if (file === "--refresh" && !asOf) {
     const { changed, data } = await refresh();
     console.log(
-      `${changed ? "Refreshed" : "Verified"} rivalry records from the results CSV; results through ${data.database_through}, checked ${data.as_of}.`
+      `${changed ? "Refreshed" : "Verified"} ${Object.keys(data.rivalries).length} rivalry records from the results CSV; results through ${
+        data.database_through
+      }, checked ${data.as_of}.`
     );
   } else if (file && asOf && !extra.length && !file.startsWith("--")) {
     process.stdout.write(JSON.stringify(snapshot(fs.readFileSync(file, "utf8"), asOf), null, 2) + "\n");

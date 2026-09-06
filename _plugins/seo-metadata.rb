@@ -8,8 +8,12 @@ Jekyll::Hooks.register :site, :post_read do |site|
   site.pages.each do |item|
     data = item.data
     next unless data["layout"] == "rivalry"
-    snapshot = site.data.fetch("football_rivalries")
-    record = snapshot.fetch("rivalries").fetch(data.fetch("rivalry"))
+    snapshot = site.data["football_rivalries"]
+    record = snapshot&.dig("rivalries", data["rivalry"])
+    unless record && record["teams"] == data["teams"]
+      raise Jekyll::Errors::FatalException, "Missing or outdated rivalry data for #{item.path}. " \
+        "Set teams: to two CSV team names in its front matter, then run npm ci && node scripts/generate_rivalry_snapshots.js --refresh."
+    end
     first_team, second_team = record.fetch("teams")
     # Keep the visible page description, social metadata and sitemap date in sync
     # with the CSV-derived record; no hand-maintained counts or update dates.

@@ -4,8 +4,29 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const Papa = require("papaparse");
+const YAML = require("yaml");
 const { snapshot, refresh, CSV_URL } = require("./generate_rivalry_snapshots.js");
+const { readRivalryPages } = require("./rivalry_pages.js");
 const saved = require("../_data/football_rivalries.json");
+const fixturePairs = [
+  { slug: "manchester-united-vs-liverpool", teams: ["Manchester United", "Liverpool"] },
+  { slug: "arsenal-vs-tottenham", teams: ["Arsenal", "Tottenham Hotspur"] },
+];
+const fixtureSnapshot = (csv, asOf) => snapshot(csv, asOf, fixturePairs);
+
+function writePage(pagesPath, slug, teams, extra = {}) {
+  const data = { layout: "rivalry", rivalry: slug, teams, permalink: `/football/${slug}/`, ...extra };
+  const file = path.join(pagesPath, `${slug}.md`);
+  fs.writeFileSync(file, `---\n${YAML.stringify(data)}---\n`);
+  return file;
+}
+
+function pagesFixture(t) {
+  const pagesPath = fs.mkdtempSync(path.join(os.tmpdir(), "rivalry-pages-test-"));
+  for (const { slug, teams } of fixturePairs) writePage(pagesPath, slug, teams);
+  t.after(() => fs.rmSync(pagesPath, { recursive: true, force: true }));
+  return pagesPath;
+}
 
 function match(Date, HomeTeam, AwayTeam, hGoal, aGoal, Tier = "1") {
   return { Date, Season: "2025/2026", HomeTeam, AwayTeam, hGoal, aGoal, Division: "Test division", Tier };
@@ -22,7 +43,7 @@ const rows = [
 ];
 
 test("snapshots share the H2H calculations, preserve tied records and exclude unfinished/future matches", () => {
-  const result = snapshot(Papa.unparse([...rows].reverse()), "2026-01-04");
+  const result = fixtureSnapshot(Papa.unparse([...rows].reverse()), "2026-01-04");
   const record = result.rivalries["manchester-united-vs-liverpool"];
   assert.equal(record.played, 4);
   assert.deepEqual(record.wins, [1, 2]);
@@ -44,12 +65,21 @@ test("snapshots share the H2H calculations, preserve tied records and exclude un
 });
 
 test("snapshot generation requires valid input and an explicit real date", () => {
-  assert.throws(() => snapshot(Papa.unparse(rows), "2026-02-30"), /explicit snapshot date/);
-  assert.throws(() => snapshot("Date,HomeTeam\n2026-01-01,Arsenal", "2026-01-04"), /invalid results CSV/);
+  assert.throws(() => fixtureSnapshot(Papa.unparse(rows), "2026-02-30"), /explicit snapshot date/);
+  assert.throws(() => fixtureSnapshot("Date,HomeTeam\n2026-01-01,Arsenal", "2026-01-04"), /invalid results CSV/);
 });
 
-test("saved records contain only the selected rivalries and internally consistent totals", () => {
-  assert.deepEqual(Object.keys(saved.rivalries).sort(), ["arsenal-vs-tottenham", "manchester-united-vs-liverpool"]);
+test("every published rivalry page has matching CSV-generated records, with no hard-coded list of pairs", () => {
+  const pages = readRivalryPages();
+  assert.deepEqual(
+    Object.keys(saved.rivalries).sort(),
+    pages.map(({ slug }) => slug).sort(),
+    "Run node scripts/generate_rivalry_snapshots.js --refresh after adding or removing a rivalry page."
+  );
+  for (const { slug, teams } of pages) assert.deepEqual(saved.rivalries[slug].teams, teams);
+});
+
+test("saved records contain internally consistent totals", () => {
   for (const record of Object.values(saved.rivalries)) {
     assert.equal(record.wins[0] + record.wins[1] + record.draws, record.played);
     assert.equal(
@@ -79,25 +109,116 @@ test("saved records contain only the selected rivalries and internally consisten
 });
 
 function outputFixture(t) {
+  const pagesPath = pagesFixture(t);
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), "rivalry-records-test-"));
   const outputPath = path.join(directory, "football_rivalries.json");
-  const previous = JSON.stringify(snapshot(Papa.unparse(rows), "2026-01-04"), null, 2) + "\n";
+  const previous = JSON.stringify(fixtureSnapshot(Papa.unparse(rows), "2026-01-04"), null, 2) + "\n";
   fs.writeFileSync(outputPath, previous);
   t.after(() => {
     fs.unlinkSync(outputPath);
     fs.rmdirSync(directory);
   });
-  return { directory, outputPath, previous };
+  return { directory, outputPath, previous, pagesPath };
 }
 const responseFor = (csv) => ({ ok: true, text: async () => csv });
 
+test("page discovery reads real YAML, nested pages and exact club names, ignoring unrelated and unpublished pages", (t) => {
+  const pagesPath = pagesFixture(t);
+  const nested = path.join(pagesPath, "derbies");
+  fs.mkdirSync(nested);
+  const file = path.join(nested, "new-pair.md");
+  fs.writeFileSync(
+    file,
+    '\uFEFF---\r\nlayout: "rivalry" # a quoted value\r\nrivalry: new-pair\r\npermalink: /football/new-pair/\r\nteams:\r\n  - "Example: City"\r\n  - Town United # keep the full club name\r\n---\r\n'
+  );
+  fs.writeFileSync(path.join(pagesPath, "other.md"), "---\nlayout: page\n---\nrivalry: not-front-matter\n");
+  fs.writeFileSync(path.join(pagesPath, "plain.md"), "A plain Markdown file without front matter.");
+  writePage(pagesPath, "draft-pair", undefined, { published: false });
+  const pages = readRivalryPages(pagesPath);
+  assert.equal(pages.length, 3);
+  assert.deepEqual(
+    pages.find(({ slug }) => slug === "new-pair"),
+    { slug: "new-pair", teams: ["Example: City", "Town United"], source: file }
+  );
+});
+
+test("invalid rivalry definitions fail with the offending file name before fetching or changing saved records", async (t) => {
+  const { outputPath, previous, pagesPath } = outputFixture(t);
+  const invalid = [
+    { teams: undefined },
+    { teams: "Liverpool, Everton" },
+    { teams: ["Liverpool"] },
+    { teams: ["Liverpool", "Everton", "Arsenal"] },
+    { teams: ["Liverpool", "Liverpool"] },
+    { teams: ["Liverpool", ""] },
+    { teams: ["Liverpool", 123] },
+    { teams: [" Liverpool", "Everton"] },
+    { rivalry: "../unsafe" },
+    { permalink: "/football/wrong-id/" },
+  ];
+  for (const extra of invalid) {
+    writePage(pagesPath, "invalid-pair", ["Liverpool", "Everton"], extra);
+    let fetched = false;
+    await assert.rejects(
+      refresh({
+        outputPath,
+        pagesPath,
+        asOf: "2026-01-04",
+        fetchImpl: async () => {
+          fetched = true;
+          return responseFor(Papa.unparse(rows));
+        },
+      }),
+      /invalid-pair\.md:/
+    );
+    assert.equal(fetched, false);
+    assert.equal(fs.readFileSync(outputPath, "utf8"), previous);
+  }
+});
+
+test("duplicate rivalry IDs and malformed YAML produce explicit errors", (t) => {
+  const pagesPath = pagesFixture(t);
+  const first = path.join(pagesPath, "arsenal-vs-tottenham.md");
+  const duplicate = path.join(pagesPath, "duplicate.md");
+  fs.copyFileSync(first, duplicate);
+  assert.throws(() => readRivalryPages(pagesPath), /duplicate\.md: duplicate rivalry ID arsenal-vs-tottenham/);
+  fs.writeFileSync(duplicate, "---\nlayout: rivalry\nteams: [unterminated\n---\n");
+  assert.throws(() => readRivalryPages(pagesPath), /duplicate\.md: invalid YAML front matter/);
+  fs.writeFileSync(duplicate, "---\nlayout: rivalry\n");
+  assert.throws(() => readRivalryPages(pagesPath), /duplicate\.md: front matter is missing its closing delimiter/);
+});
+
+test("a newly added rivalry page is discovered automatically and generated from the same results CSV", async (t) => {
+  const { outputPath, pagesPath } = outputFixture(t);
+  writePage(pagesPath, "example-vs-town", ["Example City", "Town United"]);
+  const updated = [...rows, match("2026-01-04", "Town United", "Example City", 0, 2)];
+  const { data } = await refresh({ outputPath, pagesPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(updated)) });
+  const record = data.rivalries["example-vs-town"];
+  assert.equal(Object.keys(data.rivalries).length, 3);
+  assert.deepEqual(record.teams, ["Example City", "Town United"]);
+  assert.equal(record.played, 1);
+  assert.deepEqual(record.wins, [1, 0]);
+  assert.deepEqual(record.win_history, [["2026-01-04", 1, 0, 2, 1, 0]]);
+});
+
+test("misspelled CSV team names identify the new page and leave the previous snapshot untouched", async (t) => {
+  const { outputPath, previous, pagesPath } = outputFixture(t);
+  writePage(pagesPath, "new-pair", ["Arsenall", "Tottenham Hotspur"]);
+  await assert.rejects(
+    refresh({ outputPath, pagesPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(rows)) }),
+    /new-pair\.md: no completed league meetings found for Arsenall vs Tottenham Hotspur; check teams against the CSV names/
+  );
+  assert.equal(fs.readFileSync(outputPath, "utf8"), previous);
+});
+
 test("automatic refresh fetches only the first-party results CSV and updates every derived record", async (t) => {
-  const { directory, outputPath } = outputFixture(t);
+  const { directory, outputPath, pagesPath } = outputFixture(t);
   const calls = [];
   const updated = [...rows, match("2026-01-05", "Tottenham Hotspur", "Arsenal", 4, 0)];
   const result = await refresh({
     asOf: "2026-01-05",
     outputPath,
+    pagesPath,
     fetchImpl: async (url, options) => {
       calls.push(url);
       assert.equal(options.redirect, "error");
@@ -122,28 +243,28 @@ test("automatic refresh fetches only the first-party results CSV and updates eve
 });
 
 test("a corrected score refreshes totals even when the newest match date has not changed", async (t) => {
-  const { outputPath, previous } = outputFixture(t);
+  const { outputPath, previous, pagesPath } = outputFixture(t);
   const corrected = rows.map((row) => (row.HomeTeam === "Tottenham Hotspur" ? { ...row, hGoal: 0, aGoal: 2 } : row));
-  const { data } = await refresh({ outputPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(corrected)) });
+  const { data } = await refresh({ outputPath, pagesPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(corrected)) });
   assert.deepEqual(data.rivalries["arsenal-vs-tottenham"].wins, [2, 0]);
   assert.equal(data.database_through, JSON.parse(previous).database_through);
   assert.notEqual(data.source_sha256, JSON.parse(previous).source_sha256);
 });
 
 test("an unchanged CSV and as-of date do not rewrite the data file", async (t) => {
-  const { outputPath, previous: original } = outputFixture(t);
+  const { outputPath, previous: original, pagesPath } = outputFixture(t);
   // Formatting changes (e.g. Prettier's compact arrays) are not data updates.
   const previous = JSON.stringify(JSON.parse(original)) + "\n";
   fs.writeFileSync(outputPath, previous);
   const before = fs.statSync(outputPath).mtimeMs;
-  const result = await refresh({ outputPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(rows)) });
+  const result = await refresh({ outputPath, pagesPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(rows)) });
   assert.equal(result.changed, false);
   assert.equal(fs.readFileSync(outputPath, "utf8"), previous);
   assert.equal(fs.statSync(outputPath).mtimeMs, before);
 });
 
 test("network errors, invalid CSVs and missing clubs leave the last valid file untouched", async (t) => {
-  const { directory, outputPath, previous } = outputFixture(t);
+  const { directory, outputPath, previous, pagesPath } = outputFixture(t);
   const failures = [
     async () => {
       throw new Error("Network unavailable");
@@ -154,22 +275,22 @@ test("network errors, invalid CSVs and missing clubs leave the last valid file u
     async () => responseFor(Papa.unparse(rows.filter((row) => row.HomeTeam !== "Arsenal" && row.AwayTeam !== "Arsenal"))),
   ];
   for (const fetchImpl of failures) {
-    await assert.rejects(refresh({ outputPath, asOf: "2026-01-04", fetchImpl }));
+    await assert.rejects(refresh({ outputPath, pagesPath, asOf: "2026-01-04", fetchImpl }));
     assert.equal(fs.readFileSync(outputPath, "utf8"), previous);
     assert.deepEqual(fs.readdirSync(directory), ["football_rivalries.json"]);
   }
 });
 
 test("well-formed but stale or substantially truncated results cannot replace the previous records", async (t) => {
-  const { outputPath, previous } = outputFixture(t);
+  const { outputPath, previous, pagesPath } = outputFixture(t);
   const stale = rows.filter((row) => row.Date < "2026-01-04");
   await assert.rejects(
-    refresh({ outputPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(stale)) }),
+    refresh({ outputPath, pagesPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(stale)) }),
     /coverage has moved backwards/
   );
   const truncated = rows.filter((row) => row.Date !== "2026-01-01");
   await assert.rejects(
-    refresh({ outputPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(truncated)) }),
+    refresh({ outputPath, pagesPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(truncated)) }),
     /missing a substantial part/
   );
   assert.equal(fs.readFileSync(outputPath, "utf8"), previous);
@@ -181,9 +302,10 @@ test("the daily deployment pipeline refreshes and validates the rivalry pages be
   assert.match(daily, /cron: "0 1 \* \* \*"/);
   assert.match(deploy, /workflows: \["Generate table probabilities"\]/);
   const refreshStep = deploy.indexOf("node scripts/generate_rivalry_snapshots.js --refresh");
+  const tests = deploy.indexOf("node --test scripts/rivalry_snapshots.test.js");
   const build = deploy.indexOf("bundle exec jekyll build");
   const validate = deploy.indexOf("bundle exec ruby scripts/check_rivalry_pages.rb");
   const publish = deploy.indexOf("uses: JamesIves/github-pages-deploy-action");
-  assert.ok(refreshStep > 0 && refreshStep < build && build < validate && validate < publish);
+  assert.ok(refreshStep > 0 && refreshStep < tests && tests < build && build < validate && validate < publish);
   assert.doesNotMatch(deploy, /continue-on-error:/);
 });

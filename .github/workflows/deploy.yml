@@ -85,8 +85,8 @@ jobs:
       - name: Generate rivalry records from the results CSV
         run: |
           npm ci
-          node --test scripts/rivalry_snapshots.test.js scripts/football_win_history.test.js
           node scripts/generate_rivalry_snapshots.js --refresh
+          node --test scripts/rivalry_snapshots.test.js scripts/football_win_history.test.js
       - name: Update _config.yml ⚙️
         uses: fjogeleit/yaml-update-action@main
         with:
