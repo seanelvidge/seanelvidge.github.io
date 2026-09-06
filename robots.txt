@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://seanelvidge.github.io/sitemap.xml
+Sitemap: https://seanelvidge.com/sitemap.xml
