@@ -24,8 +24,9 @@ pagination:
 {% if paginator.page == nil or paginator.page == 1 %}
 
 <header class="home-intro">
-  <p>Welcome to my website, I am Professor of Space Environment at the University of Birmingham, Head of the SERENE research group and occasional analyst of things that probably didn’t require analysing.</p>
+  <p>Welcome to my website, I am Professor of Space Environment at the University of Birmingham, Head of the SERENE research group and occasional analyst of things that probably didn't require analysing.</p>
   <p>Here you will find articles, datasets and interactive tools covering <em>football statistics</em>, <em>mathematics</em>, <em>space weather</em> and assorted quantitative curiosities.</p>
+  <p>You can find more detailed information on the following links, including some of my favourite articles, or read my most recent posts below.</p>
   {% include topic-links.liquid %}
 </header>
 <h2 class="recent-articles-heading">Recent articles</h2>
