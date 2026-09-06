@@ -1,6 +1,6 @@
 {% assign img_path = include.path | remove: '.jpg' | remove: '.jpeg' | remove: '.png' | remove: '.tiff' | remove: '.gif' %}
 {% assign figure_alt = include.alt %}
-{% if figure_alt == nil and include.path == page.thumbnail and page.image_decorative != true %}
+{% if figure_alt == null and include.path == page.thumbnail and page.image_decorative != true %}
   {% assign figure_alt = page.image_alt %}
 {% endif %}
 
