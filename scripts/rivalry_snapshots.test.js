@@ -5,7 +5,9 @@ const os = require("node:os");
 const path = require("node:path");
 const Papa = require("papaparse");
 const YAML = require("yaml");
-const { snapshot, refresh, CSV_URL } = require("./generate_rivalry_snapshots.js");
+const prettier = require("prettier");
+const { execFileSync } = require("node:child_process");
+const { snapshot, refresh, serializeSnapshot, CSV_URL } = require("./generate_rivalry_snapshots.js");
 const { readRivalryPages } = require("./rivalry_pages.js");
 const saved = require("../_data/football_rivalries.json");
 const fixturePairs = [
@@ -13,6 +15,8 @@ const fixturePairs = [
   { slug: "arsenal-vs-tottenham", teams: ["Arsenal", "Tottenham Hotspur"] },
 ];
 const fixtureSnapshot = (csv, asOf) => snapshot(csv, asOf, fixturePairs);
+const snapshotPath = path.join(__dirname, "../_data/football_rivalries.json");
+const prettierOptions = async () => ({ ...(await prettier.resolveConfig(snapshotPath)), filepath: snapshotPath });
 
 function writePage(pagesPath, slug, teams, extra = {}) {
   const data = { layout: "rivalry", rivalry: slug, teams, permalink: `/football/${slug}/`, ...extra };
@@ -239,6 +243,7 @@ test("automatic refresh fetches only the first-party results CSV and updates eve
   assert.equal(derby.biggest[1].margin, 4);
   assert.equal(derby.latest.date, "2026-01-05");
   assert.deepEqual(derby.win_history.at(-1), ["2026-01-05", 1, 4, 0, 1, 2]);
+  assert.equal(await prettier.check(fs.readFileSync(outputPath, "utf8"), await prettierOptions()), true);
   assert.deepEqual(fs.readdirSync(directory), ["football_rivalries.json"]);
 });
 
@@ -251,16 +256,51 @@ test("a corrected score refreshes totals even when the newest match date has not
   assert.notEqual(data.source_sha256, JSON.parse(previous).source_sha256);
 });
 
-test("an unchanged CSV and as-of date do not rewrite the data file", async (t) => {
+test("refresh repairs old JSON formatting without changing the data, then leaves subsequent runs untouched", async (t) => {
   const { outputPath, previous: original, pagesPath } = outputFixture(t);
-  // Formatting changes (e.g. Prettier's compact arrays) are not data updates.
-  const previous = JSON.stringify(JSON.parse(original)) + "\n";
-  fs.writeFileSync(outputPath, previous);
+  const options = { outputPath, pagesPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(rows)) };
+  assert.equal(await prettier.check(original, await prettierOptions()), false);
+  const repaired = await refresh(options);
+  const previous = fs.readFileSync(outputPath, "utf8");
+  assert.equal(repaired.changed, true);
+  assert.deepEqual(JSON.parse(previous), JSON.parse(original));
+  assert.equal(await prettier.check(previous, await prettierOptions()), true);
   const before = fs.statSync(outputPath).mtimeMs;
-  const result = await refresh({ outputPath, pagesPath, asOf: "2026-01-04", fetchImpl: async () => responseFor(Papa.unparse(rows)) });
+  const result = await refresh(options);
   assert.equal(result.changed, false);
   assert.equal(fs.readFileSync(outputPath, "utf8"), previous);
   assert.equal(fs.statSync(outputPath).mtimeMs, before);
+});
+
+test("snapshot serialization matches repository Prettier settings without changing JSON values", async () => {
+  const value = fixtureSnapshot(Papa.unparse(rows), "2026-01-04");
+  const output = await serializeSnapshot(value);
+  assert.deepEqual(JSON.parse(output), value);
+  assert.equal(output, await prettier.format(JSON.stringify(value, null, 2), await prettierOptions()));
+  assert.match(output, /"teams": \["Manchester United", "Liverpool"\]/);
+  assert.ok(output.endsWith("\n"));
+});
+
+test("the offline CLI uses the same formatting even when run outside the repository", async (t) => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), "rivalry-format-test-"));
+  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
+  const csvPath = path.join(directory, "results.csv");
+  // Cover every declared pair, so adding a page never needs a CLI test edit.
+  const pairs = readRivalryPages();
+  const csv = Papa.unparse(pairs.map(({ teams }) => match("2026-01-04", ...teams, 2, 1)));
+  fs.writeFileSync(csvPath, csv);
+  const output = execFileSync(process.execPath, [path.join(__dirname, "generate_rivalry_snapshots.js"), csvPath, "2026-01-04"], {
+    cwd: directory,
+    encoding: "utf8",
+  });
+  assert.deepEqual(JSON.parse(output), snapshot(csv, "2026-01-04", pairs));
+  assert.equal(await prettier.check(output, await prettierOptions()), true);
+});
+
+test("the Prettier workflow uses the same locked dependencies as the generator", () => {
+  const workflow = fs.readFileSync(path.join(__dirname, "../.github/workflows/prettier.yml"), "utf8");
+  assert.match(workflow, /run: npm ci/);
+  assert.doesNotMatch(workflow, /npm install --save-dev --save-exact prettier/);
 });
 
 test("network errors, invalid CSVs and missing clubs leave the last valid file untouched", async (t) => {

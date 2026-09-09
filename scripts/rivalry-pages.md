@@ -34,6 +34,8 @@ bundle exec jekyll build
 bundle exec ruby scripts/check_rivalry_pages.rb _site
 ```
 
+Both the refresh command and the offline preview below format their JSON with the repository's Prettier settings before outputting it. No separate `prettier --write` step is needed. Refresh also repairs older unformatted JSON when its data is unchanged; once both data and formatting match, it leaves the file untouched. The Prettier workflow uses `npm ci` so its formatter version matches local generation.
+
 For a reproducible, network-free JSON preview from a downloaded CSV:
 
 ```sh

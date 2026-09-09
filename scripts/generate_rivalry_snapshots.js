@@ -5,13 +5,24 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const crypto = require("node:crypto");
-const { isDeepStrictEqual } = require("node:util");
 const Papa = require("papaparse");
+const prettier = require("prettier");
 const D = require("../assets/js/football-results-data.js");
 const { parseDate } = require("../assets/js/team-rankings-data.js");
 const { readRivalryPages, PAGES_PATH } = require("./rivalry_pages.js");
 const CSV_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/main/EnglandLeagueResults.csv";
 const OUTPUT_PATH = path.join(__dirname, "../_data/football_rivalries.json");
+
+async function serializeSnapshot(data) {
+  // Use the actual site's JSON settings, even for temporary outputs or when
+  // this script is invoked from outside the repository.
+  const config = await prettier.resolveConfig(OUTPUT_PATH);
+  const plugins = config?.plugins?.map((plugin) =>
+    typeof plugin === "string" ? require.resolve(plugin, { paths: [path.dirname(OUTPUT_PATH)] }) : plugin
+  );
+  return prettier.format(JSON.stringify(data, null, 2), { ...config, plugins, filepath: OUTPUT_PATH });
+}
+
 function snapshot(csv, asOf, pairs = readRivalryPages()) {
   const timestamp = parseDate(asOf);
   if (!Number.isFinite(timestamp)) throw new Error("Use an explicit snapshot date in YYYY-MM-DD format.");
@@ -108,8 +119,9 @@ async function refresh({
         throw new Error(`Results CSV is missing a substantial part of ${slug}'s match history.`);
     }
   }
-  const serialized = JSON.stringify(next, null, 2) + "\n";
-  if (isDeepStrictEqual(next, previous)) return { changed: false, data: next };
+  const serialized = await serializeSnapshot(next);
+  // Repair older unformatted output even if the CSV itself has not changed.
+  if (serialized === previousText) return { changed: false, data: next };
 
   // Write on the same filesystem and rename only after validation and a complete
   // write; an interrupted refresh cannot leave half a JSON file for Jekyll.
@@ -135,7 +147,7 @@ async function main() {
       }, checked ${data.as_of}.`
     );
   } else if (file && asOf && !extra.length && !file.startsWith("--")) {
-    process.stdout.write(JSON.stringify(snapshot(fs.readFileSync(file, "utf8"), asOf), null, 2) + "\n");
+    process.stdout.write(await serializeSnapshot(snapshot(fs.readFileSync(file, "utf8"), asOf)));
   } else {
     throw new Error("Usage: node scripts/generate_rivalry_snapshots.js --refresh OR results.csv YYYY-MM-DD");
   }
@@ -146,4 +158,4 @@ if (require.main === module) {
     process.exitCode = 1;
   });
 }
-module.exports = { snapshot, refresh, CSV_URL };
+module.exports = { snapshot, refresh, serializeSnapshot, CSV_URL };
