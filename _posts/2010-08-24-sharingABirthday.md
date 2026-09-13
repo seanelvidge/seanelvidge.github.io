@@ -31,7 +31,7 @@ $$
 
 The easiest way of working this out is to first calculate the probability that all $$n$$ birthdays are different. For only 1 person the probability that that 1 person does not share a birthday with someone is $$\frac{365}{365}$$.
 
-For 2 people, the probability that the second person has a different birthday from person 1 is $$\frac{364}{365}$$. The probability that person 3 has a different birthday from 1 and 2 is $$\frac{363}{365}$$, and so on and so on. Finally we take note that when events are independent of each other (as they are in this case), the probability of them all occurring is equal to the product of the probabilities.
+For 2 people, the probability that the second person has a different birthday from person 1 is $$\frac{364}{365}$$. The probability that person 3 has a different birthday from 1 and 2 is $$\frac{363}{365}$$, and so on and so on. Finally note that conditional on the first $$n$$ people all having different birthdays, the next person avoids those birthdays with probability $$\frac{365-k}{365}$$. Multiplying these successive conditional probabilities gives the probability that all $$n$$ birthdays are different.
 
 So we can now calculate the probability of there not being two people sharing a birthday (obviously if $$n > 365$$ then $$P^{'}(n)=0$$, this is by the [pigeonhole principle](https://en.wikipedia.org/wiki/Pigeonhole_principle)). So for $$n \le 365$$:
 
