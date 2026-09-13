@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Recurring Decimals - Something on the Repetend
-date: 2010-08-26 18:47:00-0400
+date: 2011-12-03 18:47:00-0400
 description: How to calculate the size of the repetend for recurring decimals
 tags: mathematics
 related_posts: true
@@ -25,4 +25,4 @@ In fact we can make this a bit more firm, rather than saying it is some number l
 
 The proof is fairly simple, have a go yourself. The hint (if you need it) is to use Fermat's Little Theorem, i.e. $$10^{p-1}\equiv 1\mbox{ mod } p$$.
 
-In passing, I'll also mention that if you have a fraction of them form $$\frac{1}{k}$$, where $$k$$ is any integer (not necessarily prime as in the case above) then the number of digits in the repetend (if there are any!) is less than or equal to $$k-1$$. So a fairly similar result holds, but note, this is only works when the numerator is 1.
+In passing, I'll also mention that if you have a fraction of them form $$\frac{1}{k}$$, where $$k$$ is any integer (not necessarily prime as in the case above) then the number of digits in the repetend (if there are any!) is less than or equal to $$k-1$$.
