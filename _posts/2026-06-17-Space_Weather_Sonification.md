@@ -14,7 +14,7 @@ What does a geomagnetic storm sound like?
 
 Not metaphorically. Literally.
 
-Imagine taking the indices we use to drive our models of near-Earth space (solar radio flux, sunspot number, geomagnetic activity, ring-current disturbance) and translating it into a piece of music. This isn't a "space-inspired" soundtrack, but a deterministic piano score where every pitch, rhythm, chord, tempo change and accent is driven by real space weather indices.
+Imagine taking the indices we use to drive our models of near-Earth space (solar radio flux, sunspot number, geomagnetic activity, ring-current disturbance) and translating it into a piece of music. This isn't a "space-inspired" soundtrack, but a deterministic piano score where every pitch, rhythm, chord, tempo and accent is driven by real space weather indices.
 
 That is what this blog post is all about. About how we turn space weather events into piano music. The result is a structured musical translation of the space environment, built so that the data can be heard.
 
@@ -84,7 +84,7 @@ Dst and Kp then decide how much weight the left hand carries. In low-tension per
 
 ## Tempo, dynamics and accents
 
-The score also has some performance notes in it. Whilst the overall tempo of the piece remains constant throughout, average note length is (slightly) determined by solar activity, Hp30, Dst, and Kp can all push the tempo upward (having an impact of making the piece feel like the speed is changing, but only really ranges from about 60 to 120 bpm so remains playable (at least to my limits!).
+The score also has some performance notes in it. Whilst the overall tempo of the piece remains constant throughout, average note length is (slightly) determined by solar activity, Hp30, Dst, and Kp can all push the tempo upward (having an impact of making the piece feel like the speed is changing, but remaining playable (at least to my limits!)).
 
 We also use four dynamic levels: p, mp, mf and f. This allows for clear changes in intensity without going over the top. Accents appear when the normalised activity is high enough. Staccato is added to the shortest right-hand notes. During intense storm intervals, the music becomes not just higher or faster, but sharper and more articulated.
 
