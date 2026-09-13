@@ -28,7 +28,7 @@ $$
 M = \frac{\sum_{i=1}^{N}w_im_i}{\sum_{i=1}^{N}w_i},
 $$
 
-where $$m_i$$ is the pitch of a frame (in MIDI numbers) and $$w_i$$ is how loud it was. Here we do this in "MIDI" because it is a musical scale. Every step is a semitone. If we used raw frequency in Hertz the maths would skew towards the low notes in a way that doesn't really match how we actually hear music.
+where $$m_i$$ is the pitch of a frame (in MIDI numbers) and $$w_i$$ is how loud it was. Here we do this in "MIDI" because it is a musical scale. Every step is a semitone. If we used raw frequency in Hertz the maths would skew towards the high notes in a way that doesn't really match how we actually hear music.
 
 So, if you look at our plot, focusing on the smoothed black line, a story starts to appear:
 
