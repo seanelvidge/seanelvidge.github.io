@@ -54,7 +54,6 @@ You can see that the peaks do not always match where a season begins (which was 
 
 It looks like, in this plot, that the noise in viewing figures is decreasing over time. However since we know that there is a decreasing number of viewers we calculate the normalised standard deviation for each season. This is done by finding the standard deviation of a season and dividing it by the range of viewers for that season. This is presented in the table below.
 
-```markdown
 | Season Number | Standard Deviation (Millions) | Range of Viewers (Million) | (Standard Deviation / Range ) \* 100 (%) |
 | :-----------: | :---------------------------: | :------------------------: | :--------------------------------------: |
 |       1       |             1.19              |            5.97            |                  19.99                   |
@@ -66,7 +65,6 @@ It looks like, in this plot, that the noise in viewing figures is decreasing ove
 |       7       |             1.09              |            5.19            |                  21.10                   |
 |       8       |             0.66              |            3.93            |                  16.88                   |
 |       9       |             0.59              |            3.56            |                  16.67                   |
-```
 
 The percentage column has a mean value of 19.83% itself with a standard deviation of 3.06%. So we can conslude that the standard deviation of the noise in viewers is about 20% of the range of viewers. Is this a "standard value"? Or is it somehow tied to Grey's Anatomy?
 
