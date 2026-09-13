@@ -184,13 +184,13 @@ The density of water depends on two main factors, its temperature and the water 
 
 On the night of the Titanic's sinking the water temperature was reported to be 31 degrees Fahrenheit [[11]](#11) [[12]](#12), which is approximately −0.56C.
 
-The salinity of ocean water varies with location. The Atlantic Ocean, where the Titanic sank, varies between 33 and 37 parts per thousand. According to NASA [[13]](#13) the approximate salinity value of the Atlantic at the location where the Titanic sank (41.725, -130.05) is 36 parts per thousand. We can then use the water density calculator provided at [[14]](#14) with the above values to find a calculated water density of $1029 kg m^{−3}$.
+The salinity of ocean water varies with location. The Atlantic Ocean, where the Titanic sank, varies between 33 and 37 parts per thousand. According to NASA [[13]](#13) the approximate salinity value of the Atlantic at the location where the Titanic sank (41.73, -49.95) is 36 parts per thousand. We can then use the water density calculator provided at [[14]](#14) with the above values to find a calculated water density of $1029 kg m^{−3}$.
 
 ## Buoyancy
 
 We now come to the crux of the problem. Could the panelling have supported both Jack and Rose?
 
-First we consider the case which occurred in the film, Rose lying on the panelling. To do this we consider the forces acting upon the panelling, the downward force due to weight, and the upward force due to buoyancy. The only variable we do not know is the displaced volume. Since we know the area of the panel which is in contact with the water we are left to find the height that makes up the submerged portion of the panelling. Thus we actually find the depth to which the panelling sinks, clearly we require this to be greater than the total depth of the panel, in order for some of it to remain above water. We equate the buoyancy force, $$F_B$$, with the total weight in the system. We use $$M_R$$, $$M_P$$ and $$M_J$$ to represent the mass of Rose, the panel and Jack respectively.
+First we consider the case which occurred in the film, Rose lying on the panelling. To do this we consider the forces acting upon the panelling, the downward force due to weight, and the upward force due to buoyancy. The only variable we do not know is the displaced volume. Since we know the area of the panel which is in contact with the water we are left to find the height that makes up the submerged portion of the panelling. Thus we actually find the depth to which the panelling sinks, clearly we require this to be less than the total depth of the panel, in order for some of it to remain above water. We equate the buoyancy force, $$F_B$$, with the total weight in the system. We use $$M_R$$, $$M_P$$ and $$M_J$$ to represent the mass of Rose, the panel and Jack respectively.
 
 $$
 \begin{eqnarray*}
