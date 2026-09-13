@@ -52,13 +52,13 @@ Here we use five space weather indices, and each are given a different job to do
 - Kp: controls the broad rhythmic regime. Quiet geomagnetic periods lead to slower figures; storm periods create denser patterns.
 - Dst: as it becomes more negative, the music becomes more forceful through dynamics, accents and tempo.
 
-I was keen to use as many indices as possible to give the music as much 'texture' as I could do - entirely deterministically. I have tried to make solar activity shape harmony, geomagnetic activity shape motion and storm intensity shape tension.
+I was keen to use as many indices as possible to give the music as much 'texture' as possible - entirely deterministically. I have tried to make solar activity shape harmony, geomagnetic activity shape motion and storm intensity shape tension.
 
 ## The right hand melody: Hp30
 
 The right hand is the most active. It uses a pitch drawn from F# minor (my favourite), ranging from F#4 to E6. Each Hp30 value is normalised and mapped to one of fourteen pitches.
 
-This means that higher geomagnetic activity tends to push the melody upward. But the mapping is not absolute. To create the score we do some local normalisation, i.e. we care both about how large Hp30 is on a physical scale and how large it is relative to the other values in the selected date range. This was needed so that even quite periods (geomagnetically) stay interesting.
+This means that higher geomagnetic activity tends to push the melody upward. But the mapping is not absolute. To create the score we do some local normalisation, i.e. we care both about how large Hp30 is on a physical scale and how large it is relative to the other values in the selected date range. This was needed so that even quiet periods (geomagnetically) stay interesting.
 
 The Kp (a logarithmic scale from 0 to 9) is used to define the rhythm:
 
