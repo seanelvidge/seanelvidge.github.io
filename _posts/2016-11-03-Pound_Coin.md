@@ -1,7 +1,7 @@
 ---
 layout: post
 title: New Pound Coin
-date: 2013-04-16 09:52:00
+date: 2016-11-03 09:52:00
 description: The interesting mathematics of our new pound coin
 tags: mathematics
 related_posts: true
