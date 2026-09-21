@@ -2,13 +2,13 @@
 layout: post
 title: Distribution of Pancake Day
 date: 2017-02-28 14:27:00
-description: Today is pancake day and it got me thinking about the fact that I remember the day falling on my birthday (March 7th) just once in my lifetime. How long will I have to wait until it next falls on my birthday?
+description: Today is pancake day and it got me thinking about the fact that I remember the day falling on my birthday just once in my lifetime. How long will I have to wait until it next falls on my birthday?
 tags: mathematics code
 related_posts: true
 thumbnail: assets/img/pancake_day.png
 ---
 
-Today is pancake day, and it got me thinking about the fact that it once fell on my birthday (March 7th). How long will I have to wait until it next falls on my birthday?
+Today is pancake day, and it got me thinking about the fact that it once fell on my birthday. How long will I have to wait until it next falls on my birthday?
 
 Pancake day, or [Shrove Tuesday](https://en.wikipedia.org/wiki/Shrove_Tuesday), is the day before the first day of Lent, or exactly 47 days before Easter Sunday. So to calculate when Pancake day will be we just need to work out when Easter Sunday is.
 
@@ -57,6 +57,6 @@ We get the distribution of Pancake days by looping through all the years which P
 
 The earliest date that Pancake day can fall on is Feb 3rd (the earliest date for Easter is March 22nd, which occurs if the full moon falls on Saturday March 21st). The latest pancake day is March 9th (that gives the latest Easter as April 25th which needs quite a specific set up – the full moon would have to occur March 20th, meaning the first full moon after March 21st would be April 18th. If however April 18th is a Sunday then Easter is celebrated the following Sunday, April 25th). We can see from the distribution that the tail of these extreme dates occur quite rarely, they then ramp up to a fairly even distribution of dates between Feb 9th and March 4th (excluding Feb 29th, which has an obvious dip).
 
-Unfortunately my birthday falls quite far down the tail of the distribution, March 7th, only two days earlier than the latest possible Pancake day. Only 1.67% of Pancake days fall on that date. Which, given that the UK life expectancy for men is 81.5 years, means I should only expect to live to see 1, beautiful, pancake-birthday, which I did, on March 7th 2000. I’ll have to wait (and try and hold out) until 2079 to see another.
+Unfortunately my birthday falls quite far down the tail of the distribution and I am unlikely to live to see it happen again!
 
 [Here is a link](/assets/code/Shrove_Tue_Dist.py), to the code I used to for this post.
