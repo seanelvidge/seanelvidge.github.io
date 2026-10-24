@@ -7,14 +7,16 @@ tags: football mathematics
 related_posts: true
 thumbnail: assets/img/football_rankings.png
 image_alt: Illustration of three teams' performance ratings changing over time.
-last_modified_at: 2026-09-06
+last_modified_at: 2026-10-24
 ---
 
 Not all football-rating systems are the same. Many of the public ones, like the excellent [ClubElo](http://clubelo.com/System), do a fine job of ranking teams using elegant updates. Win and your rating rises, lose and it falls; the amount you move depends on how "surprised" the model was.
 
 This model begins in the same spirit but replaces those heuristic updates with a probabilistic engine: a _Bayesian Extended Kalman Filter_ coupled to a modern version of the Bradley–Terry model (with added draws). The core idea is simple: treat each team's strength as something hidden that we estimate and track through time, with uncertainty that expands between matches and contracts when new results arrive.
 
-Across the [full historical dataset](https://seanelvidge.com/articles/2024/All_England_football_league_results/) (every English league match since 1888) the system achieves a mean Brier score of 0.2035. These values are significantly better than many published computer models (e.g. [Nyamdorj et al. 2014](https://www.stat.cmu.edu/cmsac/sure/2023/showcase/soccer/report.html), [BSIC, 2024](https://bsic.it/odds-at-play-testing-efficiency-in-the-premier-league-and-serie-a/) and [Harvard Sports Analysis Collective, 2015](https://harvardsportsanalysis.org/2015/07/5988/)) which indicates a stable, well-calibrated predictive performance. Crucially, because the filter quantifies its own uncertainty, it can tell us not only who is strongest, but how confident we should be in that judgement.
+> **Update, 24 October 2026:** The model now also learns from the margin of victory. The new article, [Does a 4–0 Win Tell Us More Than a 1–0 Win?]({% post_url 2026-10-24-Football_rankings_and_winning_margins %}), explains that extension, the validation across ten seasons and the change to uncertainty in the league-table predictor. This article remains the introduction to the underlying rating framework and its results-only update.
+
+The results-only calendar model described below was reviewed in October 2026. On 20,096 evaluation matches from 2016/17–2025/26, it achieves a mean-per-outcome Brier score of **0.207478** and log loss of **1.035789**. Settings were selected using 2000/01–2015/16. The [first mathematical review](https://github.com/seanelvidge/England-football-results/blob/main/validation/REPORT.md) explains the move to elapsed calendar time, nonzero initial uncertainty and division-specific parameters, together with the removal of the former innovation-dispersion controller. The filter remains a Gaussian approximation; the latest margin-based model and its scores are covered in the follow-up article.
 
 The rest of this post goes into the mathematical details of the ranking algorithm, but if you want to access the underlying data it is [available here](https://github.com/seanelvidge/England-football-results) (specifically the file [`EnglandLeagueResults_wRanks.csv`](https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/EnglandLeagueResults_wRanks.csv)).
 
@@ -55,7 +57,7 @@ $$
 where
 
 $$
-\Delta = \beta \bigl(s_H - s_A + h\bigr).
+\Delta = \beta (s_H - s_A) + h.
 $$
 
 Here, $$s_H$$ and $$s_A$$ are the latent strengths of the home and away teams, $$\beta$$ is a scaling parameter, $$\kappa$$ controls the draw rate, and $$h$$ is the home-advantage term.
@@ -64,11 +66,11 @@ Here, $$s_H$$ and $$s_A$$ are the latent strengths of the home and away teams, $
 
 Home advantage is not treated as a fixed constant. Instead, it is explicitly modelled and allowed to vary over time. Historical analysis shows that home-win rates in English football have declined dramatically since the late 19th century, falling from well above 60% to closer to 40–45% in the modern era (see [this analysis](https://seanelvidge.com/articles/2025/Home_advantage_in_English_football/)).
 
-By allowing the home-advantage parameter $$h$$ to evolve slowly with time, the model correctly distinguishes between a home match in 1890 and one in 2025. This prevents systematic bias when comparing teams across eras and is a key improvement over static-advantage rating systems.
+The results-only model learns $$h$$ and $$\log\kappa$$ separately for each division tier. After each date, it updates them using that date's outcome residuals; every prediction on the date uses the parameters available before those results. This replaces the earlier fixed calendar-year trend. The margin extension adds another tier-specific parameter, explained in the follow-up. Comparisons across remote eras and different divisions still depend partly on the tier priors.
 
 ## Validation and Rating Scale
 
-Predictive accuracy is measured using the [Brier score](https://en.wikipedia.org/wiki/Brier_score), defined as the mean squared error between predicted probabilities and observed outcomes. Over the full dataset the score is 0.2035 (for the 2024/25 season it is 0.2085), indicating robust calibration both historically and in the present day.
+Predictive accuracy is measured using the [Brier score](https://en.wikipedia.org/wiki/Brier_score), here averaged over both matches and the three outcomes. The summed multiclass convention would give a value three times larger. The later-season comparison above is the evidence for improvement; fitting or scoring the full history alone would not establish predictive value. Calibration is also checked by outcome and forecast probability, and is not perfect.
 
 Internally, the filter operates on a latent "skill" scale roughly spanning $$-3$$ to $$+3$$. However for presentation, these values are mapped linearly onto an Elo-style scale, centred on 1000 points, with elite teams reaching 1800+ and lower-league teams clustering about a thousand points below. This transformation is purely cosmetic; all inference happens on the latent scale.
 
@@ -79,7 +81,7 @@ Internally, the filter operates on a latent "skill" scale roughly spanning $$-3$
 Each team’s latent strength evolves as
 
 $$
-s_{i,t+1} = \rho\, s_{i,t} + (1 - \rho)\, \mu_{\text{tier}(i,t)} + \varepsilon_{i,t},
+s_{i,t+1} = r_i\, s_{i,t} + (1 - r_i)\, \mu_{\text{tier}(i,t)} + \varepsilon_{i,t},
 $$
 
 with
@@ -88,7 +90,7 @@ $$
 \varepsilon_{i,t} \sim \mathcal{N}(0, q_i).
 $$
 
-Here, $$\rho$$ controls persistence, $$\mu_{\text{tier}}$$ is the long-term baseline for the team's division tier, and $$q_i$$ is the process variance. This formulation allows ratings to drift while remaining anchored to realistic league-level expectations.
+For $$d_i$$ days since the previous match, $$r_i=0.995^{d_i/7}$$ and $$q_i=0.0017(1-r_i^2)/(1-0.995^2)$$. The tier means are $$1.5, 0.3, -0.3, -0.6$$ and a new team starts at its tier mean with variance $$0.25$$. A division change retains its previous skill and multiplies its previous variance by $$1.5$$ before the time transition. The latter is a modelling heuristic. These transitions allow uncertainty to tend towards the process’s stationary variance during inactivity.
 
 ## 2. Observation Model
 
@@ -105,19 +107,21 @@ $$
 
 using the Davidson–Bradley–Terry equations above. The Jacobian matrix $$H$$ is computed by differentiating $$\mathbf{p}$$ with respect to the state vector $$[s_H, s_A]^T$$, enabling linearisation of the nonlinear observation model.
 
-## 3. Extended Kalman Filter Update
+## 3. The Results-Only Extended Kalman Filter
+
+The categorical update provides the baseline for the model. The [new article]({% post_url 2026-10-24-Football_rankings_and_winning_margins %}) shows how the scalar update incorporates winning-margin information.
 
 Prediction step:
 
 $$
-x^- = F x_t,
+x^- = F x_t + (I-F)\mu,
 $$
 
 $$
 P^- = F P_t F^\top + Q,
 $$
 
-where $$F = \rho I$$ and $$Q$$ is the process-noise covariance.
+where $$F = \operatorname{diag}(r_H,r_A)$$ and $$Q=\operatorname{diag}(q_H,q_A)$$. Home and away teams may have different elapsed times.
 
 Observation noise:
 
@@ -128,7 +132,7 @@ $$
 Update step:
 
 $$
-K = P^- H^\top \bigl(H P^- H^\top + R\bigr)^{-1},
+K = P^- H^\top \bigl(H P^- H^\top + R\bigr)^{+},
 $$
 
 $$
@@ -139,8 +143,8 @@ $$
 P_{t+1} = (I - K H) P^-.
 $$
 
-The Kalman gain $$K$$ replaces the fixed $$K$$-factor of traditional Elo systems, adapting automatically to uncertainty and surprise. A secondary control loop monitors the normalised innovation squared to ensure statistical consistency over time.
+The superscript $$+$$ denotes a pseudoinverse: the three categorical probabilities sum to one, leaving only two independent residuals. The results-only update has an equivalent scalar score/information form, avoiding a singular matrix inversion. The filter retains each team’s marginal variance while discarding induced cross-team covariance. The old normalised-innovation controller has been removed; its target of two corrected a dimension error but did not establish exact categorical or Bayesian uncertainty calibration.
 
 ## Why This Matters
 
-This framework enforces mathematical honesty. Uncertainty is explicit, calibration is measurable, and every parameter ($$\beta$$, $$\rho$$, $$q$$, $$\kappa$$, tier baselines, and historical home advantage) has a clear interpretation. Instead of a single magic constant, the model becomes a living system that adapts across seasons, divisions, and eras.
+The model makes its evolution, observation and prior assumptions explicit, so they can be tested chronologically. Its strength estimates and uncertainty provide the starting point for both match forecasts and the [league table predictor]({{ '/tableProbs' | relative_url }}). The [winning-margin update]({% post_url 2026-10-24-Football_rankings_and_winning_margins %}) builds on this framework and tests how much more the score can tell us.

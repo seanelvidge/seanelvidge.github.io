@@ -7,12 +7,40 @@ tags: football mathematics
 related_posts: true
 thumbnail: assets/img/position-odds-2025-2026-EFL_Championship.png
 image_alt: Heatmap of predicted finishing-position probabilities for the 2025/26 EFL Championship teams.
-last_modified_at: 2026-09-06
+last_modified_at: 2026-10-24
 ---
 
 By mid-season, football fans instinctively start doing probability in their heads.
 
-> **Update, 6 September 2026:** This article describes the original analytical approach. The [current league-position tool]({{ '/tableProbs' | relative_url }}) now uses seeded Monte Carlo simulations of the remaining fixtures, with fixed team strengths and random tie-breaks on points. Its estimates therefore have sampling uncertainty; the original discussion of exact probabilities below should not be read as a description of the current implementation.
+> **Update, 6 September 2026:** This article describes the original analytical approach. The [current league-position tool]({{ '/tableProbs' | relative_url }}) now uses seeded Monte Carlo simulations of the remaining fixtures, with strengths held fixed within each simulated season and random tie-breaks on points. Its estimates therefore have sampling uncertainty; the original discussion of exact probabilities below should not be read as a description of the current implementation.
+
+> **Update, 24 October 2026:** The forecast now allows for uncertainty about each team's strength, while keeping that strength fixed within each simulated season. This matters most early on, when there is still plenty of football left to play. The [new ratings article]({% post_url 2026-10-24-Football_rankings_and_winning_margins %}) explains the accompanying winning-margin update and the historical checks behind both changes.
+
+## More season left, more room for uncertainty
+
+Imagine we have slightly underestimated a team. With thirty matches still to play, that small error has plenty of opportunities to matter. With three matches left, there is much less time for it to change the final table.
+
+Keeping a team's strength fixed does not mean we know exactly what that strength is. The current simulator draws one plausible strength for each team from its rating distribution, then uses it for every remaining fixture. In the next simulated season, it draws again. Each fixture is played once, with the result awarding points to both opponents.
+
+So a team drawn stronger than its estimated mean is more competitive throughout that simulated run. We keep that draw across all its games because an error in our estimate would affect those games together. Redrawing strength independently for every match would lose much of this effect.
+
+This gives early-season forecasts a wider spread. No predictions about the next manager, transfer window or injury crisis are required; we are allowing for uncertainty in what we know now.
+
+We can check whether that spread is sensible. An 80% range for final points should contain the eventual total about 80% of the time. At the start of the historical seasons tested, the old forecasts managed **59.75%**. With the new margin-based ratings and shared uncertainty, that becomes **81.08%**:
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="lazy" path="assets/img/football-league-uncertainty-validation.png" class="img-fluid rounded z-depth-1" zoomable=true alt="Coverage of 80 percent final-points intervals is close to the intended 80 percent at all four forecast stages after sampling uncertain strengths. The largest improvement is at the start of the season." caption="Historical checks at the start and roughly one-quarter, one-half and three-quarters of each season. The orange line changes the ratings alone; the green line also carries rating uncertainty through the remaining fixtures." %}
+    </div>
+</div>
+
+Across all four stages, 80% intervals cover **81.16%** of outcomes and 95% intervals cover **94.18%**. The combined changes also improve the finishing-position probability score by about **5%**, so the benefit is more than simply making every range wider. These checks cover 152 forecast cutoffs in the completed 2016/17–2025/26 division-seasons; the incomplete 2019/20 League One and League Two seasons are excluded.
+
+I also tested an extra allowance for future changes in form, but it made the points distributions too wide without improving the position score over using the existing rating uncertainty. The current forecast therefore uses the rating model's own variance, with no extra inflation. Its early-season 95% ranges remain a little narrow, and random tie-breaks on points are still an approximation. The [new article]({% post_url 2026-10-24-Football_rankings_and_winning_margins %}) gives the statistical details and the limits of this retrospective comparison.
+
+## The original analytical approach
+
+The discussion below is retained as the background to the original version. The current tool simulates complete seasons, preserving the relationship between opponents' points and the shared uncertainty described above; the original combination of independent team totals does not give exact joint league-position probabilities.
 
 > If we win our next two, and they drop points away at… actually, hang on.
 

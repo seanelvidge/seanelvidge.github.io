@@ -11,6 +11,8 @@ nav: false
   <meta charset="utf-8" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="{{ '/assets/js/match-probabilities-data.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/league-simulation.js' | relative_url }}"></script>
 
   <style>
     .table-probs-page {
@@ -342,7 +344,7 @@ nav: false
 <div class="table-probs-page">
 Position probabilities for the season.
 
-<div class="meta">Based on seeded Monte Carlo simulations of the remaining fixtures, assuming team strengths remain constant.</div>
+<div class="meta">Based on seeded Monte Carlo simulations of the remaining fixtures. Each simulation samples an uncertain strength for each team and holds it constant across that team’s remaining matches. More matches remaining allow that shared uncertainty to have a larger effect on the final table.</div>
 <div class="meta" id="asof-date"></div>
 
   <div id="tables"></div>
@@ -439,7 +441,7 @@ Position probabilities for the season.
     // Load point deductions/additions (signed)
     // Returns: window.pointAdjustmentsBySeason[season][team] = total adjustment
     // ------------------------------------------------------------
-    function loadPointDeductions() {
+    function loadPointDeductions(asOf = new Date().toISOString().slice(0, 10)) {
       return fetch(DEDUCT_CSV_URL)
         .then(res => res.text())
         .then(text => {
@@ -448,7 +450,7 @@ Position probabilities for the season.
           rows.forEach(r => {
             const season = String(r.Season || "").trim();
             const team = String(r.Team || "").trim();
-            if (!season || !team) return;
+            if (!season || !team || (r.Date && r.Date > asOf)) return;
 
             const pts = parseFloat(r.Pts_deducted);
             if (!Number.isFinite(pts) || pts === 0) return;
@@ -589,51 +591,8 @@ Position probabilities for the season.
     // ------------------------------------------------------------
     // Match probabilities (port of matchProbs.md logic)
     // ------------------------------------------------------------
-    const ELO_PER_NAT_LOGIT = 400.0 / Math.log(10.0);
-
-    function eloToSkill(elo, beta = 0.9, base = 1000.0, mult = 2.0, offset = 0.0) {
-      const S = ELO_PER_NAT_LOGIT * beta * mult;
-      return (elo - base) / S + offset;
-    }
-
-    function eraProbsFromYear(year) {
-      const h = (year - 1888) * (-0.141579) + 60.5636;
-      const a = (year - 1888) * ( 0.075714) + 19.4769;
-      const d = (year - 1888) * ( 0.065851) + 19.9608;
-      let pH = Math.max(h, 0.001);
-      let pD = Math.max(d, 0.001);
-      let pA = Math.max(a, 0.001);
-      const s = pH + pD + pA;
-      return [pH / s, pD / s, pA / s];
-    }
-
-    function deltaBaseAndKappa(year) {
-      const [pH, pD, pA] = eraProbsFromYear(year);
-      const DeltaBase = 0.5 * Math.log(pH / pA);
-      const kappa = (pD / (1 - pD)) * 2.0 * Math.cosh(DeltaBase);
-      return [DeltaBase, kappa];
-    }
-
-    function predictProbs(sH, sA, year, beta = 1.0) {
-      const [DeltaBase, kappa] = deltaBaseAndKappa(year);
-      const DeltaStar = beta * (sH - sA) + DeltaBase;
-      const u = Math.exp(DeltaStar);
-      const v = Math.exp(-DeltaStar);
-      const Den = u + v + kappa;
-      const pH = u / Den;
-      const pA = v / Den;
-      const pD = kappa / Den;
-      return [pH, pD, pA];
-    }
-
-    function matchProbabilities(homeElo, awayElo, seasonStartYear, beta = 0.9) {
-      const sH = eloToSkill(homeElo, beta);
-      const sA = eloToSkill(awayElo, beta);
-      const rho = 0.997;
-      const xH = rho * sH + (1 - rho);
-      const xA = rho * sA + (1 - rho);
-      const p = predictProbs(xH, xA, seasonStartYear, beta);
-      return safeProbs(p, 1e-3);
+    function matchProbabilities(home, away, tier) {
+      return MatchProbabilities.fromSnapshot(window.footballModel, home, away, window.footballModel.as_of, tier);
     }
 
     // ------------------------------------------------------------
@@ -726,78 +685,7 @@ Position probabilities for the season.
       };
     }
 
-    function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedKey) {
-      const N = teams.length;
-      const counts = {};
-      for (const t of teams) counts[t] = new Float64Array(N + 1);
-
-      const examples = {};
-      for (const t of teams) examples[t] = {};
-
-      const seedFn = hashStringToSeed(seedKey);
-      const rng = mulberry32(seedFn());
-
-      const pts0 = new Float64Array(N);
-      for (let i = 0; i < N; i++) pts0[i] = basePoints[i];
-
-      const indices = new Array(N);
-      for (let i = 0; i < N; i++) indices[i] = i;
-
-      for (let s = 0; s < sims; s++) {
-        const pts = pts0.slice();
-        const results = new Uint8Array(fixtures.length);
-
-        for (let i = 0; i < fixtures.length; i++) {
-          const f = fixtures[i];
-          const r = rng();
-          if (r < f.pH) {
-            pts[f.h] += 3;
-            results[i] = 0;
-          } else if (r < f.pH + f.pD) {
-            pts[f.h] += 1;
-            pts[f.a] += 1;
-            results[i] = 1;
-          } else {
-            pts[f.a] += 3;
-            results[i] = 2;
-          }
-        }
-
-        indices.sort((i, j) => pts[j] - pts[i]);
-        let start = 0;
-        while (start < N) {
-          let end = start + 1;
-          while (end < N && pts[indices[end]] === pts[indices[start]]) end++;
-          for (let i = end - 1; i > start; i--) {
-            const j = start + Math.floor(rng() * (i - start + 1));
-            const tmp = indices[i];
-            indices[i] = indices[j];
-            indices[j] = tmp;
-          }
-          start = end;
-        }
-
-        for (let pos = 1; pos <= N; pos++) {
-          const teamIdx = indices[pos - 1];
-          const teamName = teams[teamIdx];
-          counts[teamName][pos] += 1;
-
-          if (!examples[teamName][pos]) {
-            examples[teamName][pos] = Array.from(results);
-          }
-        }
-      }
-
-      const out = {};
-      for (const t of teams) {
-        const arr = new Float64Array(N + 1);
-        for (let pos = 1; pos <= N; pos++) arr[pos] = counts[t][pos] / sims;
-        out[t] = arr;
-      }
-
-      return { posProbs: out, examples };
-    }
-
+    const computePositionProbabilitiesMC = LeagueSimulation.computePositionProbabilitiesMC;
 
     function computeImpossiblePositions(teams, basePoints, remainingCounts) {
       const N = teams.length;
@@ -1547,7 +1435,7 @@ Position probabilities for the season.
 
 
     function renderFromPrecomputed(data) {
-      if (!data || !data.season || !Array.isArray(data.tiers)) return false;
+      if (!data || !data.season || !Array.isArray(data.tiers) || data.model_version !== MatchProbabilities.MODEL_VERSION || data.simulation_version !== LeagueSimulation.VERSION) return false;
 
       const tablesDiv = document.getElementById("tables");
       const asof = document.getElementById("asof-date");
@@ -1610,13 +1498,30 @@ Position probabilities for the season.
       const seasonConfig = await loadSeasonConfig();
       //logStatus("Fetching match CSV…");
 
-      Papa.parse(CSV_URL, {
-        download: true,
+      let csvText;
+      try {
+        const [modelResponse, csvResponse] = await Promise.all([
+          fetch(CSV_URL.replace("EnglandLeagueResults_wRanks.csv", "football_model.json"), { cache: "no-store" }),
+          fetch(CSV_URL, { cache: "no-store" }),
+        ]);
+        if (!modelResponse.ok || !csvResponse.ok) throw new Error("Could not load the current football model.");
+        window.footballModel = await modelResponse.json();
+        csvText = await csvResponse.text();
+        const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(csvText));
+        const hash = Array.from(new Uint8Array(digest), value => value.toString(16).padStart(2, "0")).join("");
+        if (hash !== window.footballModel.ranked_sha256) throw new Error("The ratings are being refreshed. Please try again shortly.");
+        await loadPointDeductions(window.footballModel.as_of);
+      } catch (err) {
+        logStatus(err.message);
+        return;
+      }
+      Papa.parse(csvText, {
+        download: false,
         header: true,
         dynamicTyping: true,
         skipEmptyLines: true,
         complete: (results) => {
-          const data = results.data || [];
+          const data = (results.data || []).sort((a, b) => String(a.Date).localeCompare(String(b.Date)));
           if (!data.length) { logStatus("No rows loaded."); return; }
           //logStatus(`Loaded rows: ${data.length}`);
 
@@ -1681,7 +1586,7 @@ Position probabilities for the season.
               const eH = elos[h], eA = elos[a];
               if (!Number.isFinite(eH) || !Number.isFinite(eA)) continue;
 
-              const [pH, pD, pA] = matchProbabilities(eH, eA, seasonStartYear, 0.9);
+              const [pH, pD, pA] = matchProbabilities(h, a, tier);
               fixtures.push({ h: teamIndex.get(h), a: teamIndex.get(a), pH, pD, pA });
             }
 
@@ -1689,7 +1594,8 @@ Position probabilities for the season.
             const SIMS = 20000;
             //logStatus(`Tier ${tier}: simulating ${SIMS} seasons…`);
             const seedKey = `${latestSeason}|${tier}|${teams.length}|${fixtures.length}`;
-            const simResult = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
+            const strength = LeagueSimulation.strengthDistribution(window.footballModel, teams, tier, window.footballModel.as_of, fixtures);
+            const simResult = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey, strength);
             const posProbs = simResult.posProbs;
 
             const remainingCounts = new Array(teams.length).fill(0);
@@ -1734,7 +1640,9 @@ This league table predictor estimates where clubs could finish by combining the 
 
 ### How the forecast is made
 
-The current tool uses seeded Monte Carlo simulations, with fixed team strengths and random tie-breaks on points. The [league-position methodology article]({% post_url 2025-12-22-League_table_prediction_probabilities %}) describes the original analytical approach and notes this change. Team strengths come from the [Bayesian football rating model]({% post_url 2025-12-15-Football_team_rankings %}), using the [historical English league results database]({% post_url 2024-12-28-All_England_football_league_results %}). The page displays the season and update information associated with the available forecast.
+The tool simulates the remaining fixtures using team ratings that learn from both results and winning margins. The new article, [Does a 4–0 Win Tell Us More Than a 1–0 Win?]({% post_url 2026-10-24-Football_rankings_and_winning_margins %}), explains the update and its historical validation, building on the [original Bayesian rating model]({% post_url 2025-12-15-Football_team_rankings %}) and the [English league results database]({% post_url 2024-12-28-All_England_football_league_results %}).
+
+Each simulated season draws one uncertain strength for each team and holds it fixed across that team's remaining matches. This gives a wider range of possible finishes when much of the season remains: a team that is stronger than our estimate can perform better across many games together. The [league-position methodology article]({% post_url 2025-12-22-League_table_prediction_probabilities %}) explains this uncertainty and the simulator's random tie-breaks on points. Simulations use a fixed random seed for reproducibility; the page displays the season and update information for the available forecast.
 
 Groups such as top six and bottom three summarise finishing-place probabilities; they are not a complete model of promotion, play-offs or competition-specific relegation rules. Simulation estimates are not guarantees, and small displayed probabilities may reflect rounding or the finite number of simulated seasons. Check the update information before treating a forecast as current.
 
