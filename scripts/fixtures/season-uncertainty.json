@@ -1,0 +1,14 @@
+{
+  "strength": {
+    "means": [0.2, -0.1],
+    "variances": [0.25, 0.15],
+    "homeAdvantage": 0.3,
+    "logDraw": -0.4,
+    "beta": 0.9
+  },
+  "points": [0.11438442164178567, 0.1375572735076613, 0.04760815778258887, 0.2512093350880691, 0.20182188484930336, 0.0, 0.24741892713059188],
+  "positions": [0.0, 0.5986495584152239, 0.4013504415847762],
+  "mean": 3.278202696517811,
+  "variance": 3.978492535264154,
+  "method": "80-node Gauss-Hermite integration over shared strength difference, with exact enumeration of all 9 paired outcomes"
+}

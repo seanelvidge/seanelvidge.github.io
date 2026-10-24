@@ -1,0 +1,257 @@
+[
+  {
+    "model": {
+      "model_version": "davidson-margin-v3",
+      "as_of": "2020-01-01",
+      "beta": 0.9,
+      "weekly_rho": 0.995,
+      "weekly_process_variance": 0.0017,
+      "tier_means": {
+        "1": 1.5,
+        "2": 0.3,
+        "3": -0.3,
+        "4": -0.6
+      },
+      "tiers": {
+        "1": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "2": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "3": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "4": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        }
+      },
+      "teams": {
+        "Home": {
+          "skill": 1.0,
+          "variance": 0.1,
+          "date": "2020-01-01",
+          "tier": 1
+        },
+        "Away": {
+          "skill": 1.0,
+          "variance": 0.2,
+          "date": "2020-01-01",
+          "tier": 1
+        }
+      }
+    },
+    "date": "2020-01-01",
+    "tier": 1,
+    "expected": [0.48890265771885355, 0.24278187480774444, 0.26831546747340185],
+    "forecast": [1.0, 0.1]
+  },
+  {
+    "model": {
+      "model_version": "davidson-margin-v3",
+      "as_of": "2020-01-01",
+      "beta": 0.9,
+      "weekly_rho": 0.995,
+      "weekly_process_variance": 0.0017,
+      "tier_means": {
+        "1": 1.5,
+        "2": 0.3,
+        "3": -0.3,
+        "4": -0.6
+      },
+      "tiers": {
+        "1": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "2": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "3": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "4": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        }
+      },
+      "teams": {
+        "Home": {
+          "skill": 2.0,
+          "variance": 0.1,
+          "date": "2020-01-01",
+          "tier": 1
+        },
+        "Away": {
+          "skill": 1.0,
+          "variance": 0.2,
+          "date": "2020-01-01",
+          "tier": 1
+        }
+      }
+    },
+    "date": "2020-01-08",
+    "tier": 1,
+    "expected": [0.7725914233050956, 0.15668702573451287, 0.07072155096039169],
+    "forecast": [1.9975, 0.1007025]
+  },
+  {
+    "model": {
+      "model_version": "davidson-margin-v3",
+      "as_of": "2020-01-01",
+      "beta": 0.9,
+      "weekly_rho": 0.995,
+      "weekly_process_variance": 0.0017,
+      "tier_means": {
+        "1": 1.5,
+        "2": 0.3,
+        "3": -0.3,
+        "4": -0.6
+      },
+      "tiers": {
+        "1": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "2": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "3": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "4": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        }
+      },
+      "teams": {
+        "Home": {
+          "skill": -1.0,
+          "variance": 0.1,
+          "date": "2020-01-01",
+          "tier": 4
+        },
+        "Away": {
+          "skill": 0.5,
+          "variance": 0.2,
+          "date": "2020-01-01",
+          "tier": 3
+        }
+      }
+    },
+    "date": "2020-02-12",
+    "tier": 3,
+    "expected": [0.09635020432323028, 0.17732645336811653, 0.7263233423086533],
+    "forecast": [-0.9792607565493859, 0.15119241634999464]
+  },
+  {
+    "model": {
+      "model_version": "davidson-margin-v3",
+      "as_of": "2020-01-01",
+      "beta": 0.9,
+      "weekly_rho": 0.995,
+      "weekly_process_variance": 0.0017,
+      "tier_means": {
+        "1": 1.5,
+        "2": 0.3,
+        "3": -0.3,
+        "4": -0.6
+      },
+      "tiers": {
+        "1": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "2": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "3": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "4": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        }
+      },
+      "teams": {
+        "Home": {
+          "skill": 2.0,
+          "variance": 0.1,
+          "date": "2020-01-01",
+          "tier": 1
+        },
+        "Away": {
+          "skill": -2.0,
+          "variance": 0.2,
+          "date": "2020-01-01",
+          "tier": 2
+        }
+      }
+    },
+    "date": "2020-12-31",
+    "tier": 2,
+    "expected": [0.9678653960422682, 0.030057213825200282, 0.0020773901325315306],
+    "forecast": [1.6089954340938872, 0.15831553561342754]
+  },
+  {
+    "model": {
+      "model_version": "davidson-margin-v3",
+      "as_of": "2020-01-01",
+      "beta": 0.9,
+      "weekly_rho": 0.995,
+      "weekly_process_variance": 0.0017,
+      "tier_means": {
+        "1": 1.5,
+        "2": 0.3,
+        "3": -0.3,
+        "4": -0.6
+      },
+      "tiers": {
+        "1": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "2": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "3": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        },
+        "4": {
+          "home_advantage": 0.3,
+          "log_draw": -0.4
+        }
+      },
+      "teams": {
+        "Home": {
+          "skill": 0.0,
+          "variance": 0.1,
+          "date": "2020-01-01",
+          "tier": 4
+        },
+        "Away": {
+          "skill": 0.3,
+          "variance": 0.2,
+          "date": "2020-01-01",
+          "tier": 4
+        }
+      }
+    },
+    "date": "2033-09-09",
+    "tier": 4,
+    "expected": [0.4860343989979624, 0.2431802474583593, 0.2707853535436783],
+    "forecast": [-0.5832810528128419, 0.17037138261082768]
+  }
+]
