@@ -30,7 +30,8 @@
       styles.push(D.chooseStyle(data.clubs.get(teams[1]), styles));
       const ranks = teams.map((team) => data.ranks.get(team));
       const year = new Date().getFullYear();
-      const probabilities = MatchProbabilities.probabilities(ranks[0].latest.y, ranks[1].latest.y, year);
+      const forecastDate = new Date().toISOString().slice(0, 10);
+      const probabilities = MatchProbabilities.fromSnapshot(data.model, teams[0], teams[1], forecastDate);
       el("matchup").replaceChildren();
       teams.forEach((team, i) => {
         const club = UI.element("div", "football-panel football-club");
@@ -64,7 +65,10 @@
         })
       );
       el("output").hidden = false;
-      el("summary").textContent = `Latest recorded ratings · ${year} home-advantage model · percentages rounded to one decimal place`;
+      const crossDivision = data.model.teams[teams[0]].tier !== data.model.teams[teams[1]].tier;
+      el("summary").textContent = `Model through ${data.model.as_of} · forecast for ${forecastDate} · percentages rounded to one decimal place${
+        crossDivision ? " · cross-division estimate uses tier priors" : ""
+      }`;
       if (chart) chart.destroy();
       chart = new Chart(el("chart"), {
         type: "bar",
@@ -107,10 +111,16 @@
     status.textContent = "Loading team ratings…";
     try {
       if (!window.Chart) throw new Error("The chart library could not load. Reload the page to try again.");
-      const [rows, clubs, activity] = await Promise.all([
+      const [rows, clubs, activity, model] = await Promise.all([
         UI.csv("EnglandLeagueResults_wRanks.csv", D.REQUIRED_COLUMNS, true, false),
         UI.csv("EnglishTeamLogos.csv", ["Team", "LogoURL", "PriColour"]).catch(() => null),
         UI.csv("EnglishTeamActivePeriods.csv", ["Team", "ActivePeriods"]).catch(() => null),
+        fetch("https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/football_model.json", {
+          cache: "no-store",
+        }).then((response) => {
+          if (!response.ok) throw new Error("The current football model could not load. Please try again.");
+          return response.json();
+        }),
       ]);
       const histories = new Map();
       D.addRows(histories, rows);
@@ -118,6 +128,7 @@
       if (!summary.records.size) throw new Error("No valid team ratings were found. Please try again.");
       const ranks = new Map([...summary.records].map(([team, record]) => [team, { ...record, previous: histories.get(team).at(-2) }]));
       data = {
+        model,
         ranks,
         teams: [...ranks.keys()].sort((a, b) => a.localeCompare(b, "en")),
         clubs: new Map((clubs || []).map((row) => [row.Team.trim(), row])),

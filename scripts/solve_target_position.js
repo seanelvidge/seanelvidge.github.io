@@ -22,55 +22,7 @@ function seasonStartYearFromSeasonStr(seasonStr) {
   return m2 ? Number.parseInt(m2[1], 10) : new Date().getFullYear();
 }
 
-const ELO_PER_NAT_LOGIT = 400.0 / Math.log(10.0);
-function clamp(x, lo, hi) {
-  return Math.max(lo, Math.min(hi, x));
-}
-function safeProbs(arr, floor = 1e-3) {
-  const p = arr.map((v) => clamp(+v, floor, 1 - floor));
-  const s = p.reduce((a, b) => a + b, 0);
-  return p.map((v) => v / s);
-}
-function eloToSkill(elo, beta = 0.9, base = 1000.0, mult = 2.0, offset = 0.0) {
-  const S = ELO_PER_NAT_LOGIT * beta * mult;
-  return (elo - base) / S + offset;
-}
-function eraProbsFromYear(year) {
-  const h = (year - 1888) * -0.141579 + 60.5636;
-  const a = (year - 1888) * 0.075714 + 19.4769;
-  const d = (year - 1888) * 0.065851 + 19.9608;
-  const pH = Math.max(h, 0.001);
-  const pD = Math.max(d, 0.001);
-  const pA = Math.max(a, 0.001);
-  const s = pH + pD + pA;
-  return [pH / s, pD / s, pA / s];
-}
-function deltaBaseAndKappa(year) {
-  const [pH, pD, pA] = eraProbsFromYear(year);
-  const DeltaBase = 0.5 * Math.log(pH / pA);
-  const kappa = (pD / (1 - pD)) * 2.0 * Math.cosh(DeltaBase);
-  return [DeltaBase, kappa];
-}
-function predictProbs(sH, sA, year, beta = 1.0) {
-  const [DeltaBase, kappa] = deltaBaseAndKappa(year);
-  const DeltaStar = beta * (sH - sA) + DeltaBase;
-  const u = Math.exp(DeltaStar);
-  const v = Math.exp(-DeltaStar);
-  const Den = u + v + kappa;
-  const pH = u / Den;
-  const pA = v / Den;
-  const pD = kappa / Den;
-  return [pH, pD, pA];
-}
-function matchProbabilities(homeElo, awayElo, seasonStartYear, beta = 0.9) {
-  const sH = eloToSkill(homeElo, beta);
-  const sA = eloToSkill(awayElo, beta);
-  const rho = 0.997;
-  const xH = rho * sH + (1 - rho);
-  const xA = rho * sA + (1 - rho);
-  const p = predictProbs(xH, xA, seasonStartYear, beta);
-  return safeProbs(p, 1e-3);
-}
+const MatchModel = require("../assets/js/match-probabilities-data.js");
 
 function latestElosByScanningBackwards(seasonTierRows, teams) {
   const need = new Set(teams);
@@ -266,7 +218,12 @@ async function fetchText(url) {
 }
 
 async function main() {
-  const [csvText, deductText] = await Promise.all([fetchText(CSV_URL), fetchText(DEDUCT_CSV_URL)]);
+  const [csvText, deductText, modelText] = await Promise.all([
+    fetchText(CSV_URL),
+    fetchText(DEDUCT_CSV_URL),
+    fetchText(CSV_URL.replace("EnglandLeagueResults_wRanks.csv", "football_model.json")),
+  ]);
+  const model = JSON.parse(modelText);
   const rows = Papa.parse(csvText, { header: true, skipEmptyLines: true }).data;
   if (!rows.length) throw new Error("No CSV rows loaded.");
 
@@ -310,7 +267,7 @@ async function main() {
     const eH = elos[h];
     const eA = elos[a];
     if (!Number.isFinite(eH) || !Number.isFinite(eA)) continue;
-    const [pH, pD, pA] = matchProbabilities(eH, eA, seasonStartYear, 0.9);
+    const [pH, pD, pA] = MatchModel.fromSnapshot(model, h, a, model.as_of, targetTier);
     fixtures.push({ h: teamIndex.get(h), a: teamIndex.get(a), pH, pD, pA });
   }
 

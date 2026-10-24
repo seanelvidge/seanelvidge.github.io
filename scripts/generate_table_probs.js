@@ -16,7 +16,10 @@ const OUT_PATH = process.env.TABLE_PROBS_OUT || path.join(process.cwd(), "assets
 const DEFAULT_SEASON_CONFIG_PATH = path.join(process.cwd(), "assets", "data", "tableProbsSeasonConfig.json");
 const SEASON_CONFIG_PATH = process.env.TABLE_PROBS_SEASON_CONFIG || DEFAULT_SEASON_CONFIG_PATH;
 
-const ELO_PER_NAT_LOGIT = 400.0 / Math.log(10.0);
+const MatchModel = require("../assets/js/match-probabilities-data.js");
+const LeagueSimulation = require("../assets/js/league-simulation.js");
+const { computePositionProbabilitiesMC } = LeagueSimulation;
+const MODEL_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/football_model.json";
 
 function seasonStartYearFromSeasonStr(seasonStr) {
   const m = String(seasonStr || "").match(/^(\d{4})\s*\/\s*(\d{4})$/);
@@ -98,60 +101,7 @@ function latestDatedRow(rows) {
   return null;
 }
 
-function clamp(x, lo, hi) {
-  return Math.max(lo, Math.min(hi, x));
-}
-
-function safeProbs(arr, floor = 1e-3) {
-  const p = arr.map((v) => clamp(+v, floor, 1 - floor));
-  const s = p.reduce((a, b) => a + b, 0);
-  return p.map((v) => v / s);
-}
-
-function eloToSkill(elo, beta = 0.9, base = 1000.0, mult = 2.0, offset = 0.0) {
-  const S = ELO_PER_NAT_LOGIT * beta * mult;
-  return (elo - base) / S + offset;
-}
-
-function eraProbsFromYear(year) {
-  const h = (year - 1888) * -0.141579 + 60.5636;
-  const a = (year - 1888) * 0.075714 + 19.4769;
-  const d = (year - 1888) * 0.065851 + 19.9608;
-  const pH = Math.max(h, 0.001);
-  const pD = Math.max(d, 0.001);
-  const pA = Math.max(a, 0.001);
-  const s = pH + pD + pA;
-  return [pH / s, pD / s, pA / s];
-}
-
-function deltaBaseAndKappa(year) {
-  const [pH, pD, pA] = eraProbsFromYear(year);
-  const DeltaBase = 0.5 * Math.log(pH / pA);
-  const kappa = (pD / (1 - pD)) * 2.0 * Math.cosh(DeltaBase);
-  return [DeltaBase, kappa];
-}
-
-function predictProbs(sH, sA, year, beta = 1.0) {
-  const [DeltaBase, kappa] = deltaBaseAndKappa(year);
-  const DeltaStar = beta * (sH - sA) + DeltaBase;
-  const u = Math.exp(DeltaStar);
-  const v = Math.exp(-DeltaStar);
-  const Den = u + v + kappa;
-  const pH = u / Den;
-  const pA = v / Den;
-  const pD = kappa / Den;
-  return [pH, pD, pA];
-}
-
-function matchProbabilities(homeElo, awayElo, seasonStartYear, beta = 0.9) {
-  const sH = eloToSkill(homeElo, beta);
-  const sA = eloToSkill(awayElo, beta);
-  const rho = 0.997;
-  const xH = rho * sH + (1 - rho);
-  const xA = rho * sA + (1 - rho);
-  const p = predictProbs(xH, xA, seasonStartYear, beta);
-  return safeProbs(p, 1e-3);
-}
+const matchProbabilities = MatchModel.probabilities; // Frozen legacy comparison API.
 
 function latestElosByScanningBackwards(seasonTierRows, teams) {
   const need = new Set(teams);
@@ -714,80 +664,10 @@ function validateExampleRank(teams, fixtures, basePoints, results, targetIndex, 
   const indices = new Array(teams.length);
   for (let i = 0; i < teams.length; i++) indices[i] = i;
   indices.sort((a, b) => pts[b] - pts[a]);
-  const pos = indices.indexOf(targetIndex) + 1;
-  return pos === targetPos;
-}
-
-function computePositionProbabilitiesMC(teams, basePoints, fixtures, sims, seedKey) {
-  const N = teams.length;
-  const counts = {};
-  for (const t of teams) counts[t] = new Float64Array(N + 1);
-
-  const examples = {};
-  for (const t of teams) examples[t] = {};
-
-  const seedFn = hashStringToSeed(seedKey);
-  const rng = mulberry32(seedFn());
-
-  const pts0 = new Float64Array(N);
-  for (let i = 0; i < N; i++) pts0[i] = basePoints[i];
-
-  const indices = new Array(N);
-  for (let i = 0; i < N; i++) indices[i] = i;
-
-  for (let s = 0; s < sims; s++) {
-    const pts = pts0.slice();
-    const results = new Uint8Array(fixtures.length);
-
-    for (let i = 0; i < fixtures.length; i++) {
-      const f = fixtures[i];
-      const r = rng();
-      if (r < f.pH) {
-        pts[f.h] += 3;
-        results[i] = 0;
-      } else if (r < f.pH + f.pD) {
-        pts[f.h] += 1;
-        pts[f.a] += 1;
-        results[i] = 1;
-      } else {
-        pts[f.a] += 3;
-        results[i] = 2;
-      }
-    }
-
-    indices.sort((i, j) => pts[j] - pts[i]);
-    let start = 0;
-    while (start < N) {
-      let end = start + 1;
-      while (end < N && pts[indices[end]] === pts[indices[start]]) end++;
-      for (let i = end - 1; i > start; i--) {
-        const j = start + Math.floor(rng() * (i - start + 1));
-        const tmp = indices[i];
-        indices[i] = indices[j];
-        indices[j] = tmp;
-      }
-      start = end;
-    }
-
-    for (let pos = 1; pos <= N; pos++) {
-      const teamIdx = indices[pos - 1];
-      const teamName = teams[teamIdx];
-      counts[teamName][pos] += 1;
-
-      if (!examples[teamName][pos]) {
-        examples[teamName][pos] = Array.from(results);
-      }
-    }
-  }
-
-  const out = {};
-  for (const t of teams) {
-    const arr = new Float64Array(N + 1);
-    for (let pos = 1; pos <= N; pos++) arr[pos] = counts[t][pos] / sims;
-    out[t] = arr;
-  }
-
-  return { posProbs: out, examples };
+  const targetPoints = pts[targetIndex];
+  const above = Array.from(pts).filter((p) => p > targetPoints).length;
+  const tied = Array.from(pts).filter((p) => p === targetPoints).length;
+  return targetPos > above && targetPos <= above + tied;
 }
 
 function computeImpossiblePositions(teams, basePoints, remainingCounts) {
@@ -865,13 +745,23 @@ async function fetchText(url) {
 }
 
 async function main() {
-  const [csvText, deductText] = await Promise.all([fetchText(CSV_URL), fetchText(DEDUCT_CSV_URL)]);
+  const readInput = (filename, url) => (filename ? Promise.resolve(fs.readFileSync(filename, "utf8")) : fetchText(url));
+  const [csvText, deductText, modelText] = await Promise.all([
+    readInput(process.env.FOOTBALL_RANKED_CSV, CSV_URL),
+    readInput(process.env.FOOTBALL_DEDUCTIONS_CSV, DEDUCT_CSV_URL),
+    readInput(process.env.FOOTBALL_MODEL_JSON, MODEL_URL),
+  ]);
+  const model = JSON.parse(modelText);
+  const rankedHash = crypto.createHash("sha256").update(csvText).digest("hex");
+  if (model.model_version !== MatchModel.MODEL_VERSION || model.ranked_sha256 !== rankedHash) {
+    throw new Error("Rankings and football model are from different builds; refresh both inputs.");
+  }
   const seasonConfig = readSeasonConfig();
 
   const rows = Papa.parse(csvText, {
     header: true,
     skipEmptyLines: true,
-  }).data;
+  }).data.sort((a, b) => a.Date.localeCompare(b.Date));
 
   if (!rows.length) throw new Error("No CSV rows loaded.");
   const latestCsvSeason = rows[rows.length - 1].Season;
@@ -895,7 +785,7 @@ async function main() {
   for (const r of deductRows) {
     const season = String(r.Season || "").trim();
     const team = String(r.Team || "").trim();
-    if (!season || !team) continue;
+    if (!season || !team || (r.Date && r.Date > model.as_of)) continue;
     const pts = Number.parseFloat(r.Pts_deducted);
     if (!Number.isFinite(pts) || pts === 0) continue;
     if (!adjustments[season]) adjustments[season] = {};
@@ -905,6 +795,18 @@ async function main() {
 
   const out = {
     generated_at: new Date().toISOString(),
+    model_version: model.model_version,
+    simulation_version: LeagueSimulation.VERSION,
+    uncertainty: LeagueSimulation.DEFAULT_UNCERTAINTY,
+    ranked_sha256: rankedHash,
+    model_sha256: crypto.createHash("sha256").update(modelText).digest("hex"),
+    deductions_sha256: crypto.createHash("sha256").update(deductText).digest("hex"),
+    generator_sha256: crypto
+      .createHash("sha256")
+      .update(fs.readFileSync(__filename))
+      .update(fs.readFileSync(path.join(__dirname, "../assets/js/match-probabilities-data.js")))
+      .update(fs.readFileSync(path.join(__dirname, "../assets/js/league-simulation.js")))
+      .digest("hex"),
     sims: SIMS,
     season: latestSeason,
     last_result_date: resultBasisRow.Date || "",
@@ -941,13 +843,14 @@ async function main() {
       const eH = elos[h];
       const eA = elos[a];
       if (!Number.isFinite(eH) || !Number.isFinite(eA)) continue;
-      const [pH, pD, pA] = matchProbabilities(eH, eA, seasonStartYear, 0.9);
+      const [pH, pD, pA] = MatchModel.fromSnapshot(model, h, a, model.as_of, tier);
       fixtures.push({ h: teamIndex.get(h), a: teamIndex.get(a), pH, pD, pA });
     }
 
     const basePoints = teams.map((t) => pts[t] || 0);
     const seedKey = `${latestSeason}|${tier}|${teams.length}|${fixtures.length}|${SIMS}`;
-    const simResult = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey);
+    const strength = LeagueSimulation.strengthDistribution(model, teams, tier, model.as_of, fixtures);
+    const simResult = computePositionProbabilitiesMC(teams, basePoints, fixtures, SIMS, seedKey, strength);
     const posProbs = simResult.posProbs;
     let examples = simResult.examples;
     const ilpTimeouts = {};
@@ -1073,7 +976,17 @@ async function main() {
   console.log(`Wrote ${OUT_PATH}`);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+module.exports = {
+  computePositionProbabilitiesMC,
+  computePointsSoFar,
+  inferRemainingFixturesDoubleRoundRobin,
+  computeImpossiblePositions,
+  validateExampleRank,
+  matchProbabilities,
+  main,
+};
+if (require.main === module)
+  main().catch((err) => {
+    console.error(err);
+    process.exitCode = 1;
+  });

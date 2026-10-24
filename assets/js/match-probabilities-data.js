@@ -1,4 +1,4 @@
-/* The existing era-adjusted probability model, independent of the page UI. */
+/* Shared by the match calculator, league generator and league-page fallback. */
 (function (root) {
   "use strict";
   // Typical Elo-per-natural-logit scaling (400 / ln(10)).
@@ -87,7 +87,45 @@
     return p; // [home win, draw, away win]
   }
 
-  const api = { probabilities };
+  const MODEL_VERSION = "davidson-margin-v3";
+
+  function fromSkills(home, away, homeAdvantage, logDraw, beta = 0.9) {
+    const delta = beta * (home - away) + homeAdvantage;
+    const logits = [delta, logDraw, -delta];
+    const shift = Math.max(...logits);
+    const weights = logits.map((value) => Math.exp(value - shift));
+    const total = weights.reduce((a, b) => a + b, 0);
+    return weights.map((value) => value / total);
+  }
+
+  function forecastTeam(team, date, model, tier = team.tier) {
+    const days = (Date.parse(`${date}T00:00:00Z`) - Date.parse(`${team.date}T00:00:00Z`)) / 86400000;
+    if (!Number.isFinite(days) || days < 0) throw new Error("The forecast date precedes the saved team rating.");
+    const rho = model.weekly_rho ** (days / 7);
+    const variance = team.variance * (team.tier === tier ? 1 : 1.5);
+    return {
+      skill: rho * team.skill + (1 - rho) * model.tier_means[tier],
+      variance: rho * rho * variance + (model.weekly_process_variance * (1 - rho * rho)) / (1 - model.weekly_rho ** 2),
+    };
+  }
+
+  function fromSnapshot(model, homeName, awayName, date = model.as_of, tier = null) {
+    if (model.model_version !== MODEL_VERSION) throw new Error("The football model needs to be refreshed.");
+    const home = model.teams[homeName],
+      away = model.teams[awayName];
+    if (!home || !away) throw new Error("A team has no saved rating in this model.");
+    const h = forecastTeam(home, date, model, tier ?? home.tier);
+    const a = forecastTeam(away, date, model, tier ?? away.tier);
+    // Cross-division fixtures have no direct league calibration. Use the mean
+    // nuisance parameters, retaining the prior-anchored strength difference.
+    const hb = model.tiers[tier ?? home.tier],
+      ab = model.tiers[tier ?? away.tier];
+    return fromSkills(h.skill, a.skill, (hb.home_advantage + ab.home_advantage) / 2, (hb.log_draw + ab.log_draw) / 2, model.beta);
+  }
+
+  // `probabilities` retains the old Elo/year calculator solely for reproducible
+  // historical comparisons. Products call fromSnapshot with versioned inputs.
+  const api = { probabilities, MODEL_VERSION, fromSkills, forecastTeam, fromSnapshot };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.MatchProbabilities = api;
 })(globalThis);
