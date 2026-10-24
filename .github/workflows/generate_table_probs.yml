@@ -2,7 +2,10 @@ name: Generate table probabilities
 
 on:
   schedule:
-    - cron: "0 1 * * *"
+    # Aim for around 03:00 UK time, avoiding GitHub's busy top of the hour.
+    # Scheduled triggers are best effort and can still be delayed.
+    - cron: "47 2 * * *"
+      timezone: "Europe/London"
   workflow_dispatch:
 
 permissions:

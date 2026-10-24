@@ -2,7 +2,10 @@ name: Nightly LSI Deploy
 
 on:
   schedule:
-    - cron: "0 3 * * *" # Every night at 03:00 UTC
+    # Aim for around 03:00 UK time, avoiding GitHub's busy top of the hour.
+    # Scheduled triggers are best effort and can still be delayed.
+    - cron: "17 3 * * *"
+      timezone: "Europe/London"
   workflow_dispatch:
 
 permissions:
