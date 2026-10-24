@@ -13,6 +13,7 @@ on:
       - "assets/**"
       - "_plugins/**"
       - "_data/football_rivalries.json"
+      - "_data/football_teams.json"
       - "**.html"
       - "**.js"
       - "**.liquid"
@@ -39,6 +40,7 @@ on:
       - "assets/**"
       - "_plugins/**"
       - "_data/football_rivalries.json"
+      - "_data/football_teams.json"
       - "**.html"
       - "**.js"
       - "**.liquid"
@@ -77,16 +79,23 @@ jobs:
           bundler-cache: true
       # This workflow already runs after the daily football-data workflow as well
       # as on site changes. Generate readable HTML from the CSV on every build.
-      - name: Setup Node for rivalry records
+      - name: Checkout football database
+        uses: actions/checkout@v4
+        with:
+          repository: seanelvidge/England-football-results
+          path: .football-source
+          persist-credentials: false
+      - name: Setup Node for football records
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
-      - name: Generate rivalry records from the results CSV
+      - name: Generate football records from the results CSVs
         run: |
           npm ci
+          node scripts/generate_team_pages.js --data-dir .football-source
           node scripts/generate_rivalry_snapshots.js --refresh
-          node --test scripts/rivalry_snapshots.test.js scripts/football_win_history.test.js
+          node --test scripts/rivalry_snapshots.test.js scripts/football_win_history.test.js scripts/team_pages.test.js
       - name: Update _config.yml ⚙️
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -108,8 +117,10 @@ jobs:
           pip3 install --upgrade jupyter
           export JEKYLL_ENV=production
           bundle exec jekyll build
-      - name: Verify generated rivalry pages
-        run: bundle exec ruby scripts/check_rivalry_pages.rb _site
+      - name: Verify generated football pages
+        run: |
+          bundle exec ruby scripts/check_team_pages.rb _site
+          bundle exec ruby scripts/check_rivalry_pages.rb _site
       - name: Purge unused CSS (Quick) 🧹
         run: |
           npm install -g purgecss

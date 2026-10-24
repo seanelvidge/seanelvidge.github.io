@@ -1,0 +1,71 @@
+---
+layout: page
+title: English football teams
+permalink: /teams/
+description: Explore each club’s league position, recent form, team rating and historical records, from the English football results database.
+football_teams: true
+nav: false
+seo:
+  type: CollectionPage
+---
+
+{% assign snapshot = site.data.football_teams %}
+<div class="football-teams-directory">
+  <p>
+    Choose a club for its latest league results and rating, its biggest wins and defeats, and its years in the English football league. The records
+    cover the top four tiers and their historical predecessors, with a separate page for every club in the database.
+  </p>
+  <p class="team-data-date">
+    {{ snapshot.clubs.size }} clubs · {{ snapshot.current_clubs }} in the {{ snapshot.season }} tables · Results through
+    <time datetime="{{ snapshot.database_through }}">{{ snapshot.database_through | date: '%-d %B %Y' }}</time>
+  </p>
+  <div class="team-directory-controls" hidden>
+    <div>
+      <label for="team-search">Find a club</label>
+      <input id="team-search" type="search" placeholder="e.g. Aston Villa" autocomplete="off" />
+    </div>
+    <div>
+      <label for="team-division">League</label>
+      <select id="team-division">
+        <option value="all">All clubs</option>
+        {% for league in snapshot.leagues %}
+        <option value="{{ league.tier }}">{{ league.division | escape }}</option>
+        {% endfor %}
+        <option value="historical">Former league clubs</option>
+        {% assign awaiting = snapshot.clubs | where: 'status', 'awaiting_results' %} {% if awaiting.size > 0 %}
+        <option value="awaiting_results">Awaiting this season’s results</option>
+        {% endif %}
+      </select>
+    </div>
+  </div>
+  <p id="team-search-count" class="team-small" role="status" hidden></p>
+  <ul class="team-directory-list">
+    {% for club in snapshot.clubs %}
+    <li
+      data-team-search="{{ club.name | append: ' ' | append: club.short_name | downcase | escape }}"
+      data-team-division="{% if club.current %}{{ club.standing.tier }}{% else %}{{ club.status }}{% endif %}"
+    >
+      <a
+        class="team-directory-link"
+        href="{{ club.url | relative_url | escape }}"
+        style="--team-primary: {{ club.primary }}; --team-secondary: {{ club.secondary }};"
+      >
+        <span class="team-directory-crest"
+          ><img src="{{ club.logo | escape }}" alt="" width="48" height="48" loading="lazy" decoding="async" data-team-logo
+        /></span>
+        <span>
+          <strong>{{ club.name | escape }}</strong>
+          <span class="team-directory-division">
+            {% if club.current -%} {{- club.standing.division | escape }} {% elsif club.status == 'awaiting_results' -%} Awaiting this season’s
+            results {% else -%} Historical league record {%- endif %}
+          </span>
+        </span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  <p id="team-search-empty" hidden>No clubs match those filters. Try another name or choose “All clubs”.</p>
+  <p class="team-small">Some clubs share a short name. These have separate pages and are listed under their full database names.</p>
+  <p><a href="{{ '/football/' | relative_url }}">More football statistics and tools →</a></p>
+</div>
+<script src="{{ '/assets/js/football-teams.js' | relative_url | bust_file_cache }}" defer></script>

@@ -1,0 +1,33 @@
+{% assign record = include.record %}
+<div class="team-record">
+  <h3>{{ include.title }}</h3>
+  {% if record %}
+    {% assign match = record.matches | first %}
+    <p class="team-record-score">{{ match.goals_for }}–{{ match.goals_against }}</p>
+    <p>
+      against <a href="{{ match.opponent_url | relative_url | escape }}">{{ match.opponent | escape }}</a> (
+      {%- if match.venue == 'H' %}home{% else %}away{% endif -%}
+      )<br>
+      <time datetime="{{ match.date }}">{{ match.date | date: '%-d %B %Y' }}</time>
+    </p>
+    {% if record.matches.size > 1 %}
+      <details class="team-record-ties">
+        <summary>
+          {{ record.matches.size | minus: 1 }} other {% if record.matches.size == 2 %}match{% else %}matches{% endif %} with the same margin
+        </summary>
+        <ul>
+          {% for tied in record.matches offset: 1 %}
+            <li>
+              {{ tied.goals_for }}–{{ tied.goals_against }} against
+              <a href="{{ tied.opponent_url | relative_url | escape }}">{{ tied.opponent | escape }}</a>
+              ({% if tied.venue == 'H' %}home{% else %}away{% endif %}),
+              <time datetime="{{ tied.date }}">{{ tied.date | date: '%-d %B %Y' }}</time>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+    {% endif %}
+  {% else %}
+    <p>No {{ include.empty_label }} in the recorded league results.</p>
+  {% endif %}
+</div>

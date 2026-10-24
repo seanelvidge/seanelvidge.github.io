@@ -1,0 +1,292 @@
+---
+layout: default
+---
+{% assign club = page.team %}
+{% assign snapshot = site.data.football_teams %}
+<article
+  class="football-team"
+  style="--team-primary: {{ club.primary }}; --team-secondary: {{ club.secondary }}; --team-on-primary: {{ club.on_primary }}; --team-on-secondary: {{ club.on_secondary }};"
+>
+  <nav class="team-breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ '/football/' | relative_url }}">Football</a><span aria-hidden="true"> / </span>
+    <a href="{{ '/teams/' | relative_url }}">All teams</a>
+  </nav>
+
+  <header class="team-hero">
+    <div class="team-crest"><img src="{{ club.logo | escape }}" alt="{{ club.name | escape }} crest" width="112" height="112" data-team-logo></div>
+    <div class="team-hero-copy">
+      <p class="team-eyebrow">English football · Club records</p>
+      <h1>{{ club.name | escape }}</h1>
+      {% if club.current %}
+        <span class="team-season">{{ club.standing.division | escape }} · {{ snapshot.season }}</span>
+      {% elsif club.status == 'awaiting_results' %}
+        <span class="team-season">{{ snapshot.season }} · Awaiting league results</span>
+      {% else %}
+        <span class="team-season">Historical league record</span>
+      {% endif %}
+    </div>
+  </header>
+
+  <p class="team-data-date">
+    Updated <time datetime="{{ snapshot.as_of }}">{{ snapshot.as_of | date: '%-d %B %Y' }}</time>. Database results through
+    <time datetime="{{ snapshot.database_through }}">{{ snapshot.database_through | date: '%-d %B %Y' }}</time>.
+  </p>
+
+  {% if club.related_clubs.size > 0 %}
+    <p class="team-note">
+      This page follows <strong>{{ club.name | escape }}</strong> in the database. Separate records:
+      {% for other in club.related_clubs %}
+        <a href="{{ other.url | relative_url | escape }}">{{ other.name | escape }}</a>
+        {%- unless forloop.last %}, {% endunless -%}
+      {%- endfor -%}
+      .
+    </p>
+  {% endif %}
+
+  <section aria-labelledby="team-overview-title">
+    <h2 id="team-overview-title">
+      {% if club.current %}The season so far{% else %}The latest in the records{% endif %}
+    </h2>
+    {% unless club.current %}
+      <p class="team-status-note">
+        {% if club.status == 'awaiting_results' %}
+          The membership record includes {{ snapshot.season }}, but no league results for this club have been recorded for that season yet.
+        {% else %}
+          This club is not in the {{ snapshot.season }} league tables covered here. The division, form and rating below refer to its last recorded
+          league matches.
+        {% endif %}
+      </p>
+    {% endunless %}
+    <div class="team-overview-grid">
+      <div class="team-stat team-standing">
+        <h3>
+          {% if club.current %}League position{% else %}Last recorded division{% endif %}
+        </h3>
+        {% if club.current %}
+          <p class="team-stat-value">
+            {% if club.standing.joint -%}
+              <span class="team-joint">Joint</span>
+            {% endif -%}
+            {{- club.standing.position -}}
+            <span class="team-stat-unit"> / {{ club.standing.club_count }}</span>
+          </p>
+          <p class="team-stat-context">{{ club.standing.division | escape }}</p>
+          <p>{{ club.standing.points }} points from {{ club.standing.played }} games</p>
+          {% if club.standing.adjustment != 0 %}
+            <p class="team-small">Includes a {{ club.standing.adjustment }} point adjustment.</p>
+          {% endif %}
+          <a href="{{ '/leaguetable' | relative_url }}?season={{ snapshot.season | url_encode }}&amp;tier={{ club.standing.tier }}"
+            >Explore the league table →</a
+          >
+        {% elsif club.latest %}
+          <p class="team-stat-context">{{ club.latest.division | escape }}</p>
+          <p>{{ club.latest.season }}</p>
+          <a href="{{ '/leaguetable' | relative_url }}?season={{ club.latest.season | url_encode }}&amp;tier={{ club.latest.tier }}"
+            >Explore that season →</a
+          >
+        {% else %}
+          <p>No league results recorded yet.</p>
+        {% endif %}
+      </div>
+      <div class="team-stat team-rating">
+        <h3>
+          {% if club.current %}Current team rating{% else %}Last recorded rating{% endif %}
+        </h3>
+        {% if club.rating %}
+          <p class="team-stat-value">{{ club.rating.value }}</p>
+          {% if club.current %}
+            <p class="team-stat-context">
+              {% if club.rating.joint %}Joint {% endif %}rank {{ club.rating.rank }} of {{ club.rating.out_of }}
+            </p>
+            <p class="team-small">Across the clubs in this season’s tables</p>
+          {% endif %}
+          <p class="team-small">
+            After the match on <time datetime="{{ club.rating.date }}">{{ club.rating.date | date: '%-d %B %Y' }}</time>
+          </p>
+          <a href="{{ '/teamRankings' | relative_url }}?team={{ club.name | url_encode }}">Explore the rating history →</a>
+        {% else %}
+          <p>No rating recorded yet.</p>
+        {% endif %}
+      </div>
+      <div class="team-stat team-form">
+        <h3>
+          {% if club.current %}Recent form{% else %}Last recorded form{% endif %}
+        </h3>
+        {% if club.recent.size > 0 %}
+          <ol class="team-form-strip" aria-label="Recent league results, oldest to newest">
+            {% for match in club.recent reversed %}
+              <li class="team-form-{{ match.result }}">
+                <span aria-hidden="true">{{ match.result }}</span>
+                <span class="sr-only">
+                  {%- if match.result == 'W' %}Win{% elsif match.result == 'D' %}Draw{% else %}Loss{% endif %} against
+                  {{ match.opponent | escape }} on {{ match.date -}}
+                </span>
+              </li>
+            {% endfor %}
+          </ol>
+          <p class="team-small">Oldest → newest · Last {{ club.recent.size }} league games</p>
+          <p class="team-small">W = win, D = draw, L = loss</p>
+          <a href="#team-recent-title">View the results below ↓</a>
+        {% else %}
+          <p>No league results recorded yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <section class="team-section" aria-labelledby="team-recent-title">
+    <h2 id="team-recent-title">Last five league games</h2>
+    {% if club.recent.size > 0 %}
+      <div class="team-table-scroll" role="region" aria-label="Recent league results" tabindex="0">
+        <table class="team-results-table">
+          <caption>
+            Most recent first. Scores are shown with
+            {{ club.name | escape -}}
+            ’s goals first.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Opponent</th>
+              <th scope="col">Venue</th>
+              <th scope="col">Score</th>
+              <th scope="col">Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for match in club.recent %}
+              <tr>
+                <td>
+                  <time datetime="{{ match.date }}">{{ match.date | date: '%-d %b %Y' }}</time>
+                </td>
+                <td>
+                  <a href="{{ match.opponent_url | relative_url | escape }}">{{ match.opponent | escape }}</a>
+                </td>
+                <td>
+                  {% if match.venue == 'H' %}Home{% else %}Away{% endif %}
+                </td>
+                <td class="team-match-score">{{ match.goals_for }}–{{ match.goals_against }}</td>
+                <td>
+                  {% if match.result == 'W' %}Win{% elsif match.result == 'D' %}Draw{% else %}Loss{% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p>No league results recorded yet.</p>
+    {% endif %}
+  </section>
+
+  <section class="team-section" aria-labelledby="team-rating-records-title">
+    <h2 id="team-rating-records-title">All-time rating records</h2>
+    <div class="team-two-column">
+      <div class="team-stat team-rating-high">
+        <h3>Highest rating</h3>
+        {% if club.highest_rating %}
+          <p class="team-stat-value">{{ club.highest_rating.value }}</p>
+          <p>
+            <time datetime="{{ club.highest_rating.date }}">{{ club.highest_rating.date | date: '%-d %B %Y' }}</time>
+          </p>
+          {% if club.highest_rating.occurrences > 1 %}
+            <p class="team-small">First of {{ club.highest_rating.occurrences }} matches ending at this rating.</p>
+          {% endif %}
+        {% else %}
+          <p>No rating recorded yet.</p>
+        {% endif %}
+      </div>
+      <div class="team-stat team-rating-low">
+        <h3>Lowest rating</h3>
+        {% if club.lowest_rating %}
+          <p class="team-stat-value">{{ club.lowest_rating.value }}</p>
+          <p>
+            <time datetime="{{ club.lowest_rating.date }}">{{ club.lowest_rating.date | date: '%-d %B %Y' }}</time>
+          </p>
+          {% if club.lowest_rating.occurrences > 1 %}
+            <p class="team-small">First of {{ club.lowest_rating.occurrences }} matches ending at this rating.</p>
+          {% endif %}
+        {% else %}
+          <p>No rating recorded yet.</p>
+        {% endif %}
+      </div>
+    </div>
+    <p class="team-small">
+      Ratings measure modelled team strength, using results and winning margins. Higher is stronger. These records use the rating after each league
+      match in the database.
+    </p>
+  </section>
+
+  <section class="team-section" aria-labelledby="team-score-records-title">
+    <h2 id="team-score-records-title">Biggest league results</h2>
+    <p>By goal margin, across all recorded league matches. Cup matches and friendlies are not included.</p>
+    <div class="team-two-column">
+      {% include football-team-record.liquid record=club.biggest_win title="Biggest win" empty_label="wins" %}
+      {% include football-team-record.liquid record=club.biggest_defeat title="Biggest defeat" empty_label="defeats" %}
+    </div>
+    <p class="team-small">Scores are shown with {{ club.name | escape }}’s goals first. Where records are tied, the earliest match is shown first.</p>
+  </section>
+
+  <section class="team-section" aria-labelledby="team-membership-title">
+    <h2 id="team-membership-title">Years in the English football league</h2>
+    <div class="team-two-column">
+      <div class="team-stat team-membership-total">
+        <h3>Total membership</h3>
+        <p class="team-stat-value">
+          {{ club.membership.total_years }}
+          <span class="team-stat-unit">years</span>
+        </p>
+        <p>Across all recorded spells</p>
+      </div>
+      <div class="team-stat team-membership-spell">
+        <h3>
+          {% if club.membership.active_in_latest_season %}Current continuous spell{% else %}Last continuous spell{% endif %}
+        </h3>
+        <p class="team-stat-value">
+          {{ club.membership.latest_spell_years }}
+          <span class="team-stat-unit">years</span>
+        </p>
+        {% if club.membership.latest_spell_start %}
+          <p>
+            From {{ club.membership.latest_spell_start }}/{% assign next_year = club.membership.latest_spell_start | plus: 1 -%}
+            {{- next_year }}
+            {% unless club.membership.active_in_latest_season -%}
+              to {{ club.membership.latest_spell_end }}/{% assign next_year = club.membership.latest_spell_end | plus: 1 -%}
+              {{- next_year -}}
+            {%- endunless %}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+    <p class="team-small">
+      Membership covers the top four tiers and their historical predecessors, including the Premier League. Each season starting year counts once,
+      including {{ snapshot.season }} where applicable. Years of wartime suspension remain part of a continuous membership spell.
+    </p>
+    {% if club.membership.periods.size > 0 %}
+      <p class="team-membership-periods">
+        <strong>Recorded spells (season starting years):</strong>
+        {% for period in club.membership.periods %}
+          {{ period.start -}}
+          {%- if period.open %}–present{% elsif period.end != period.start %}–{{ period.end }}{% endif -%}
+          {%- unless forloop.last %}; {% endunless %}
+        {% endfor %}
+      </p>
+    {% endif %}
+  </section>
+
+  <aside class="team-about" aria-labelledby="team-about-title">
+    <h2 id="team-about-title">About these records</h2>
+    <p>
+      This page uses {{ club.match_count }} league matches in the
+      <a href="https://github.com/seanelvidge/England-football-results">English football results database</a>. It refreshes daily with the database.
+      League positions use completed results and recorded points adjustments; teams level on points, goal difference and goals scored share a position
+      here. Clubs outside the covered leagues retain their last recorded statistics.
+    </p>
+    <p>
+      Read about <a href="{% post_url 2026-10-24-Football_rankings_and_winning_margins %}">how the team ratings work</a>, explore
+      <a href="{{ '/tableProbs' | relative_url }}">predicted finishing positions</a>, or
+      <a href="{{ '/teams/' | relative_url }}">choose another club</a>.
+    </p>
+  </aside>
+</article>
+<script src="{{ '/assets/js/football-teams.js' | relative_url | bust_file_cache }}" defer></script>

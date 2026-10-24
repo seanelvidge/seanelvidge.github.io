@@ -213,6 +213,7 @@ kramdown:
 # Includes & excludes
 include: ["_pages"]
 exclude:
+  - .football-source/
   - bin/
   - CONTRIBUTING.md
   - CUSTOMIZE.md

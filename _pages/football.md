@@ -23,6 +23,7 @@ My [English football league results dataset]({% post_url 2024-12-28-All_England_
 
 ## Explore the data without writing code
 
+- [Club pages]({{ '/teams/' | relative_url }}) — find each club’s league position, recent form, team rating, record results and years in the league.
 - [Football head-to-head calculator]({{ '/h2h' | relative_url }}) — compare two clubs' league wins, draws, goals, biggest victories and match histories, with season and date filters.
 - [Historical league-table generator]({{ '/leaguetable' | relative_url }}) — reconstruct standings for a tier or named division, for a season or a date range.
 - [Team ratings over time]({{ '/teamRankings' | relative_url }}) — compare clubs' modelled strengths across history, including their highest and lowest ratings.
