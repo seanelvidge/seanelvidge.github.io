@@ -212,8 +212,6 @@ Fixing strength at its estimated mean misses the variation in expected points ac
 
 The league comparison uses 152 historical forecast cutoffs and 20,000 simulations per cutoff, excluding the incomplete 2019/20 League One and League Two seasons. The rank probability score compares the cumulative probabilities of finishing at or above each position with what actually happened, averaging the squared differences across the possible cutoffs. Lower is better. Sampling rating uncertainty improves this score even when comparing against the same margin-based ratings held at fixed estimates: the difference is **−0.002265**, with 95% interval **[−0.002873, −0.001653]**.
 
-I also tested extra uncertainty about average future form. Its development-selected setting made the points distributions too wide in the later evaluation seasons, without improving the position score over sampling the existing rating uncertainty. That extension is disabled. The decision to keep the simpler version uses this retrospective comparison; a future evaluation will provide a cleaner check of the final choice.
-
-Calibration is still imperfect. At the start of a season, the nominal 95% points interval covers 92.89% of observed totals. The simulator also uses random tie-breaks on points and cannot anticipate future deductions or changes to squads. Allowing for uncertainty makes the forecast more useful, without making it certain.
+I also tested extra uncertainty about average future form. Its development-selected setting made the points distributions too wide in the later evaluation seasons, without improving the position score over sampling the existing rating uncertainty.
 
 The complete rating history has been replayed with the margin update. You can explore it through the [rankings history]({{ '/teamRankings' | relative_url }}), [match probability calculator]({{ '/matchProbs' | relative_url }}) and [predicted league tables]({{ '/tableProbs' | relative_url }}).
