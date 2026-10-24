@@ -2,7 +2,7 @@
 layout: post
 title: How to Calculate League Position Probabilities
 date: 2025-12-22 19:30:00
-description: How football team-strength ratings become league-position probabilities, explaining the original analytical approach and the current simulation-based tool.
+description: How the football league table predictor plays out the remaining fixtures, allows for uncertain team strengths, and estimates each club's possible finishing positions.
 tags: football mathematics
 related_posts: true
 thumbnail: assets/img/position-odds-2025-2026-EFL_Championship.png
@@ -12,131 +12,85 @@ last_modified_at: 2026-10-24
 
 By mid-season, football fans instinctively start doing probability in their heads.
 
-> **Update, 6 September 2026:** This article describes the original analytical approach. The [current league-position tool]({{ '/tableProbs' | relative_url }}) now uses seeded Monte Carlo simulations of the remaining fixtures, with strengths held fixed within each simulated season and random tie-breaks on points. Its estimates therefore have sampling uncertainty; the original discussion of exact probabilities below should not be read as a description of the current implementation.
+> If we win our next two, and they drop points away at… actually, hang on.
 
-> **Update, 24 October 2026:** The forecast now allows for uncertainty about each team's strength, while keeping that strength fixed within each simulated season. This matters most early on, when there is still plenty of football left to play. The [new ratings article]({% post_url 2026-10-24-Football_rankings_and_winning_margins %}) explains the accompanying winning-margin update and the historical checks behind both changes.
+This usually ends with a napkin full of scribbles and a strong emotional commitment to a particular set of results. The [predicted league tables]({{ '/tableProbs' | relative_url }}) do the same exercise many times over, playing out the remaining fixtures to see where each team could finish.
 
-## More season left, more room for uncertainty
+The result is a table of probabilities: a chance for every team to finish in every position. This post explains where those numbers come from and how to read them.
+
+## Estimating the remaining matches
+
+The starting point is my [team-strength ratings]({% post_url 2025-12-15-Football_team_rankings %}). These learn from past results, including [the margin of victory]({% post_url 2026-10-24-Football_rankings_and_winning_margins %}), to estimate how strong each team is and how confident we should be in that estimate.
+
+For each remaining fixture, the teams' strengths, home advantage and the division's tendency to produce draws give us three probabilities: a home win, a draw, or an away win. You can explore this part with the [match probability calculator]({{ '/matchProbs' | relative_url }}).
+
+A favourite is more likely to win, but an upset remains possible. That is rather the point of football.
+
+## Allowing for uncertainty
 
 Imagine we have slightly underestimated a team. With thirty matches still to play, that small error has plenty of opportunities to matter. With three matches left, there is much less time for it to change the final table.
 
-Keeping a team's strength fixed does not mean we know exactly what that strength is. The current simulator draws one plausible strength for each team from its rating distribution, then uses it for every remaining fixture. In the next simulated season, it draws again. Each fixture is played once, with the result awarding points to both opponents.
+To allow for this, each simulated season begins by picking one plausible strength for every team, using both its rating and the uncertainty around it. We keep those strengths fixed for all the remaining matches in that run. Then we pick again for the next simulated season.
 
-So a team drawn stronger than its estimated mean is more competitive throughout that simulated run. We keep that draw across all its games because an error in our estimate would affect those games together. Redrawing strength independently for every match would lose much of this effect.
+So a team drawn stronger than our central estimate is more competitive throughout that run. An error in our estimate would affect all its games together.
 
-This gives early-season forecasts a wider spread. No predictions about the next manager, transfer window or injury crisis are required; we are allowing for uncertainty in what we know now.
+This gives early-season forecasts a wider spread, when there is still plenty of time for our estimates to prove slightly wrong. The real ratings continue to update as actual results arrive; holding them fixed is an assumption about each simulated future.
 
-We can check whether that spread is sensible. An 80% range for final points should contain the eventual total about 80% of the time. At the start of the historical seasons tested, the old forecasts managed **59.75%**. With the new margin-based ratings and shared uncertainty, that becomes **81.08%**:
+## Playing out the rest of the season
 
-<div class="row mt-3">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="lazy" path="assets/img/football-league-uncertainty-validation.png" class="img-fluid rounded z-depth-1" zoomable=true alt="Coverage of 80 percent final-points intervals is close to the intended 80 percent at all four forecast stages after sampling uncertain strengths. The largest improvement is at the start of the season." caption="Historical checks at the start and roughly one-quarter, one-half and three-quarters of each season. The orange line changes the ratings alone; the green line also carries rating uncertainty through the remaining fixtures." %}
-    </div>
-</div>
+With those strengths chosen, we play each remaining fixture once, choosing a result according to its probabilities. A win gives three points to the winner and none to the loser; a draw gives one point to each. Both opponents share the same result.
 
-Across all four stages, 80% intervals cover **81.16%** of outcomes and 95% intervals cover **94.18%**. The combined changes also improve the finishing-position probability score by about **5%**, so the benefit is more than simply making every range wider. These checks cover 152 forecast cutoffs in the completed 2016/17–2025/26 division-seasons; the incomplete 2019/20 League One and League Two seasons are excluded.
+Add those points to the current standings, including recorded points deductions, and we have one possible final league table. Repeat the exercise many times and count how often each team finishes first, second, third, and so on.
 
-I also tested an extra allowance for future changes in form, but it made the points distributions too wide without improving the position score over using the existing rating uncertainty. The current forecast therefore uses the rating model's own variance, with no extra inflation. Its early-season 95% ranges remain a little narrow, and random tie-breaks on points are still an approximation. The [new article]({% post_url 2026-10-24-Football_rankings_and_winning_margins %}) gives the statistical details and the limits of this retrospective comparison.
+If a team finishes sixth in about 12 out of every 100 simulated seasons, its estimated chance of finishing sixth is about 12%.
 
-## The original analytical approach
-
-The discussion below is retained as the background to the original version. The current tool simulates complete seasons, preserving the relationship between opponents' points and the shared uncertainty described above; the original combination of independent team totals does not give exact joint league-position probabilities.
-
-> If we win our next two, and they drop points away at… actually, hang on.
-
-This usually ends with a napkin full of scribbles and a strong emotional commitment to a particular set of results. What follows in this post an attempt to do the same thing — but with statistics.
-
-On the [predicted league tables](https://seanelvidge.com/tableProbs) page of this site you'll find the probabilities for every team finishing in every possible league position. Not via vast simulations. Not using "expected points" (xPts). Not vibes. Actual probabilities.
-
-This post explains how those tables are built, what assumptions sit underneath them, and, importantly, what they don't claim to do.
-
-## Estimating the future
-
-For each remaining fixture, we estimate the probability of:
-
-- a home win,
-- a draw,
-- an away win.
-
-These probabilities come from my [rating model](https://seanelvidge.com/articles/2025/Football_team_rankings/) that combines:
-
-- team strength,
-- home advantage,
-- historical era-dependent draw rates,
-
-(you can try the [match probability calculator](https://seanelvidge.com/matchProbs) yourself).
-
-For these forecasts we assume that team strength remains constant for the rest of the season. This is not because teams don't change, obviously they do, but because this assumption lets us ask a very precise question:
-
-"Given what we know right now, what does the future look like?"
-
-No form, no momentum, no injuries, no managerial bounce. Just the present frozen in amber.
-
-## Turning matches into points
-
-Once we know the probability that a team finishes on, say, 64 points, we can ask the next question:
-
-"What position will that correspond to?"
-
-For each possible final points total:
-
-- we calculate the probability that other teams finish above that total,
-- the probability they finish below it,
-- and the probability they finish on exactly the same points.
-
-When teams are tied on points, we assume a random tie-break between them. This is not how the real leagues work, goal difference matters, but it is a deliberately neutral assumption that avoids injecting additional modelling choices.
-
-By aggregating over all possible point totals, we obtain the probability that a given team finishes in position 1, 2, 3, ..., N.
-
-That's what fills the table.
-
-For example:
-
-<div class="row mt-3">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/position-odds-2025-2026-EFL_Championship.png" class="img-fluid rounded z-depth-1" zoomable=true %}
-    </div>
-</div>
-
-## Why this isn't a simulation
-
-Many league predictors simulate the rest of the season thousands or millions of times (e.g. [Opta](https://theanalyst.com/articles/opta-football-predictions)). Those approaches can be flexible and intuitive. However this approach is different.
-
-Here every probability is computed exactly so the results are fully reproducible and even small probabilities (like a 0.3% chance of winning the league) are real, not artefacts of random noise. However the cost of this precision is a stronger set of assumptions, here we assume:
-
-- match outcomes are independent,
-- team strengths do not change,
-- tie-breaks are random.
+Teams tied on points are put in a random order. Real leagues use goal difference and other rules, so this is an approximation, particularly when teams are closely matched. The displayed percentages are also rounded estimates from a finite number of simulations.
 
 ## Reading the table
 
-Each row shows a team; each column shows a finishing position.
+Find your division, then read across your team's row. Each column is a possible finishing position.
 
-- A cell marked “12%” means exactly that: a 12% chance of finishing in that position.
-- "<1%" means possible, but very unlikely.
-- "–" means impossible — the team cannot mathematically finish there.
+- **12%** means an estimated 12% chance of finishing in that position.
+- **<1%** marks a very small estimated chance, including rare finishes for which an example has been found.
+- **&lt;&lt;1%** means the finish was not observed in the simulations and no example has yet been found. The calculation has not resolved how small its chance is.
+- **–** means the position has been ruled out by the tool's checks on possible points totals.
 
-The strongest probability in each row is highlighted, and other positions are shaded relative to it. This gives a quick visual sense of where a team’s likely finishing range lies.
+The strongest probability in each row is highlighted, and other positions are shaded relative to it. Look at the spread across the row: the most likely single position can still have a fairly small chance if several neighbouring places are plausible.
 
-This can be hard to see on a mobile scream, so the full table is replaced by a compact summary:
+Here is an example of the layout:
 
-- chance of finishing 1st,
-- chance of finishing Top 6,
-- chance of finishing in the Bottom 3.
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/position-odds-2025-2026-EFL_Championship.png" class="img-fluid rounded z-depth-1" zoomable=true alt="Example table with Championship teams in rows and possible finishing positions in columns, shaded by probability." caption="An example of the table layout, from the 2025/26 Championship forecasts." %}
+    </div>
+</div>
 
-The full table is always available via a toggle, and the entire table can be downloaded as an image for closer inspection.
+On a mobile screen, a compact summary shows the chance of finishing first, in the top six, or in the bottom three. You can switch to the full table, and download it as an image for closer inspection. Selecting a position in the full table can also show an example set of results that would produce that finish, where one has been found.
 
-## What this doesn't say
+The top-six and bottom-three figures describe finishing places. Promotion, play-offs and relegation depend on the rules of the particular division, so those labels do not always correspond directly to going up or down.
 
-These tables do not say:
+## What the forecast assumes
 
-- who will win the league,
-- that form and injuries don’t matter.
+Recent results inform the ratings, but the forecast does not try to guess the next injury crisis, transfer window, managerial change or future points deduction. It asks:
 
-They say something subtler, and, I think, more interesting:
+> Given what we know right now, how wide is the space of possible final tables?
 
-"If the football world stays roughly as it is today, how wide is the space of possible futures?"
+Sometimes that space is narrow. Sometimes it can be surprisingly large. A team can have the best chance of winning the league while still being more likely to finish somewhere else.
 
-Sometimes that space is narrow. Sometimes it can be surprisingly large.
+The [tables]({{ '/tableProbs' | relative_url }}) are refreshed as the [football database]({% post_url 2024-12-28-All_England_football_league_results %}) is updated. Check the season and update information shown on the page when reading a forecast.
 
-Check out the [predicted league tables](https://seanelvidge.com/tableProbs) for yourself. Updated everytime the [football database](https://seanelvidge.com/articles/2024/All_England_football_league_results/) is updated.
+## Does it give sensible probabilities?
+
+We can test the approach by going back to past seasons and making forecasts using only what was known at the time. The checks cover 152 forecasts across the top four divisions from 2016/17 to 2025/26, made at the start and roughly one-quarter, one-half and three-quarters of each season. The incomplete 2019/20 League One and League Two seasons are excluded.
+
+One useful check is the range of final points totals. An **80% range** should contain the eventual total about four times out of five. At the start of the historical seasons tested, the earlier forecast managed only **59.75%**: it was too confident. With ratings that use winning margins and uncertainty carried through each simulated season, that becomes **81.08%**.
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="lazy" path="assets/img/football-league-uncertainty-validation.png" class="img-fluid rounded z-depth-1" zoomable=true alt="Actual coverage of 80 percent final-points ranges is close to the intended 80 percent at all four forecast stages after sampling uncertain strengths. At the start of the season, coverage rises from 59.75 percent to 81.08 percent." caption="An 80% range should contain the eventual points total about 80% of the time. Grey uses results-only ratings; orange adds winning margins; green also allows for uncertainty in team strength. The largest improvement is at the start of the season." %}
+    </div>
+</div>
+
+Across all four stages, the 80% ranges contain **81.16%** of the actual totals, and the 95% ranges contain **94.18%**. The combined changes also improve the score used to assess the full spread of finishing-position probabilities by about **5%**. Simply making every range wider would not guarantee a better score.
+
+There is still room to improve: the early-season 95% ranges remain a little narrow. These seasons had already been examined in earlier reviews of the model, so future results will provide a cleaner test. The [ratings and validation article]({% post_url 2026-10-24-Football_rankings_and_winning_margins %}) has the statistical details for anyone who would like to go further.
