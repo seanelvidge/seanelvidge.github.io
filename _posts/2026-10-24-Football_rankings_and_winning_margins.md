@@ -35,7 +35,7 @@ Lower is better for both. Log loss particularly penalises confident predictions 
 
 The improvement is small: about **0.22% in log loss** and **0.25% in Brier score**. Those are reductions in prediction error, not percentage-point increases in the number of winners correctly picked. Football remains very capable of ruining a good forecast.
 
-What gives me more confidence is the consistency. The improvement is present in **all ten evaluation seasons**:
+So I was right to suspect that margin of victory is not particular impactful in our predictions. However the improvement is consistent, it is present in all ten evaluation seasons:
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
@@ -43,27 +43,27 @@ What gives me more confidence is the consistency. The improvement is present in 
     </div>
 </div>
 
-The statistical checks also support an improvement across the period as a whole; the details are below. These later seasons had already been examined during the earlier model review, so this is retrospective validation rather than a completely untouched test. The results are encouraging evidence, with the usual need to keep checking what happens next.
+The statistical checks also support an improvement across the period as a whole; the details are below. The results are encouraging evidence, with the usual need to keep checking what happens next.
 
 ## A big win needs some context
 
 Suppose a strong favourite wins 4–0 at home. That might be a good performance, but a comfortable win was already plausible. An underdog winning by the same score is much more surprising.
 
-The update accounts for that distinction. It asks how large a winning margin was expected **given the teams' strengths and which team won**. The score can then add evidence beyond the win itself.
+This update to the ranking model accounts for that distinction. It asks how large a winning margin was expected **given the teams' strengths and which team won**. The score can then add evidence beyond the win itself.
 
 This also allows something that initially sounds odd: a strong favourite can win narrowly and have its rating fall. The team won, but the overall performance supplied less evidence of its strength than the model expected. Conversely, a team can lose narrowly and come out looking a little better.
 
-There is a deliberate limit here. The model uses goal difference, so **1–0 and 2–1 supply the same information**. Likewise, 0–0 and 2–2 are treated alike. Modelling attacking and defensive strength separately would be another extension; it is not what this update does.
+There is a deliberate limit here. The model uses goal difference, so 1–0 and 2–1 supply the same information. Likewise, 0–0 and 2–2 are treated alike. Modelling attacking and defensive strength separately would (and may well) be a future extension; it is not what this update does.
 
 ## What about the final league table?
 
 There is a related change to the [league table predictor]({{ '/tableProbs' | relative_url }}). Early in the season, its forecasts were too confident about the range of possible final points totals.
 
-The tool still holds team strengths fixed within a simulated season. It now allows for uncertainty about what those fixed strengths are: draw one strength for each team, use it for all that team's remaining matches, then draw again for the next simulated season.
+The tool still holds team strengths fixed within a simulated season. But it now allows for uncertainty about what those fixed strengths are: for each simulated season it draws one strength for each team, uses it for all that team's remaining matches, then draws again for the next simulated season.
 
-If we have underestimated a team, that can affect thirty remaining matches together. With only three matches left, there is much less time for the same uncertainty to change the table. This gives the early-season forecast a wider, more realistic spread without inventing a sequence of future changes in form.
+If we have underestimated a team, that can affect thirty remaining matches together. With only three matches left, there is much less time for the same uncertainty to change the table. This gives the early-season forecast a wider, more realistic spread without needing to 'invent' a sequence of future changes in form.
 
-In historical checks, an 80% range for a team's final points total contained the actual total only **59.75%** of the time at the start of the season. With the updated ratings and shared strength uncertainty, that becomes **81.08%**. The chart separates the contribution of the new ratings from the contribution of carrying their uncertainty into the simulations:
+In historical checks, an 80% range for a team's final points total contained the actual total only **59.75%** of the time at the start of the season. With the updated ratings and shared strength uncertainty, that becomes **81.08%**. The chart below separates the contribution of the new ratings from the contribution of carrying their uncertainty into the simulations:
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
