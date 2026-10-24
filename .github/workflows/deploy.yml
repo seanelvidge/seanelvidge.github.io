@@ -73,7 +73,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.2.2"
+          ruby-version: "3.2" # Latest patch has builds for current Ubuntu runners.
           bundler-cache: true
       # This workflow already runs after the daily football-data workflow as well
       # as on site changes. Generate readable HTML from the CSV on every build.

@@ -36,7 +36,7 @@ jobs:
             reader = csv.reader(text.splitlines())
             header = next(reader, None)
             if not header:
-              return "", ""
+              return "", "", ""
             try:
               date_idx = header.index("Date")
             except ValueError:
@@ -54,7 +54,7 @@ jobs:
                 last_date = row[date_idx]
               if season_idx >= 0 and len(row) > season_idx and row[season_idx]:
                 last_season = row[season_idx]
-            return last_date, last_season
+            return last_date, last_season, hashlib.sha256(text.encode("utf-8")).hexdigest()
 
           def file_hash(path):
             if not os.path.exists(path):
@@ -87,12 +87,30 @@ jobs:
               data.get("season_config_hash", "") or "",
             )
 
-          csv_date, csv_season = latest_csv_info()
+          csv_date, csv_season, csv_hash = latest_csv_info()
           json_date, json_season, json_config_hash = last_json_info()
           cfg_season = config_season()
           config_active = bool(cfg_season) and season_start_year(cfg_season) >= season_start_year(csv_season or "")
           config_hash = file_hash(CONFIG_PATH) if config_active else ""
-          should_run = bool(csv_date) and csv_date != json_date
+          saved = {}
+          if os.path.exists(JSON_PATH):
+            with open(JSON_PATH, encoding="utf-8") as f:
+              saved = json.load(f)
+          def remote_hash(name):
+            url = CSV_URL.rsplit("/", 1)[0] + "/" + name
+            with urllib.request.urlopen(url, timeout=60) as response:
+              return hashlib.sha256(response.read()).hexdigest()
+          generator = hashlib.sha256()
+          for source in ["scripts/generate_table_probs.js", "assets/js/match-probabilities-data.js", "assets/js/league-simulation.js"]:
+            with open(source, "rb") as f:
+              generator.update(f.read())
+          hashes = {
+            "ranked_sha256": csv_hash,
+            "model_sha256": remote_hash("football_model.json"),
+            "deductions_sha256": remote_hash("EnglishTeamPointDeductions.csv"),
+            "generator_sha256": generator.hexdigest(),
+          }
+          should_run = any(saved.get(key) != value for key, value in hashes.items())
           if not json_date:
             should_run = True
           if config_hash and config_hash != json_config_hash:
@@ -119,6 +137,10 @@ jobs:
       - name: Install dependencies
         if: steps.freshness.outputs.run == 'true'
         run: npm ci
+
+      - name: Validate football predictions
+        if: steps.freshness.outputs.run == 'true'
+        run: node --test scripts/predictions.test.js
 
       - name: Generate table probabilities
         if: steps.freshness.outputs.run == 'true'
