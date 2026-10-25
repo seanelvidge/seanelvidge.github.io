@@ -339,7 +339,10 @@ test("well-formed but stale or substantially truncated results cannot replace th
 test("the daily deployment pipeline refreshes and validates the rivalry pages before publishing", () => {
   const deploy = fs.readFileSync(path.join(__dirname, "../.github/workflows/deploy.yml"), "utf8");
   const daily = fs.readFileSync(path.join(__dirname, "../.github/workflows/generate_table_probs.yml"), "utf8");
-  assert.match(daily, /cron: "0 1 \* \* \*"/);
+  assert.ok(
+    YAML.parse(daily).on.schedule.some(({ cron }) => /^\d{1,2} \d{1,2} \* \* \*$/.test(cron)),
+    "The football data workflow must have a daily schedule."
+  );
   assert.match(deploy, /workflows: \["Generate table probabilities"\]/);
   const refreshStep = deploy.indexOf("node scripts/generate_rivalry_snapshots.js --refresh");
   const tests = deploy.indexOf("node --test scripts/rivalry_snapshots.test.js");

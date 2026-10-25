@@ -5,7 +5,8 @@ const os = require("node:os");
 const path = require("node:path");
 const Papa = require("papaparse");
 const YAML = require("yaml");
-const { snapshot, writeSnapshot, periodsFor, assignSlugs, clubStyle, inkOn } = require("./generate_team_pages.js");
+const { snapshot, writeSnapshot, periodsFor, assignSlugs, buildAliases, ALIASES_FILE, clubStyle, inkOn } = require("./generate_team_pages.js");
+const { normaliseName, resolvePath } = require("../assets/js/football-team-routes.js");
 
 const roster = [
   { Team: "Alpha", ShortName: "Alpha", ActivePeriods: "1900-1902;2024-present" },
@@ -254,4 +255,99 @@ test("both deployments refresh clubs from one database checkout and verify the o
       workflow
     );
   }
+});
+
+test("the supplied aliases, full names and lowercase spellings all point directly to the canonical club page", () => {
+  const saved = require("../_data/football_teams.json");
+  const aliases = buildAliases(saved.clubs, fs.readFileSync(ALIASES_FILE, "utf8"));
+  assert.deepEqual(aliases, saved.aliases, "Regenerate the team snapshot after updating Alt_Names.csv.");
+  const cases = {
+    ManCity: "/teams/Man_City/",
+    ManchesterCity: "/teams/Man_City/",
+    Manchester_City: "/teams/Man_City/",
+    mancity: "/teams/Man_City/",
+    man_city: "/teams/Man_City/",
+    manchester_city: "/teams/Man_City/",
+    Man_United: "/teams/Man_Utd/",
+    ManchesterUtd: "/teams/Man_Utd/",
+    Lboro: "/teams/L'boro/",
+    S_Shields: "/teams/S._Shields/",
+    BHA: "/teams/Brighton/",
+    bha: "/teams/Brighton/",
+    ForestGreen: "/teams/Forest_Grn_Rvrs/",
+    arsenal: "/teams/Arsenal/",
+    astonvilla: "/teams/Aston_Villa/",
+    aston_villa: "/teams/Aston_Villa/",
+  };
+  for (const [alias, target] of Object.entries(cases)) assert.equal(aliases.redirects[alias], target, alias);
+  const canonical = new Set(saved.clubs.map((club) => club.url));
+  for (const club of saved.clubs) {
+    assert.equal(resolvePath(`/teams/${club.slug.toLowerCase()}/`, aliases.lookup), club.url, club.name);
+    assert.ok(!Object.hasOwn(aliases.redirects, club.slug), "A canonical page must not become a redirect");
+  }
+  for (const [alias, target] of Object.entries(aliases.redirects)) {
+    assert.ok(canonical.has(target), alias);
+    assert.equal(resolvePath(`/teams/${encodeURIComponent(alias)}`, aliases.lookup), target, alias);
+  }
+});
+
+test("aliases preserve the distinction between current and historical clubs with the same short name", () => {
+  const saved = require("../_data/football_teams.json");
+  const aliases = buildAliases(saved.clubs, "Aldershot,AldershotTown,Aldershot_Town\nWimbledon,AFCWimbledon");
+  assert.equal(aliases.redirects.wimbledon, "/teams/Wimbledon/");
+  assert.equal(aliases.redirects.wimbledon_1977, "/teams/Wimbledon_1977/");
+  assert.equal(aliases.redirects.AFCWimbledon, "/teams/Wimbledon/");
+  assert.equal(aliases.redirects.aldershot, "/teams/Aldershot/");
+  assert.equal(aliases.redirects.aldershot_1932, "/teams/Aldershot_1932/");
+  assert.equal(aliases.redirects.AldershotTown, "/teams/Aldershot/");
+  assert.equal(aliases.redirects["accrington_f.c"], "/teams/Accrington_F.C/");
+});
+
+test("CSV alias groups can be resolved by any entry, and invalid or conflicting groups fail the build", () => {
+  const clubs = [
+    { name: "Alpha Town", short_name: "Alpha", slug: "Alpha", url: "/teams/Alpha/" },
+    { name: "Beta Town", short_name: "Beta", slug: "Beta", url: "/teams/Beta/" },
+  ];
+  const aliases = buildAliases(clubs, "NewName,Alpha_Town\nBeta,AnotherName");
+  assert.equal(aliases.redirects.newname, "/teams/Alpha/");
+  assert.equal(aliases.redirects.anothername, "/teams/Beta/");
+  assert.throws(() => buildAliases(clubs, "Unknown,Missing"), /no recognised club/);
+  assert.throws(() => buildAliases(clubs, "Alpha,Beta"), /conflicting clubs/);
+  assert.throws(() => buildAliases(clubs, "Alpha,Shared\nBeta,Shared"), /Ambiguous team alias/);
+  assert.throws(() => buildAliases(clubs, "Alpha,../escape"), /Invalid team alias/);
+  assert.throws(() => buildAliases(clubs, "Alpha,https://example.com"), /Invalid team alias/);
+  assert.throws(() => buildAliases(clubs, 'Alpha,"unfinished'), /invalid CSV/);
+});
+
+test("the 404 resolver accepts case and spacing variants and sends malformed or missing team paths to the directory", () => {
+  const aliases = { mancity: "/teams/Man_City/", arsenal: "/teams/Arsenal/", "l'boro": "/teams/L'boro/" };
+  for (const path of ["/teams/mAnCiTy", "/teams/MAN_CITY/", "/teams/Man%20City", "/teams/man-city/"]) {
+    assert.equal(resolvePath(path, aliases), "/teams/Man_City/", path);
+  }
+  assert.equal(resolvePath("/teams/L%27boro/", aliases), "/teams/L'boro/");
+  for (const path of [
+    "/teams",
+    "/teams/",
+    "/teams/not-a-club",
+    "/teams/Arsenal/stats",
+    "/teams/Arsenal//",
+    "/teams/%",
+    "/teams/%FF",
+    "/teams/%2Farsenal",
+    "/teams/arsenal%2F",
+    "/teams/%5Carsenal",
+    "/teams/%00",
+    "/teams/%2E%2E",
+    "/teams/%252Farsenal",
+    "/teams/constructor",
+    "/teams/toString",
+    "/teams/__proto__",
+    "/teams/https://example.com",
+    "/teams//example.com",
+  ])
+    assert.equal(resolvePath(path, aliases), "/teams/", path);
+  for (const path of ["/teams-other/arsenal", "/team/arsenal", "/articles/missing/", "/404.html"])
+    assert.equal(resolvePath(path, aliases), null, path);
+  assert.equal(resolvePath("/preview/teams/ARSENAL", { arsenal: "/preview/teams/Arsenal/" }, "/preview/teams/"), "/preview/teams/Arsenal/");
+  assert.equal(normaliseName("Manchester_City"), normaliseName("manchester city"));
 });

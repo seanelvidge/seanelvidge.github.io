@@ -30,6 +30,23 @@ module FootballTeamPages
         site.pages << page
       end
 
+      aliases = snapshot.dig("aliases", "redirects")
+      unless aliases.is_a?(Hash)
+        raise Jekyll::Errors::FatalException, "Missing team aliases. Run node scripts/generate_team_pages.js --data-dir /path/to/England-football-results."
+      end
+      aliases.each do |slug, target|
+        route = "/teams/#{slug}/"
+        raise Jekyll::Errors::FatalException, "Duplicate football team alias: #{route}" if routes.include?(route)
+        routes << route
+        page = Jekyll::PageWithoutAFile.new(site, site.source, "teams/#{slug}", "index.html")
+        page.content = ""
+        page.data = {
+          "layout" => "football-team-redirect", "permalink" => route,
+          "redirect" => target, "sitemap" => false, "search_exclude" => true
+        }
+        site.pages << page
+      end
+
       directory = site.pages.find { |page| page.url == "/teams/" }
       directory.data["last_modified_at"] = snapshot.fetch("as_of") if directory
 
@@ -37,7 +54,7 @@ module FootballTeamPages
       cache.data = { "layout" => nil, "sitemap" => false, "render_with_liquid" => false }
       cache.content = JSON.generate(snapshot.select { |key, _| %w[schema_version as_of database_through season source source_commit source_hashes leagues].include?(key) })
       site.pages << cache
-      Jekyll.logger.info "Football teams:", "#{snapshot.fetch('clubs').size} pages; results through #{snapshot.fetch('database_through')}"
+      Jekyll.logger.info "Football teams:", "#{snapshot.fetch('clubs').size} pages, #{aliases.size} aliases; results through #{snapshot.fetch('database_through')}"
     end
   end
 end

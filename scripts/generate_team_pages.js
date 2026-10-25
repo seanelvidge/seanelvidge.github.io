@@ -8,9 +8,11 @@ const Papa = require("papaparse");
 const prettier = require("prettier");
 const { parseDate, normaliseColour } = require("../assets/js/team-rankings-data.js");
 const { leagueTable } = require("../assets/js/football-results-data.js");
+const { normaliseName } = require("../assets/js/football-team-routes.js");
 
 const ROOT = path.resolve(__dirname, "..");
 const OUTPUT = path.join(ROOT, "_data/football_teams.json");
+const ALIASES_FILE = path.join(ROOT, "assets/data/Alt_Names.csv");
 const FILES = {
   periods: "EnglishTeamActivePeriods.csv",
   logos: "EnglishTeamLogos.csv",
@@ -93,6 +95,54 @@ function assignSlugs(clubs) {
     for (const club of group) club.related_clubs = group.filter((other) => other !== club).map((other) => other.name);
   }
   for (const club of clubs) club.url = `/teams/${club.slug}/`;
+}
+
+function buildAliases(clubs, csv = "") {
+  const canonical = new Map();
+  const lookup = new Map();
+  const redirects = new Map();
+  const canonicalSlugs = new Set(clubs.map((club) => club.slug));
+  for (const club of clubs) {
+    const key = normaliseName(club.slug);
+    if (!key || (canonical.has(key) && canonical.get(key) !== club.url)) throw new Error(`Ambiguous or unsafe canonical team name: ${club.slug}`);
+    canonical.set(key, club.url);
+    lookup.set(key, club.url);
+  }
+
+  function register(name, target, explicit = false) {
+    const key = normaliseName(name);
+    if (!key) throw new Error(`Invalid team alias: ${name}`);
+    if (canonical.has(key) && canonical.get(key) !== target && !explicit) return;
+    if (lookup.has(key) && lookup.get(key) !== target) throw new Error(`Ambiguous team alias: ${name}`);
+    lookup.set(key, target);
+    // Spaces become underscores, with compact and lowercase versions too.
+    // A trailing full stop is removed because Jekyll strips "./" in URLs.
+    const spaced = name.normalize("NFKC").trim().replace(/\s+/g, "_").replace(/\.+$/, "");
+    const compact = spaced.replace(/[_-]+/g, "");
+    for (const slug of new Set([spaced, compact, spaced.toLowerCase(), compact.toLowerCase()])) {
+      if (canonicalSlugs.has(slug)) continue;
+      if (redirects.has(slug) && redirects.get(slug) !== target) throw new Error(`Conflicting team alias URL: ${slug}`);
+      redirects.set(slug, target);
+    }
+  }
+
+  for (const club of clubs) {
+    register(club.slug, club.url);
+    register(club.name, club.url);
+    register(club.short_name, club.url);
+  }
+  const baseNames = new Map(lookup);
+  const parsed = Papa.parse(csv, { delimiter: ",", skipEmptyLines: "greedy" });
+  if (parsed.errors.length) throw new Error("Alt_Names.csv: invalid CSV.");
+  for (const row of parsed.data) {
+    const names = row.map((name) => name.trim()).filter(Boolean);
+    const targets = new Set(names.map((name) => baseNames.get(normaliseName(name))).filter(Boolean));
+    if (targets.size !== 1)
+      throw new Error(`Alt_Names.csv: ${targets.size ? "conflicting clubs" : "no recognised club"} in row: ${names.join(", ")}`);
+    for (const name of names) register(name, [...targets][0], true);
+  }
+  const sorted = (map) => Object.fromEntries([...map].sort(([a], [b]) => a.localeCompare(b)));
+  return { redirects: sorted(redirects), lookup: sorted(lookup) };
 }
 
 function inkOn(hex) {
@@ -285,6 +335,11 @@ function snapshot(texts, asOf, sourceCommit = null) {
       Object.entries(FILES).map(([key, name]) => [name, crypto.createHash("sha256").update(texts[key]).digest("hex")])
     ),
     current_clubs: clubs.filter((club) => club.current).length,
+    aliases: buildAliases(clubs, texts.aliases),
+    aliases_source_sha256: crypto
+      .createHash("sha256")
+      .update(texts.aliases || "")
+      .digest("hex"),
     clubs,
     leagues,
   };
@@ -323,6 +378,7 @@ async function main() {
   if (!options["--data-dir"]) throw new Error("Supply --data-dir pointing to the England-football-results checkout.");
   const directory = path.resolve(options["--data-dir"]);
   const texts = Object.fromEntries(Object.entries(FILES).map(([key, file]) => [key, fs.readFileSync(path.join(directory, file), "utf8")]));
+  texts.aliases = fs.readFileSync(ALIASES_FILE, "utf8");
   let sourceCommit = null;
   try {
     sourceCommit = execFileSync("git", ["-C", directory, "rev-parse", "HEAD"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
@@ -343,4 +399,4 @@ if (require.main === module)
     console.error(error.message);
     process.exitCode = 1;
   });
-module.exports = { FILES, snapshot, writeSnapshot, periodsFor, assignSlugs, clubStyle, inkOn };
+module.exports = { FILES, ALIASES_FILE, snapshot, writeSnapshot, periodsFor, assignSlugs, buildAliases, clubStyle, inkOn };

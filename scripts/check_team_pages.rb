@@ -93,9 +93,30 @@ end
 directory = Nokogiri::HTML(File.read(File.join(root, "teams/index.html")))
 links = directory.css(".team-directory-link").map { |link| unescape.call(link["href"]) }
 check.call(links.sort == snapshot.fetch("clubs").map { |club| club["url"] }.sort, "Directory does not link to every club exactly once")
+aliases = snapshot.fetch("aliases")
+aliases.fetch("redirects").each do |slug, target|
+  route = "/teams/#{slug}/"
+  file = File.join(root, route, "index.html")
+  unless File.file?(file)
+    errors << "#{route}: alias page missing"
+    next
+  end
+  doc = Nokogiri::HTML(File.read(file))
+  check.call(doc.at_css('meta[http-equiv="refresh"]')&.[]("content") == "0; url=#{target}", "#{route}: incorrect alias redirect")
+  check.call(unescape.call(doc.at_css('link[rel="canonical"]')&.[]("href")).end_with?(target), "#{route}: incorrect alias canonical URL")
+  check.call(doc.at_css('meta[name="robots"]')&.[]("content") == "noindex", "#{route}: alias must not be indexed")
+  check.call(sitemap_entries.keys.none? { |url| url.end_with?(route) }, "#{route}: alias appears in sitemap")
+  check.call(doc.at_css('script[data-team-redirect]')&.[]("data-team-redirect") == target, "#{route}: incorrect browser redirect")
+  check.call(File.file?(File.join(root, target, "index.html")), "#{route}: missing redirect destination")
+end
+not_found = Nokogiri::HTML(File.read(File.join(root, "404.html")))
+route_config = JSON.parse(not_found.at_css("#football-team-route-data")&.text || "{}")
+check.call(route_config["aliases"] == aliases["lookup"] && route_config["teamsRoot"] == "/teams/", "404 team routing data is missing or stale")
+check.call(not_found.at_css('script[src*="football-team-routes.js"]'), "404 team routing script is missing")
+check.call(not_found.css('meta[http-equiv="refresh"]').empty?, "A generic 404 meta redirect would compete with team routing")
 cache = JSON.parse(File.read(File.join(root, "assets/data/currentLeagueTables.json")))
 %w[schema_version as_of database_through season source source_commit source_hashes leagues].each do |key|
   check.call(cache[key] == snapshot[key], "Public standings cache: #{key} differs from this build's data")
 end
 abort errors.join("\n") unless errors.empty?
-puts "#{snapshot.fetch('clubs').size} club pages passed: statistics, form, tied records, links, metadata, sitemap and cached standings."
+puts "#{snapshot.fetch('clubs').size} club pages and #{aliases.fetch('redirects').size} aliases passed: statistics, links, metadata, sitemap, 404 routing and cached standings."

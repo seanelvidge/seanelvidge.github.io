@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'en' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>Opening the club page</title>
+    <link rel="canonical" href="{{ page.redirect | absolute_url | escape }}">
+    <meta http-equiv="refresh" content="0; url={{ page.redirect | relative_url | escape }}">
+    <script
+      src="{{ '/assets/js/football-team-routes.js' | relative_url | bust_file_cache }}"
+      data-team-redirect="{{ page.redirect | relative_url | escape }}"
+    ></script>
+  </head>
+  <body>
+    <p>Opening the <a href="{{ page.redirect | relative_url | escape }}">club page</a>.</p>
+  </body>
+</html>
