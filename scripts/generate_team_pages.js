@@ -222,8 +222,14 @@ function snapshot(texts, asOf, sourceCommit = null) {
     const years = row.Season?.match(/^(\d{4})\/(\d{4})$/);
     if (!years || Number(years[2]) !== Number(years[1]) + 1 || !/^[1-4]$/.test(row.Tier) || !row.Division?.trim())
       throw new Error(`Invalid season or division on ${row.Date}`);
-    if (!names.has(row.HomeTeam) || !names.has(row.AwayTeam) || row.HomeTeam === row.AwayTeam)
-      throw new Error(`Match club is missing from ${FILES.periods}: ${row.HomeTeam} / ${row.AwayTeam}`);
+    const missing = [...new Set([row.HomeTeam, row.AwayTeam])].filter((team) => !names.has(team));
+    if (missing.length)
+      throw new Error(
+        `Match club name(s) missing from ${FILES.periods}: ${missing.join(", ")} (match on ${row.Date}: ${row.HomeTeam} / ${
+          row.AwayTeam
+        }). Use the Team column, not ShortName.`
+      );
+    if (row.HomeTeam === row.AwayTeam) throw new Error(`A club cannot play itself on ${row.Date}: ${row.HomeTeam}`);
     for (const key of ["hGoal", "aGoal", "HomeRank_after", "AwayRank_after"]) {
       if (!/^-?\d+$/.test(String(row[key])) || !Number.isSafeInteger(Number(row[key])) || (/Goal$/.test(key) && Number(row[key]) < 0))
         throw new Error(`Invalid ${key} on ${row.Date}`);

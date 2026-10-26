@@ -190,6 +190,21 @@ test("malformed or duplicated source records fail instead of silently publishing
   assert.throws(() => snapshot(inputs(rows, [...roster, roster[0]]), "2025-09-05"), /duplicate club/);
 });
 
+test("unknown club errors identify only missing names and distinguish self-matches", () => {
+  for (const [HomeTeam, AwayTeam, missing] of [
+    ["Unknown", "Beta", "Unknown"],
+    ["Alpha", "Unknown", "Unknown"],
+    ["Unknown", "Other", "Unknown, Other"],
+  ]) {
+    assert.throws(() => snapshot(inputs([{ ...rows[1], HomeTeam, AwayTeam }]), "2025-09-05"), {
+      message: `Match club name(s) missing from EnglishTeamActivePeriods.csv: ${missing} (match on 2025-08-01: ${HomeTeam} / ${AwayTeam}). Use the Team column, not ShortName.`,
+    });
+  }
+  assert.throws(() => snapshot(inputs([{ ...rows[1], AwayTeam: "Alpha" }]), "2025-09-05"), {
+    message: "A club cannot play itself on 2025-08-01: Alpha",
+  });
+});
+
 test("refresh is deterministic and refuses a backwards or truncated database without replacing the saved snapshot", async (t) => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), "team-pages-test-"));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
