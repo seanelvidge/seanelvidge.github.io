@@ -115,7 +115,7 @@
         UI.csv("EnglandLeagueResults_wRanks.csv", D.REQUIRED_COLUMNS, true, false),
         UI.csv("EnglishTeamLogos.csv", ["Team", "LogoURL", "PriColour"]).catch(() => null),
         UI.csv("EnglishTeamActivePeriods.csv", ["Team", "ActivePeriods"]).catch(() => null),
-        fetch("https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/football_model.json", {
+        fetch("https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/.github/football_model.json", {
           cache: "no-store",
         }).then((response) => {
           if (!response.ok) throw new Error("The current football model could not load. Please try again.");

@@ -221,7 +221,7 @@ async function main() {
   const [csvText, deductText, modelText] = await Promise.all([
     fetchText(CSV_URL),
     fetchText(DEDUCT_CSV_URL),
-    fetchText(CSV_URL.replace("EnglandLeagueResults_wRanks.csv", "football_model.json")),
+    fetchText(CSV_URL.replace("EnglandLeagueResults_wRanks.csv", ".github/football_model.json")),
   ]);
   const model = JSON.parse(modelText);
   const rows = Papa.parse(csvText, { header: true, skipEmptyLines: true }).data;

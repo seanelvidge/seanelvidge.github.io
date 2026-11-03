@@ -109,7 +109,7 @@ jobs:
               generator.update(f.read())
           hashes = {
             "ranked_sha256": csv_hash,
-            "model_sha256": remote_hash("football_model.json"),
+            "model_sha256": remote_hash(".github/football_model.json"),
             "deductions_sha256": remote_hash("EnglishTeamPointDeductions.csv"),
             "generator_sha256": generator.hexdigest(),
           }

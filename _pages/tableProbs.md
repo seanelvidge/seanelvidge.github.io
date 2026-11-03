@@ -1501,7 +1501,7 @@ Position probabilities for the season.
       let csvText;
       try {
         const [modelResponse, csvResponse] = await Promise.all([
-          fetch(CSV_URL.replace("EnglandLeagueResults_wRanks.csv", "football_model.json"), { cache: "no-store" }),
+          fetch(CSV_URL.replace("EnglandLeagueResults_wRanks.csv", ".github/football_model.json"), { cache: "no-store" }),
           fetch(CSV_URL, { cache: "no-store" }),
         ]);
         if (!modelResponse.ok || !csvResponse.ok) throw new Error("Could not load the current football model.");

@@ -19,7 +19,7 @@ const SEASON_CONFIG_PATH = process.env.TABLE_PROBS_SEASON_CONFIG || DEFAULT_SEAS
 const MatchModel = require("../assets/js/match-probabilities-data.js");
 const LeagueSimulation = require("../assets/js/league-simulation.js");
 const { computePositionProbabilitiesMC } = LeagueSimulation;
-const MODEL_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/football_model.json";
+const MODEL_URL = "https://raw.githubusercontent.com/seanelvidge/England-football-results/refs/heads/main/.github/football_model.json";
 
 function seasonStartYearFromSeasonStr(seasonStr) {
   const m = String(seasonStr || "").match(/^(\d{4})\s*\/\s*(\d{4})$/);
