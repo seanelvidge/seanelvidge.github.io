@@ -2,7 +2,7 @@
 layout: post
 title: Frankly, Graham, That's Quite a Coincidence
 date: 2026-11-21 21:30:00
-description: No player has scored six goals in a single Premier League match - how surprising is that?
+description: A pointless investigation into the occasions when Premier League managers have faced opponents whose surnames match their own first names.
 tags: football
 related_posts: true
 thumbnail: assets/img/four_managers.png
