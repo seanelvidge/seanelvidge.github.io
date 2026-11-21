@@ -27,10 +27,10 @@ Which meant, on Boxing Day 1999, we were treated to Graham versus Graham.
 
 (Obviously) the two managers met twice that season:
 
-| Date | Match | Result |
-|---|---|---|
-| 26 December 1999 | Tottenham vs Watford | 4–0 |
-| 25 March 2000 | Watford vs Tottenham | 1–1 |
+| Date             | Match                | Result |
+| ---------------- | -------------------- | ------ |
+| 26 December 1999 | Tottenham vs Watford | 4–0    |
+| 25 March 2000    | Watford vs Tottenham | 1–1    |
 
 So Graham finished the season unbeaten against Graham, winning one and drawing the other.
 
@@ -38,6 +38,6 @@ Or, depending on which Graham you're talking about, he failed to win either matc
 
 ## The Near Misses
 
-George Graham also faced Graeme Souness, but unfortunately *Graeme* and *Graham* are spelt differently. Steve Bruce and Bruce Rioch both managed Premier League clubs, as did Alex Neil and Neil Warnock. Unfortunately, their respective spells didn't overlap, so neither pairing actually met.
+George Graham also faced Graeme Souness, but unfortunately _Graeme_ and _Graham_ are spelt differently. Steve Bruce and Bruce Rioch both managed Premier League clubs, as did Alex Neil and Neil Warnock. Unfortunately, their respective spells didn't overlap, so neither pairing actually met.
 
 That leaves us with just two pairings: **Frank Lampard versus Thomas Frank**, and **George Graham versus Graham Taylor**.
